@@ -1,0 +1,84 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/opportunityAI
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+2b34vaQBDH/5Wwz3ftbvy15k0pfSmlQn3qcQ8hWc9wa1aSTbGI/3s3p8LVO7i+
+        LAyTL4joZjNx5qM4853JUZimcY3I6s7aO1HmPhfZw1GMJyI7ip0xvqqf+pdVKTIl05ctRmQilenk
+        Xk7uU7VO00zK8Pgkpfwlwg7TFk2195Wrw8bFwdg2+eoaX7tDsjatT7652rvkc7IMtpOlC0+LZTjP
+        V7vestLZqDcXVkxdfvnwcv1prc93+9fb0rWanc2ct53uRF746nfl/wRv+nfWLv5ZqJ3/YctrIApX
+        b6pmZy7Xv1lcduWT8SLb5LY1r9Z/Otud3b4cCUZXedtezVxWvSvd1eZ+62pThE9zXdh0vmvM6na5
+        2Jri2VZtuOrDY/i44ykA0QY0AyDagDQA0QY0ByDSgCYSgGgDUgBEG1AKQLQBjQCINqAxANEGBCWB
+        OCAoCcQBQUkgDghKAnFAUBJoA5pCSSAOCEoCcUBQEogDgpJAHBCUBOKAoCQQBwQlgTigGyWBn4Oa
+        u4Nz5g7OJHcHFXcHU+4Ojrg7OObu4IS7g1PuDnLPZGboKdACVJqiaoPp7/mzadpV416g1IXtynBd
+        H1a3zpbhUA8wRO7w/pHTO6jRnaCF+haQRneCOCDuObXmnlNr7jm15p5Ta+45teaeU2vMGdECFC/l
+        1KguBoMa1cVQUM9RpwwGNeaxBoMak12DQY0ZscGgxrTZYFBjbm0wqDEBRwv1G0DQuIgD4j7BN4ce
+        QxuQkpBRaBGK93+tJLfOccxYcW9CK8m9C60ktzZ0zO876jZarN8SQrlFi1DMXyO3id+YsUJ7fzis
+        ud0RFjFWitvNZTFjhcro/2PFrTKKGStuNVbMWKFJOAzWp8fTXzGEH6WKYwAA
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 15:00:41 GMT
+      ETag:
+      - W/"638a-UH1GvjFqJFejhe85Oee//fQxDWA"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '182'
+      X-RateLimit-Reset:
+      - '1'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

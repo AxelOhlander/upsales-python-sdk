@@ -1,0 +1,218 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/apiKeys?limit=100&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"limit\":100,\"offset\":0,\"total\":13},\"data\":[{\"id\":1017212,\"name\":\"Axel
+        \xD6hlander - Gmail\",\"active\":true},{\"id\":1018122,\"name\":\"Axel \xD6hlander
+        - Prospecting in Google Chrome\",\"active\":true},{\"id\":1012656,\"name\":\"Gmail
+        app\",\"active\":true},{\"id\":1015082,\"name\":\"Fortnox Premium app\",\"active\":true},{\"id\":1017214,\"name\":\"Google
+        Calendar app\",\"active\":true},{\"id\":1018121,\"name\":\"Prospecting in
+        Google Chrome app\",\"active\":true},{\"id\":1020056,\"name\":\"n8n\",\"active\":true},{\"id\":1020110,\"name\":\"test\",\"active\":true},{\"id\":1020204,\"name\":\"n8n2\",\"active\":true},{\"id\":1020368,\"name\":\"workdlwos\",\"active\":true},{\"id\":1020692,\"name\":\"I
+        never save my api keys and thus need to\",\"active\":true},{\"id\":1026282,\"name\":\"scasda\",\"active\":true}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '751'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 08:03:20 GMT
+      ETag:
+      - W/"2ef-EOXZVp/H3QIp/my5TjPyEWJ/1+A"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '196'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/apiKeys?limit=100&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"limit\":100,\"offset\":0,\"total\":13},\"data\":[{\"id\":1017212,\"name\":\"Axel
+        \xD6hlander - Gmail\",\"active\":true},{\"id\":1018122,\"name\":\"Axel \xD6hlander
+        - Prospecting in Google Chrome\",\"active\":true},{\"id\":1012656,\"name\":\"Gmail
+        app\",\"active\":true},{\"id\":1015082,\"name\":\"Fortnox Premium app\",\"active\":true},{\"id\":1017214,\"name\":\"Google
+        Calendar app\",\"active\":true},{\"id\":1018121,\"name\":\"Prospecting in
+        Google Chrome app\",\"active\":true},{\"id\":1020056,\"name\":\"n8n\",\"active\":true},{\"id\":1020110,\"name\":\"test\",\"active\":true},{\"id\":1020204,\"name\":\"n8n2\",\"active\":true},{\"id\":1020368,\"name\":\"workdlwos\",\"active\":true},{\"id\":1020692,\"name\":\"I
+        never save my api keys and thus need to\",\"active\":true},{\"id\":1026282,\"name\":\"scasda\",\"active\":true}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '751'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 08:03:20 GMT
+      ETag:
+      - W/"2ef-EOXZVp/H3QIp/my5TjPyEWJ/1+A"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '195'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/apiKeys?limit=100&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"limit\":100,\"offset\":0,\"total\":13},\"data\":[{\"id\":1017212,\"name\":\"Axel
+        \xD6hlander - Gmail\",\"active\":true},{\"id\":1018122,\"name\":\"Axel \xD6hlander
+        - Prospecting in Google Chrome\",\"active\":true},{\"id\":1012656,\"name\":\"Gmail
+        app\",\"active\":true},{\"id\":1015082,\"name\":\"Fortnox Premium app\",\"active\":true},{\"id\":1017214,\"name\":\"Google
+        Calendar app\",\"active\":true},{\"id\":1018121,\"name\":\"Prospecting in
+        Google Chrome app\",\"active\":true},{\"id\":1020056,\"name\":\"n8n\",\"active\":true},{\"id\":1020110,\"name\":\"test\",\"active\":true},{\"id\":1020204,\"name\":\"n8n2\",\"active\":true},{\"id\":1020368,\"name\":\"workdlwos\",\"active\":true},{\"id\":1020692,\"name\":\"I
+        never save my api keys and thus need to\",\"active\":true},{\"id\":1026282,\"name\":\"scasda\",\"active\":true}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '751'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 08:03:20 GMT
+      ETag:
+      - W/"2ef-EOXZVp/H3QIp/my5TjPyEWJ/1+A"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '194'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

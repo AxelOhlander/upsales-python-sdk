@@ -1,0 +1,69 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/files?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":2,\"limit\":1,\"offset\":0},\"data\":[{\"activity\":null,\"appointment\":null,\"client\":null,\"contact\":null,\"encryptedCustomerId\":\"0\",\"entity\":\"ProfileImage\",\"entityId\":1,\"extension\":\".jpg\",\"filename\":\"axel-ohlander-1mb.jpg\",\"id\":1,\"mimetype\":\"image/jpeg\",\"order\":null,\"private\":0,\"public\":0,\"size\":417713,\"type\":\"File\",\"uploadDate\":\"2025-05-20T13:20:25Z\",\"user\":{\"name\":\"Axel
+        \xD6hlander\",\"id\":1,\"role\":{\"name\":\"role\",\"id\":1},\"email\":\"axel@upsales.com\"},\"userEditable\":true,\"userRemovable\":true,\"labels\":[],\"driveFolderId\":null}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '552'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 04:25:30 GMT
+      ETag:
+      - W/"228-KBZXubwRUPDvcqaMeWOazFdPJ5w"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '199'
+      X-RateLimit-Reset:
+      - '-2'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

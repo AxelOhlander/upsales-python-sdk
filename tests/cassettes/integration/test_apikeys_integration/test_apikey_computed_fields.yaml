@@ -1,0 +1,72 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/apiKeys?limit=5&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"limit\":5,\"offset\":0,\"total\":13},\"data\":[{\"id\":1017212,\"name\":\"Axel
+        \xD6hlander - Gmail\",\"active\":true},{\"id\":1018122,\"name\":\"Axel \xD6hlander
+        - Prospecting in Google Chrome\",\"active\":true},{\"id\":1012656,\"name\":\"Gmail
+        app\",\"active\":true},{\"id\":1015082,\"name\":\"Fortnox Premium app\",\"active\":true},{\"id\":1017214,\"name\":\"Google
+        Calendar app\",\"active\":true}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '377'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 08:03:20 GMT
+      ETag:
+      - W/"179-ctwEhhbOST68bLm/XyfFIZQoa5I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '197'
+      X-RateLimit-Reset:
+      - '10'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

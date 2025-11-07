@@ -1,0 +1,156 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/opportunityAI
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+2b34vaQBDH/5Wwz3ftbvy15k0pfSmlQn3qcQ8hWc9wa1aSTbGI/3s3p8LVO7i+
+        LAyTL4joZjNx5qM4853JUZimcY3I6s7aO1HmPhfZw1GMJyI7ip0xvqqf+pdVKTIl05ctRmQilenk
+        Xk7uU7VO00zK8Pgkpfwlwg7TFk2195Wrw8bFwdg2+eoaX7tDsjatT7652rvkc7IMtpOlC0+LZTjP
+        V7vestLZqDcXVkxdfvnwcv1prc93+9fb0rWanc2ct53uRF746nfl/wRv+nfWLv5ZqJ3/YctrIApX
+        b6pmZy7Xv1lcduWT8SLb5LY1r9Z/Otud3b4cCUZXedtezVxWvSvd1eZ+62pThE9zXdh0vmvM6na5
+        2Jri2VZtuOrDY/i44ykA0QY0AyDagDQA0QY0ByDSgCYSgGgDUgBEG1AKQLQBjQCINqAxANEGBCWB
+        OCAoCcQBQUkgDghKAnFAUBJoA5pCSSAOCEoCcUBQEogDgpJAHBCUBOKAoCQQBwQlgTigGyWBn4Oa
+        u4Nz5g7OJHcHFXcHU+4Ojrg7OObu4IS7g1PuDnLPZGboKdACVJqiaoPp7/mzadpV416g1IXtynBd
+        H1a3zpbhUA8wRO7w/pHTO6jRnaCF+haQRneCOCDuObXmnlNr7jm15p5Ta+45teaeU2vMGdECFC/l
+        1KguBoMa1cVQUM9RpwwGNeaxBoMak12DQY0ZscGgxrTZYFBjbm0wqDEBRwv1G0DQuIgD4j7BN4ce
+        QxuQkpBRaBGK93+tJLfOccxYcW9CK8m9C60ktzZ0zO876jZarN8SQrlFi1DMXyO3id+YsUJ7fzis
+        ud0RFjFWitvNZTFjhcro/2PFrTKKGStuNVbMWKFJOAzWp8fTXzGEH6WKYwAA
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 15:00:39 GMT
+      ETag:
+      - W/"638a-UH1GvjFqJFejhe85Oee//fQxDWA"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '184'
+      X-RateLimit-Reset:
+      - '3'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/opportunityAI/45
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":null,\"data\":{\"appointment\":{},\"activity\":{},\"allActivity\":{},\"isDecisionMakerInvolved\":false,\"decisionMakerId\":null,\"avg\":null,\"checklist\":[],\"opportunity\":{\"id\":45,\"description\":\"1\",\"date\":\"2024-04-02T00:00:00.000Z\",\"notes\":null,\"regBy\":{\"name\":\"Fortnox
+        Premium app\",\"id\":7,\"role\":null,\"email\":\"ofiYKYOWd@api.upsales.com\"},\"regDate\":\"2025-05-19T05:50:55Z\",\"closeDate\":\"2024-04-02T00:00:00.000Z\",\"probability\":100,\"modDate\":\"2025-10-30T09:11:30Z\",\"currency\":\"SEK\",\"locked\":false,\"custom\":[{\"value\":\"\",\"valueInteger\":null,\"valueArray\":[\"\"],\"fieldId\":2},{\"value\":0,\"valueBoolean\":false,\"valueInteger\":0,\"valueDouble\":0,\"valueArray\":[],\"fieldId\":3},{\"value\":\"1\",\"valueBoolean\":true,\"valueInteger\":1,\"valueDouble\":1,\"valueArray\":[\"1\"],\"fieldId\":4},{\"value\":0,\"valueBoolean\":false,\"valueInteger\":0,\"valueDouble\":0,\"valueArray\":[],\"fieldId\":5},{\"value\":\"\",\"valueInteger\":null,\"valueArray\":[\"\"],\"fieldId\":9},{\"value\":\"\",\"valueInteger\":null,\"valueArray\":[\"\"],\"fieldId\":13},{\"value\":\"\",\"valueInteger\":null,\"valueArray\":[\"\"],\"fieldId\":19},{\"value\":\"302\",\"valueInteger\":302,\"valueDouble\":302,\"valueArray\":[\"302\"],\"fieldId\":26}],\"stakeholders\":[],\"titleCategories\":[],\"salesCoach\":[],\"lastIntegrationStatus\":[{\"integrationId\":284,\"callbackDate\":\"2025-10-30T08:11:31.000Z\",\"callbackStatus\":1,\"callbackMessage\":\"\\\"\\\"\"}],\"checklist\":[],\"comments\":[],\"orderRow\":[{\"id\":68,\"quantity\":3,\"price\":100,\"discount\":0,\"custom\":[{\"value\":\"Stor
+        Burk\",\"valueArray\":[\"Stor Burk\"],\"fieldId\":1}],\"product\":{\"purchaseCost\":0,\"name\":\"Produkt
+        utan artikelnummer\",\"isRecurring\":false,\"id\":7,\"category\":null,\"articleNo\":null,\"projectPlanTemplate\":null},\"bundleRows\":[],\"productId\":7,\"tierQuantity\":0,\"sortId\":1,\"listPrice\":100,\"purchaseCost\":0,\"bundleFixedPrice\":false,\"contributionMargin\":300,\"contributionMarginLocalCurrency\":300}],\"recurringInterval\":12,\"periodizationId\":0,\"currencyRate\":1,\"confirmedBudget\":null,\"confirmedDate\":null,\"confirmedSolution\":false,\"lostReason\":null,\"competitorId\":null,\"sourceType\":null,\"sourceId\":null,\"salesCoachId\":null,\"marketingContribution\":null,\"noCompletedAppointments\":0,\"noPostponedAppointments\":0,\"noTimesCallsNotAnswered\":0,\"noTimesClosingDateChanged\":0,\"noTimesOrderValueChanged\":0,\"priceListId\":2,\"invoiceRelatedClient\":false,\"valueInMasterCurrency\":300,\"weightedValue\":300,\"weightedValueInMasterCurrency\":300,\"contributionMargin\":300,\"purchaseCost\":0,\"contributionMarginLocalCurrency\":300,\"weightedContributionMarginLocalCurrency\":300,\"weightedContributionMargin\":300,\"monthlyValueInMasterCurrency\":0,\"monthlyValue\":0,\"weightedMonthlyValue\":0,\"weightedMonthlyValueInMasterCurrency\":0,\"annualValueInMasterCurrency\":0,\"annualValue\":0,\"weightedAnnualValue\":0,\"weightedAnnualValueInMasterCurrency\":0,\"oneOffValueInMasterCurrency\":300,\"oneOffValue\":300,\"weightedOneOffValue\":300,\"weightedOneOffValueInMasterCurrency\":300,\"fromOpportunity\":true,\"risks\":{\"closingDateChangedOccured\":null,\"companySizeOccured\":null,\"daysInStageOccured\":null,\"noAppointmentsOccured\":null,\"noNextStepOccured\":null,\"noRecentContactOccured\":null,\"noStakeholderInvolvedOccured\":null,\"notAnsweringCallsOccured\":null,\"orderValueChangedOccured\":null,\"orderValueOccured\":null,\"postponedAppointmentsOccured\":null},\"client\":{\"operationalAccount\":null,\"journeyStep\":\"customer\",\"name\":\"Bing
+        Bong AB\",\"id\":24,\"users\":[]},\"clientConnection\":null,\"stage\":{\"name\":\"Avslutad
+        - Order_MODIFIED\",\"id\":12},\"contact\":null,\"user\":{\"role\":{\"name\":\"role\",\"id\":1},\"name\":\"Axel
+        \xD6hlander\",\"id\":1,\"email\":\"axel@upsales.com\"},\"agreement\":null,\"project\":null,\"userRemovable\":true,\"userEditable\":true,\"value\":300}}}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3596'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 15:00:39 GMT
+      ETag:
+      - W/"e0c-CyFhimJSXs+D2YKSQnslzuI5ls0"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '183'
+      X-RateLimit-Reset:
+      - '1'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

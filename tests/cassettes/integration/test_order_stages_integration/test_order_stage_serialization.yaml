@@ -1,0 +1,72 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/orderStages?limit=1&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":8,"limit":1,"offset":0},"data":[{"id":14,"name":"Order
+        (ej fortnox)","probability":100,"exclude":1,"roles":[]}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '146'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 02:22:27 GMT
+      ETag:
+      - W/"92-7RmYlOo9wsUpkB2RFskhhzJS4pc"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=44a57e2ecd7930c3339c25a8cd84d09354e40e469917ae66c2b552241297752eef976a83ad8a494a7706f3586e1fb0f5;
+        Max-Age=36000; Path=/; Expires=Mon, 03 Nov 2025 12:22:27 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '1500'
+      X-RateLimit-Remaining:
+      - '1496'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

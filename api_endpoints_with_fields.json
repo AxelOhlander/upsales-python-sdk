@@ -1,0 +1,3535 @@
+{
+  "metadata": {
+    "title": "Upsales CRM API - Complete Endpoint Field Documentation",
+    "version": "v2",
+    "base_url": "/api/v2",
+    "generated": "2025-11-07",
+    "total_endpoints_documented": 167,
+    "description": "Comprehensive documentation of all API endpoints with required, optional, and returned fields",
+    "authentication": "Required via cookie token or Authorization header",
+    "response_format": {
+      "single_entity": {
+        "error": "null or error object",
+        "data": "entity object"
+      },
+      "multiple_entities": {
+        "error": "null or error object",
+        "data": "array of entities",
+        "metadata": {
+          "total": "number",
+          "offset": "number",
+          "limit": "number (max 50 default)"
+        }
+      }
+    }
+  },
+  "endpoints": {
+    "orders": {
+      "base_path": "/api/v2/orders",
+      "description": "Orders (closed won/lost with probability 0 or 100)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/orders",
+          "method": "GET",
+          "description": "List all orders",
+          "returns": ["id", "description", "date", "closeDate", "probability", "notes", "currency", "currencyRate", "locked", "regDate", "modDate", "client", "user", "stage", "contact", "project", "agreement", "orderRow", "custom", "stakeholders", "titleCategories", "orderValue", "valueInMasterCurrency", "weightedValue", "contributionMargin", "monthlyValue", "annualValue", "oneOffValue", "recurringInterval", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/orders/:id",
+          "method": "GET",
+          "description": "Get single order",
+          "returns": ["id", "description", "date", "closeDate", "probability", "notes", "currency", "currencyRate", "locked", "regDate", "modDate", "client", "user", "stage", "contact", "project", "agreement", "orderRow", "custom", "stakeholders", "titleCategories", "orderValue", "valueInMasterCurrency", "weightedValue", "contributionMargin", "monthlyValue", "annualValue", "oneOffValue", "recurringInterval", "risks", "lastIntegrationStatus", "salesCoach", "checklist", "userRemovable", "userEditable"]
+        },
+        "POST": {
+          "path": "/api/v2/orders",
+          "method": "POST",
+          "description": "Create new order",
+          "required": [
+            {"field": "client", "type": "object", "structure": {"id": "number"}, "notes": "Must have access to client"},
+            {"field": "user", "type": "object", "structure": {"id": "number"}, "notes": "User responsible for order"},
+            {"field": "stage", "type": "object", "structure": {"id": "number"}, "notes": "Stage probability must be 0 or 100"},
+            {"field": "date", "type": "string", "format": "YYYY-MM-DD", "notes": "Order date"},
+            {"field": "orderRow", "type": "array", "structure": [{"product": {"id": "number"}}], "notes": "At least one row required"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string", "default": "<<No description>>"},
+            {"field": "notes", "type": "string", "default": ""},
+            {"field": "probability", "type": "number", "default": "from stage", "notes": "Must be 0 or 100"},
+            {"field": "currency", "type": "string", "default": "master currency"},
+            {"field": "currencyRate", "type": "number", "default": 1},
+            {"field": "recurringInterval", "type": "number", "default": "1 or 12 based on sales model"},
+            {"field": "contact", "type": "object", "structure": {"id": "number"}, "default": null},
+            {"field": "project", "type": "object", "structure": {"id": "number"}, "default": null},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}], "default": []},
+            {"field": "stakeholders", "type": "array", "default": []},
+            {"field": "titleCategories", "type": "array", "default": []},
+            {"field": "salesCoach", "type": "object", "structure": {"id": "number"}, "default": null}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/orders/:id",
+          "method": "PUT",
+          "description": "Update existing order",
+          "allowed": ["description", "date", "notes", "probability", "currency", "currencyRate", "contact", "project", "stage", "orderRow", "custom", "stakeholders", "titleCategories", "salesCoach"],
+          "readOnly": ["id", "regDate", "modDate", "regBy", "orderValue", "valueInMasterCurrency", "weightedValue", "contributionMargin", "risks"]
+        },
+        "DELETE": {
+          "path": "/api/v2/orders/:id",
+          "method": "DELETE",
+          "description": "Delete order"
+        }
+      }
+    },
+    "opportunities": {
+      "base_path": "/api/v2/opportunities",
+      "description": "Opportunities (pipeline deals with probability 1-99)",
+      "note": "Uses same model as orders, just different probability constraint",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/opportunities",
+          "method": "GET",
+          "returns": "Same as orders"
+        },
+        "GET_item": {
+          "path": "/api/v2/opportunities/:id",
+          "method": "GET",
+          "returns": "Same as orders"
+        },
+        "POST": {
+          "path": "/api/v2/opportunities",
+          "method": "POST",
+          "required": "Same as orders, but stage probability must be 1-99",
+          "optional": "Same as orders"
+        },
+        "PUT": {
+          "path": "/api/v2/opportunities/:id",
+          "method": "PUT",
+          "allowed": "Same as orders",
+          "readOnly": "Same as orders"
+        },
+        "DELETE": {
+          "path": "/api/v2/opportunities/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "accounts": {
+      "base_path": "/api/v2/accounts",
+      "description": "Companies/Organizations (clients)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/accounts",
+          "method": "GET",
+          "returns": ["id", "name", "phone", "webpage", "notes", "active", "users", "addresses", "custom", "categories", "projects", "totalOrderValue", "journeyStep", "orgNo", "noEmployees", "turnover", "profit", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/accounts/:id",
+          "method": "GET",
+          "returns": "Same as list plus soliditet, growth, clientQuotas, priceList"
+        },
+        "POST": {
+          "path": "/api/v2/accounts",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 100}
+          ],
+          "optional": [
+            {"field": "phone", "type": "string", "maxLength": 30},
+            {"field": "webpage", "type": "string", "maxLength": 100},
+            {"field": "notes", "type": "text"},
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "users", "type": "array", "structure": [{"id": "number"}], "notes": "Account managers"},
+            {"field": "addresses", "type": "array", "structure": [{"address": "string", "city": "string", "zipcode": "string", "country": "string", "type": "string"}]},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]},
+            {"field": "categories", "type": "array", "structure": [{"id": "number"}]},
+            {"field": "orgNo", "type": "string", "maxLength": 32},
+            {"field": "noEmployees", "type": "number"},
+            {"field": "turnover", "type": "number"},
+            {"field": "profit", "type": "number"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/accounts/:id",
+          "method": "PUT",
+          "allowed": ["name", "phone", "webpage", "notes", "active", "users", "addresses", "custom", "categories", "orgNo", "noEmployees", "turnover", "profit"],
+          "readOnly": ["id", "regDate", "totalOrderValue", "userRemovable", "userEditable", "growth"]
+        },
+        "DELETE": {
+          "path": "/api/v2/accounts/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "contacts": {
+      "base_path": "/api/v2/contacts",
+      "description": "Contact persons",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/contacts",
+          "method": "GET",
+          "returns": ["id", "name", "firstName", "lastName", "email", "phone", "cellPhone", "title", "client", "active", "custom", "categories", "projects", "journeyStep", "score", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/contacts/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/contacts",
+          "method": "POST",
+          "required": [
+            {"field": "email", "type": "string", "maxLength": 128},
+            {"field": "client", "type": "object", "structure": {"id": "number"}, "notes": "Must have access"}
+          ],
+          "optional": [
+            {"field": "name", "type": "string", "maxLength": 50, "notes": "Auto-split to firstName/lastName"},
+            {"field": "firstName", "type": "string", "maxLength": 50},
+            {"field": "lastName", "type": "string", "maxLength": 50},
+            {"field": "phone", "type": "string", "maxLength": 30},
+            {"field": "cellPhone", "type": "string", "maxLength": 30},
+            {"field": "title", "type": "string", "maxLength": 128},
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]},
+            {"field": "categories", "type": "array", "structure": [{"id": "number"}]},
+            {"field": "projects", "type": "array", "structure": [{"id": "number"}]}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/contacts/:id",
+          "method": "PUT",
+          "allowed": ["name", "firstName", "lastName", "email", "phone", "cellPhone", "title", "active", "custom", "categories", "projects"],
+          "readOnly": ["id", "client", "regDate", "score", "userRemovable", "userEditable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/contacts/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "activities": {
+      "base_path": "/api/v2/activities",
+      "description": "Activities (tasks, calls, etc.)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/activities",
+          "method": "GET",
+          "returns": ["id", "description", "notes", "date", "closeDate", "activityType", "client", "contacts", "user", "project", "outcome", "custom", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/activities/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/activities",
+          "method": "POST",
+          "required": [
+            {"field": "date", "type": "date", "format": "YYYY-MM-DD", "notes": "Optional for TODO/PHONE_CALL types"},
+            {"field": "userId", "type": "number"},
+            {"field": "activityTypeId", "type": "number"},
+            {"field": "client", "type": "object", "structure": {"id": "number"}, "notes": "Optional for TODO type"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string", "maxLength": 100},
+            {"field": "notes", "type": "text"},
+            {"field": "time", "type": "datetime"},
+            {"field": "closeDate", "type": "date"},
+            {"field": "contactId", "type": "number"},
+            {"field": "contacts", "type": "array", "structure": [{"id": "number"}]},
+            {"field": "projectId", "type": "number"},
+            {"field": "outcome", "type": "object"},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/activities/:id",
+          "method": "PUT",
+          "allowed": ["description", "notes", "date", "closeDate", "time", "activityTypeId", "contactId", "contacts", "projectId", "outcome", "custom"],
+          "readOnly": ["id", "regDate", "modifyDateTime", "userRemovable", "userEditable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/activities/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "appointments": {
+      "base_path": "/api/v2/appointments",
+      "description": "Calendar appointments/meetings",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/appointments",
+          "method": "GET",
+          "returns": ["id", "description", "notes", "agenda", "location", "date", "endDate", "activityType", "client", "contacts", "participants", "emailAttendees", "outcome", "custom", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/appointments/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/appointments",
+          "method": "POST",
+          "required": [
+            {"field": "date", "type": "datetime", "format": "ISO 8601"},
+            {"field": "userId", "type": "number"},
+            {"field": "activityTypeId", "type": "number"},
+            {"field": "clientId", "type": "number", "notes": "Can be 0/null"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string", "maxLength": 100},
+            {"field": "notes", "type": "text"},
+            {"field": "agenda", "type": "text"},
+            {"field": "location", "type": "string", "maxLength": 2048},
+            {"field": "endDate", "type": "date"},
+            {"field": "endTime", "type": "datetime"},
+            {"field": "outcome", "type": "string", "enum": ["planned", "completed", "notCompleted"], "default": "planned"},
+            {"field": "participants", "type": "array", "structure": [{"id": "number"}]},
+            {"field": "contacts", "type": "array", "structure": [{"id": "number"}]},
+            {"field": "emailAttendees", "type": "array", "structure": [{"email": "string"}]},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/appointments/:id",
+          "method": "PUT",
+          "allowed": ["description", "notes", "agenda", "location", "date", "endDate", "activityTypeId", "clientId", "participants", "contacts", "emailAttendees", "outcome", "custom"],
+          "readOnly": ["id", "regDate", "modifyDateTime", "userRemovable", "userEditable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/appointments/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "products": {
+      "base_path": "/api/v2/products",
+      "description": "Product catalog",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/products",
+          "method": "GET",
+          "returns": ["id", "name", "listPrice", "purchaseCost", "active", "category", "description", "articleNo", "recurringInterval", "currencies", "tiers", "custom", "userEditable", "userRemovable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/products/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/products",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string"}
+          ],
+          "optional": [
+            {"field": "listPrice", "type": "number", "default": 0},
+            {"field": "purchaseCost", "type": "number", "default": 0},
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "category", "type": "object", "structure": {"id": "number"}},
+            {"field": "description", "type": "string", "maxLength": 1024},
+            {"field": "articleNo", "type": "string", "maxLength": 100, "notes": "Must be unique"},
+            {"field": "recurringInterval", "type": "number", "default": 12},
+            {"field": "currencies", "type": "array"},
+            {"field": "tiers", "type": "array"},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/products/:id",
+          "method": "PUT",
+          "allowed": ["name", "listPrice", "purchaseCost", "active", "category", "description", "articleNo", "currencies", "tiers", "custom"],
+          "readOnly": ["id", "userEditable", "userRemovable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/products/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "projects": {
+      "base_path": "/api/v2/projects",
+      "description": "Projects/Campaigns",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/projects",
+          "method": "GET",
+          "returns": ["id", "name", "startDate", "endDate", "active", "quota", "notes", "users", "custom", "stats", "userEditable", "userRemovable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/projects/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/projects",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string"}
+          ],
+          "optional": [
+            {"field": "startDate", "type": "date", "format": "YYYY-MM-DD"},
+            {"field": "endDate", "type": "date", "format": "YYYY-MM-DD"},
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "quota", "type": "number", "default": 0},
+            {"field": "notes", "type": "string"},
+            {"field": "users", "type": "array", "structure": [{"id": "number"}]},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/projects/:id",
+          "method": "PUT",
+          "allowed": ["name", "startDate", "endDate", "active", "quota", "notes", "users", "custom"],
+          "readOnly": ["id", "regDate", "stats", "userEditable", "userRemovable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/projects/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "leads": {
+      "base_path": "/api/v2/leads",
+      "description": "Leads/Prospects",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/leads",
+          "method": "GET",
+          "returns": ["id", "name", "description", "source", "channel", "client", "project", "user", "contact", "email", "phone", "address", "custom", "active", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/leads/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/leads",
+          "method": "POST",
+          "required": [
+            {"field": "source", "type": "object", "structure": {"id": "number"}, "notes": "Lead source"}
+          ],
+          "optional": [
+            {"field": "name", "type": "string"},
+            {"field": "description", "type": "string"},
+            {"field": "channel", "type": "object", "structure": {"id": "number"}},
+            {"field": "client", "type": "object", "structure": {"id": "number"}},
+            {"field": "project", "type": "object", "structure": {"id": "number"}},
+            {"field": "user", "type": "object", "structure": {"id": "number"}},
+            {"field": "contact", "type": "string", "notes": "Contact person name"},
+            {"field": "email", "type": "string"},
+            {"field": "phone", "type": "string"},
+            {"field": "address", "type": "string"},
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "custom", "type": "array", "structure": [{"fieldId": "number", "value": "any"}]}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/leads/:id",
+          "method": "PUT",
+          "allowed": ["name", "description", "source", "channel", "client", "project", "user", "contact", "email", "phone", "address", "active", "custom"],
+          "readOnly": ["id", "regDate", "modDate", "userRemovable", "userEditable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/leads/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "forms": {
+      "base_path": "/api/v2/forms",
+      "description": "Web forms",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/forms",
+          "method": "GET",
+          "returns": ["id", "name", "internalName", "title", "description", "formType", "uuid", "fields", "actions", "submits", "lastSubmitDate", "isArchived", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/forms/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/forms",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string"},
+            {"field": "internalName", "type": "string"},
+            {"field": "title", "type": "string"},
+            {"field": "description", "type": "string"},
+            {"field": "landingPage", "type": "string"},
+            {"field": "buttonText", "type": "string"},
+            {"field": "thankYouTitle", "type": "string"},
+            {"field": "thankYouText", "type": "string"}
+          ],
+          "optional": [
+            {"field": "formType", "type": "string"},
+            {"field": "fields", "type": "array", "structure": [{"name": "string", "title": "string", "required": "boolean", "datatype": "string"}]},
+            {"field": "actions", "type": "array", "structure": [{"action": "string", "properties": "array"}]},
+            {"field": "html", "type": "text"},
+            {"field": "isArchived", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/forms/:id",
+          "method": "PUT",
+          "allowed": ["name", "internalName", "title", "description", "formType", "fields", "actions", "html", "isArchived"],
+          "readOnly": ["id", "uuid", "submits", "lastSubmitDate", "userRemovable", "userEditable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/forms/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "mail": {
+      "base_path": "/api/v2/mail",
+      "description": "Email messages",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/mail",
+          "method": "GET",
+          "returns": ["id", "date", "subject", "body", "to", "from", "fromName", "type", "client", "contact", "user", "events", "recipients", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/mail/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/mail",
+          "method": "POST",
+          "required": [
+            {"field": "date", "type": "date"},
+            {"field": "type", "type": "string", "enum": ["out", "in", "pro", "err"]},
+            {"field": "clientId", "type": "number"},
+            {"field": "contactId", "type": "number"},
+            {"field": "subject", "type": "string"},
+            {"field": "body", "type": "string", "notes": "HTML content"}
+          ],
+          "optional": [
+            {"field": "to", "type": "string"},
+            {"field": "from", "type": "string"},
+            {"field": "fromName", "type": "string"},
+            {"field": "cc", "type": "string"},
+            {"field": "bcc", "type": "string"},
+            {"field": "templateId", "type": "number"},
+            {"field": "attachments", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/mail/:id",
+          "method": "PUT",
+          "allowed": ["date", "subject", "body", "to", "from", "fromName", "type"],
+          "readOnly": ["id", "clientId", "contactId", "modDate", "userRemovable", "userEditable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/mail/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "mailCampaigns": {
+      "base_path": "/api/v2/mailCampaigns",
+      "description": "Email campaigns",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/mailCampaigns",
+          "method": "GET",
+          "returns": ["id", "name", "subject", "from", "fromName", "body", "status", "sendDate", "mailSent", "mailRead", "mailClicked", "project", "segment", "isArchived", "userRemovable", "userEditable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/mailCampaigns/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/mailCampaigns",
+          "method": "POST",
+          "required": [
+            {"field": "from", "type": "string"},
+            {"field": "fromName", "type": "string"},
+            {"field": "subject", "type": "string"},
+            {"field": "name", "type": "string"},
+            {"field": "body", "type": "string", "notes": "HTML, required unless isDraft=true"},
+            {"field": "projectId OR filter OR segmentId OR segments", "type": "various", "notes": "At least one target required unless isDraft=true"}
+          ],
+          "optional": [
+            {"field": "sendDate", "type": "date"},
+            {"field": "isDraft", "type": "boolean", "notes": "Sets status to DRAFT"},
+            {"field": "doSend", "type": "boolean", "notes": "Sets status to SCHEDULED"},
+            {"field": "projectId", "type": "number"},
+            {"field": "filter", "type": "string", "notes": "JSON filter"},
+            {"field": "segmentId", "type": "number"},
+            {"field": "segments", "type": "array"},
+            {"field": "attachments", "type": "array"},
+            {"field": "isArchived", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/mailCampaigns/:id",
+          "method": "PUT",
+          "allowed": ["name", "subject", "from", "fromName", "body", "sendDate", "projectId", "filter", "segmentId", "segments", "isArchived"],
+          "readOnly": ["id", "status", "mailSent", "mailRead", "mailClicked", "userRemovable", "userEditable"],
+          "notes": "Cannot update if status is PROCESSING or SENT"
+        },
+        "DELETE": {
+          "path": "/api/v2/mailCampaigns/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "users": {
+      "base_path": "/api/v2/users",
+      "description": "System users",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/users",
+          "method": "GET",
+          "returns": ["id", "name", "email", "active", "administrator", "role", "custom", "userEditable", "userRemovable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/users/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "PUT": {
+          "path": "/api/v2/users/:id",
+          "method": "PUT",
+          "allowed": ["name", "active", "administrator"],
+          "readOnly": ["id", "email", "regDate", "role", "userEditable", "userRemovable"]
+        }
+      }
+    },
+    "roles": {
+      "base_path": "/api/v2/roles",
+      "description": "User roles and permissions",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/roles",
+          "method": "GET",
+          "returns": ["id", "name", "description", "parent", "template", "userEditable", "userRemovable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/roles/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/roles",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string"},
+            {"field": "template", "type": "number", "notes": "Access template ID"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string"},
+            {"field": "parentId", "type": "number"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/roles/:id",
+          "method": "PUT",
+          "allowed": ["name", "description", "parentId", "template"],
+          "readOnly": ["id", "userEditable", "userRemovable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/roles/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "currencies": {
+      "base_path": "/api/v2/currencies",
+      "description": "Currency configuration",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/currencies",
+          "method": "GET",
+          "returns": ["id", "iso", "rate", "masterCurrency", "active"]
+        },
+        "POST": {
+          "path": "/api/v2/currencies",
+          "method": "POST",
+          "required": [
+            {"field": "iso", "type": "string", "notes": "3-char ISO code"},
+            {"field": "rate", "type": "number"}
+          ],
+          "optional": [
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "masterCurrency", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/currencies/:id",
+          "method": "PUT",
+          "allowed": ["iso", "rate", "active", "masterCurrency"]
+        }
+      }
+    },
+    "orderStages": {
+      "base_path": "/api/v2/orderstages",
+      "description": "Order/Opportunity stages",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/orderstages",
+          "method": "GET",
+          "returns": ["id", "name", "probability", "exclude", "roles"]
+        },
+        "POST": {
+          "path": "/api/v2/orderstages",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string"}
+          ],
+          "optional": [
+            {"field": "probability", "type": "number", "default": 50, "notes": "0-100"},
+            {"field": "exclude", "type": "boolean", "default": false},
+            {"field": "roles", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/orderstages/:id",
+          "method": "PUT",
+          "allowed": ["name", "probability", "exclude", "roles"]
+        },
+        "DELETE": {
+          "path": "/api/v2/orderstages/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "activityTypes": {
+      "base_path": "/api/v2/activitytypes/activity",
+      "description": "Activity type configuration",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/activitytypes/activity",
+          "method": "GET",
+          "returns": ["id", "name", "roles", "hasOutcome"]
+        },
+        "POST": {
+          "path": "/api/v2/activitytypes/activity",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string"}
+          ],
+          "optional": [
+            {"field": "roles", "type": "array"},
+            {"field": "hasOutcome", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/activitytypes/activity/:id",
+          "method": "PUT",
+          "allowed": ["name", "roles", "hasOutcome"]
+        }
+      }
+    },
+    "customfields_accounts": {
+      "base_path": "/api/v2/customfields/account",
+      "description": "Custom field definitions for accounts",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/customfields/account",
+          "method": "GET",
+          "returns": ["id", "name", "dropdownDefault", "datatype", "default", "lookupField", "sortId", "visible", "editable", "locked", "query", "obligatoryField", "searchable", "maxLength", "alias", "viewonly", "formGroup"]
+        },
+        "GET_item": {
+          "path": "/api/v2/customfields/account/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/customfields/account",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 128}
+          ],
+          "optional": [
+            {"field": "datatype", "type": "string", "default": "str", "notes": "str, int, cur, cal, txt, chk, cbo, dat, tel, tim, per, eml, lnk, dis, sel, usr, urs"},
+            {"field": "dropdownDefault", "type": "array", "default": null},
+            {"field": "default", "type": "string|array", "default": null},
+            {"field": "lookupField", "type": "boolean", "default": false},
+            {"field": "sortId", "type": "number", "default": 0},
+            {"field": "visible", "type": "boolean", "default": true},
+            {"field": "editable", "type": "boolean", "default": false},
+            {"field": "locked", "type": "boolean", "default": false},
+            {"field": "query", "type": "string", "default": null},
+            {"field": "obligatoryField", "type": "boolean", "default": false},
+            {"field": "searchable", "type": "boolean", "default": false},
+            {"field": "maxLength", "type": "number", "default": 0},
+            {"field": "alias", "type": "string", "default": null, "maxLength": 256},
+            {"field": "viewonly", "type": "boolean", "default": false},
+            {"field": "formGroup", "type": "string", "default": null, "maxLength": 128}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/customfields/account/:id",
+          "method": "PUT",
+          "allowed": ["name", "datatype", "dropdownDefault", "default", "lookupField", "sortId", "visible", "editable", "locked", "query", "obligatoryField", "searchable", "maxLength", "alias", "viewonly", "formGroup"],
+          "readOnly": ["id"]
+        },
+        "DELETE": {
+          "path": "/api/v2/customfields/account/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "customfields_contacts": {
+      "base_path": "/api/v2/customfields/contact",
+      "description": "Custom field definitions for contacts (same structure as accounts)"
+    },
+    "customfields_orders": {
+      "base_path": "/api/v2/customfields/order",
+      "description": "Custom field definitions for orders (includes roles and stages)",
+      "note": "Has additional fields: formulaVisible, formula, roles, stages"
+    },
+    "customfields_orderrows": {
+      "base_path": "/api/v2/customfields/orderrow",
+      "description": "Custom field definitions for order rows"
+    },
+    "customfields_activities": {
+      "base_path": "/api/v2/customfields/activity",
+      "description": "Custom field definitions for activities (includes isTodoField)"
+    },
+    "customfields_appointments": {
+      "base_path": "/api/v2/customfields/appointment",
+      "description": "Custom field definitions for appointments"
+    },
+    "customfields_products": {
+      "base_path": "/api/v2/customfields/product",
+      "description": "Custom field definitions for products"
+    },
+    "clientcategories": {
+      "base_path": "/api/v2/clientcategories",
+      "description": "Categories for organizing clients",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/clientcategories",
+          "method": "GET",
+          "returns": ["id", "name", "categoryType", "roles", "userEditable", "userRemovable"]
+        },
+        "GET_item": {
+          "path": "/api/v2/clientcategories/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "POST": {
+          "path": "/api/v2/clientcategories",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 100, "notes": "Must be unique, 3-100 chars"}
+          ],
+          "optional": [
+            {"field": "categoryType", "type": "number", "default": 0},
+            {"field": "roles", "type": "array", "structure": [1, 2, 3], "notes": "Array of role IDs"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/clientcategories/:id",
+          "method": "PUT",
+          "allowed": ["name", "categoryType", "roles"],
+          "readOnly": ["id"]
+        },
+        "DELETE": {
+          "path": "/api/v2/clientcategories/:id",
+          "method": "DELETE"
+        },
+        "POST_merge": {
+          "path": "/api/v2/clientcategories/merge",
+          "method": "POST",
+          "description": "Merge categories",
+          "required": [
+            {"field": "from", "type": "number", "notes": "Category ID to merge from"},
+            {"field": "to", "type": "number", "notes": "Category ID to merge into"},
+            {"field": "categoryType", "type": "number"}
+          ],
+          "optional": [
+            {"field": "name", "type": "string", "notes": "New name for merged category"}
+          ]
+        }
+      }
+    },
+    "clientCategoryTypes": {
+      "base_path": "/api/v2/clientCategoryTypes",
+      "description": "Types/groups for client categories",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/clientCategoryTypes",
+          "method": "GET",
+          "returns": ["id", "name"]
+        },
+        "POST": {
+          "path": "/api/v2/clientCategoryTypes",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 255}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/clientCategoryTypes/:id",
+          "method": "PUT",
+          "allowed": ["name"]
+        },
+        "DELETE": {
+          "path": "/api/v2/clientCategoryTypes/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "contactcategories": {
+      "base_path": "/api/v2/contactcategories",
+      "description": "Categories for organizing contacts (same structure as clientcategories)"
+    },
+    "contactCategoryTypes": {
+      "base_path": "/api/v2/contactCategoryTypes",
+      "description": "Types for contact categories (same structure as clientCategoryTypes)"
+    },
+    "productcategories": {
+      "base_path": "/api/v2/productCategories",
+      "description": "Product categories with hierarchical structure",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/productCategories",
+          "method": "GET",
+          "returns": ["id", "name", "parentId", "sortId", "inheritRoles", "roles", "orderRowFields", "accessRoles", "userUsable", "calculatingField"]
+        },
+        "POST": {
+          "path": "/api/v2/productCategories",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 128}
+          ],
+          "optional": [
+            {"field": "parentId", "type": "number", "default": 0, "notes": "Parent category for hierarchy"},
+            {"field": "sortId", "type": "number", "default": 0},
+            {"field": "inheritRoles", "type": "boolean", "default": false},
+            {"field": "roles", "type": "array", "notes": "Role IDs with access"},
+            {"field": "orderRowFields", "type": "array", "notes": "Custom field IDs for order rows"},
+            {"field": "calculatingField", "type": "object", "structure": {"id": "number"}}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/productCategories/:id",
+          "method": "PUT",
+          "allowed": ["name", "parentId", "sortId", "inheritRoles", "roles", "orderRowFields", "calculatingField"],
+          "readOnly": ["id", "accessRoles", "userUsable"]
+        },
+        "DELETE": {
+          "path": "/api/v2/productCategories/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "clientrelations": {
+      "base_path": "/api/v2/clientrelations",
+      "description": "Relationships between client accounts",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/clientrelations",
+          "method": "GET",
+          "returns": ["id", "clientId", "relatedToClientId", "description", "descriptionChildParent"]
+        },
+        "POST": {
+          "path": "/api/v2/clientrelations",
+          "method": "POST",
+          "required": [
+            {"field": "clientId", "type": "number"},
+            {"field": "relatedToClientId", "type": "number"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string", "default": "", "notes": "Parent to child perspective"},
+            {"field": "descriptionChildParent", "type": "string", "default": "", "notes": "Child to parent perspective"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/clientrelations/:id",
+          "method": "PUT",
+          "allowed": ["clientId", "relatedToClientId", "description", "descriptionChildParent"]
+        },
+        "DELETE": {
+          "path": "/api/v2/clientrelations/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "contactrelation": {
+      "base_path": "/api/v2/contactrelation",
+      "description": "Relationships between contacts and clients",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/contactrelation",
+          "method": "GET",
+          "returns": ["id", "contactId", "relatedToClientId", "description"]
+        },
+        "POST": {
+          "path": "/api/v2/contactrelation",
+          "method": "POST",
+          "required": [
+            {"field": "contactId", "type": "number"},
+            {"field": "relatedToClientId", "type": "number"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string", "default": ""}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/contactrelation/:id",
+          "method": "PUT",
+          "allowed": ["contactId", "relatedToClientId", "description"]
+        },
+        "DELETE": {
+          "path": "/api/v2/contactrelation/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "leadsources": {
+      "base_path": "/api/v2/leadsources",
+      "description": "Lead source definitions (mostly read-only)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/leadsources",
+          "method": "GET",
+          "returns": ["id", "name"]
+        },
+        "GET_item": {
+          "path": "/api/v2/leadsources/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        },
+        "GET_aggregated": {
+          "path": "/api/v2/leadsources2",
+          "method": "GET",
+          "description": "Get aggregated lead source statistics",
+          "query_params": [
+            {"field": "type", "type": "string", "enum": ["visits", "formSubmits"], "required": true}
+          ]
+        }
+      }
+    },
+    "leadchannels": {
+      "base_path": "/api/v2/leadchannels",
+      "description": "Lead channel definitions (mostly read-only)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/leadchannels",
+          "method": "GET",
+          "returns": ["id", "name"]
+        },
+        "GET_item": {
+          "path": "/api/v2/leadchannels/:id",
+          "method": "GET",
+          "returns": "Same as list"
+        }
+      }
+    },
+    "agreements": {
+      "base_path": "/api/v2/agreements",
+      "description": "Recurring revenue agreements",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/agreements",
+          "method": "GET",
+          "returns": ["id", "description", "date", "agreementGroupId", "notes", "user", "client", "contact", "project", "children", "regDate", "modDate", "stage", "clientConnection", "currencyRate", "currency", "custom", "orderRow", "orderValue", "isParent", "parentId", "contributionMargin", "purchaseCost", "yearlyContributionMargin", "yearlyValue", "metadata", "userRemovable", "userEditable", "regBy", "priceListId", "invoiceRelatedClient", "indexIncreaseId", "latestIndexIncreaseId", "latestIndexIncreaseDate"]
+        },
+        "POST": {
+          "path": "/api/v2/agreements",
+          "method": "POST",
+          "required": [
+            {"field": "description", "type": "string"},
+            {"field": "user", "type": "object", "structure": {"id": "number"}},
+            {"field": "client", "type": "object", "structure": {"id": "number"}, "notes": "Must be active"},
+            {"field": "stage", "type": "object", "structure": {"id": "number"}},
+            {"field": "orderRow", "type": "array", "structure": [{"product": {"id": "number"}, "price": "number", "quantity": "number"}]},
+            {"field": "metadata.agreementStartdate", "type": "string", "format": "YYYY-MM-DD", "notes": "createOnly"},
+            {"field": "metadata.agreementIntervalPeriod", "type": "number", "default": 0, "notes": "createOnly, must divide periodLength evenly"},
+            {"field": "metadata.agreementOrderCreationTime", "type": "number", "default": 1},
+            {"field": "metadata.periodLength", "type": "number", "default": 0, "notes": "createOnly, must be divisible by intervalPeriod"}
+          ],
+          "optional": [
+            {"field": "notes", "type": "string"},
+            {"field": "contact", "type": "object", "structure": {"id": "number"}},
+            {"field": "project", "type": "object", "structure": {"id": "number"}},
+            {"field": "clientConnection", "type": "object", "structure": {"id": "number"}},
+            {"field": "currencyRate", "type": "number", "default": 1},
+            {"field": "currency", "type": "string", "maxLength": 3},
+            {"field": "custom", "type": "array"},
+            {"field": "priceListId", "type": "number", "default": 1},
+            {"field": "invoiceRelatedClient", "type": "boolean", "default": false},
+            {"field": "agreementGroupId", "type": "number"},
+            {"field": "metadata.agreementDescription", "type": "string", "maxLength": 130},
+            {"field": "metadata.agreementEnddate", "type": "string", "format": "YYYY-MM-DD"},
+            {"field": "metadata.agreementRenewalDate", "type": "string", "format": "YYYY-MM-DD"},
+            {"field": "metadata.noticePeriod", "type": "number"},
+            {"field": "metadata.agreementNotes", "type": "text"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/agreements/:id",
+          "method": "PUT",
+          "allowed": ["description", "notes", "user", "client", "contact", "project", "stage", "clientConnection", "currencyRate", "currency", "custom", "orderRow", "metadata.agreementEnddate", "metadata.agreementRenewalDate", "metadata.agreementOrderCreationTime", "metadata.noticePeriod", "metadata.agreementNotes", "priceListId", "invoiceRelatedClient", "agreementGroupId"],
+          "readOnly": ["id", "regDate", "regBy", "modDate", "userRemovable", "userEditable", "orderValue", "contributionMargin", "metadata.agreementStartdate", "metadata.agreementInvoiceStartdate", "metadata.agreementIntervalPeriod", "metadata.periodLength"]
+        },
+        "DELETE": {
+          "path": "/api/v2/agreements/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "periodization": {
+      "base_path": "/api/v2/periodization",
+      "description": "Revenue recognition over time",
+      "methods": {
+        "POST": {
+          "path": "/api/v2/periodization",
+          "method": "POST",
+          "required": [
+            {"field": "orderId", "type": "number"},
+            {"field": "startDate", "type": "date", "format": "YYYY-MM-DD"},
+            {"field": "endDate", "type": "date", "format": "YYYY-MM-DD"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/periodization/:id",
+          "method": "PUT",
+          "allowed": ["orderId", "startDate", "endDate"],
+          "readOnly": ["id"]
+        },
+        "DELETE": {
+          "path": "/api/v2/periodization/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "phoneCall": {
+      "base_path": "/api/v2/phoneCall",
+      "description": "Phone call tracking (third-party integration)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/phoneCall",
+          "method": "GET",
+          "returns": ["id", "durationInS", "user", "type", "conversationUrl", "contact", "date", "status", "phoneNumber", "related", "client", "externalId"]
+        },
+        "POST": {
+          "path": "/api/v2/phoneCall",
+          "method": "POST",
+          "required": [
+            {"field": "user", "type": "object", "structure": {"id": "number"}},
+            {"field": "contact", "type": "object", "structure": {"id": "number"}},
+            {"field": "client", "type": "object", "structure": {"id": "number"}}
+          ],
+          "optional": [
+            {"field": "durationInS", "type": "number", "default": 0},
+            {"field": "type", "type": "string", "maxLength": 45},
+            {"field": "conversationUrl", "type": "string", "maxLength": 512, "notes": "Recording URL"},
+            {"field": "date", "type": "date", "format": "YYYY-MM-DD HH:mm:ss"},
+            {"field": "status", "type": "number", "default": 0},
+            {"field": "phoneNumber", "type": "string", "maxLength": 45},
+            {"field": "externalId", "type": "string", "maxLength": 512}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/phoneCall/:id",
+          "method": "PUT",
+          "allowed": ["durationInS", "user", "type", "conversationUrl", "contact", "date", "status", "phoneNumber", "related", "client", "externalId"],
+          "readOnly": ["id"]
+        },
+        "DELETE": {
+          "path": "/api/v2/phoneCall/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "formSubmits": {
+      "base_path": "/api/v2/formSubmits",
+      "description": "Form submission records (requires admin permission)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/formSubmits",
+          "method": "GET",
+          "returns": ["id", "formId", "form", "user", "contact", "client", "score", "regDate", "processedDate", "fieldValues", "userRemovable", "userEditable", "visit", "brandId"],
+          "permissions": "admin or mailAdmin"
+        },
+        "PUT": {
+          "path": "/api/v2/formSubmits/:id",
+          "method": "PUT",
+          "allowed": ["formId", "form", "user", "contact", "client", "score", "regDate", "processedDate", "fieldValues", "visit"],
+          "readOnly": ["id", "userRemovable", "userEditable", "brandId"],
+          "permissions": "admin or mailAdmin"
+        },
+        "DELETE": {
+          "path": "/api/v2/formSubmits/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "mailTemplates": {
+      "base_path": "/api/v2/mail/templates",
+      "description": "Email templates",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/mail/templates",
+          "method": "GET",
+          "returns": ["id", "name", "user", "subject", "body", "bodyJson", "from", "fromName", "regDate", "modDate", "usedCounter", "active", "private", "roles", "userRemovable", "userEditable", "attachments", "links", "labels", "previewUrl", "version"]
+        },
+        "POST": {
+          "path": "/api/v2/mail/templates",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 256},
+            {"field": "subject", "type": "string", "maxLength": 150}
+          ],
+          "optional": [
+            {"field": "body", "type": "text", "notes": "HTML body (sanitized)"},
+            {"field": "bodyJson", "type": "text", "notes": "JSON body structure"},
+            {"field": "from", "type": "string", "maxLength": 256},
+            {"field": "fromName", "type": "string", "maxLength": 256},
+            {"field": "active", "type": "boolean", "default": false},
+            {"field": "private", "type": "boolean", "default": false},
+            {"field": "roles", "type": "array", "structure": [{"id": "number"}], "notes": "Requires admin if specified"},
+            {"field": "attachments", "type": "array"},
+            {"field": "version", "type": "number", "default": 1}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/mail/templates/:id",
+          "method": "PUT",
+          "allowed": ["name", "subject", "body", "bodyJson", "from", "fromName", "active", "private", "roles", "attachments", "version"],
+          "readOnly": ["id", "user", "regDate", "modDate", "usedCounter", "userRemovable", "userEditable", "links", "labels", "previewUrl"]
+        },
+        "DELETE": {
+          "path": "/api/v2/mail/templates/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "mailDomains": {
+      "base_path": "/api/v2/mail/domains",
+      "description": "Email domain verification",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/mail/domains",
+          "method": "GET",
+          "returns": ["domain", "dns", "valid", "msg"],
+          "notes": "Requires mail account configuration"
+        },
+        "POST": {
+          "path": "/api/v2/mail/domains",
+          "method": "POST",
+          "required": [
+            {"field": "domain", "type": "string", "notes": "Domain name (lowercase)"}
+          ],
+          "permissions": "administrator"
+        },
+        "DELETE": {
+          "path": "/api/v2/mail/domains/:id",
+          "method": "DELETE",
+          "permissions": "administrator",
+          "notes": "Only works with Halon mail accounts"
+        }
+      }
+    },
+    "events": {
+      "base_path": "/api/v2/events",
+      "description": "Activity timeline events",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/events",
+          "method": "GET",
+          "returns": ["id", "entityType", "subType", "entityId", "client", "contacts", "users", "form", "marketingCustom", "opportunity", "activity", "appointment", "agreement", "mail", "mails", "order", "visit", "esign", "news", "date", "value", "score", "socialEvent", "comment", "plan", "ticket"],
+          "notes": "Requires q filter parameter"
+        },
+        "POST": {
+          "path": "/api/v2/events",
+          "method": "POST",
+          "required": [
+            {"field": "entityType", "type": "string", "notes": "Event type (e.g. 'manual', 'marketingCustom', 'news')"},
+            {"field": "score", "type": "number", "notes": "Event score (set to 0 for reject-listed clients)"}
+          ],
+          "optional": [
+            {"field": "subType", "type": "string"},
+            {"field": "entityId", "type": "number"},
+            {"field": "client", "type": "object", "structure": {"id": "number"}},
+            {"field": "contact", "type": "object", "structure": {"id": "number"}},
+            {"field": "user", "type": "object", "structure": {"id": "number"}},
+            {"field": "opportunityId", "type": "number"},
+            {"field": "integrationId", "type": "number"},
+            {"field": "externalId", "type": "string", "maxLength": 72},
+            {"field": "form", "type": "object", "structure": {"id": "number"}},
+            {"field": "date", "type": "string", "format": "YYYY-MM-DDTHH:mm:ss"},
+            {"field": "value", "type": "string", "maxLength": 512},
+            {"field": "comment", "type": "object"},
+            {"field": "brandId", "type": "number"},
+            {"field": "notify", "type": "boolean", "notes": "Send notification (for marketingCustom events)"}
+          ]
+        },
+        "DELETE": {
+          "path": "/api/v2/events/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "files": {
+      "base_path": "/api/v2/files",
+      "description": "File metadata management",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/files",
+          "method": "GET",
+          "returns": ["id", "userId", "extension", "type", "filename", "mimetype", "customerIdEncrypted", "customerIdHash", "private", "clientId", "entity", "entityId", "size", "uploadDate", "public", "driveFolderId"]
+        },
+        "PUT": {
+          "path": "/api/v2/files/:id",
+          "method": "PUT",
+          "allowed": ["private", "clientId", "entity", "entityId", "public", "driveFolderId"],
+          "readOnly": ["id", "userId", "extension", "type", "filename", "mimetype", "size", "uploadDate"]
+        },
+        "DELETE": {
+          "path": "/api/v2/files/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "file_upload": {
+      "base_path": "/api/v2/file/upload",
+      "description": "File upload endpoint",
+      "methods": {
+        "POST": {
+          "path": "/api/v2/file/upload",
+          "method": "POST",
+          "content_type": "multipart/form-data",
+          "limits": {
+            "max_file_size": "25MB (25000000 bytes)",
+            "field_size": "10MB"
+          },
+          "required": [
+            {"field": "file", "type": "file"}
+          ],
+          "optional": [
+            {"field": "private", "type": "boolean", "default": false, "notes": "String 'true' or 'false'"},
+            {"field": "roleIds", "type": "array", "notes": "Role IDs with access"}
+          ],
+          "returns": ["id", "userId", "extension", "type", "filename", "mimetype", "private", "size", "entity", "entityId", "uploadDate"]
+        }
+      }
+    },
+    "file_download": {
+      "base_path": "/api/v2/file/download",
+      "description": "File download endpoint",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/file/download",
+          "method": "GET",
+          "query_params": [
+            {"field": "path", "type": "string", "notes": "Full file path OR"},
+            {"field": "id", "type": "string", "notes": "File metadata ID"}
+          ],
+          "returns": "Binary file content with Content-Type, Content-Length, Content-Disposition headers"
+        }
+      }
+    },
+    "tickets": {
+      "base_path": "/api/v2/tickets",
+      "description": "Support ticket system",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/tickets",
+          "method": "GET",
+          "returns": ["id", "title", "userId", "statusId", "typeId", "clientId", "contactId", "resolveDate", "lastUpdated", "source", "regDate", "modDate", "regBy", "modBy", "isMultiMatch", "isArchived", "isPending", "isRead", "priority", "emailUsed", "firstReplyDate", "firstResolveDate", "snoozeDate", "activityId", "appointmentId", "opportunityId", "relatedTicketId", "agreementId", "projectPlanId", "mergedWithId", "client", "contact", "user", "status", "type", "involved", "externalContacts", "custom", "unreadComments"]
+        },
+        "POST": {
+          "path": "/api/v2/tickets",
+          "method": "POST",
+          "content_type": "multipart/form-data or application/json",
+          "required": [
+            {"field": "title", "type": "string", "maxLength": 150},
+            {"field": "statusId", "type": "number"},
+            {"field": "typeId", "type": "number", "notes": "Uses default if not provided"}
+          ],
+          "optional": [
+            {"field": "userId", "type": "number"},
+            {"field": "clientId", "type": "number"},
+            {"field": "client", "type": "object", "structure": {"id": "number"}},
+            {"field": "source", "type": "string", "default": "manual"},
+            {"field": "priority", "type": "number", "default": 0, "notes": "0-3"},
+            {"field": "isArchived", "type": "boolean", "default": false},
+            {"field": "isPending", "type": "boolean", "default": false},
+            {"field": "isRead", "type": "boolean", "default": false},
+            {"field": "snoozeDate", "type": "string", "format": "datetime", "notes": "Must be future"},
+            {"field": "activityId", "type": "number"},
+            {"field": "appointmentId", "type": "number"},
+            {"field": "opportunityId", "type": "number"},
+            {"field": "relatedTicketId", "type": "number"},
+            {"field": "agreementId", "type": "number"},
+            {"field": "projectPlanId", "type": "number"},
+            {"field": "involved", "type": "array", "structure": [{"type": "TO|CC|BCC", "email": "string", "contact": {"id": "number"}}]},
+            {"field": "externalContacts", "type": "array"},
+            {"field": "attachments", "type": "array"},
+            {"field": "file", "type": "file", "notes": "Multipart upload, max 5 files, 25MB each"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/tickets/:id",
+          "method": "PUT",
+          "allowed": ["title", "userId", "statusId", "typeId", "clientId", "priority", "isArchived", "isPending", "isRead", "snoozeDate", "activityId", "appointmentId", "opportunityId", "relatedTicketId", "agreementId", "projectPlanId", "involved", "externalContacts", "attachments"],
+          "readOnly": ["id", "contact", "contactId", "lastUpdated", "resolveDate", "firstResolveDate", "firstReplyDate", "regDate", "regBy", "modDate", "modBy"]
+        },
+        "DELETE": {
+          "path": "/api/v2/tickets/:id",
+          "method": "DELETE"
+        },
+        "POST_comment": {
+          "path": "/api/v2/tickets/:id/comment",
+          "method": "POST",
+          "content_type": "multipart/form-data",
+          "description": "Add comment/reply to ticket",
+          "required": [
+            {"field": "message", "type": "string"}
+          ],
+          "optional": [
+            {"field": "isPublic", "type": "boolean", "notes": "String 'true' or 'false'"},
+            {"field": "type", "type": "string", "enum": ["public", "internal", "email"]},
+            {"field": "file", "type": "file", "notes": "Max 5 files, 25MB each"},
+            {"field": "attachments", "type": "array"},
+            {"field": "statusId", "type": "number", "notes": "Update ticket status"}
+          ]
+        }
+      }
+    },
+    "ticketStatus": {
+      "base_path": "/api/v2/ticketStatus",
+      "description": "Ticket status types",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/ticketStatus",
+          "method": "GET",
+          "returns": ["id", "name", "closed", "regDate", "modDate", "regBy", "modBy"]
+        },
+        "POST": {
+          "path": "/api/v2/ticketStatus",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 128}
+          ],
+          "optional": [
+            {"field": "closed", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/ticketStatus/:id",
+          "method": "PUT",
+          "allowed": ["name", "closed"]
+        },
+        "DELETE": {
+          "path": "/api/v2/ticketStatus/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "ticketType": {
+      "base_path": "/api/v2/ticketType",
+      "description": "Ticket type categories",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/ticketType",
+          "method": "GET",
+          "returns": ["id", "name", "isDefault", "regDate", "modDate", "regBy", "modBy"]
+        },
+        "POST": {
+          "path": "/api/v2/ticketType",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 128}
+          ],
+          "optional": [
+            {"field": "isDefault", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/ticketType/:id",
+          "method": "PUT",
+          "allowed": ["name", "isDefault"]
+        },
+        "DELETE": {
+          "path": "/api/v2/ticketType/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "segments": {
+      "base_path": "/api/v2/segments",
+      "description": "Contact segmentation for targeting",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/segments",
+          "method": "GET",
+          "returns": ["id", "name", "description", "active", "nrOfContacts", "regBy", "modBy", "createDate", "modDate", "sourceTemplate", "usedForProspectingMonitor", "version", "brandId", "filter", "flowName", "flowStatus", "stats"]
+        },
+        "POST": {
+          "path": "/api/v2/segments",
+          "method": "POST",
+          "required": [
+            {"field": "name", "type": "string", "maxLength": 45}
+          ],
+          "optional": [
+            {"field": "description", "type": "string", "maxLength": 100},
+            {"field": "active", "type": "boolean", "default": false},
+            {"field": "sourceTemplate", "type": "string", "maxLength": 32, "notes": "createOnly"},
+            {"field": "usedForProspectingMonitor", "type": "boolean", "default": false},
+            {"field": "version", "type": "number", "default": 2},
+            {"field": "brandId", "type": "number", "default": 1},
+            {"field": "filter", "type": "array", "notes": "Array of filter objects"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/segments/:id",
+          "method": "PUT",
+          "allowed": ["name", "description", "active", "usedForProspectingMonitor", "version", "brandId", "filter"],
+          "readOnly": ["id", "regBy", "modBy", "createDate", "modDate", "sourceTemplate", "nrOfContacts"]
+        },
+        "DELETE": {
+          "path": "/api/v2/segments/:id",
+          "method": "DELETE"
+        },
+        "POST_add": {
+          "path": "/api/v2/segments/add",
+          "method": "POST",
+          "description": "Add or remove contacts from segments",
+          "required": [
+            {"field": "properties", "type": "array", "notes": "Array with 'AddSegments' or 'RemoveSegments'"},
+            {"field": "selectedIds or filters", "type": "array or object", "notes": "Contact IDs or filter criteria"}
+          ]
+        }
+      }
+    },
+    "flows": {
+      "base_path": "/api/v2/flows",
+      "description": "Marketing automation flows",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/flows",
+          "method": "GET",
+          "returns": ["id", "name", "segmentId", "segment", "regBy", "regDate", "modBy", "status", "hasBeenActive", "statusChangedDate", "startTime", "endTime", "timezone", "skipWeekends", "brandId", "loop", "loopTime", "loopUnit", "sourceTemplate", "path", "endCriterias", "completedContactCount"]
+        },
+        "POST": {
+          "path": "/api/v2/flows",
+          "method": "POST",
+          "optional": [
+            {"field": "name", "type": "string", "maxLength": 45},
+            {"field": "segmentId", "type": "number"},
+            {"field": "sourceTemplate", "type": "string", "maxLength": 32, "notes": "createOnly"},
+            {"field": "status", "type": "string", "default": "draft", "enum": ["draft", "active", "paused"]},
+            {"field": "startTime", "type": "string", "format": "HH:mm"},
+            {"field": "endTime", "type": "string", "format": "HH:mm"},
+            {"field": "timezone", "type": "string", "maxLength": 35},
+            {"field": "skipWeekends", "type": "boolean"},
+            {"field": "brandId", "type": "number", "default": 1},
+            {"field": "loop", "type": "boolean", "default": false},
+            {"field": "loopTime", "type": "number"},
+            {"field": "loopUnit", "type": "string", "default": "month"},
+            {"field": "path", "type": "object", "notes": "Flow path structure"},
+            {"field": "endCriterias", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/flows/:id",
+          "method": "PUT",
+          "allowed": ["name", "segmentId", "status", "hasBeenActive", "statusChangedDate", "startTime", "endTime", "timezone", "skipWeekends", "loop", "loopTime", "loopUnit", "path", "endCriterias"],
+          "readOnly": ["id", "regBy", "regDate", "modBy", "sourceTemplate", "brandId"]
+        },
+        "DELETE": {
+          "path": "/api/v2/flows/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "pages": {
+      "base_path": "/api/v2/pages",
+      "description": "Landing pages (update only)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/pages",
+          "method": "GET",
+          "returns": ["id", "name", "url", "state", "lastUpdateDate", "pageImpression", "score", "hide", "brandId", "keywords"],
+          "permissions": "administrator or mailAdmin"
+        },
+        "PUT": {
+          "path": "/api/v2/pages/:id",
+          "method": "PUT",
+          "allowed": ["name", "url", "state", "lastUpdateDate", "score", "hide", "keywords"],
+          "readOnly": ["id", "pageImpression", "brandId"],
+          "permissions": "administrator or mailAdmin"
+        }
+      }
+    },
+    "bannerGroups": {
+      "base_path": "/api/v2/bannerGroups",
+      "description": "Ad banner management",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/bannerGroups",
+          "method": "GET",
+          "returns": ["id", "title", "regBy", "draft", "body", "landingPage", "regDate", "modDate", "pages", "formats", "availableFormats", "brandId"]
+        },
+        "POST": {
+          "path": "/api/v2/bannerGroups",
+          "method": "POST",
+          "required": [
+            {"field": "landingPage", "type": "string", "notes": "Must be safe URL (not blacklisted)"}
+          ],
+          "optional": [
+            {"field": "title", "type": "string", "maxLength": 256},
+            {"field": "draft", "type": "boolean", "default": true},
+            {"field": "body", "type": "string"},
+            {"field": "pages", "type": "string"},
+            {"field": "formats", "type": "string"},
+            {"field": "availableFormats", "type": "string"},
+            {"field": "brandId", "type": "number"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/bannerGroups/:id",
+          "method": "PUT",
+          "allowed": ["title", "draft", "body", "landingPage", "pages", "formats", "availableFormats"],
+          "readOnly": ["id", "regBy", "regDate", "modDate", "brandId"]
+        },
+        "DELETE": {
+          "path": "/api/v2/bannerGroups/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "reportView": {
+      "base_path": "/api/v2/reportView/:entity/:type",
+      "description": "Custom report configurations (stored in Redis)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/reportView/:entity/:type",
+          "method": "GET",
+          "path_params": [
+            {"field": "entity", "type": "string", "enum": ["order", "opportunity", "activity", "activityOutcome", "appointment", "visit"]},
+            {"field": "type", "type": "string", "enum": ["own", "role", "public"]}
+          ],
+          "returns": ["id", "description", "type", "title", "default", "editable", "private", "sorting", "grouping", "tableGrouping", "filters", "roleId"]
+        },
+        "POST": {
+          "path": "/api/v2/reportView/:entity/:type",
+          "method": "POST",
+          "optional": [
+            {"field": "id", "type": "string", "notes": "UUID, auto-generated if not provided"},
+            {"field": "description", "type": "string"},
+            {"field": "title", "type": "string"},
+            {"field": "default", "type": "boolean"},
+            {"field": "editable", "type": "boolean"},
+            {"field": "private", "type": "boolean"},
+            {"field": "sorting", "type": "array"},
+            {"field": "grouping", "type": "string"},
+            {"field": "tableGrouping", "type": "string"},
+            {"field": "filters", "type": "array"},
+            {"field": "roleId", "type": "number", "notes": "Required when type is 'role'"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/reportView/:entity/:type/:id",
+          "method": "PUT",
+          "notes": "Same as POST (upsert)"
+        },
+        "DELETE": {
+          "path": "/api/v2/reportView/:id",
+          "method": "DELETE"
+        }
+      }
+    },
+    "quota": {
+      "base_path": "/api/v2/quota",
+      "description": "Sales quotas (quarterly storage, monthly API)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/quota",
+          "method": "GET",
+          "returns": ["id", "year", "month", "date", "value", "valueInMasterCurrency", "currencyRate", "currency", "user"]
+        },
+        "POST": {
+          "path": "/api/v2/quota",
+          "method": "POST",
+          "required": [
+            {"field": "year", "type": "number"},
+            {"field": "month", "type": "number", "notes": "1-12"},
+            {"field": "value", "type": "number"},
+            {"field": "user", "type": "object", "structure": {"id": "number"}}
+          ],
+          "optional": [
+            {"field": "currencyRate", "type": "number"},
+            {"field": "currency", "type": "string", "maxLength": 3}
+          ],
+          "permissions": "administrator or teamleader",
+          "notes": "Accepts single object or array for bulk create"
+        },
+        "PUT": {
+          "path": "/api/v2/quota/:id",
+          "method": "PUT",
+          "allowed": ["year", "month", "value", "currencyRate", "currency"],
+          "permissions": "administrator or teamleader"
+        }
+      }
+    },
+    "activityQuota": {
+      "base_path": "/api/v2/activityQuota",
+      "description": "Activity quotas (quarterly storage, monthly API)",
+      "methods": {
+        "GET_list": {
+          "path": "/api/v2/activityQuota",
+          "method": "GET",
+          "returns": ["id", "year", "month", "date", "performed", "created", "user", "activityType"]
+        },
+        "POST": {
+          "path": "/api/v2/activityQuota",
+          "method": "POST",
+          "required": [
+            {"field": "year", "type": "number"},
+            {"field": "month", "type": "number", "notes": "1-12"},
+            {"field": "user", "type": "object", "structure": {"id": "number"}},
+            {"field": "activityType", "type": "object", "structure": {"id": "number"}}
+          ],
+          "optional": [
+            {"field": "performed", "type": "number", "default": 0},
+            {"field": "created", "type": "number", "default": 0}
+          ],
+          "permissions": "administrator or teamleader",
+          "notes": "Accepts single object or array for bulk create"
+        },
+        "PUT": {
+          "path": "/api/v2/activityQuota/:id",
+          "method": "PUT",
+          "allowed": ["year", "month", "performed", "created"],
+          "permissions": "administrator or teamleader"
+        }
+      }
+    },
+    "flowContacts": {
+      "base_path": "/api/v2/flows/:flowId/:stepId/contacts/:statsType",
+      "description": "Retrieves contacts within a specific flow step or flow completion status",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "client", "loopNumber"],
+          "query_params": [
+            {"param": "flowId", "type": "number", "required": true},
+            {"param": "stepId", "type": "number|string", "required": true},
+            {"param": "statsType", "type": "string", "required": true},
+            {"param": "searchStr", "type": "string", "required": false},
+            {"param": "offset", "type": "number", "required": false, "default": 0},
+            {"param": "limit", "type": "number", "required": false, "default": 50}
+          ]
+        }
+      }
+    },
+    "report": {
+      "base_path": "/api/v2/report/api/:entity",
+      "description": "Dynamic reporting API that generates aggregated data reports for any entity type using Elasticsearch",
+      "methods": {
+        "GET": {
+          "returns": ["buckets", "aggregations"],
+          "query_params": [
+            {"param": "entity", "type": "string", "required": true},
+            {"param": "q", "type": "object|array", "required": false},
+            {"param": "groupBy", "type": "string|array", "required": false},
+            {"param": "sum", "type": "string|array", "required": false},
+            {"param": "stats", "type": "string|array", "required": false},
+            {"param": "limit", "type": "number", "required": false, "default": 1000}
+          ]
+        }
+      }
+    },
+    "listViews": {
+      "base_path": "/api/v2/listViews/:entity",
+      "description": "Manages custom list views for entities stored in Redis",
+      "methods": {
+        "GET": {
+          "returns": ["id", "title", "description", "listType", "type", "grouping", "columns", "sorting", "filters", "limit", "users", "roles", "default", "regDate", "modDate", "regBy"]
+        },
+        "POST": {
+          "required": [
+            {"field": "title", "type": "string"},
+            {"field": "listType", "type": "string"},
+            {"field": "type", "type": "string"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string"},
+            {"field": "grouping", "type": "string"},
+            {"field": "columns", "type": "array"},
+            {"field": "sorting", "type": "array"},
+            {"field": "filters", "type": "array"},
+            {"field": "limit", "type": "number"},
+            {"field": "roleId", "type": "number"},
+            {"field": "default", "type": "boolean", "default": false}
+          ]
+        },
+        "PUT": {
+          "allowed": ["title", "description", "grouping", "columns", "sorting", "filters", "limit", "default", "roleId"],
+          "readOnly": ["id", "listType", "type", "regDate", "regBy"]
+        },
+        "DELETE": {}
+      }
+    },
+    "activityList": {
+      "base_path": "/api/v2/search/activitylist",
+      "description": "Unified search endpoint for activities, appointments, and emails using Elasticsearch",
+      "methods": {
+        "GET": {
+          "returns": ["id", "date", "time", "description", "notes", "activityType", "client", "contacts", "users", "opportunity", "order", "project", "custom", "outcomes", "body"],
+          "query_params": [
+            {"param": "includes", "type": "string", "default": "activities,appointments,mail"},
+            {"param": "q", "type": "object|array", "required": false},
+            {"param": "limit", "type": "number", "required": false},
+            {"param": "offset", "type": "number", "required": false},
+            {"param": "sort", "type": "string", "required": false}
+          ]
+        }
+      }
+    },
+    "adAccounts": {
+      "base_path": "/api/v2/:customerId/engage/account",
+      "description": "Manages advertising account configuration for a customer",
+      "methods": {
+        "POST": {
+          "required": [],
+          "optional": [
+            {"field": "cpmAmount", "type": "number", "default": 300.0},
+            {"field": "active", "type": "boolean", "default": true}
+          ]
+        },
+        "GET": {
+          "returns": ["cpmAmount", "active", "values"]
+        }
+      }
+    },
+    "adCampaigns": {
+      "base_path": "/api/v2/:customerId/engage/campaign",
+      "description": "Manages advertising campaigns including budget, targeting, creatives, and status lifecycle",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "name", "type": "string", "max_length": 100},
+            {"field": "startDate", "type": "date"},
+            {"field": "endDate", "type": "date"}
+          ],
+          "optional": [
+            {"field": "budget", "type": "number", "default": 0},
+            {"field": "useRange", "type": "boolean", "default": true},
+            {"field": "targetAbm", "type": "number", "default": 0},
+            {"field": "creative", "type": "array"},
+            {"field": "target", "type": "array"},
+            {"field": "siteTemplate", "type": "array"}
+          ]
+        },
+        "GET": {
+          "returns": ["id", "name", "type", "budget", "spent", "startDate", "endDate", "status", "impressions", "clicks", "conversions", "cpm"]
+        },
+        "PUT": {
+          "allowed": ["name", "budget", "startDate", "endDate", "status", "creative", "target", "siteTemplate"],
+          "readOnly": ["id", "spent", "impressions", "clicks", "conversions", "externalId"]
+        },
+        "DELETE": {}
+      }
+    },
+    "adCreatives": {
+      "base_path": "/api/v2/:customerId/engage/creative",
+      "description": "Manages ad creatives (banners, images, HTML5) used in campaigns",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "name", "type": "string", "max_length": 100},
+            {"field": "type", "type": "string", "values": ["image", "html5", "third_party_tag", "zip"]},
+            {"field": "width", "type": "number"},
+            {"field": "height", "type": "number"},
+            {"field": "url", "type": "string", "max_length": 255}
+          ],
+          "optional": [
+            {"field": "fileId", "type": "number"},
+            {"field": "formatId", "type": "number"},
+            {"field": "body", "type": "string"},
+            {"field": "code", "type": "string", "max_length": 65535}
+          ]
+        },
+        "GET": {
+          "returns": ["id", "name", "type", "width", "height", "fileId", "sampleImageUrl", "state", "impressions", "clicks"]
+        },
+        "DELETE": {}
+      }
+    },
+    "adCredits": {
+      "base_path": "/api/v2/:customerId/engage/credit",
+      "description": "Provides read-only access to the customer's ad credit balance",
+      "methods": {
+        "GET": {
+          "returns": [{"field": "sum", "type": "number", "description": "Total credit balance in SEK"}]
+        }
+      }
+    },
+    "adLocations": {
+      "base_path": "/api/v2/:customerId/engage/location",
+      "description": "Provides read-only access to geographic targeting data (countries and regions) for ad campaigns",
+      "methods": {
+        "GET": {
+          "query_params": [
+            {"field": "type", "type": "string", "values": ["region"]},
+            {"field": "countryCode", "type": "string"},
+            {"field": "id", "type": "number|array"}
+          ]
+        }
+      }
+    },
+    "roleSettings": {
+      "base_path": "/api/v2/roleSettings",
+      "description": "Retrieve role settings with template data and related information",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "description", "template", "parentId", "defaultCurrency", "defaultSalesboardId", "hasDiscount", "templateData"]
+        }
+      }
+    },
+    "userInvites": {
+      "base_path": "/api/v2/userInvites",
+      "description": "Manage user invitations stored in Redis with expiration",
+      "permissions": "Administrator only",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "administrator", "export", "language", "role", "email", "killDate", "custom", "active", "ghost", "crm", "support"]
+        },
+        "POST": {
+          "required": [
+            {"field": "name", "type": "string"},
+            {"field": "email", "type": "string"}
+          ],
+          "optional": [
+            {"field": "administrator", "type": "boolean"},
+            {"field": "export", "type": "boolean"},
+            {"field": "language", "type": "string"},
+            {"field": "roleId", "type": "number"},
+            {"field": "active", "type": "boolean", "default": 1},
+            {"field": "crm", "type": "boolean", "default": 1},
+            {"field": "support", "type": "boolean", "default": 0}
+          ]
+        },
+        "DELETE": {}
+      }
+    },
+    "notifications": {
+      "base_path": "/api/v2/notifications",
+      "description": "User notifications with read/unread status",
+      "methods": {
+        "GET": {
+          "returns": ["id", "date", "regBy", "type", "action", "entityId", "clientId", "contactId", "message", "status", "data", "read"]
+        },
+        "PUT": {
+          "path": "/api/v2/notifications/read",
+          "body": {"notificationIds": "array of notification IDs to mark as read"}
+        },
+        "DELETE": {}
+      }
+    },
+    "notificationSettings": {
+      "base_path": "/api/v2/notificationSettings",
+      "description": "User-specific notification preferences for reminders and notifications",
+      "methods": {
+        "GET": {
+          "returns": ["type", "entity", "userId", "brandId", "reminderTime", "reminderUnit", "enabled", "mobile", "title"]
+        },
+        "POST": {
+          "required": [
+            {"field": "entity", "type": "string"},
+            {"field": "enabled", "type": "boolean"}
+          ],
+          "optional": [
+            {"field": "mobile", "type": "boolean", "default": true},
+            {"field": "reminderTime", "type": "number"},
+            {"field": "reminderUnit", "type": "string"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["entity", "enabled", "mobile", "reminderTime", "reminderUnit"]
+        }
+      }
+    },
+    "esigns": {
+      "base_path": "/api/v2/esigns",
+      "description": "Electronic signature documents (Scrive integration)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "clientId", "userId", "opportunityId", "documentId", "upsalesStatus", "type", "state", "title", "fileId", "signDate", "involved"]
+        },
+        "POST": {
+          "required": [
+            {"field": "userId", "type": "number"},
+            {"field": "title", "type": "string"}
+          ],
+          "optional": [
+            {"field": "clientId", "type": "number", "default": 0},
+            {"field": "opportunityId", "type": "number", "default": 0},
+            {"field": "fileId", "type": "number"},
+            {"field": "involved", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["clientId", "userId", "opportunityId", "title", "state", "fileId", "signDate", "involved"],
+          "readOnly": ["id", "regDate", "mdate", "tsupdated"]
+        },
+        "DELETE": {}
+      }
+    },
+    "integrationLog": {
+      "base_path": "/api/v2/integrationLog",
+      "description": "Standard integration execution logs with callback tracking",
+      "permissions": "Administrator only for GET single and UPDATE operations",
+      "methods": {
+        "GET": {
+          "returns": ["id", "standardIntegrationConfigId", "integrationId", "userId", "initObjectId", "initType", "callbackMessage", "callbackStatus", "startDate", "callbackDate"]
+        },
+        "PUT": {
+          "allowed": ["status", "message"],
+          "readOnly": ["id", "standardIntegrationConfigId", "integrationId", "userId", "startDate", "callbackId"],
+          "permissions": "Administrator only"
+        }
+      }
+    },
+    "standardIntegrationUser": {
+      "base_path": "/api/v2/standardIntegrationUser",
+      "description": "User-specific configuration for standard integrations with encrypted storage",
+      "permissions": "Administrator only",
+      "methods": {
+        "GET": {
+          "returns": ["userId"]
+        }
+      }
+    },
+    "industries": {
+      "base_path": "/api/v2/industries",
+      "description": "Returns a list of Swedish industry codes (SNI codes) with their descriptions",
+      "methods": {
+        "GET": {
+          "returns": [
+            {"field": "key", "type": "string"},
+            {"field": "value", "type": "string"}
+          ]
+        }
+      }
+    },
+    "staticValues": {
+      "base_path": "/api/v2/staticValues",
+      "description": "Provides access to static enumeration values used throughout the system",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/staticValues/:id",
+          "returns": ["status", "creditRating", "companyForm", "sniCode", "languages", "recurringInterval", "appointmentOutcome", "activityOutcome"]
+        }
+      }
+    },
+    "lookup": {
+      "base_path": "/api/v2/lookup",
+      "description": "Provides aggregated lookup values for fields across different entity types",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/lookup/:entity/:field",
+          "returns": [
+            {"field": "value", "type": "string"},
+            {"field": "count", "type": "number"}
+          ],
+          "query_params": [
+            {"param": "entity", "type": "string", "required": true},
+            {"param": "field", "type": "string", "required": true},
+            {"param": "q", "type": "string", "required": false},
+            {"param": "limit", "type": "number", "required": false},
+            {"param": "caseSensitive", "type": "boolean", "required": false}
+          ]
+        }
+      }
+    },
+    "journeySteps": {
+      "base_path": "/api/v2/journeySteps",
+      "description": "Returns the available journey steps (lifecycle stages) for clients and contacts",
+      "methods": {
+        "GET": {
+          "returns": [
+            {"field": "name", "type": "string"},
+            {"field": "value", "type": "string"},
+            {"field": "priority", "type": "number"},
+            {"field": "color", "type": "string"},
+            {"field": "colorName", "type": "string"}
+          ]
+        }
+      }
+    },
+    "journeyStepHistory": {
+      "base_path": "/api/v2/journeyStepHistory",
+      "description": "Returns the history of journey step changes for a specific client or contact",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/journeyStepHistory/:type/:id",
+          "returns": [
+            {"field": "client_id or contact_id", "type": "number"},
+            {"field": "user_id", "type": "number"},
+            {"field": "value", "type": "string"},
+            {"field": "date", "type": "datetime"}
+          ],
+          "query_params": [
+            {"param": "type", "type": "string", "required": true, "allowed_values": ["client", "contact"]},
+            {"param": "id", "type": "number", "required": true}
+          ]
+        }
+      }
+    },
+    "findProspect": {
+      "base_path": "/api/v2/findProspect",
+      "description": "Find prospects from external data sources (Soliditet/CreditSafe)",
+      "methods": {
+        "GET": {
+          "returns": ["dunsNo", "name", "orgNumber", "address", "city", "zipCode", "country", "noOfEmployees", "companyType", "upsalesClient", "parent"],
+          "query_params": [
+            {"name": "q", "required": true},
+            {"name": "limit", "default": 50},
+            {"name": "offset", "default": 0},
+            {"name": "NotInUpsales", "default": false}
+          ]
+        }
+      }
+    },
+    "bulk": {
+      "base_path": "/api/v2/prospectingbulk",
+      "description": "Bulk save prospecting companies to Upsales",
+      "methods": {
+        "POST": {
+          "required": [{"field": "filters", "type": "array"}],
+          "optional": [
+            {"name": "operationalAccountId"},
+            {"name": "userId"},
+            {"name": "categoryId"},
+            {"name": "stageId"}
+          ]
+        }
+      }
+    },
+    "groupStructure": {
+      "base_path": "/api/v2/prospectinggroupstructure",
+      "description": "Retrieve company group structure from external data sources",
+      "methods": {
+        "GET": {
+          "query_params": [
+            {"name": "q"},
+            {"name": "limit"},
+            {"name": "offset"}
+          ]
+        }
+      }
+    },
+    "suggestions": {
+      "base_path": "/api/v2/prospectingsuggestion",
+      "description": "Get AI-powered suggestions for prospecting existing customers",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/prospectingsuggestion/:boxid"
+        },
+        "POST": {
+          "path": "/api/v2/prospectingsuggestion/:boxid",
+          "required": [
+            {"field": "boxid"},
+            {"field": "actions", "type": "array"}
+          ]
+        }
+      }
+    },
+    "signalsFeed": {
+      "base_path": "/api/v2/prospecting/signals",
+      "description": "Retrieve signals feed (news, events, company changes) for prospecting",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/prospecting/signals/feed",
+          "query_params": [
+            {"name": "type", "required": true},
+            {"name": "date", "required": true},
+            {"name": "limit", "required": true},
+            {"name": "offset", "required": true},
+            {"name": "languages"},
+            {"name": "topics"}
+          ]
+        }
+      }
+    },
+    "quickSearch": {
+      "base_path": "/api/v2/quicksearch",
+      "description": "Quick search across multiple entity types with a single query string",
+      "methods": {
+        "GET": {
+          "query_params": [
+            {"name": "q", "required": true, "type": "JSON string or array"},
+            {"name": "type"},
+            {"name": "clientLimit", "default": 5},
+            {"name": "contactLimit", "default": 5},
+            {"name": "orderLimit", "default": 5}
+          ]
+        }
+      }
+    },
+    "export": {
+      "base_path": "/api/v2/function/export",
+      "description": "Export entity data to file formats (CSV/Excel)",
+      "methods": {
+        "POST": {
+          "required": [
+            {"name": "entity"},
+            {"name": "columns", "type": "array"},
+            {"name": "filters", "type": "object"},
+            {"name": "name"}
+          ],
+          "optional": [
+            {"name": "customFieldIds", "type": "array"},
+            {"name": "exportOrderRows", "default": false},
+            {"name": "groupByThreadId", "default": false}
+          ]
+        }
+      }
+    },
+    "assign": {
+      "base_path": "/api/v2/function/assign",
+      "description": "Manage user assignment for clients",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/assign/:id",
+          "returns": ["id", "name", "email"]
+        },
+        "PUT": {
+          "path": "/api/v2/function/assign/:id",
+          "required": [{"name": "userId", "type": "integer"}]
+        },
+        "DELETE": {
+          "path": "/api/v2/function/assign/:id"
+        }
+      }
+    },
+    "emailDuplicates": {
+      "base_path": "/api/v2/function/email-duplicates",
+      "description": "Check for duplicate contacts with the same email address",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/email-duplicates/:id",
+          "query_params": [
+            {"name": "email", "required": true},
+            {"name": "excludedid"}
+          ]
+        }
+      }
+    },
+    "emailSuggest": {
+      "base_path": "/api/v2/function/email-suggest",
+      "description": "Suggest email addresses for contacts based on company domain and contact name",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/email-suggest/:id",
+          "query_params": [
+            {"name": "firstname", "required": true},
+            {"name": "lastname", "required": true}
+          ]
+        }
+      }
+    },
+    "emailSuggestion": {
+      "base_path": "/api/v2/emailSuggestion",
+      "description": "AI-powered email content suggestions for mail threads, appointments, and support tickets",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/emailSuggestion/:id",
+          "query_params": [
+            {"name": "type", "required": true, "options": ["mailThread", "appointment", "supportTicket"]}
+          ],
+          "returns": ["id", "email"]
+        }
+      }
+    },
+    "salesboardCards": {
+      "base_path": "/api/v2/salesboardCards",
+      "description": "Manages salesboard card configurations for custom salesboard views",
+      "methods": {
+        "GET": {
+          "returns": ["id", "config"]
+        },
+        "POST": {
+          "required": [{"field": "config"}],
+          "permissions": "Administrator only"
+        },
+        "PUT": {
+          "allowed": ["config"],
+          "readOnly": ["id"],
+          "permissions": "Administrator only"
+        }
+      }
+    },
+    "scoreboard": {
+      "base_path": "/api/v2/scoreboard",
+      "description": "Provides scoreboard data for tracking client engagement, activities, opportunities and orders",
+      "methods": {
+        "GET": {
+          "returns": ["clientScore", "scoreTrend", "scoreUpdate", "clientId", "name", "clientName", "activityId", "opportunityId", "orderId", "accountManagers"],
+          "permissions": "Administrator or mailAdmin"
+        }
+      }
+    },
+    "onboardingImports": {
+      "base_path": "/api/v2/onboardingImports",
+      "description": "Manages onboarding import processes for standard integrations",
+      "methods": {
+        "GET": {
+          "returns": ["id", "startDate", "endDate", "progress", "clientCount", "contactCount", "orderCount", "integrationId"]
+        },
+        "POST": {
+          "required": [{"field": "integrationId"}],
+          "optional": [
+            {"field": "stepId"},
+            {"field": "notification.create"},
+            {"field": "notification.showProgressBar"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["startDate", "endDate", "progress", "clientCount", "contactCount", "orderCount"],
+          "readOnly": ["id", "integrationId", "stepId"]
+        }
+      }
+    },
+    "marketRejectlist": {
+      "base_path": "/api/v2/marketRejectlist",
+      "description": "Manages rejected companies for marketing campaigns",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "dunsNo", "organisationId", "clientId"],
+          "permissions": "Administrator or mailAdmin"
+        },
+        "POST": {
+          "optional": [
+            {"field": "name"},
+            {"field": "dunsNo"},
+            {"field": "organisationId"},
+            {"field": "clientId"}
+          ],
+          "permissions": "Administrator or mailAdmin"
+        },
+        "DELETE": {
+          "permissions": "Administrator or mailAdmin"
+        }
+      }
+    },
+    "links": {
+      "base_path": "/api/v2/links",
+      "description": "Retrieves dynamic links for entities with tag translation",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/links/:entity/:entityId",
+          "returns": ["id", "entity", "href", "target", "tooltip", "icon", "value", "color"]
+        }
+      }
+    },
+    "visits": {
+      "base_path": "/api/v2/visits",
+      "description": "Tracks website visits from identified or anonymous users",
+      "methods": {
+        "GET": {
+          "returns": ["id", "referer", "isFirst", "client", "contact", "score", "startDate", "endDate", "pages", "country"],
+          "permissions": "Administrator, mailAdmin, or specific visit by id"
+        },
+        "POST": {
+          "optional": [
+            {"field": "referer"},
+            {"field": "isFirst"},
+            {"field": "client"},
+            {"field": "contact"},
+            {"field": "score"},
+            {"field": "pages", "type": "array"}
+          ],
+          "permissions": "Administrator or mailAdmin"
+        },
+        "PUT": {
+          "permissions": "Administrator or mailAdmin"
+        },
+        "DELETE": {
+          "permissions": "Administrator or mailAdmin"
+        }
+      }
+    },
+    "deleteLog": {
+      "base_path": "/api/v2/deleteLog",
+      "description": "Audit log of deleted entities",
+      "methods": {
+        "GET": {
+          "returns": ["id", "date", "user", "version", "type", "obj"],
+          "permissions": "Administrator only"
+        }
+      }
+    },
+    "provisioning": {
+      "base_path": "/api/v2/provisioning",
+      "description": "Manages customer provisioning operations",
+      "methods": {
+        "GET": {
+          "description": "Forwards query params to provisioning service"
+        },
+        "POST": {
+          "description": "Forwards request body to provisioning service"
+        }
+      }
+    },
+    "triggerAttributes": {
+      "base_path": "/api/v2/triggerAttributes",
+      "description": "Returns available trigger attributes for workflow automation across various entities",
+      "methods": {
+        "GET": {
+          "returns": "Object with entity names as keys, each containing arrays of trigger attribute objects"
+        }
+      }
+    },
+    "translateTags": {
+      "base_path": "/api/v2/function/translate",
+      "description": "Translates tag placeholders in text using entity data",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "entity", "type": "string"},
+            {"field": "entityId", "type": "number"},
+            {"field": "data", "type": "object"}
+          ]
+        }
+      }
+    },
+    "userDefinedObject1": {
+      "base_path": "/api/v2/userDefinedObjects/1",
+      "description": "User-defined custom object for storing flexible, custom entity data. Supports associations with clients, contacts, projects, users, and roles.",
+      "methods": {
+        "GET": {
+          "returns": ["id", "notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "regDate", "regTime", "modDate", "modTime", "custom", "categories"]
+        },
+        "POST": {
+          "required": [],
+          "optional": [
+            {"field": "notes", "type": "text"},
+            {"field": "notes1", "type": "text"},
+            {"field": "notes2", "type": "text"},
+            {"field": "notes3", "type": "text"},
+            {"field": "notes4", "type": "text"},
+            {"field": "clientId", "type": "number"},
+            {"field": "contactId", "type": "number"},
+            {"field": "projectId", "type": "number"},
+            {"field": "userId", "type": "number", "default": 0},
+            {"field": "roleId", "type": "number", "default": 0},
+            {"field": "custom", "type": "array"},
+            {"field": "categories", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "custom", "categories"],
+          "readOnly": ["id", "regDate", "regTime", "modDate", "modTime"]
+        },
+        "DELETE": {}
+      }
+    },
+    "userDefinedObject2": {
+      "base_path": "/api/v2/userDefinedObjects/2",
+      "description": "Second user-defined custom object (same structure as UserDefinedObject1)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "regDate", "regTime", "modDate", "modTime", "custom", "categories"]
+        },
+        "POST": {
+          "required": [],
+          "optional": [
+            {"field": "notes", "type": "text"},
+            {"field": "notes1", "type": "text"},
+            {"field": "notes2", "type": "text"},
+            {"field": "notes3", "type": "text"},
+            {"field": "notes4", "type": "text"},
+            {"field": "clientId", "type": "number"},
+            {"field": "contactId", "type": "number"},
+            {"field": "projectId", "type": "number"},
+            {"field": "userId", "type": "number", "default": 0},
+            {"field": "roleId", "type": "number", "default": 0},
+            {"field": "custom", "type": "array"},
+            {"field": "categories", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "custom", "categories"],
+          "readOnly": ["id", "regDate", "regTime", "modDate", "modTime"]
+        },
+        "DELETE": {}
+      }
+    },
+    "userDefinedObject3": {
+      "base_path": "/api/v2/userDefinedObjects/3",
+      "description": "Third user-defined custom object (same structure as UserDefinedObject1)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "regDate", "regTime", "modDate", "modTime", "custom", "categories"]
+        },
+        "POST": {
+          "required": [],
+          "optional": [
+            {"field": "notes", "type": "text"},
+            {"field": "notes1", "type": "text"},
+            {"field": "notes2", "type": "text"},
+            {"field": "notes3", "type": "text"},
+            {"field": "notes4", "type": "text"},
+            {"field": "clientId", "type": "number"},
+            {"field": "contactId", "type": "number"},
+            {"field": "projectId", "type": "number"},
+            {"field": "userId", "type": "number", "default": 0},
+            {"field": "roleId", "type": "number", "default": 0},
+            {"field": "custom", "type": "array"},
+            {"field": "categories", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "custom", "categories"],
+          "readOnly": ["id", "regDate", "regTime", "modDate", "modTime"]
+        },
+        "DELETE": {}
+      }
+    },
+    "userDefinedObject4": {
+      "base_path": "/api/v2/userDefinedObjects/4",
+      "description": "Fourth user-defined custom object (same structure as UserDefinedObject1)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "regDate", "regTime", "modDate", "modTime", "custom", "categories"]
+        },
+        "POST": {
+          "required": [],
+          "optional": [
+            {"field": "notes", "type": "text"},
+            {"field": "notes1", "type": "text"},
+            {"field": "notes2", "type": "text"},
+            {"field": "notes3", "type": "text"},
+            {"field": "notes4", "type": "text"},
+            {"field": "clientId", "type": "number"},
+            {"field": "contactId", "type": "number"},
+            {"field": "projectId", "type": "number"},
+            {"field": "userId", "type": "number", "default": 0},
+            {"field": "roleId", "type": "number", "default": 0},
+            {"field": "custom", "type": "array"},
+            {"field": "categories", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["notes", "notes1", "notes2", "notes3", "notes4", "clientId", "contactId", "projectId", "userId", "roleId", "custom", "categories"],
+          "readOnly": ["id", "regDate", "regTime", "modDate", "modTime"]
+        },
+        "DELETE": {}
+      }
+    },
+    "userDefinedObjectCategories": {
+      "base_path": "/api/v2/userDefinedObjectCategories",
+      "description": "Categories for organizing UserDefinedObjects",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/userDefinedObjectCategories/:nr",
+          "returns": ["id", "name", "categoryTypeId"],
+          "path_params": [
+            {"param": "nr", "type": "number", "values": [1, 2, 3, 4], "description": "UserDefinedObject variant"}
+          ]
+        },
+        "POST": {
+          "path": "/api/v2/userDefinedObjectCategories/:nr",
+          "optional": [
+            {"field": "name", "type": "text", "max_length": 64},
+            {"field": "categoryTypeId", "type": "number"}
+          ]
+        },
+        "PUT": {
+          "path": "/api/v2/userDefinedObjectCategories/:nr/:id",
+          "allowed": ["name", "categoryTypeId"],
+          "readOnly": ["id"]
+        },
+        "DELETE": {}
+      }
+    },
+    "userDefinedObjectCategoryTypes": {
+      "base_path": "/api/v2/userDefinedObjectCategoryTypes",
+      "description": "Category types for UserDefinedObjectCategories (POST and PUT disabled)",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/userDefinedObjectCategoryTypes/:nr",
+          "returns": ["id", "name"],
+          "path_params": [
+            {"param": "nr", "type": "number", "values": [1, 2, 3, 4]}
+          ]
+        },
+        "DELETE": {}
+      }
+    },
+    "userDefinedObjectDefinition": {
+      "base_path": "/api/v2/userDefinedDefinition",
+      "description": "Definition endpoints for creating and deleting UserDefinedObject configurations",
+      "methods": {
+        "POST": {
+          "optional": [
+            {"field": "name", "type": "string"},
+            {"field": "description", "type": "string"},
+            {"field": "fields", "type": "array"}
+          ]
+        },
+        "DELETE": {}
+      }
+    },
+    "unreadNotifications": {
+      "base_path": "/api/v2/notificationsUnread/:id",
+      "description": "Get count of unread notifications for a specific user",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/notificationsUnread/:id",
+          "returns": [
+            {"field": "unread", "type": "number", "description": "Count of unread notifications"}
+          ],
+          "path_params": [
+            {"param": "id", "type": "integer", "required": true, "description": "User ID"}
+          ]
+        }
+      }
+    },
+    "whatIsMyIp": {
+      "base_path": "/api/v2/function/whatismyip",
+      "description": "Returns the IP address of the requesting client",
+      "methods": {
+        "GET": {
+          "returns": [
+            {"field": "data", "type": "string", "description": "Client IP address from x-forwarded-for or connection remoteAddress"}
+          ]
+        }
+      }
+    },
+    "importMailCampaign": {
+      "base_path": "/api/v2/import/mailcampaign",
+      "description": "Import a mail campaign with status SENT (for historical/external campaign data)",
+      "permissions": "Requires admin role",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "name", "type": "string", "max_length": 256},
+            {"field": "subject", "type": "string", "max_length": 150},
+            {"field": "from", "type": "string", "max_length": 128},
+            {"field": "fromName", "type": "string", "max_length": 128},
+            {"field": "body", "type": "string", "description": "HTML body content"},
+            {"field": "sendDate", "type": "date"}
+          ],
+          "optional": [
+            {"field": "user", "type": "object", "structure": {"id": "number"}},
+            {"field": "category", "type": "object", "structure": {"id": "number"}},
+            {"field": "attachments", "type": "array"},
+            {"field": "segmentId", "type": "number"},
+            {"field": "flowId", "type": "number"},
+            {"field": "brandId", "type": "number", "default": 1},
+            {"field": "externalId", "type": "string", "max_length": 64}
+          ],
+          "notes": "Always creates campaign with status=SENT. Creates MailBodySnapshot for body content."
+        }
+      }
+    },
+    "importMailEvent": {
+      "base_path": "/api/v2/import/mailevent",
+      "description": "Import mail events (open, click, etc.) for existing mail campaigns",
+      "permissions": "Requires admin role",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "array", "type": "array", "description": "Array of event objects"}
+          ],
+          "event_fields": [
+            {"field": "contactId", "type": "number", "required": true},
+            {"field": "mailCampaignId", "type": "number", "required": true},
+            {"field": "event", "type": "string", "required": true, "values": ["open", "click", "bounce", "delivered"]},
+            {"field": "timestamp", "type": "number", "required": true},
+            {"field": "url", "type": "string", "required_when": "event === 'click'"},
+            {"field": "useragent", "type": "string", "optional": true},
+            {"field": "ip", "type": "string", "optional": true}
+          ],
+          "returns": [
+            {"field": "skippedEvents", "type": "array", "description": "Events that failed with error messages"}
+          ],
+          "notes": "Automatically looks up mailId from contactId and mailCampaignId. Invalid events returned in skippedEvents."
+        }
+      }
+    },
+    "doceboSSO": {
+      "base_path": "/api/v2/function/externalSSO/docebo",
+      "description": "Generate and redirect to signed SSO URL for Docebo training portal",
+      "methods": {
+        "GET": {
+          "returns": [
+            {"field": "redirect", "type": "redirect", "description": "Redirects to signed Docebo SSO URL"}
+          ],
+          "permissions": "Requires masterUser email in scope",
+          "notes": "Uses upsales-base integration.sso.docebo to generate signed URL"
+        }
+      }
+    },
+    "lookerSSO": {
+      "base_path": "/api/v2/function/externalSSO/looker/:type/:id",
+      "description": "Generate signed SSO URL for Looker embedded analytics (dashboards, looks, explores)",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/externalSSO/looker/:type/:id",
+          "path_params": [
+            {"param": "type", "type": "string", "required": true, "values": ["dashboard", "look", "explore"]},
+            {"param": "id", "type": "string|number", "required": true, "description": "Resource ID or '0' for default"}
+          ],
+          "query_params": [
+            {"param": "useNext", "type": "boolean", "default": false, "description": "Use dashboards-next instead of legacy"}
+          ],
+          "returns": [
+            {"field": "data", "type": "string", "description": "Signed Looker SSO URL"}
+          ],
+          "permissions": "Explore access requires admin or LookerExploreAccess parameter and looker feature flag",
+          "notes": "Session length: 1 hour. Embeds user permissions and currency settings in signed URL."
+        }
+      }
+    },
+    "placeholder": {
+      "base_path": "/api/v2/placeholder/:feature",
+      "description": "Returns placeholder HTML content for specific features (deprecated/incomplete endpoint)",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/placeholder/:feature",
+          "path_params": [
+            {"param": "feature", "type": "string", "values": ["Activity", "Client"]}
+          ],
+          "returns": [
+            {"field": "content", "type": "string", "description": "HTML placeholder content"}
+          ],
+          "notes": "Always returns error: 'No feature specieified!' (typo in original). Appears incomplete (TODO in code)."
+        }
+      }
+    },
+    "contract": {
+      "base_path": "/api/v2/contract",
+      "description": "Manages legal contract terms and versions for integrations and customers",
+      "permissions": "Administrator only",
+      "methods": {
+        "GET": {
+          "returns": ["id", "type_entity_id", "type", "name", "body", "version", "customer_id", "admin"],
+          "query_params": [
+            {"name": "id", "type": "number"},
+            {"name": "type", "type": "string"},
+            {"name": "type_entity_id", "type": "number"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["terms"],
+          "readOnly": ["id", "customer_id", "version", "type", "name", "admin"],
+          "notes": "Automatically sanitizes markdown, increments version by 1"
+        }
+      }
+    },
+    "contractAccepted": {
+      "base_path": "/api/v2/contractAccepted",
+      "description": "Records of user acceptance of contract terms",
+      "methods": {
+        "GET": {
+          "returns": ["id", "contractId", "customerId", "userId", "body", "version", "date"]
+        },
+        "POST": {
+          "required": [
+            {"field": "contractId", "type": "number"}
+          ],
+          "auto_populated": ["version", "body", "user_id", "master_user_id", "customer_id", "user_email", "user_name", "user_ip", "date"]
+        }
+      }
+    },
+    "triggers": {
+      "base_path": "/api/v2/triggers",
+      "description": "Workflow automation triggers that execute actions based on events and criteria",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "description", "active", "events", "triggers", "criterias"]
+        },
+        "POST": {
+          "optional": [
+            {"field": "name", "type": "string"},
+            {"field": "description", "type": "string"},
+            {"field": "active", "type": "boolean", "default": true},
+            {"field": "events", "type": "array"},
+            {"field": "actions", "type": "array"},
+            {"field": "criterias", "type": "array"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["name", "description", "active", "events", "actions", "criterias"],
+          "readOnly": ["id", "client_id"]
+        },
+        "DELETE": {}
+      }
+    },
+    "soliditetSearch": {
+      "base_path": "/api/v2/soliditet/search",
+      "description": "Preview search results from Soliditet database (Swedish company data)",
+      "methods": {
+        "GET": {
+          "returns": ["duns_no", "name", "no_of_employees_exact", "sni_text", "turnover", "zipcode", "city", "country", "org_no"],
+          "query_params": [
+            {"name": "filters", "type": "object"},
+            {"name": "limit", "type": "number", "default": 10}
+          ]
+        }
+      }
+    },
+    "soliditetSearchBuy": {
+      "base_path": "/api/v2/soliditet/search/buy",
+      "description": "Purchase multiple companies from Soliditet (bulk buy)",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "filters", "type": "object"},
+            {"field": "options", "type": "object"},
+            {"field": "properties", "type": "array"}
+          ]
+        }
+      }
+    },
+    "soliditetClients": {
+      "base_path": "/api/v2/soliditet/clients",
+      "description": "Manage Soliditet client data (purchase and refresh company information)",
+      "methods": {
+        "GET": {
+          "returns": ["dunsNo", "name", "turnover", "headquarters", "city", "country", "orgNo", "sniCode", "noOfEmployeesExact"]
+        },
+        "POST": {
+          "required": [
+            {"field": "duns", "type": "string"},
+            {"field": "options", "type": "object"},
+            {"field": "properties", "type": "array"}
+          ],
+          "notes": "Purchases company data, deducts 1 credit"
+        },
+        "PUT": {
+          "required": [
+            {"field": "id", "type": "number"},
+            {"field": "options", "type": "object"},
+            {"field": "properties", "type": "array"}
+          ],
+          "notes": "Refreshes company data, deducts 1 credit"
+        }
+      }
+    },
+    "soliditetMatcher": {
+      "base_path": "/api/v2/soliditet/matcher",
+      "description": "Find and match clients with Soliditet/Prospecting databases",
+      "methods": {
+        "GET": {
+          "returns": ["client_fields", "upsalesMatches", "soliditetMatches", "prospectingMatches"]
+        },
+        "PUT": {
+          "optional": [
+            {"field": "buy", "type": "array"},
+            {"field": "updateProspecting", "type": "array"},
+            {"field": "hide", "type": "array"},
+            {"field": "merge", "type": "array"},
+            {"field": "delete", "type": "array"}
+          ]
+        }
+      }
+    },
+    "soliditetMatcherSearch": {
+      "base_path": "/api/v2/soliditet/matcher/search",
+      "description": "Search for company matches across Upsales, Soliditet, and Prospecting",
+      "methods": {
+        "GET": {
+          "query_params": [
+            {"name": "id", "type": "string", "required": true},
+            {"name": "searchString", "type": "string", "required": true},
+            {"name": "countries", "type": "array", "required": true},
+            {"name": "limit", "type": "number", "default": 20}
+          ],
+          "returns": ["upsales", "soliditet", "prospecting"]
+        }
+      }
+    },
+    "reportWidget": {
+      "base_path": "/api/v2/report/widget",
+      "description": "Retrieves compiled widget data with filtering and grouping",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/report/widget/:type",
+          "query_params": [
+            {"name": "type", "type": "string", "required": true},
+            {"name": "q", "type": "string|array"},
+            {"name": "grouping", "type": "string"},
+            {"name": "limit", "type": "string", "default": "1000", "max": "2000"},
+            {"name": "offset", "type": "string", "max": "100000000"},
+            {"name": "drilldown", "type": "boolean"}
+          ]
+        }
+      }
+    },
+    "reportWidgetMetadata": {
+      "base_path": "/api/v2/report/metadata/widget",
+      "description": "Retrieves metadata about available widget types",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/report/metadata/widget/:type",
+          "returns": ["Widget metadata with type, groupBy, groupByOptions, feature requirements"]
+        }
+      }
+    },
+    "reportClientCompanyType": {
+      "base_path": "/api/v2/report/clientCompanyType",
+      "description": "Aggregated company type data from Soliditet with order information",
+      "methods": {
+        "GET": {
+          "returns": ["sni_code", "names", "sni_text", "currency", "orderValue"]
+        }
+      }
+    },
+    "resourcesDownloadAdgear": {
+      "base_path": "/api/v2/resources/download/adgear",
+      "description": "Download AdGear creative files",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/resources/download/adgear/:id",
+          "returns": ["Binary file stream"],
+          "query_params": [
+            {"name": "inline", "type": "boolean"}
+          ]
+        }
+      }
+    },
+    "resourcesDownloadInternal": {
+      "base_path": "/api/v2/resources/download/internal",
+      "description": "Download internal documents with access control",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/resources/download/internal/:id",
+          "returns": ["Binary file stream"],
+          "query_params": [
+            {"name": "inline", "type": "boolean"},
+            {"name": "thumbnail", "type": "boolean"}
+          ]
+        }
+      }
+    },
+    "resourcesUploadExternal": {
+      "base_path": "/api/v2/resources/upload/external",
+      "description": "Upload AdGear creative files",
+      "methods": {
+        "POST": {
+          "path": "/api/v2/resources/upload/external/:entity/:entityId",
+          "required": [
+            {"field": "file", "type": "file", "max_size": 25000000}
+          ],
+          "notes": "Image max 150KB, ZIP max 200KB"
+        }
+      }
+    },
+    "resourcesUploadInternal": {
+      "base_path": "/api/v2/resources/upload/internal",
+      "description": "Upload internal documents with folder organization",
+      "methods": {
+        "POST": {
+          "path": "/api/v2/resources/upload/internal/:entity/:entityId[/:folderId]",
+          "required": [
+            {"field": "file", "type": "file", "max_size": 25000000}
+          ]
+        }
+      }
+    },
+    "imageCompose": {
+      "base_path": "/api/v2/image/compose",
+      "description": "Compose/modify images (e.g., add YouTube play buttons)",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "sourcepath", "type": "string"},
+            {"field": "composition", "type": "string", "values": ["addYouTubePlayButton"]}
+          ]
+        }
+      }
+    },
+    "lookerExplores": {
+      "base_path": "/api/v2/looker/explores",
+      "description": "Retrieve Looker explores",
+      "methods": {
+        "GET": {
+          "returns": ["name", "label"]
+        }
+      }
+    },
+    "lookerLooks": {
+      "base_path": "/api/v2/looker/looks",
+      "description": "Retrieve Looker looks",
+      "methods": {
+        "GET": {
+          "returns": ["id", "title", "private"]
+        }
+      }
+    },
+    "standardCreative": {
+      "base_path": "/api/v2/standardCreative",
+      "description": "Standard creative templates (read-only)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "subject", "body", "active"]
+        },
+        "POST": {},
+        "PUT": {},
+        "DELETE": {}
+      }
+    },
+    "standardField": {
+      "base_path": "/api/v2/standardField",
+      "description": "Standard field definitions",
+      "permissions": "Admin or supportAdmin or projectAdmin",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/standardField/:entity",
+          "returns": ["id", "name", "tooltip", "active", "required"]
+        },
+        "PUT": {
+          "allowed": ["tooltip", "active", "required"],
+          "readOnly": ["id"]
+        }
+      }
+    },
+    "standardIntegrationSettings": {
+      "base_path": "/api/v2/standardIntegrationSettings",
+      "description": "Standard integration settings with config management",
+      "methods": {
+        "GET": {
+          "returns": ["id", "integrationId", "version", "regDate", "modDate", "active", "configJson"]
+        },
+        "POST": {
+          "required": [
+            {"field": "integrationId", "type": "integer"}
+          ],
+          "optional": [
+            {"field": "version", "type": "string"},
+            {"field": "active", "type": "boolean"},
+            {"field": "configJson", "type": "string"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["version", "active", "configJson"],
+          "readOnly": ["id", "integrationId", "regDate"]
+        },
+        "DELETE": {}
+      }
+    },
+    "standardIntegrationUserSettings": {
+      "base_path": "/api/v2/standardIntegrationUserSettings",
+      "description": "User-specific integration settings",
+      "methods": {
+        "GET": {
+          "returns": ["id", "userId", "integrationId", "version", "regDate", "modDate", "active", "configJson"]
+        },
+        "POST": {
+          "required": [
+            {"field": "integrationId", "type": "integer"}
+          ],
+          "optional": [
+            {"field": "active", "type": "boolean"},
+            {"field": "configJson", "type": "string"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["active", "configJson"],
+          "readOnly": ["id", "userId", "integrationId", "regDate"]
+        },
+        "DELETE": {}
+      }
+    },
+    "groupMailCategories": {
+      "base_path": "/api/v2/groupMailCategories",
+      "description": "Group mail category management",
+      "permissions": "mailAdmin",
+      "methods": {
+        "GET": {
+          "returns": ["id", "title", "description", "languages", "active", "relatedMailCampaigns"]
+        },
+        "POST": {
+          "required": [
+            {"field": "title", "type": "string"}
+          ],
+          "optional": [
+            {"field": "description", "type": "string"},
+            {"field": "languages", "type": "array"},
+            {"field": "active", "type": "boolean"}
+          ]
+        },
+        "PUT": {
+          "allowed": ["title", "description", "languages", "active"],
+          "readOnly": ["id", "relatedMailCampaigns"]
+        }
+      }
+    },
+    "mailBounce": {
+      "base_path": "/api/v2/bounce",
+      "description": "Mail bounce record management",
+      "methods": {
+        "DELETE": {
+          "path": "/api/v2/bounce/:mailAsBase64",
+          "path_params": [
+            {"param": "mailAsBase64", "type": "string", "description": "Base64 encoded email address"}
+          ]
+        }
+      }
+    },
+    "mailByThread": {
+      "base_path": "/api/v2/mail/byThread",
+      "description": "Retrieve mails grouped by thread (latest per thread)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "subject", "body", "to", "from", "date", "threadId", "thread", "attachments", "events"],
+          "query_params": [
+            {"name": "q", "type": "array"},
+            {"name": "limit", "type": "number"},
+            {"name": "offset", "type": "number"}
+          ]
+        }
+      }
+    },
+    "mailCampaignInfo": {
+      "base_path": "/api/v2/mailCampaignInfo",
+      "description": "Campaign statistics and event tracking",
+      "permissions": "mailAdmin",
+      "methods": {
+        "GET": {
+          "returns": ["events", "clicks", "forms", "countryStatistics", "deviceStatistics", "total", "numRetryableErrors"]
+        }
+      }
+    },
+    "mailCampaignInfoPreview": {
+      "base_path": "/api/v2/mailCampaignInfo/preview",
+      "description": "Preview campaign statistics for contact eligibility",
+      "methods": {
+        "GET": {
+          "returns": ["unique", "total", "unsubscribed", "bounced", "notActive", "duplicateEmail", "missingEmail", "invalidEmail", "validContacts"],
+          "query_params": [
+            {"name": "categoryId", "type": "integer"},
+            {"name": "calculateNoPermissionStats", "type": "boolean"}
+          ]
+        }
+      }
+    },
+    "clientForm": {
+      "base_path": "/api/v2/clientform",
+      "description": "Client forms from soliditet.company_form table (read-only)",
+      "methods": {
+        "GET": {}
+      }
+    },
+    "clientIps": {
+      "base_path": "/api/v2/clientIps",
+      "description": "Client IP address management",
+      "permissions": "Administrator only",
+      "methods": {
+        "GET": {
+          "returns": ["id", "ipAddress", "clientId", "userId", "sortIdx", "rule"]
+        },
+        "POST": {
+          "required": [
+            {"field": "ipAddress", "type": "string", "max_length": 16},
+            {"field": "rule", "type": "string", "max_length": 8},
+            {"field": "userId", "type": "integer"}
+          ],
+          "optional": [
+            {"field": "sortIdx", "type": "integer", "default": 0}
+          ]
+        },
+        "PUT": {
+          "allowed": ["ipAddress", "userId", "sortIdx", "rule"],
+          "readOnly": ["id", "clientId"]
+        },
+        "DELETE": {}
+      }
+    },
+    "formsExternalLeadSource": {
+      "base_path": "/api/v2/forms/external-lead-source",
+      "description": "Generate external lead source validation script for forms",
+      "methods": {
+        "GET": {
+          "returns": ["JavaScript code"],
+          "query_params": [
+            {"name": "href", "type": "string"}
+          ]
+        }
+      }
+    },
+    "leads2": {
+      "base_path": "/api/v2/leads2",
+      "description": "Alternative leads endpoint with scoring metrics (read-only)",
+      "methods": {
+        "GET": {
+          "returns": ["assignedSalesperson", "clientId", "clientName", "contactId", "contactName", "scoreTotal", "scoreVisits", "scoreMail", "scoreForm", "countTotal", "journeyStep"]
+        }
+      }
+    },
+    "leadSources2": {
+      "base_path": "/api/v2/leadsources2",
+      "description": "Elasticsearch aggregated lead source data (read-only)",
+      "methods": {
+        "GET": {
+          "query_params": [
+            {"name": "type", "type": "string", "values": ["visits", "formSubmits"], "required": true}
+          ]
+        }
+      }
+    },
+    "socialEventsDefaultTemplates": {
+      "base_path": "/api/v2/socialEvents/defaultTemplates",
+      "description": "Default email templates for social events",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/socialEvents/defaultTemplates/:type",
+          "returns": ["id", "name", "subject", "body", "bodyJson", "active", "version"]
+        },
+        "DELETE": {
+          "path": "/api/v2/socialEvents/defaultTemplates/:type/:id"
+        }
+      }
+    },
+    "landingPageTemplate": {
+      "base_path": "/api/v2/landingPageTemplate",
+      "description": "Marketing landing page templates (read-only)",
+      "methods": {
+        "GET": {
+          "returns": ["id", "name", "description", "content", "active", "createdDate", "modifiedDate"]
+        }
+      }
+    },
+    "accountManagerHistory": {
+      "base_path": "/api/v2/function/accountManagerHistory",
+      "description": "Updates account manager history for clients",
+      "methods": {
+        "PUT": {
+          "query_params": [
+            {"name": "clientId", "type": "integer", "required": true},
+            {"name": "date", "type": "string", "format": "YYYY-MM-DD", "required": true},
+            {"name": "userIds", "type": "array"}
+          ]
+        }
+      }
+    },
+    "accountManagerHistorySpecific": {
+      "base_path": "/api/v2/function/accountManagerHistory/specific",
+      "description": "Change account manager for specific agreement",
+      "methods": {
+        "PUT": {
+          "query_params": [
+            {"name": "agreementId", "type": "string", "required": true},
+            {"name": "clientId", "type": "string", "required": true},
+            {"name": "userId", "type": "string", "required": true}
+          ]
+        }
+      }
+    },
+    "cancelEsign": {
+      "base_path": "/api/v2/function/cancelEsign",
+      "description": "Cancel an e-signature document",
+      "methods": {
+        "PUT": {
+          "path": "/api/v2/function/cancelEsign/:id"
+        }
+      }
+    },
+    "clientIpInfo": {
+      "base_path": "/api/v2/function/clientIpInfo",
+      "description": "Check client IP information for ad tracking",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "target", "type": "array"}
+          ]
+        }
+      }
+    },
+    "dataSource": {
+      "base_path": "/api/v2/function/datasource",
+      "description": "Standard integration data source operations",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/datasource/:path",
+          "query_params": [
+            {"name": "integrationId", "type": "string", "required": true}
+          ]
+        },
+        "POST": {
+          "path": "/api/v2/function/datasource/:action",
+          "required": [
+            {"field": "type", "type": "string"},
+            {"field": "integrationId", "type": "integer"}
+          ],
+          "path_params": [
+            {"param": "action", "type": "string", "values": ["typeahead", "buy", "settings", "monitor"]}
+          ]
+        }
+      }
+    },
+    "esignFunction": {
+      "base_path": "/api/v2/function/esign",
+      "description": "E-signature integration settings and download",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/esign/download/:id",
+          "returns": ["PDF file stream"]
+        },
+        "POST": {
+          "required": [
+            {"field": "type", "type": "string", "values": ["settings"]},
+            {"field": "integrationId", "type": "integer"}
+          ],
+          "returns": ["delivery", "allowDraft", "documentType", "languages", "bankIdCountries", "multiSign", "userCanSign", "fields"]
+        }
+      }
+    },
+    "mailEditor": {
+      "base_path": "/api/v2/function/mailEditor",
+      "description": "Authenticate with BEE mail editor service",
+      "methods": {
+        "POST": {
+          "returns": ["access_token", "token_type", "expires_in"]
+        }
+      }
+    },
+    "resetScore": {
+      "base_path": "/api/v2/function/resetScore",
+      "description": "Reset marketing score for client or contact",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "userId", "type": "integer"}
+          ],
+          "optional": [
+            {"field": "clientId", "type": "integer"},
+            {"field": "contactId", "type": "integer"},
+            {"field": "sync", "type": "boolean"}
+          ]
+        }
+      }
+    },
+    "sendBeam": {
+      "base_path": "/api/v2/function/sendbeam",
+      "description": "Send push notifications to mobile devices",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "loc-key", "type": "string"}
+          ],
+          "optional": [
+            {"field": "loc-args", "type": "array"},
+            {"field": "sound", "type": "string"},
+            {"field": "category", "type": "string"}
+          ]
+        }
+      }
+    },
+    "sendEsignReminder": {
+      "base_path": "/api/v2/function/sendEsignReminder",
+      "description": "Send reminder for e-signature document",
+      "methods": {
+        "PUT": {
+          "path": "/api/v2/function/sendEsignReminder/:id"
+        }
+      }
+    },
+    "standardIntegrationData": {
+      "base_path": "/api/v2/function/standardIntegrationData",
+      "description": "Standard integration operations (test, values, config, OAuth, events)",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "type", "type": "string", "values": ["test", "values", "configButton", "testUser", "valuesUser", "userConfigButton", "oauth", "events"]}
+          ],
+          "optional": [
+            {"field": "integrationId", "type": "number"},
+            {"field": "data", "type": "object"},
+            {"field": "userIds", "type": "array"}
+          ]
+        }
+      }
+    },
+    "systemMail": {
+      "base_path": "/api/v2/function/system-mail",
+      "description": "Send system emails from predefined templates",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "templateName", "type": "string", "values": ["installingScript", "verifyDomains", "requestAddon"]},
+            {"field": "email", "type": "string|array"}
+          ],
+          "optional": [
+            {"field": "additional", "type": "object"}
+          ]
+        }
+      }
+    },
+    "unsub": {
+      "base_path": "/api/v2/function/unsub",
+      "description": "Unsubscribe/resubscribe contacts from email",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "id", "type": "number"}
+          ]
+        },
+        "DELETE": {
+          "path": "/api/v2/function/unsub/:id",
+          "permissions": "Administrator or mailAdmin"
+        }
+      }
+    },
+    "validatePage": {
+      "base_path": "/api/v2/function/validatePage",
+      "description": "Validates webpage contains Upsales tracking script",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "url", "type": "string"}
+          ]
+        }
+      }
+    },
+    "voice": {
+      "base_path": "/api/v2/function/voice",
+      "description": "Voice/phone integration operations",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/function/voice/recording",
+          "query_params": [
+            {"name": "type", "type": "string", "values": ["recording"], "required": true},
+            {"name": "integrationId", "type": "string", "required": true},
+            {"name": "id", "type": "string", "required": true}
+          ],
+          "returns": ["Audio stream"]
+        },
+        "POST": {
+          "required": [
+            {"field": "type", "type": "string", "values": ["call", "hangup", "ongoing", "initiate"]},
+            {"field": "integrationId", "type": "number"}
+          ],
+          "optional": [
+            {"field": "data", "type": "object"}
+          ]
+        }
+      }
+    },
+    "workerStatus": {
+      "base_path": "/api/v2/worker/status",
+      "description": "Worker job status logs",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/worker/status/:work/:status"
+        }
+      }
+    },
+    "eventsPrior": {
+      "base_path": "/api/v2/events/prior",
+      "description": "Retrieve prior events for an entity",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/events/prior/:sourceType/:id",
+          "path_params": [
+            {"param": "sourceType", "type": "string", "values": ["appointment", "phonecall", "todo", "opportunity", "mail", "clientplan"]},
+            {"param": "id", "type": "integer"}
+          ]
+        }
+      }
+    },
+    "importMailCampaignMail": {
+      "base_path": "/api/v2/import/mailcampaign/mail",
+      "description": "Import mail records for campaign contacts",
+      "permissions": "Administrator only",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "mailCampaignId", "type": "integer"},
+            {"field": "contactIds", "type": "array"}
+          ]
+        }
+      }
+    },
+    "engageSiteTemplate": {
+      "base_path": "/api/v2/engage/siteTemplate",
+      "description": "Available site templates for advertising",
+      "methods": {
+        "GET": {}
+      }
+    },
+    "mailTest": {
+      "base_path": "/api/v2/mail/test",
+      "description": "Send test email",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "client", "type": "integer"},
+            {"field": "contact", "type": "integer"}
+          ],
+          "optional": [
+            {"field": "subject", "type": "string"},
+            {"field": "body", "type": "string"},
+            {"field": "to", "type": "string"},
+            {"field": "from", "type": "string"},
+            {"field": "fromName", "type": "string"}
+          ]
+        }
+      }
+    },
+    "mailMulti": {
+      "base_path": "/api/v2/mail/multi",
+      "description": "Create and send multiple emails in batch",
+      "methods": {
+        "POST": {
+          "required": [
+            {"field": "array", "type": "array", "description": "Array of mail objects"}
+          ]
+        }
+      }
+    },
+    "mailTemplatesRecentlyUsed": {
+      "base_path": "/api/v2/mail/templates/recentlyUsed",
+      "description": "Recently used mail templates",
+      "methods": {
+        "GET": {}
+      }
+    },
+    "mailTemplatesUsedIn": {
+      "base_path": "/api/v2/mail/templates/usedIn",
+      "description": "Find where template is used",
+      "methods": {
+        "GET": {
+          "path": "/api/v2/mail/templates/usedIn/:id",
+          "returns": ["Array of entities using template (Flow, Form, MailCampaign)"]
+        }
+      }
+    },
+    "engageCreditTransaction": {
+      "base_path": "/api/v2/engage/creditTransaction",
+      "description": "Ad credit transaction history",
+      "methods": {
+        "GET": {
+          "returns": ["id", "value", "description", "date", "campaignId"]
+        },
+        "POST": {
+          "required": [
+            {"field": "value", "type": "number"},
+            {"field": "description", "type": "string"}
+          ]
+        }
+      }
+    }
+  },
+  "notes": {
+    "common_patterns": {
+      "entity_references": "Use object format: {id: number}",
+      "custom_fields": "Array format: [{fieldId: number, value: any}]",
+      "dates": "YYYY-MM-DD for date-only, ISO 8601 for datetime",
+      "computed_fields": "Fields like userRemovable, userEditable are computed based on permissions",
+      "pagination": "Use limit and offset query params, max limit typically 50-2000"
+    },
+    "authentication": "All endpoints require authentication via cookie token or Authorization header",
+    "feature_flags": "Many endpoints require specific feature flags to be enabled for the customer",
+    "validation": "Field-level validation occurs in model validate methods, see API_REQUIRED_FIELDS.md for details"
+  }
+}

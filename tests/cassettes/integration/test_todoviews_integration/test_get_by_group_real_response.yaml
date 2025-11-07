@@ -1,0 +1,68 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/todoViews
+  response:
+    body:
+      string: '{"error":null,"data":[{"name":"all","group":"open","type":"all"},{"name":"appointmentsAll","group":"open","type":"appointments"},{"name":"todosAll","group":"open","type":"todos"},{"name":"phonecallsAll","group":"open","type":"phonecalls"},{"name":"allToday","group":"today","type":"all"},{"name":"appointmentsToday","group":"today","type":"appointments"},{"name":"todosToday","group":"today","type":"todos"},{"name":"phonecallsToday","group":"today","type":"phonecalls"},{"name":"allTomorrow","group":"tomorrow","type":"all"},{"name":"appointmentsTomorrow","group":"tomorrow","type":"appointments"},{"name":"todosTomorrow","group":"tomorrow","type":"todos"},{"name":"phonecallsTomorrow","group":"tomorrow","type":"phonecalls"},{"name":"allWeek","group":"week","type":"all"},{"name":"appointmentsWeek","group":"week","type":"appointments"},{"name":"todosWeek","group":"week","type":"todos"},{"name":"phonecallsWeek","group":"week","type":"phonecalls"},{"name":"allNextWeek","group":"nextweek","type":"all"},{"name":"appointmentsNextWeek","group":"nextweek","type":"appointments"},{"name":"todosNextWeek","group":"nextweek","type":"todos"},{"name":"phonecallsNextWeek","group":"nextweek","type":"phonecalls"},{"name":"allLeads","group":"leads","type":"all"},{"name":"coldCallLeads","group":"leads","type":"coldcall"},{"name":"hotLeads","group":"leads","type":"hot"},{"name":"allLate","group":"late","type":"all"},{"name":"todosLate","group":"late","type":"todos"},{"name":"phonecallsLate","group":"late","type":"phonecalls"},{"name":"appointmentsLate","group":"late","type":"appointments"},{"name":"allNoDate","group":"noDate","type":"all"},{"name":"todosNoDate","group":"noDate","type":"todos"},{"name":"phonecallsNoDate","group":"noDate","type":"phonecalls"},{"name":"allCompletedToday","group":"completedToday","type":"all"},{"name":"appointmentsCompletedToday","group":"completedToday","type":"appointments"},{"name":"todosCompletedToday","group":"completedToday","type":"todos"},{"name":"phonecallsCompletedToday","group":"completedToday","type":"phonecalls"}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2064'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 08:44:06 GMT
+      ETag:
+      - W/"810-mJxAxDdiuY87+QvoPWdGf/ZOk/k"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '197'
+      X-RateLimit-Reset:
+      - '10'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

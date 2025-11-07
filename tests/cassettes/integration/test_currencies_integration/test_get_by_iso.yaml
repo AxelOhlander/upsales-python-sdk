@@ -1,0 +1,68 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/currencies
+  response:
+    body:
+      string: '{"error":null,"data":[{"iso":"AUD","rate":0.161811774,"masterCurrency":false,"active":true},{"iso":"DKK","rate":0.685424449,"masterCurrency":false,"active":true},{"iso":"EUR","rate":0.091776799,"masterCurrency":false,"active":true},{"iso":"NOK","rate":1.068147832,"masterCurrency":false,"active":true},{"iso":"SEK","rate":1,"masterCurrency":true,"active":true},{"iso":"USD","rate":0.106791513,"masterCurrency":false,"active":true}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '432'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 15:00:31 GMT
+      ETag:
+      - W/"1b0-tjz1RwKOzB0e0SDT2/yt3K+CxCs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '197'
+      X-RateLimit-Reset:
+      - '10'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

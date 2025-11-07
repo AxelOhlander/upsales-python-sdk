@@ -1,0 +1,69 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/roles?limit=100&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":2,"limit":100,"offset":0},"data":[{"id":1,"name":"role","description":"","parent":null,"defaultCurrency":"SEK","template":1,"defaultSalesboardId":null,"hasDiscount":true},{"id":2,"name":"sub
+        role","description":"","parent":{"name":"role","id":1},"defaultCurrency":"SEK","template":2,"defaultSalesboardId":null,"hasDiscount":true}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '365'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 15:00:52 GMT
+      ETag:
+      - W/"16d-hR97x4D6nZoACv7uGeLVg5AWpSo"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '192'
+      X-RateLimit-Reset:
+      - '1'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

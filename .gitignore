@@ -1,0 +1,158 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# uv
+.uv/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+*.cover
+.hypothesis/
+*.py,cover
+
+# VCR cassettes - IMPORTANT: Only commit if sensitive data is filtered!
+# Current VCR config filters: cookie (REDACTED), authorization (REDACTED), password (REDACTED)
+# Cassettes are test fixtures and should generally be committed for offline testing
+# Uncomment the line below if you want to exclude them:
+# tests/cassettes/
+
+# Compressed cassettes (less readable, harder to review for secrets)
+*.yaml.gz
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Claude Code local settings (personal preferences, not project config)
+.claude/settings.local.json
+
+# Documentation
+site/
+docs/_build/
+
+# Environment variables (SENSITIVE - never commit!)
+.env
+.env.*
+!.env.example
+.envrc
+
+# Pre-commit
+.pre-commit-config.yaml.bak
+
+# Ruff
+.ruff_cache/
+
+# AI temp files - exclude test scripts but keep documentation
+ai_temp_files/test_*.py
+ai_temp_files/analyze_*.py
+ai_temp_files/validate_*.py
+ai_temp_files/temp_*.py
+ai_temp_files/*.json
+ai_temp_files/dict_analysis/
+ai_temp_files/*_session_*.md
+ai_temp_files/*_report_*.md
+
+# Keep these essential ai_temp_files docs (tracked in git):
+# - PROJECT_STATUS.md
+# - postman_api_analysis.md
+# - ADVANCED_QUERY_SYNTAX_RESEARCH.md
+# - README.md
+# - API_FILE_INTEGRATION_SUMMARY.md
+# - API_FILE_QUICK_REFERENCE.md
+# - VCR_FIELD_VALIDATION_GUIDE.md
+# - VCR_FIRST_WORKFLOW_UPDATE.md
+# - find_unmapped_fields.py (tool for validation)
+# - sync_api_file_with_implementation.py (API sync tool)
+
+# OS-specific
+Thumbs.db
+Desktop.ini
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+logs/
+pip-log.txt
+
+# Database files (if any local testing)
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.tmp
+*~
+
+# Editor configs (project-specific ones are OK, personal ones excluded)
+.vscode/settings.json
+.vscode/launch.json
+
+# Build artifacts
+*.spec
+build/
+dist/
+*.egg-info/
+
+# Package manager
+uv.lock
+.pdm.toml
+poetry.lock
+Pipfile.lock
+
+# Jupyter Notebooks (checkpoints)
+.ipynb_checkpoints/
+*.ipynb
+
+# Profiling data
+*.prof
+
+# Security/secrets
+secrets.json
+credentials.json
+*.pem
+*.key
+
+# Accidental files
+nul
+NUL

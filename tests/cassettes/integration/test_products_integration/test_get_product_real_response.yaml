@@ -1,0 +1,65 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/products?limit=1&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":17,"limit":1,"offset":0},"data":[{"id":2,"name":"Exempelprodukt","listPrice":10000,"active":0,"category":null,"sortId":0,"recurringInterval":null,"isMultiCurrency":0,"isRecurring":0,"custom":[],"userRemovable":true,"userEditable":true,"roles":[],"currencies":[],"tiers":[],"purchaseCost":0,"articleNo":null,"importId":null,"bundle":[],"bundlePriceAdjustment":null,"bundlePriceAdjustmentType":null,"bundleFixedPrice":false,"bundleEditable":false,"description":null,"projectPlanTemplate":null}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '527'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 02 Nov 2025 14:35:43 GMT
+      ETag:
+      - W/"20f-V2VekBV/ElD3y6y1a5T5rfj3fKM"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=e33f218bd86aef67d90a7eb27c9290d350f7595698092d7bce6d22f47437e60c5679aea1885f094efd025b38d33b0cf3;
+        Max-Age=3600; Path=/; Expires=Sun, 02 Nov 2025 15:35:43 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

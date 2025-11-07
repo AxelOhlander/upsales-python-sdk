@@ -1,0 +1,75 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/users?limit=5&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":10,"limit":5,"offset":0},"data":[{"id":1,"name":"Gustav
+        Pettersson","email":"demo_se@upsales.com","administrator":1,"role":{"name":"Nordic
+        Sales","id":1},"teamLeader":0,"active":1,"ghost":0,"free":0,"userTitle":"","userAddress":"","userZipCode":"","userState":"","userPhone":"084526300","userCellPhone":"0701231234","export":1,"custom":[],"billingAdmin":0,"regDate":"2021-09-02T13:37:18.000Z","crm":1,"support":1,"service":0,"supportAdmin":0,"projectAdmin":0},{"id":2,"name":"Pernilla
+        Hansson","email":"demo_4@upsales.com","administrator":0,"role":{"name":"Nordic
+        Sales","id":1},"teamLeader":0,"active":1,"ghost":0,"free":0,"userTitle":"","userAddress":"","userZipCode":"","userState":"","userPhone":"","userCellPhone":"","export":0,"custom":[],"billingAdmin":0,"regDate":"2021-09-02T13:37:18.000Z","crm":1,"support":0,"service":0,"supportAdmin":0,"projectAdmin":0},{"id":3,"name":"Martina
+        Johansson","email":"demo_3@up.com","administrator":0,"role":{"name":"Nordic
+        Sales","id":1},"teamLeader":0,"active":1,"ghost":0,"free":0,"userTitle":"","userAddress":"","userZipCode":"","userState":"","userPhone":"","userCellPhone":"","export":0,"custom":[],"billingAdmin":0,"regDate":"2021-09-02T13:37:18.000Z","crm":1,"support":0,"service":0,"supportAdmin":0,"projectAdmin":0},{"id":5,"name":"Sara
+        Melander","email":"demo_6@upsales.com","administrator":0,"role":{"name":"Nordic
+        Sales","id":1},"teamLeader":0,"active":1,"ghost":0,"free":0,"userTitle":"","userAddress":"","userZipCode":"","userState":"","userPhone":"","userCellPhone":"","export":0,"custom":[],"billingAdmin":0,"regDate":"2021-09-02T13:37:18.000Z","crm":1,"support":1,"service":0,"supportAdmin":0,"projectAdmin":0},{"id":6,"name":"Nicklas
+        Larsson","email":"demo_10@upsales.com","administrator":1,"role":{"name":"UK
+        Sales","id":3},"teamLeader":0,"active":1,"ghost":0,"free":0,"userTitle":"","userAddress":"","userZipCode":"","userState":"","userPhone":"","userCellPhone":"","export":1,"custom":[],"billingAdmin":0,"regDate":"2021-09-02T13:37:18.000Z","crm":1,"support":0,"service":0,"supportAdmin":0,"projectAdmin":0}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2108'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 02 Nov 2025 14:27:58 GMT
+      ETag:
+      - W/"83c-PB1v3mEQ7gLBWIE8sRrNP0zJKcI"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=e33f218bd86aef67d90a7eb27c9290d350f7595698092d7bce6d22f47437e60c5679aea1885f094efd025b38d33b0cf3;
+        Max-Age=3600; Path=/; Expires=Sun, 02 Nov 2025 15:27:58 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

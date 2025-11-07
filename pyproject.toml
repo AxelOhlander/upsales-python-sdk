@@ -1,0 +1,155 @@
+[project]
+name = "upsales"
+version = "0.1.0"
+description = "Async Python wrapper for Upsales CRM API"
+requires-python = ">=3.13"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["upsales", "crm", "api", "async", "wrapper"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "httpx>=0.27.0",
+    "pydantic>=2.0.0",
+    "tenacity>=8.0.0",
+    "python-dotenv>=1.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "pydantic-settings>=2.11.0",
+    "requests>=2.32.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-httpx>=0.30.0",
+    "pytest-cov>=4.1.0",
+    "vcrpy>=6.0.0",
+    "mypy>=1.8.0",
+    "ruff>=0.3.0",
+    "bandit>=1.7.0",
+    "interrogate>=1.7.0",
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.24.0",
+    "pre-commit>=3.6.0",
+]
+
+[project.scripts]
+upsales = "upsales.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = [
+    "tests/templates",  # Template files (contain placeholders)
+    "ai_temp_files",    # Temporary research/test files
+    "scripts",          # Utility scripts (not production code)
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "TCH"]
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Unused imports in __init__.py
+"tests/**/*.py" = ["S101", "B017", "E721"]  # Allow assert, pytest.raises(Exception), type comparisons
+"examples/**/*.py" = ["F841"]  # Allow unused variables in examples (for demonstration)
+"upsales/models/*.py" = ["N815"]  # Allow camelCase field names to match Upsales API
+"upsales/cli.py" = ["B904"]  # Allow raise without from in CLI (user-facing)
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = false
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "upsales.models.*"
+# Pydantic computed fields with @property decorator not fully supported by mypy
+disable_error_code = ["prop-decorator", "override"]
+
+[[tool.mypy.overrides]]
+module = "upsales.resources.base"
+# Generic type issues with asyncio and bulk operations
+disable_error_code = ["valid-type", "attr-defined", "misc"]
+
+[[tool.mypy.overrides]]
+module = "upsales.settings"
+# Pydantic BaseSettings initialization is dynamic
+disable_error_code = ["call-arg"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=upsales --cov-report=html --cov-report=term --cov-report=term-missing"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.interrogate]
+fail-under = 90
+exclude = ["tests", "examples", "docs"]
+verbose = 1
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-property-decorators = false
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = true
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source = ["upsales"]
+omit = [
+    "tests/*",
+    "examples/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "examples"]
+skips = ["B101"]  # Allow assert in tests

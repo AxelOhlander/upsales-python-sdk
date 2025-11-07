@@ -1,0 +1,69 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/pricelists?active=true&limit=100&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":6,"limit":100,"offset":0},"data":[{"id":6,"name":"SEK-prislista","code":"X","active":true,"isDefault":true,"showDiscount":false,"regDate":"2025-01-22T14:49:23.000Z","modDate":"2025-03-13T15:28:25.000Z","modBy":1,"regBy":4},{"id":7,"name":"NOK-prislista","code":"Y","active":true,"isDefault":false,"showDiscount":false,"regDate":"2025-01-22T13:49:23.000Z","modDate":"2025-03-13T15:27:53.000Z","modBy":1,"regBy":4},{"id":8,"name":"EUR-prislista","code":"Z","active":true,"isDefault":false,"showDiscount":false,"regDate":"2025-01-22T12:49:24.000Z","modDate":"2025-06-24T12:30:20.000Z","modBy":7,"regBy":4},{"id":9,"name":"DKK-prislista","code":"U","active":true,"isDefault":false,"showDiscount":false,"regDate":"2025-03-13T11:44:05.000Z","modDate":"2025-03-13T15:27:43.000Z","modBy":1,"regBy":7},{"id":10,"name":"EUR-prislista","code":"V","active":true,"isDefault":false,"showDiscount":false,"regDate":"2025-03-13T11:44:06.000Z","modDate":"2025-03-13T15:28:18.000Z","modBy":1,"regBy":7},{"id":11,"name":"Wholesaler
+        - DK","code":"W","active":true,"isDefault":false,"showDiscount":false,"regDate":"2025-03-13T10:44:06.000Z","modDate":"2025-03-13T10:44:06.000Z","modBy":7,"regBy":7}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1212'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 03:35:32 GMT
+      ETag:
+      - W/"4bc-+SLUKnoqkwkCTDMGzUl2e08GQOw"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '195'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

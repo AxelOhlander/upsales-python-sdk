@@ -1,0 +1,102 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/triggers?limit=1&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Nov 2025 04:08:12 GMT
+      ETag:
+      - W/"2aef-A6fx0qfR3qNhGNBHdX5OPmZcpB4"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '199'
+      X-RateLimit-Reset:
+      - '-2'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

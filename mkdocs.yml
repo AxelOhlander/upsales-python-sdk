@@ -1,0 +1,104 @@
+site_name: Upsales Python SDK
+site_description: Async Python wrapper for the Upsales CRM API
+site_author: Your Name
+site_url: https://yourdomain.com/upsales-python
+
+repo_name: yourusername/upsales-python
+repo_url: https://github.com/yourusername/upsales-python
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            separate_signature: true
+            docstring_section_style: table
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Guides:
+      - Adding Endpoints: guides/adding-endpoints.md
+  - Authentication: authentication.md
+  - Terminology: terminology.md
+  - Patterns:
+      - Creating Models: patterns/creating-models.md
+      - Adding Resources: patterns/adding-resources.md
+      - Custom Fields: patterns/custom-fields.md
+      - Field Types (CRUD): patterns/field-types.md
+      - Type-Safe Updates: patterns/type-safe-updates.md
+      - Pydantic v2 Features: patterns/pydantic-v2-features.md
+      - VCR Testing: patterns/vcr-testing.md
+  - Examples:
+      - Basic Usage: examples/basic-usage.md
+      - Advanced Patterns: examples/advanced-patterns.md
+  - API Reference:
+      - Client: api-reference/client.md
+      - Settings: api-reference/settings.md
+      - HTTP: api-reference/http.md
+      - Models: api-reference/models.md
+      - Resources: api-reference/resources.md
+      - Exceptions: api-reference/exceptions.md
+  - Tool Recommendations: tool-recommendations.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername/upsales-python
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/upsales/

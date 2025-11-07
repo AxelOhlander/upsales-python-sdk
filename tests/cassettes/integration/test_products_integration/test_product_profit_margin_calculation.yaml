@@ -1,0 +1,84 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/products?limit=10&offset=0
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+2YTVPbMBCG/0pGZx9ih0CSW/lohyntUALTQ4eDsBcQ2JIrrRkymfz3SpZt4tgk
+        wQnQFuckR9KrlfbRaqUpASmFJCOehKFDIkAaUKRkNCUokIZk5O45JGQRQ13sOkRcXyvQ5e7MIbbl
+        rylhARl5DuE0AjIiR48QxRDGUgTJPRLTXeGpZD4YCf1zCPWRPehPXfQpwo2Qk9wEJSQeB2mVBD+R
+        kvGbY44gH4w1tg1T35IQ2YGuBe5P0sZMneXNrW6iUETavEuHJArkGUTigV6FelSUCdg/jwKG8/9J
+        EYKyfXwrzvJvZCCzYpxI/5YqOBAK07GoROaH8F0UBkZxNg37fZXwwIxiettyuh6fgjttZQQcyw0X
+        Ks8nMZQbfGaPEGRLek1DBXnF04SyvwNQvmQxMsFzCe2YO/DxNKT8XHsq1A6wVTPHurJXuPJToJb6
+        z5333zTvdchutBVhx/ZO4Zg1dKy74Fh3y46d5p8TA+7FGTHLU8y0xtURfTxkyhdJ7jOzaHMaX/ZP
+        N9YYH30tazQRuRgfNjDkY4G+U4B+ILgy5GnGyrx7q3Efa4R145x1tynrrx3EnmesZaPKRr9g46eQ
+        9+pWxFUyWjQ+JBq7BRp6CI6dyik5fNMzsoXjveFYPE0QFHZcr0eeKDBLPMsB2ita7lPOQZbp6b9t
+        itXmzttxf7/q1FrnD4p2J1opkdAgw27Plf+FnflzxXULNMbJVdFfR5JOJDjeLt7FhsPhSlDmddIb
+        uY85Nb1/8FJmZrzhnayRRPlKNmykUb6RrSnxwXaAV78DvJ36HTAY9v+KHfCqcbO8Awb9zXfA5o8S
+        6cJvtgO89kmibgeY47/rdUu5ZJn63pLAv84bqtlk7xvTSyz11g6n65NAdPK909/dG5AlPEzJ74Ry
+        ZGinT1OflxyYhYvj7Gw2g/+Y75LVp6/lSwxbdaYvLnyeC1TQfjZAVbKChbWvmFQ6hUz5RCuk83Sq
+        oad2WzeVtKHopZLLNS1PWzXThqoaBtM8/gXg9DbmJrvj1UDSa8qIvWOsC4l9PN4uJas0m2DSXSXa
+        hJNVmi0oLSgtKC0obwLK8yms+9756+XsDwfO4GtMIAAA
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 02 Nov 2025 14:35:43 GMT
+      ETag:
+      - W/"204c-bSxwLKJFYcbe+x3cItkihv1XaS8"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=e33f218bd86aef67d90a7eb27c9290d350f7595698092d7bce6d22f47437e60c5679aea1885f094efd025b38d33b0cf3;
+        Max-Age=3600; Path=/; Expires=Sun, 02 Nov 2025 15:35:43 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
