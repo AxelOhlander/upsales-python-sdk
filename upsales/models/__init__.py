@@ -42,7 +42,7 @@ from upsales.models.clientcategories import (
     PartialClientCategory,
 )
 from upsales.models.company import Company, PartialCompany
-from upsales.models.contacts import Contact, ContactUpdateFields, PartialContact
+from upsales.models.contacts import Contact, ContactCreateFields, ContactUpdateFields, PartialContact
 from upsales.models.currency import Currency, CurrencyUpdateFields, PartialCurrency
 from upsales.models.currency_configuration import (
     CurrencyConfiguration,
@@ -146,6 +146,7 @@ __all__ = [
     "Company",
     "PartialCompany",
     "Contact",
+    "ContactCreateFields",
     "ContactUpdateFields",
     "PartialContact",
     "Currency",

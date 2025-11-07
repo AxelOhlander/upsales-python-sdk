@@ -231,25 +231,36 @@
 
 ### Contacts
 **API**: `/contacts`
-**Models**: `Contact`, `PartialContact`
+**Models**: `Contact`, `PartialContact`, `ContactCreateFields`, `ContactUpdateFields`
 **Client**: `upsales.contacts`
 
 | Operation | Status | Notes |
 |-----------|--------|-------|
-| Create | 🔶 Inherited | BaseResource.create() |
-| Read (single) | 🔶 Inherited | BaseResource.get() |
-| Read (list) | 🔶 Inherited | BaseResource.list() |
+| Create | ✅ **Verified** | **Required fields tested with script (2025-11-07)** |
+| Read (single) | ✅ Verified | Integration tested with VCR |
+| Read (list) | ✅ Verified | Integration tested with VCR |
 | Update | 🔶 Inherited | BaseResource.update() |
 | Delete | 🔶 Inherited | BaseResource.delete() |
 | Search | 🔶 Inherited | BaseResource.search() |
 
 **Custom Methods**: None
 
-**Field Requirements**:
-- ⚠️ Model exists but not verified
-- ⚠️ No integration tests yet
+**Field Requirements** (✅ CREATE Verified):
+- ✅ **CREATE requirements verified via test_required_create_fields.py script**
+- ✅ **Required fields documented in `ContactCreateFields` TypedDict**
+- ✅ **Nested field pattern verified** (client.id minimal structure)
+- ✅ All fields documented with descriptions
+- ✅ TypedDict for both create and update
+- ⚠️ UPDATE field requirements not yet verified
 
-**Integration Tests**: None
+**Required for CREATE** (verified 2025-11-07):
+- `client` - `{"id": client_id}` (minimal nested structure) **ONLY ONE REQUIRED!**
+
+**Important Finding**: Email is **OPTIONAL** (api_endpoints_with_fields.json was incorrect - listed email as required but testing proved it's optional)
+
+**Pattern**: Contacts use **minimal nested required field** for creation - only client.id needed. Simplest CREATE operation verified so far.
+
+**Integration Tests**: 6 cassettes recorded (including CREATE tests)
 
 ---
 
@@ -899,20 +910,20 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 |----------|-------|
 | **Total Endpoints** | 35 |
 | **Full CRUD Verified** | 4 (Users, Companies, Products, Order Stages) |
-| **CREATE Verified** | 1 (Orders - with nested required fields) |
+| **CREATE Verified** | 2 (Orders, Contacts) |
 | **Full CRUD Inherited** | 15 |
 | **Read-Only** | 6 |
 | **Special/Utility** | 3 |
-| **Integration Test Suites** | 21 endpoints with VCR cassettes |
-| **Total Cassettes** | 102 recorded interactions |
+| **Integration Test Suites** | 22 endpoints with VCR cassettes |
+| **Total Cassettes** | 108 recorded interactions (102 + 6 new for contacts) |
 
 ### Operation Verification Status
 
 | Operation | Verified | Inherited | N/A | Total |
 |-----------|----------|-----------|-----|-------|
-| **Create** | **1** (Orders) | 20 | 9 | 29 |
-| **Read (single)** | 19 | 11 | 5 | 35 |
-| **Read (list)** | 19 | 11 | 5 | 35 |
+| **Create** | **2** (Orders, Contacts) | 19 | 9 | 29 |
+| **Read (single)** | 20 | 10 | 5 | 35 |
+| **Read (list)** | 20 | 10 | 5 | 35 |
 | **Update** | 1 (Order Stages) | 19 | 9 | 29 |
 | **Delete** | 0 | 20 | 9 | 29 |
 | **Search** | 4 | 21 | 4 | 29 |
@@ -922,17 +933,18 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 | Status | Count | Endpoints |
 |--------|-------|-----------|
 | **✅ Fully Verified** | 4 | Users, Companies, Products, Order Stages |
-| **✅ CREATE Verified** | 1 | **Orders (nested required fields)** |
+| **✅ CREATE Verified** | 2 | **Orders (5 required), Contacts (1 required)** |
 | **⚠️ Partial** | 15 | Projects, Roles, Currencies, etc. |
-| **❌ Unverified** | 9 | Activities, Contacts, Appointments, etc. |
+| **❌ Unverified** | 8 | Activities, Appointments, etc. |
 
 ### Special Patterns Discovered
 
 | Pattern | Count | Endpoints |
 |---------|-------|-----------|
-| **Nested Required Fields** | 1 verified | Orders (likely: Activities, Appointments, Contacts) |
-| **Minimal ID Structure for CREATE** | 1 verified | Orders: `user: {"id": 10}` not full object |
+| **Nested Required Fields** | 2 verified | Orders (5 required), Contacts (1 required) |
+| **Minimal ID Structure for CREATE** | 2 verified | Orders, Contacts: `client: {"id": 123}` |
 | **Array with Nested IDs** | 1 verified | Orders: `orderRow: [{"product": {"id": 5}}]` |
+| **Simple Single Required Field** | 1 verified | Contacts: only `client.id` required |
 
 ---
 
@@ -947,10 +959,12 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
    - ⚠️ Add integration tests with VCR
    - ⚠️ Test edge cases (multiple orderRow items, optional fields)
 
-2. **Contacts** - Core CRM data (**LIKELY uses nested required fields pattern**)
-   - Verify create requirements
-   - Test field validations
-   - Add integration tests with VCR
+2. **Contacts** - Core CRM data ✅ **CREATE VERIFIED!**
+   - ✅ Create requirements verified (only client.id required)
+   - ✅ ContactCreateFields TypedDict documented
+   - ✅ Integration tests added with VCR (6 cassettes)
+   - ✅ API file discrepancy found (email NOT required)
+   - ⚠️ Verify update requirements
 
 3. **Activities** - User actions and history (**LIKELY uses nested required fields pattern**)
    - Verify create requirements (expect minimal nested structure for user, client, contact)

@@ -26,6 +26,57 @@ from upsales.models.segments import PartialSegment
 from upsales.validators import BinaryFlag, CustomFieldsList, EmailStr, NonEmptyStr
 
 
+class ContactCreateFields(TypedDict, total=False):
+    """
+    Required and optional fields for creating a new Contact.
+
+    REQUIRED fields (verified 2025-11-07):
+    - client: Dict with client.id (company/account reference)
+
+    IMPORTANT: Only client.id is required! All other fields are optional.
+    Email is NOT required (API file was incorrect on this).
+
+    The client field uses minimal nested structure with just ID.
+    Example: {"id": 123} NOT the full PartialCompany object.
+
+    Example Minimal:
+        >>> new_contact = await upsales.contacts.create(
+        ...     client={"id": 123}
+        ... )
+
+    Example With Optional Fields:
+        >>> detailed_contact = await upsales.contacts.create(
+        ...     client={"id": 123},
+        ...     name="John Doe",
+        ...     email="john@example.com",
+        ...     phone="+1-555-0123",
+        ...     title="Sales Manager",
+        ... )
+    """
+
+    # REQUIRED field
+    client: dict[str, int]  # Required: {"id": client_id}
+
+    # OPTIONAL fields
+    email: str  # Optional (API file incorrectly listed as required)
+    name: str
+    firstName: str
+    lastName: str
+    phone: str
+    cellPhone: str
+    phoneCountryCode: str
+    cellPhoneCountryCode: str
+    title: str
+    salutation: str
+    active: int
+    notes: str
+    linkedin: str
+    custom: list[dict[str, Any]]
+    categories: list[dict[str, Any]]
+    projects: list[dict[str, Any]]
+    segments: list[dict[str, Any]]
+
+
 class ContactUpdateFields(TypedDict, total=False):
     """
     Available fields for updating a Contact.
@@ -92,7 +143,34 @@ class Contact(BaseModel):
 
     Generated from 106 samples with field analysis.
 
-    Example:
+    CREATING CONTACTS (verified 2025-11-07):
+        Use ContactCreateFields TypedDict for required field reference.
+        Only ONE field is required (client.id with minimal nested structure):
+        - client: {"id": client_id}
+
+        Email is OPTIONAL (API file incorrectly listed it as required).
+
+    UPDATING CONTACTS:
+        Use ContactUpdateFields TypedDict for IDE autocomplete.
+        All fields optional.
+
+    Example Create (minimal):
+        >>> new_contact = await upsales.contacts.create(
+        ...     client={"id": 123}
+        ... )
+        >>> new_contact.id
+        702
+
+    Example Create (with optional fields):
+        >>> detailed_contact = await upsales.contacts.create(
+        ...     client={"id": 123},
+        ...     name="John Doe",
+        ...     email="john@example.com",
+        ...     phone="+1-555-0123",
+        ...     title="Sales Manager",
+        ... )
+
+    Example Read:
         >>> contact = await upsales.contacts.get(1)
         >>> contact.name
         'John Doe'
@@ -102,6 +180,8 @@ class Contact(BaseModel):
         'John Doe'
         >>> contact.custom_fields[11]  # Access custom fields
         'value'
+
+    Example Update:
         >>> await contact.edit(email="new@example.com")  # IDE autocomplete
     """
 
