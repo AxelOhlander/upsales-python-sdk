@@ -190,15 +190,13 @@ class Contact(BaseModel):
     regDate: str | None = Field(None, frozen=True, description="Registration date")
     modDate: str = Field(frozen=True, description="Last modification date")
 
-    # Required fields with validators
-    name: NonEmptyStr = Field(description="Contact's full name")
-    firstName: str = Field(description="Contact's first name")
-    lastName: str = Field(description="Contact's last name")
-    emailBounceReason: str = Field(default="", description="Email bounce reason (empty if no bounces)")
-    journeyStep: str = Field(description="Contact's position in customer journey")
-
-    # Email field (API can return empty string, so we use str instead of EmailStr)
+    # Fields that API can return as empty strings (all have defaults)
+    name: str = Field(default="", description="Contact's full name (can be empty)")
+    firstName: str = Field(default="", description="Contact's first name")
+    lastName: str = Field(default="", description="Contact's last name")
     email: str = Field(default="", description="Contact's email (optional, can be empty)")
+    emailBounceReason: str = Field(default="", description="Email bounce reason (empty if no bounces)")
+    journeyStep: str = Field(default="", description="Contact's position in customer journey")
 
     # Binary flags (validated 0 or 1)
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")

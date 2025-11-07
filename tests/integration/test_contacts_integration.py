@@ -167,7 +167,6 @@ async def test_contact_custom_fields_with_real_data():
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="Requires valid client ID - verified via test_required_create_fields.py script")
 @my_vcr.use_cassette("test_contacts_integration/test_create_contact_minimal_fields.yaml")
 async def test_create_contact_minimal_fields():
     """
@@ -199,13 +198,11 @@ async def test_create_contact_minimal_fields():
 
         print(f"✅ Created contact {new_contact.id} with minimal fields (client.id only)")
 
-        # Clean up
-        await upsales.contacts.delete(new_contact.id)
-        print(f"🗑️  Cleaned up test contact {new_contact.id}")
+        # Note: Cleanup omitted for VCR cassette simplicity
+        # Contact can be manually deleted or will be cleaned up in sandbox resets
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="Requires valid client ID - verified via test_required_create_fields.py script")
 @my_vcr.use_cassette("test_contacts_integration/test_create_contact_with_optional_fields.yaml")
 async def test_create_contact_with_optional_fields():
     """
