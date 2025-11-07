@@ -1,0 +1,105 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/contacts?limit=10&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 07 Nov 2025 01:17:02 GMT
+      ETag:
+      - W/"5210-C7eonhVWJAh+M11BTg8RjAFVe9A"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '196'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

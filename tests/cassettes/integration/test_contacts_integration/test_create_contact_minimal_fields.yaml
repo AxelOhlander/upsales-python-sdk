@@ -1,0 +1,77 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/accounts?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":15,\"limit\":1,\"offset\":0},\"data\":[{\"id\":4,\"name\":\"HMS
+        Industrial Networks AB\",\"phone\":\"+4635168214\",\"phoneCountryCode\":null,\"fax\":\"035-172909\",\"webpage\":\"www.hms.se\",\"notes\":null,\"parent\":null,\"operationalAccount\":null,\"active\":1,\"currency\":\"SEK\",\"users\":[{\"name\":\"Axel
+        \xD6hlander\",\"id\":1,\"role\":{\"name\":\"role\",\"id\":1},\"email\":\"axel@upsales.com\"}],\"regDate\":\"2025-03-10T08:42:19.000Z\",\"regBy\":{\"name\":\"Axel
+        \xD6hlander\",\"id\":1,\"role\":{\"name\":\"role\",\"id\":1},\"email\":\"axel@upsales.com\"},\"modDate\":\"2025-05-20T12:03:23.000Z\",\"dunsNo\":\"554364455\",\"projects\":[],\"categories\":[],\"addresses\":[{\"type\":\"Visit\",\"address\":\"Stationsgatan
+        37\",\"zipcode\":\"30250\",\"state\":\"HALLAND\",\"city\":\"Halmstad\",\"municipality\":\"HALMSTAD\",\"country\":\"SE\",\"latitude\":56.665614,\"longitude\":12.862652},{\"type\":\"Other\",\"address\":\"Stationsgatan
+        37\",\"zipcode\":\"30245\",\"state\":\"HALLAND\",\"city\":\"HALMSTAD\",\"municipality\":\"HALMSTAD\",\"country\":\"SE\",\"latitude\":56.665614,\"longitude\":12.862652},{\"zipcode\":\"30004\",\"city\":\"Halmstad\",\"state\":\"HALLAND\",\"address\":\"Box
+        4126\",\"municipality\":\"HALMSTAD\",\"type\":\"Mail\",\"country\":\"SE\",\"latitude\":56.675144,\"longitude\":12.857002}],\"mailAddress\":{\"zipcode\":\"30004\",\"city\":\"Halmstad\",\"state\":\"HALLAND\",\"address\":\"Box
+        4126\",\"municipality\":\"HALMSTAD\",\"type\":\"Mail\",\"country\":\"SE\",\"latitude\":56.675144,\"longitude\":12.857002},\"custom\":[],\"userRemovable\":true,\"userEditable\":true,\"connectedClients\":[],\"soliditet\":{},\"score\":0,\"scoreUpdateDate\":null,\"isExternal\":0,\"externalClientData\":{},\"hasOrder\":null,\"hadOrder\":null,\"hasOpportunity\":null,\"hadOpportunity\":null,\"hasActivity\":null,\"hadActivity\":null,\"hasMail\":false,\"hasForm\":false,\"hasVisit\":false,\"hasAppointment\":null,\"hadAppointment\":null,\"assigned\":[],\"ads\":{\"clicks\":0,\"impressions\":0},\"adCampaign\":[],\"importId\":null,\"orgNo\":\"5565299251\",\"registrationDate\":\"1996-03-05T00:00:00.000Z\",\"status\":\"active\",\"sniCode\":\"26300\",\"companyForm\":\"limited_company\",\"creditRating\":null,\"prospectingCreditRating\":null,\"prospectingNumericCreditRating\":null,\"monitorChangeDate\":null,\"turnover\":2569764000,\"profit\":702605000,\"noEmployees\":263,\"facebook\":null,\"twitter\":\"https://twitter.com/hmsnetworks\",\"linkedin\":null,\"sicCode\":null,\"ukSicCode\":null,\"naceCode\":\"26.300\",\"naicsCode\":null,\"journeyStep\":\"lead\",\"deactivationReason\":null,\"deactivationDate\":null,\"deactivatedBy\":null,\"cfar\":33532060,\"about\":\"Bolaget
+        skall bedriva utveckling, tillverkning och f\xF6rs\xE4ljning av industriella
+        kommunikationssystem samt d\xE4rmed f\xF6renlig verk- samhet.\",\"source\":{\"type\":\"prospecting\",\"id\":null},\"headquarters\":1,\"prospectingId\":\"SE.1.5565299251\",\"autoMatchedProspectingId\":null,\"prospectingUpdateDate\":\"2025-03-10T08:42:19.000Z\",\"numberOfSubaccounts\":1,\"numberOfContacts\":2,\"numberOfContactsTotal\":2,\"extraFields\":{},\"growth\":{\"salesLast12Months\":0,\"cmLast12Months\":0,\"salesTrend12Months\":0,\"cmTrend12Months\":0,\"numberOfActivities\":0,\"numberOfActivitiesTotal\":0,\"numberOfOpportunities\":null,\"numberOfOpportunitiesTotal\":0,\"numberOfAgreements\":null,\"numberOfAgreementsTotal\":0,\"arrTotal\":null,\"arrLast12Months\":0,\"mrrLast12Months\":0,\"arr\":0,\"mrr\":0,\"arrOneYearAgo\":0,\"mrrOneYearAgo\":0,\"salesPercentOfTurnover\":0,\"arrPercentOfTurnover\":0,\"mrrPercentOfTurnover\":0,\"cmPercentOfTurnover\":0,\"activity\":null,\"subaccountActivity\":null},\"clientQuotas\":[],\"priceListId\":null,\"priceList\":null,\"clientPlans\":[],\"supportTickets\":{\"hasOpen\":false,\"hasClosed\":false},\"isMonitored\":false,\"excludedFromProspectingMonitor\":false}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3469'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 07 Nov 2025 01:17:03 GMT
+      ETag:
+      - W/"d8d-7QWbJd51Op1qX7M5RzvcGm10fWg"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '195'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

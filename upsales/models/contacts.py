@@ -192,11 +192,13 @@ class Contact(BaseModel):
 
     # Required fields with validators
     name: NonEmptyStr = Field(description="Contact's full name")
-    email: EmailStr = Field(description="Contact's email (normalized to lowercase)")
     firstName: str = Field(description="Contact's first name")
     lastName: str = Field(description="Contact's last name")
-    emailBounceReason: str = Field(description="Email bounce reason (empty if no bounces)")
+    emailBounceReason: str = Field(default="", description="Email bounce reason (empty if no bounces)")
     journeyStep: str = Field(description="Contact's position in customer journey")
+
+    # Email field (API can return empty string, so we use str instead of EmailStr)
+    email: str = Field(default="", description="Contact's email (optional, can be empty)")
 
     # Binary flags (validated 0 or 1)
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")

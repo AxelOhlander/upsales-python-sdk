@@ -1,0 +1,77 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/contacts?limit=1&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":106,"limit":1,"offset":0},"data":[{"id":1,"name":"TODO
+        TRIGGER WORKED","phone":"08-505 806 01","phoneCountryCode":null,"cellPhone":null,"cellPhoneCountryCode":null,"email":"support@upsales.com","title":"Support","notes":null,"client":{"operationalAccount":null,"addresses":[{"zipcode":"11120","country":"SE","address":"Vasagatan
+        16 8TR","city":"Stockholm","latitude":59.33024,"municipality":null,"state":"STOCKHOLM","type":"Visit","longitude":18.059972},{"zipcode":"11120","country":"SE","address":"Vasagatan
+        16 8TR","city":"Stockholm","latitude":59.33024,"municipality":null,"state":null,"type":"Invoice","longitude":18.059972},{"zipcode":"11120","country":"SE","address":"Vasagatan
+        16, 8 tr","city":"STOCKHOLM","latitude":59.33024,"municipality":null,"state":"STOCKHOLM","type":"Other","longitude":18.059972},{"zipcode":"11120","country":"SE","address":"Vasagatan
+        16 8TR","city":"Stockholm","latitude":59.33024,"municipality":null,"state":"STOCKHOLM","type":"Mail","longitude":18.059972}],"name":"Upsales
+        Nordic AB","id":1,"users":[]},"regDate":null,"regBy":null,"active":1,"modDate":"2025-05-14T14:35:34.000Z","categories":[],"custom":[],"userRemovable":true,"userEditable":true,"projects":[{"name":"test","id":2}],"segments":[{"id":1,"name":"segment
+        name","brandId":1,"date":"2025-05-07T16:32:29.000Z"},{"id":2,"name":"Test
+        Segment","brandId":1,"date":"2025-08-29T09:16:48.000Z"}],"unsubscribed":null,"score":0,"scoreUpdateDate":null,"connectedClients":[],"hasOrder":null,"hadOrder":null,"hasOpportunity":null,"hadOpportunity":null,"hasActivity":"2025-05-13T22:00:00.000Z","hadActivity":null,"hasMail":false,"hasForm":false,"hasVisit":false,"hasAppointment":null,"hadAppointment":null,"unsubscribedMailCampaign":null,"importId":null,"optins":[],"socialEvent":[],"salutation":null,"titleCategory":null,"firstName":"TODO
+        TRIGGER","lastName":"WORKED","linkedin":null,"journeyStep":"lead","firstTouch":null,"mailBounces":[],"emailBounceReason":"","supportTickets":{"hasOpen":false,"hasClosed":false},"isPriority":false}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2055'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 07 Nov 2025 01:17:01 GMT
+      ETag:
+      - W/"807-NemaiOwlfE0gW5NDCcUE7jet/8M"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '199'
+      X-RateLimit-Reset:
+      - '-2'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
