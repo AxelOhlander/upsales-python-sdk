@@ -1,7 +1,7 @@
 """
 ClientCategory models for Upsales API.
 
-Generated from /api/v2/clientcategories endpoint.
+Generated from /api/v2/client_categories endpoint.
 Analysis based on 2 samples.
 
 Enhanced with Pydantic v2 features:
@@ -36,7 +36,7 @@ class ClientCategoryUpdateFields(TypedDict, total=False):
 
 class ClientCategory(BaseModel):
     """
-    ClientCategory model from /api/v2/clientcategories.
+    ClientCategory model from /api/v2/client_categories.
 
     Represents a client/company category in the Upsales system for organizing clients.
     Enhanced with Pydantic v2 validators, computed fields, and optimized serialization.
@@ -44,7 +44,7 @@ class ClientCategory(BaseModel):
     Generated from 2 samples with field analysis.
 
     Example:
-        >>> category = await upsales.clientcategories.get(1)
+        >>> category = await upsales.client_categories.get(1)
         >>> category.name
         'Övrigt'
         >>> category.has_roles
@@ -112,7 +112,7 @@ class ClientCategory(BaseModel):
             RuntimeError: If no client reference available.
 
         Example:
-            >>> category = await upsales.clientcategories.get(1)
+            >>> category = await upsales.client_categories.get(1)
             >>> updated = await category.edit(
             ...     name="Updated Category",
             ...     categoryType=1
@@ -120,7 +120,7 @@ class ClientCategory(BaseModel):
         """
         if not self._client:
             raise RuntimeError("No client available")
-        return await self._client.clientcategories.update(self.id, **self.to_api_dict(**kwargs))
+        return await self._client.client_categories.update(self.id, **self.to_api_dict(**kwargs))
 
 
 class PartialClientCategory(PartialModel):
@@ -159,7 +159,7 @@ class PartialClientCategory(PartialModel):
         """
         if not self._client:
             raise RuntimeError("No client available")
-        return await self._client.clientcategories.get(self.id)
+        return await self._client.client_categories.get(self.id)
 
     async def edit(self, **kwargs: Unpack[ClientCategoryUpdateFields]) -> ClientCategory:
         """
@@ -179,4 +179,4 @@ class PartialClientCategory(PartialModel):
         """
         if not self._client:
             raise RuntimeError("No client available")
-        return await self._client.clientcategories.update(self.id, **kwargs)
+        return await self._client.client_categories.update(self.id, **kwargs)

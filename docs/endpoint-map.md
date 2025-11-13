@@ -909,8 +909,9 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 | Category | Count |
 |----------|-------|
 | **Total Endpoints** | 35 |
-| **Full CRUD Verified** | 4 (Users, Companies, Products, Order Stages) |
+| **Full CRUD Verified** | 3 (Users, Products, Order Stages) |
 | **CREATE Verified** | 2 (Orders, Contacts) |
+| **READ-Only Verified** | 1 (Companies - CREATE not verified) |
 | **Full CRUD Inherited** | 15 |
 | **Read-Only** | 6 |
 | **Special/Utility** | 3 |
@@ -932,8 +933,9 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 
 | Status | Count | Endpoints |
 |--------|-------|-----------|
-| **✅ Fully Verified** | 4 | Users, Companies, Products, Order Stages |
+| **✅ Fully Verified** | 3 | Users, Products, Order Stages |
 | **✅ CREATE Verified** | 2 | **Orders (5 required), Contacts (1 required)** |
+| **⚠️ READ-Only Verified** | 1 | Companies (CREATE not verified) |
 | **⚠️ Partial** | 15 | Projects, Roles, Currencies, etc. |
 | **❌ Unverified** | 8 | Activities, Appointments, etc. |
 

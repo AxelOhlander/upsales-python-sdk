@@ -20,4 +20,3 @@ def test_activity_list_item_nested_partials():
     assert item.opportunity is not None and item.opportunity.id == 1234
     assert item.regBy is not None and item.regBy.name == "Jane"
     assert item.templateId is not None and item.templateId.id == 5
-

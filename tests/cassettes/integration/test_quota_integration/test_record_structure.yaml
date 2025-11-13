@@ -1,0 +1,67 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/quota?limit=5&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":1302,"limit":5,"offset":0},"data":[{"id":1,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"value":100000,"valueInMasterCurrency":100000,"month":1,"currencyRate":1,"currency":null,"year":2009,"date":"2009-01-01T00:00:00Z"},{"id":4,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"value":0,"valueInMasterCurrency":0,"month":7,"currencyRate":1,"currency":null,"year":2010,"date":"2010-07-01T00:00:00Z"},{"id":1,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"value":100000,"valueInMasterCurrency":100000,"month":3,"currencyRate":1,"currency":null,"year":2009,"date":"2009-03-01T00:00:00Z"},{"id":84,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"value":200000,"valueInMasterCurrency":200000,"month":8,"currencyRate":1,"currency":null,"year":2012,"date":"2012-08-01T00:00:00Z"},{"id":84,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"value":200000,"valueInMasterCurrency":200000,"month":7,"currencyRate":1,"currency":null,"year":2012,"date":"2012-07-01T00:00:00Z"}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1317'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 08 Nov 2025 17:44:30 GMT
+      ETag:
+      - W/"525-Yrdyr9x1O8fnFxMr63Ttz9baCI0"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,16 +1,16 @@
 """
 Client Categories resource manager for Upsales API.
 
-Provides methods to interact with the /clientcategories endpoint.
+Provides methods to interact with the /client_categories endpoint.
 
 Example:
     >>> async with Upsales(token="...") as upsales:
-    ...     category = await upsales.clientcategories.get(1)
-    ...     categories = await upsales.clientcategories.list(limit=10)
+    ...     category = await upsales.client_categories.get(1)
+    ...     categories = await upsales.client_categories.list(limit=10)
 """
 
 from upsales.http import HTTPClient
-from upsales.models.clientcategories import ClientCategory, PartialClientCategory
+from upsales.models.client_categories import ClientCategory, PartialClientCategory
 from upsales.resources.base import BaseResource
 
 
@@ -43,7 +43,7 @@ class ClientCategoriesResource(BaseResource[ClientCategory, PartialClientCategor
         """
         super().__init__(
             http=http,
-            endpoint="/clientcategories",
+            endpoint="/client_categories",
             model_class=ClientCategory,
             partial_class=PartialClientCategory,
         )
@@ -59,7 +59,7 @@ class ClientCategoriesResource(BaseResource[ClientCategory, PartialClientCategor
             ClientCategory object if found, None otherwise.
 
         Example:
-            >>> category = await upsales.clientcategories.get_by_name("Övrigt")
+            >>> category = await upsales.client_categories.get_by_name("Övrigt")
             >>> if category:
             ...     print(category.id)
         """
@@ -77,7 +77,7 @@ class ClientCategoriesResource(BaseResource[ClientCategory, PartialClientCategor
             List of categories with roles assigned.
 
         Example:
-            >>> categories_with_roles = await upsales.clientcategories.get_with_roles()
+            >>> categories_with_roles = await upsales.client_categories.get_with_roles()
             >>> for category in categories_with_roles:
             ...     print(f"{category.name} has {category.role_count} roles")
         """
@@ -95,7 +95,7 @@ class ClientCategoriesResource(BaseResource[ClientCategory, PartialClientCategor
             List of categories with matching categoryType.
 
         Example:
-            >>> type_zero = await upsales.clientcategories.get_by_type(0)
+            >>> type_zero = await upsales.client_categories.get_by_type(0)
             >>> for category in type_zero:
             ...     print(f"{category.name} is type 0")
         """

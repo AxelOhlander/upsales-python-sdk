@@ -14,6 +14,7 @@ Note:
 
 import asyncio
 import os
+import re
 from typing import Any
 
 import httpx
@@ -37,6 +38,33 @@ console = Console()
 
 
 # Helper functions for model generation
+
+
+def _to_snake_case(name: str) -> str:
+    """
+    Convert camelCase or PascalCase to snake_case.
+
+    Args:
+        name: Name in camelCase or PascalCase
+
+    Returns:
+        Name in snake_case
+
+    Examples:
+        >>> _to_snake_case("orderStages")
+        'order_stages'
+        >>> _to_snake_case("salesCoaches")
+        'sales_coaches'
+        >>> _to_snake_case("apiKeys")
+        'api_keys'
+        >>> _to_snake_case("ProjectPlanStages")
+        'project_plan_stages'
+    """
+    # Insert underscore before uppercase letters preceded by lowercase/digits
+    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+    # Insert underscore before uppercase letters preceded by lowercase/digits
+    s2 = re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1)
+    return s2.lower()
 
 
 def _detect_partial_model(field_name: str, value: dict[str, Any]) -> str | None:
@@ -704,9 +732,11 @@ def generate_model(
         console.print("[dim]Set it in .env file or use --token flag[/dim]")
         raise typer.Exit(1)
 
-    # Determine output path
+    # Determine output path (always use snake_case for file names)
     if output is None:
-        output = f"upsales/models/{endpoint}.py"
+        file_name = _to_snake_case(endpoint)
+        output = f"upsales/models/{file_name}.py"
+        console.print(f"[dim]Converted endpoint name to snake_case:[/dim] {endpoint} → {file_name}")
 
     console.print(
         Panel.fit(
@@ -916,27 +946,32 @@ def init_resource(
 
     project_root = Path.cwd()
 
+    # Convert to snake_case for file names (if needed)
+    snake_case_name = _to_snake_case(name)
+    if snake_case_name != name:
+        console.print(f"[dim]Converted to snake_case:[/dim] {name} → {snake_case_name}")
+
     # Capitalize name for class names
-    singular = name.rstrip("s")  # Simple pluralization
+    singular = snake_case_name.rstrip("s")  # Simple pluralization
     class_name = singular.capitalize()
     resource_class = f"{class_name}sResource"
 
-    # Step 1: Create resource file
-    resource_path = project_root / "upsales" / "resources" / f"{name}.py"
+    # Step 1: Create resource file (always use snake_case)
+    resource_path = project_root / "upsales" / "resources" / f"{snake_case_name}.py"
 
     resource_template = f'''"""
 {class_name}s resource manager for Upsales API.
 
-Provides methods to interact with the /{name} endpoint.
+Provides methods to interact with the /{snake_case_name} endpoint.
 
 Example:
     >>> async with Upsales(token="...") as upsales:
-    ...     {singular} = await upsales.{name}.get(1)
-    ...     {name} = await upsales.{name}.list(limit=10)
+    ...     {singular} = await upsales.{snake_case_name}.get(1)
+    ...     {snake_case_name}_list = await upsales.{snake_case_name}.list(limit=10)
 """
 
 from upsales.http import HTTPClient
-from upsales.models.{singular} import {class_name}, Partial{class_name}
+from upsales.models.{snake_case_name} import {class_name}, Partial{class_name}
 from upsales.resources.base import BaseResource
 
 
@@ -946,29 +981,29 @@ class {resource_class}(BaseResource[{class_name}, Partial{class_name}]):
 
     Inherits standard CRUD operations from BaseResource:
     - get(id) - Get single {singular}
-    - list(limit, offset, **params) - List {name} with pagination
-    - list_all(**params) - Auto-paginated list of all {name}
+    - list(limit, offset, **params) - List {snake_case_name} with pagination
+    - list_all(**params) - Auto-paginated list of all {snake_case_name}
     - update(id, **data) - Update {singular}
     - delete(id) - Delete {singular}
     - bulk_update(ids, data, max_concurrent) - Parallel updates
     - bulk_delete(ids, max_concurrent) - Parallel deletes
 
     Example:
-        >>> {name} = {resource_class}(http_client)
-        >>> {singular} = await {name}.get(1)
-        >>> all_active = await {name}.list_all(active=1)
+        >>> resource = {resource_class}(http_client)
+        >>> {singular} = await resource.get(1)
+        >>> all_active = await resource.list_all(active=1)
     """
 
     def __init__(self, http: HTTPClient):
         """
-        Initialize {name} resource manager.
+        Initialize {snake_case_name} resource manager.
 
         Args:
             http: HTTP client for API requests.
         """
         super().__init__(
             http=http,
-            endpoint="/{name}",
+            endpoint="/{snake_case_name}",
             model_class={class_name},
             partial_class=Partial{class_name},
         )
@@ -976,7 +1011,7 @@ class {resource_class}(BaseResource[{class_name}, Partial{class_name}]):
     # Add custom methods here as needed
     # Example:
     # async def get_active(self) -> list[{class_name}]:
-    #     """Get all active {name}."""
+    #     """Get all active {snake_case_name}."""
     #     return await self.list_all(active=1)
 '''
 
@@ -995,8 +1030,8 @@ class {resource_class}(BaseResource[{class_name}, Partial{class_name}]):
     with open(init_path) as f:
         init_content = f.read()
 
-    # Add import if not exists
-    import_line = f"from upsales.resources.{name} import {resource_class}"
+    # Add import if not exists (use snake_case for module name)
+    import_line = f"from upsales.resources.{snake_case_name} import {resource_class}"
     if import_line not in init_content:
         # Find where to insert import (after other resource imports)
         lines = init_content.split("\n")
@@ -1036,11 +1071,13 @@ class {resource_class}(BaseResource[{class_name}, Partial{class_name}]):
     console.print("[bold]Next steps:[/bold]")
     console.print()
     console.print("  1. Generate models:")
-    console.print(f"     [cyan]uv run upsales generate-model {name} --partial[/cyan]")
+    console.print(f"     [cyan]uv run upsales generate-model {snake_case_name} --partial[/cyan]")
     console.print()
     console.print("  2. Add to [cyan]upsales/client.py[/cyan]:")
-    console.print(f"     [dim]from upsales.resources.{name} import {resource_class}[/dim]")
-    console.print(f"     [dim]self.{name} = {resource_class}(self.http)[/dim]")
+    console.print(
+        f"     [dim]from upsales.resources.{snake_case_name} import {resource_class}[/dim]"
+    )
+    console.print(f"     [dim]self.{snake_case_name} = {resource_class}(self.http)[/dim]")
     console.print()
     console.print("[green]✨ Resource initialized successfully![/green]")
 

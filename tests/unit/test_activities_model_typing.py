@@ -1,5 +1,3 @@
-import pytest
-
 from upsales.models.activities import Activity
 
 
@@ -26,7 +24,7 @@ def test_activity_nested_dot_access_for_partial_models():
     assert activity.opportunity is not None
     assert activity.opportunity.id == 123
     # PartialOrder exposes common fields when present
-    assert getattr(activity.opportunity, "description") == "Big Deal"
+    assert activity.opportunity.description == "Big Deal"
 
     assert activity.project is not None
     assert activity.project.id == 99
@@ -35,4 +33,3 @@ def test_activity_nested_dot_access_for_partial_models():
     # PartialUser for regBy
     assert activity.regBy.id == 2
     assert activity.regBy.name == "Agent Smith"
-

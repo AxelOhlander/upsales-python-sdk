@@ -1,0 +1,46 @@
+
+⚠️  WARNING: This script will UPDATE a real object!
+Use with test/sandbox environment only!
+Press Ctrl+C to cancel, Enter to continue...
+
+============================================================
+Testing Field Editability: companies
+============================================================
+
+Traceback (most recent call last):
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_editability.py", line 239, in <module>
+    asyncio.run(test_endpoint_editability(endpoint, test_id))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_editability.py", line 88, in test_endpoint_editability
+    test_obj = await resource.get(test_id)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\upsales\resources\base.py", line 170, in get
+    return self._model_class(**response["data"], _client=self._http._upsales_client)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\upsales\models\base.py", line 89, in __init__
+    super().__init__(**data)
+    ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 4 validation errors for Company
+addresses
+  Input should be an instance of AddressList [type=is_instance_of, input_value=[{'type': 'Visit', 'addre...'longitude': 12.857002}], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/is_instance_of
+adCampaign
+  Input should be a valid dictionary or instance of AdCampaign [type=model_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+externalClientData
+  Input should be a valid list [type=list_type, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+assigned
+  Input should be a valid dictionary or instance of Assignment [type=model_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type

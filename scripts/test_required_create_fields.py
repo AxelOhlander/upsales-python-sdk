@@ -74,7 +74,59 @@ else:
     print("⚠️  api_endpoints_with_fields.json not found - will use basic testing")
 
 
-def get_test_value(field_name: str, field_type: str, structure: dict | list | None = None):
+async def fetch_real_ids(client: httpx.AsyncClient, endpoint: str) -> dict[str, int]:
+    """
+    Fetch real IDs from existing data to use in test payloads.
+    
+    Queries the API for existing records and extracts valid IDs for
+    common foreign key fields (client, user, stage, product, etc.).
+    
+    Args:
+        client: HTTP client for API requests
+        endpoint: The endpoint being tested (to determine which IDs to fetch)
+        
+    Returns:
+        Dict mapping field names to valid IDs (e.g., {"client": 123, "user": 456})
+    """
+    real_ids = {}
+    
+    # Common endpoints that provide IDs for foreign keys
+    endpoints_to_check = {
+        "client": "/accounts",
+        "user": "/users",
+        "stage": "/orderStages" if endpoint == "orders" else None,
+        "product": "/products",
+        "contact": "/contacts",
+        "project": "/projects",
+        "salesCoach": "/salesCoaches",
+        "currency": "/currencies",
+        "role": "/roles",
+    }
+    
+    for field_name, endpoint_path in endpoints_to_check.items():
+        if endpoint_path is None:
+            continue
+            
+        try:
+            response = await client.get(f"{endpoint_path}?limit=1")
+            if response.status_code == 200:
+                data = response.json()
+                items = data.get("data", [])
+                if items and len(items) > 0:
+                    real_ids[field_name] = items[0].get("id")
+        except Exception:
+            # Silently skip if endpoint doesn't exist or fails
+            pass
+    
+    return real_ids
+
+
+def get_test_value(
+    field_name: str, 
+    field_type: str, 
+    structure: dict | list | None = None,
+    real_ids: dict[str, int] | None = None
+):
     """
     Generate a test value for a field based on its type and structure.
 
@@ -82,23 +134,59 @@ def get_test_value(field_name: str, field_type: str, structure: dict | list | No
         field_name: Name of the field
         field_type: Type from API file (string, number, object, array, etc.)
         structure: Structure specification for objects/arrays
+        real_ids: Dict of real IDs fetched from API (e.g., {"client": 123})
 
     Returns:
         Test value appropriate for the field type
     """
+    if real_ids is None:
+        real_ids = {}
+        
     # Handle nested objects (e.g., {"id": number})
     if field_type == "object" and structure:
         if isinstance(structure, dict) and "id" in structure:
-            # Default to ID 1 for testing (may need to be overridden)
-            return {"id": 1}
+            # Use real ID if available, otherwise default to 1
+            real_id = real_ids.get(field_name, 1)
+            return {"id": real_id}
         return structure
 
     # Handle arrays
     if field_type == "array":
         if structure:
             if isinstance(structure, list) and len(structure) > 0:
-                # Array with structured items (e.g., [{"product": {"id": 5}}])
-                return structure  # Return the example structure
+                # Array with structured items - need to convert placeholders
+                # e.g., [{"product": {"id": "number"}}] → [{"product": {"id": 123}}]
+                result = []
+                for item in structure:
+                    if isinstance(item, dict):
+                        converted_item = {}
+                        for k, v in item.items():
+                            if isinstance(v, dict):
+                                # Nested object like {"id": "number"}
+                                converted_nested = {}
+                                for nk, nv in v.items():
+                                    if nv == "number":
+                                        # Use real ID if available (e.g., product ID)
+                                        converted_nested[nk] = real_ids.get(k, 1)
+                                    elif nv == "string":
+                                        converted_nested[nk] = "test"
+                                    else:
+                                        converted_nested[nk] = nv
+                                converted_item[k] = converted_nested
+                            elif v == "number":
+                                converted_item[k] = 1
+                            elif v == "string":
+                                # Special handling for fields with restricted values
+                                if k == "type":
+                                    converted_item[k] = "Visit"  # Valid address type
+                                else:
+                                    converted_item[k] = "test"
+                            else:
+                                converted_item[k] = v
+                        result.append(converted_item)
+                    else:
+                        result.append(item)
+                return result
         return []
 
     # Handle dates
@@ -174,56 +262,68 @@ async def test_create_required_fields(endpoint: str):
     print(f"   Expected OPTIONAL fields: {len(optional_from_api)}")
     print()
 
-    # Build test payload from API file specifications
-    test_payload = {}
-    field_metadata = {}
-
-    print("🔨 Building test payload from API file...")
-
-    for field_spec in required_from_api:
-        field_name = field_spec["field"]
-        field_type = field_spec.get("type", "string")
-        structure = field_spec.get("structure")
-
-        test_value = get_test_value(field_name, field_type, structure)
-        test_payload[field_name] = test_value
-        field_metadata[field_name] = {
-            "expected": "REQUIRED",
-            "type": field_type,
-            "structure": structure,
-            "notes": field_spec.get("notes", "")
-        }
-
-        print(f"   + {field_name}: {test_value} (expected REQUIRED)")
-
-    for field_spec in optional_from_api:
-        field_name = field_spec["field"]
-        field_type = field_spec.get("type", "string")
-        structure = field_spec.get("structure")
-        default = field_spec.get("default")
-
-        test_value = get_test_value(field_name, field_type, structure)
-        # Only add optional fields if they have a clear test value
-        if test_value is not None:
-            test_payload[field_name] = test_value
-            field_metadata[field_name] = {
-                "expected": "OPTIONAL",
-                "type": field_type,
-                "structure": structure,
-                "default": default,
-                "notes": field_spec.get("notes", "")
-            }
-            print(f"   + {field_name}: {test_value} (expected OPTIONAL)")
-
-    print(f"\n📦 Test payload built with {len(test_payload)} fields")
-    print()
-
-    # Setup HTTP client
+    # Setup HTTP client first (needed for fetching real IDs)
     async with httpx.AsyncClient(
         base_url=BASE_URL,
         headers={"Cookie": f"token={TOKEN}"},
         timeout=30.0
     ) as client:
+        
+        # Fetch real IDs from existing data
+        print("🔍 Fetching real IDs from existing data...")
+        real_ids = await fetch_real_ids(client, endpoint)
+        
+        if real_ids:
+            print(f"   Found {len(real_ids)} valid IDs:")
+            for field_name, id_value in real_ids.items():
+                print(f"   - {field_name}: {id_value}")
+        else:
+            print("   ⚠️  No real IDs found - using fallback values")
+        print()
+        
+        # Build test payload from API file specifications
+        test_payload = {}
+        field_metadata = {}
+
+        print("🔨 Building test payload from API file...")
+
+        for field_spec in required_from_api:
+            field_name = field_spec["field"]
+            field_type = field_spec.get("type", "string")
+            structure = field_spec.get("structure")
+
+            test_value = get_test_value(field_name, field_type, structure, real_ids)
+            test_payload[field_name] = test_value
+            field_metadata[field_name] = {
+                "expected": "REQUIRED",
+                "type": field_type,
+                "structure": structure,
+                "notes": field_spec.get("notes", "")
+            }
+
+            print(f"   + {field_name}: {test_value} (expected REQUIRED)")
+
+        for field_spec in optional_from_api:
+            field_name = field_spec["field"]
+            field_type = field_spec.get("type", "string")
+            structure = field_spec.get("structure")
+            default = field_spec.get("default")
+
+            test_value = get_test_value(field_name, field_type, structure, real_ids)
+            # Only add optional fields if they have a clear test value
+            if test_value is not None:
+                test_payload[field_name] = test_value
+                field_metadata[field_name] = {
+                    "expected": "OPTIONAL",
+                    "type": field_type,
+                    "structure": structure,
+                    "default": default,
+                    "notes": field_spec.get("notes", "")
+                }
+                print(f"   + {field_name}: {test_value} (expected OPTIONAL)")
+
+        print(f"\n📦 Test payload built with {len(test_payload)} fields")
+        print()
 
         # Step 1: Test baseline creation with ALL fields
         print("=" * 80)
@@ -253,10 +353,29 @@ async def test_create_required_fields(endpoint: str):
         print(f"   Status: {response.status_code}")
         print()
 
-        # Clean up baseline object
+        # Test DELETE operation (verify it actually deletes)
         if created_id:
-            await client.delete(f"/{endpoint}/{created_id}")
-            print(f"🗑️  Cleaned up test object {created_id}\n")
+            print(f"🗑️  Testing DELETE operation...")
+
+            # Delete the object
+            delete_response = await client.delete(f"/{endpoint}/{created_id}")
+
+            if delete_response.status_code in (200, 204):
+                print(f"   ✅ DELETE succeeded (status {delete_response.status_code})")
+
+                # Verify it's actually gone (should get 404)
+                verify_response = await client.get(f"/{endpoint}/{created_id}")
+
+                if verify_response.status_code == 404:
+                    print(f"   ✅ Verified deletion (GET returned 404)")
+                elif verify_response.status_code == 200:
+                    print(f"   ⚠️ WARNING: Object still exists after DELETE!")
+                else:
+                    print(f"   ⚠️ Unexpected status {verify_response.status_code}")
+            else:
+                print(f"   ❌ DELETE failed (status {delete_response.status_code})")
+
+            print()
 
         # Step 2: Test each field individually
         print("=" * 80)

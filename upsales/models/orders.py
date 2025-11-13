@@ -27,7 +27,7 @@ from upsales.models.base import BaseModel, PartialModel
 from upsales.models.company import PartialCompany
 from upsales.models.contacts import PartialContact
 from upsales.models.custom_fields import CustomFields
-from upsales.models.orderStages import PartialOrderStage
+from upsales.models.order_stages import PartialOrderStage
 from upsales.models.user import PartialUser
 from upsales.validators import BinaryFlag, CustomFieldsList, Percentage, PositiveInt
 
@@ -241,13 +241,13 @@ class Order(BaseModel):
 
     # Read-only fields (frozen=True, strict=True)
     id: PositiveInt = Field(frozen=True, strict=True, description="Unique order ID")
-    regDate: str = Field(frozen=True, description="Registration date (ISO 8601)")
-    modDate: str = Field(frozen=True, description="Last modification date (ISO 8601)")
+    regDate: str = Field(default="", frozen=True, description="Registration date (ISO 8601)")
+    modDate: str = Field(default="", frozen=True, description="Last modification date (ISO 8601)")
 
     # Core order fields
-    description: str = Field(description="Order description/title")
-    date: str = Field(description="Order date (ISO 8601)")
-    probability: Percentage = Field(description="Win probability percentage (0-100)")
+    description: str = Field(default="", description="Order description/title")
+    date: str = Field(default="", description="Order date (ISO 8601)")
+    probability: Percentage = Field(default=0, description="Win probability percentage (0-100)")
     value: int = Field(default=0, description="Order value in local currency")
     currency: str = Field(default="SEK", description="Currency code (ISO 4217)")
     currencyRate: int = Field(default=1, description="Exchange rate to master currency")
@@ -297,8 +297,8 @@ class Order(BaseModel):
     )
 
     # Relationships (nested objects - use dict for complex/varying structures)
-    client: PartialCompany = Field(description="Associated company/account")
-    user: PartialUser = Field(description="Order owner/responsible user")
+    client: PartialCompany | None = Field(default=None, description="Associated company/account")
+    user: PartialUser | None = Field(default=None, description="Order owner/responsible user")
     stage: PartialOrderStage | None = Field(default=None, description="Order stage/pipeline phase")
     regBy: PartialUser | None = Field(default=None, description="User who registered the order")
     contact: PartialContact | None = Field(default=None, description="Primary contact person")

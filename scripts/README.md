@@ -75,8 +75,54 @@ python scripts/test_required_update_fields.py users
 
 ---
 
-### test_field_editability.py
-**Test which fields can be updated via the API**
+### test_field_editability_bulk.py ⭐ **RECOMMENDED**
+**Test which fields actually update vs are silently ignored (bulk update approach)**
+
+```bash
+python scripts/test_field_editability_bulk.py accounts
+python scripts/test_field_editability_bulk.py contacts
+python scripts/test_field_editability_bulk.py orders
+```
+
+**Purpose**: Discover which fields are truly editable vs read-only by updating ALL fields in ONE request
+**Warning**: Makes ONE bulk update to a real object! Use test/sandbox environment only!
+
+**How it works**:
+1. Gets an object (baseline)
+2. **Updates ALL fields in ONE bulk request** ← More efficient!
+3. Fetches updated object
+4. Compares before vs after to see which fields actually changed
+
+**Output**:
+- ✅ EDITABLE: Field value changed (API updated it)
+- ❌ READ-ONLY: Field ignored by API (should be frozen=True)
+- ⚠️ UNEXPECTED: Field changed to different value (type conversion, truncation, etc.)
+- 📋 Frozen field recommendations
+
+**Benefits vs individual updates**:
+- ✅ Only 1 API call instead of 80+
+- ✅ Avoids rate limiting
+- ✅ Avoids auth/token issues
+- ✅ Faster (completes in seconds)
+- ✅ More reliable results
+
+**Use when**:
+- ✅ Discovering which fields should be `Field(frozen=True)`
+- ✅ Validating `{Model}UpdateFields` TypedDict completeness
+- ✅ Testing actual update behavior (not just API acceptance)
+- ✅ Verifying field editability for documentation
+
+**Example Results**:
+```
+✅ EDITABLE: name (18 fields total)
+❌ READ-ONLY: regDate, numberOfContacts, score (29 fields)
+⚠️ UNEXPECTED: modDate (auto-updated to current timestamp)
+```
+
+---
+
+### test_field_editability.py ⚠️ **LEGACY** (Use bulk version instead)
+**Test which fields can be updated via the API (individual update approach)**
 
 ```bash
 python scripts/test_field_editability.py users
@@ -84,17 +130,18 @@ python scripts/test_field_editability.py companies 123
 ```
 
 **Purpose**: Validate frozen fields and TypedDict accuracy for updates
-**Warning**: Makes real API updates! Use test/sandbox environment only!
+**Warning**: Makes 80+ individual API updates! Can hit rate limits and auth issues!
 
 **Output**:
 - ✅ Editable fields
 - ❌ Read-only fields
 - ⚠️ Warnings for model mismatches
 
+**Limitation**: Tests one field at a time (slow, can cause rate limiting)
+
 **Use when**:
-- Adding new endpoint
-- Validating existing models
-- Updating frozen field definitions
+- Legacy testing approach
+- Prefer `test_field_editability_bulk.py` instead
 
 ## Best Practices
 
@@ -106,11 +153,12 @@ python scripts/test_field_editability.py companies 123
 
 ## Script Comparison
 
-| Script | Operation | Tests | Creates Data | Output |
-|--------|-----------|-------|--------------|--------|
-| `test_required_create_fields.py` | **CREATE (POST)** | Required vs Optional for creation | ✅ Yes (then deletes) | TypedDict for CreateFields |
-| `test_required_update_fields.py` | **UPDATE (PUT)** | Required vs Optional for updates | ❌ No (updates existing) | Required update fields |
-| `test_field_editability.py` | **UPDATE (PUT)** | Editable vs Read-only | ❌ No (updates existing) | Frozen field list |
+| Script | Operation | Tests | Creates Data | Method | Output |
+|--------|-----------|-------|--------------|--------|--------|
+| `test_required_create_fields.py` | **CREATE (POST)** | Required vs Optional | ✅ Yes (deletes after) | Individual field tests | TypedDict for CreateFields |
+| `test_required_update_fields.py` | **UPDATE (PUT)** | Required vs Optional | ❌ No | Omit each field | Required update fields |
+| `test_field_editability_bulk.py` ⭐ | **UPDATE (PUT)** | Editable vs Read-only | ❌ No | **1 bulk update** | Frozen field recommendations |
+| `test_field_editability.py` ⚠️ Legacy | **UPDATE (PUT)** | Editable vs Read-only | ❌ No | 80+ individual updates | Frozen field list |
 
 ## When to Use Which Script
 
@@ -126,45 +174,68 @@ python scripts/test_field_editability.py companies 123
 - ✅ Checking if certain fields are always required in updates (like "probability" for OrderStages)
 - ✅ Documenting update constraints
 
-### Use `test_field_editability.py` when:
-- ✅ Determining which fields should be `Field(frozen=True)`
-- ✅ Validating existing model's frozen field definitions
-- ✅ Updating `{Model}UpdateFields` TypedDict
+### Use `test_field_editability_bulk.py` when: ⭐ **RECOMMENDED**
+- ✅ Discovering which fields should be `Field(frozen=True)`
+- ✅ Validating which fields API actually updates vs ignores
+- ✅ Creating accurate `{Model}UpdateFields` TypedDict (only editable fields)
+- ✅ Testing update behavior efficiently (one bulk call)
+
+### Use `test_field_editability.py` when: ⚠️ **LEGACY**
+- ⚠️ Only if you need individual field testing
+- ⚠️ Prefer bulk version to avoid rate limits and auth issues
 
 ## Recommended Workflow
 
 ### For New Endpoint with CREATE:
 ```bash
-# 1. Check API file for expected fields
+# 0. Check API file for expected fields (2 min)
 cat api_endpoints_with_fields.json | jq '.endpoints.endpoint_name.methods.POST.required'
 
-# 2. Test CREATE requirements (automated)
+# 1. Test CREATE requirements (5 min - automated)
 python scripts/test_required_create_fields.py endpoint_name
 
-# 3. Create TypedDict from output
-# Copy the generated TypedDict to upsales/models/endpoint_name.py
+# 2. Test UPDATE requirements (3 min - automated)
+python scripts/test_required_update_fields.py endpoint_name
 
-# 4. Add integration test
+# 3. Test field editability (5 min - automated, bulk update)
+python scripts/test_field_editability_bulk.py endpoint_name
+
+# 4. Apply results to model
+# - Add {Model}CreateFields TypedDict (from step 1 output)
+# - Mark frozen fields (from step 3 output)
+# - Update {Model}UpdateFields with only editable fields (from step 3)
+
+# 5. Add integration test
 # Test CREATE with minimal required fields
 
-# 5. Record VCR cassette
+# 6. Record VCR cassette
 uv run pytest tests/integration/test_endpoint_integration.py -v
 ```
 
+**Total Time**: ~15 minutes for complete field validation (was 60-90 min manual)
+
 ### For Existing Endpoint Verification:
 ```bash
-# 1. Test CREATE requirements
+# 1. Check API file expectations
+cat api_endpoints_with_fields.json | jq '.endpoints.endpoint_name'
+
+# 2. Test CREATE requirements (5 min)
 python scripts/test_required_create_fields.py endpoint_name
 
-# 2. Test UPDATE requirements
+# 3. Test UPDATE requirements (3 min)
 python scripts/test_required_update_fields.py endpoint_name
 
-# 3. Test field editability
-python scripts/test_field_editability.py endpoint_name
+# 4. Test field editability with bulk update (5 min) ⭐ RECOMMENDED
+python scripts/test_field_editability_bulk.py endpoint_name
 
-# 4. Update model based on findings
-# Add CreateFields TypedDict, update frozen fields, etc.
+# 5. Update model based on findings
+# - Add {Model}CreateFields TypedDict (from step 2)
+# - Mark frozen=True for read-only fields (from step 4)
+# - Update {Model}UpdateFields with only editable fields (from step 4)
+# - Add CREATE examples to model docstring
 ```
+
+**Total Time**: ~15 minutes for complete validation
 
 ## See Also
 

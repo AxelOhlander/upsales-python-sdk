@@ -1,0 +1,470 @@
+⚠️  WARNING: This script will UPDATE a real object!
+⚠️  Use SANDBOX/TEST environment only, NOT production!
+
+
+================================================================================
+🧪 TESTING FIELD EDITABILITY (BULK UPDATE): /accounts
+================================================================================
+
+Step 1: Fetching test object...
+✅ Got object ID: 5
+   Total fields: 86
+
+Step 2: Building update payload with test values for all fields...
+   ⚠️ Skipped validation-sensitive fields: status, companyForm, creditRating, journeyStep
+   Prepared 61 fields for update
+   Skipped 19 fields (unchanged test values)
+
+Step 3: Sending bulk update with all modified fields...
+✅ Update succeeded (status 200)
+   Response contains 86 fields
+
+================================================================================
+FIELD-BY-FIELD COMPARISON
+================================================================================
+
+✅ EDITABLE: about
+   Original: 'Bolaget ska bedriva direkt eller indirekt genom h
+   Sent: 'Bolaget ska bedriva direkt eller indirekt genom h
+   Got: 'Bolaget ska bedriva direkt eller indirekt genom h
+
+✅ EDITABLE: active
+   Original: 1
+   Sent: 0
+   Got: 0
+
+✅ EDITABLE: autoMatchedProspectingId
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+✅ EDITABLE: cfar
+   Original: 15300619
+   Sent: 15300620
+   Got: 15300620
+
+❌ READ-ONLY: currency (API ignored update)
+   Original: 'SEK'
+   Sent: 'SEK_EDIT'
+   Got: 'SEK' (unchanged)
+
+⚠️ UNEXPECTED: deactivatedBy
+   Original: None
+   Sent: 'edited_value'
+   Got: 0 (different!)
+
+⚠️ UNEXPECTED: deactivationDate
+   Original: None
+   Sent: '2025-12-31'
+   Got: '2025-12-30T23:00:00.000Z' (different!)
+
+✅ EDITABLE: deactivationReason
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+⚠️ UNEXPECTED: dunsNo
+   Original: '632435491'
+   Sent: '632435491_EDIT'
+   Got: None (different!)
+
+✅ EDITABLE: excludedFromProspectingMonitor
+   Original: False
+   Sent: True
+   Got: True
+
+✅ EDITABLE: facebook
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+✅ EDITABLE: fax
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+❌ READ-ONLY: hadActivity (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hadAppointment (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hadOpportunity (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hadOrder (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hasActivity (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hasAppointment (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hasForm (API ignored update)
+   Original: False
+   Sent: True
+   Got: False (unchanged)
+
+❌ READ-ONLY: hasMail (API ignored update)
+   Original: False
+   Sent: True
+   Got: False (unchanged)
+
+❌ READ-ONLY: hasOpportunity (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hasOrder (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+❌ READ-ONLY: hasVisit (API ignored update)
+   Original: False
+   Sent: True
+   Got: False (unchanged)
+
+❌ READ-ONLY: headquarters (API ignored update)
+   Original: 0
+   Sent: 1
+   Got: 0 (unchanged)
+
+⚠️ UNEXPECTED: importId
+   Original: None
+   Sent: 'edited_value'
+   Got: 0 (different!)
+
+❌ READ-ONLY: isExternal (API ignored update)
+   Original: 0
+   Sent: 1
+   Got: 0 (unchanged)
+
+❌ READ-ONLY: isMonitored (API ignored update)
+   Original: False
+   Sent: True
+   Got: False (unchanged)
+
+✅ EDITABLE: linkedin
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+⚠️ UNEXPECTED: modDate
+   Original: '2025-03-10T08:49:21.000Z'
+   Sent: '2025-03-10T08:49:21.000Z_EDIT'
+   Got: '2025-11-07T09:33:45.000Z' (different!)
+
+❌ READ-ONLY: monitorChangeDate (API ignored update)
+   Original: None
+   Sent: '2025-12-31'
+   Got: None (unchanged)
+
+❌ READ-ONLY: naceCode (API ignored update)
+   Original: '80.100'
+   Sent: '80.100_EDIT'
+   Got: '80.100' (unchanged)
+
+⚠️ UNEXPECTED: naicsCode
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited' (different!)
+
+✅ EDITABLE: name
+   Original: 'Avarn Security AB - Platskontor Malmö'
+   Sent: 'Avarn Security AB - Platskontor Malmö_EDIT'
+   Got: 'Avarn Security AB - Platskontor Malmö_EDIT'
+
+⚠️ UNEXPECTED: noEmployees
+   Original: None
+   Sent: 'edited_value'
+   Got: 0 (different!)
+
+✅ EDITABLE: notes
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+❌ READ-ONLY: numberOfContacts (API ignored update)
+   Original: 0
+   Sent: 1
+   Got: 0 (unchanged)
+
+❌ READ-ONLY: numberOfContactsTotal (API ignored update)
+   Original: 0
+   Sent: 1
+   Got: 0 (unchanged)
+
+❌ READ-ONLY: numberOfSubaccounts (API ignored update)
+   Original: 0
+   Sent: 1
+   Got: 0 (unchanged)
+
+✅ EDITABLE: orgNo
+   Original: '5562568138'
+   Sent: '5562568138_EDIT'
+   Got: '5562568138_EDIT'
+
+❌ READ-ONLY: parent (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+✅ EDITABLE: phone
+   Original: '+46102109500'
+   Sent: '+46102109500_EDIT'
+   Got: '+46102109500_EDIT'
+
+⚠️ UNEXPECTED: phoneCountryCode
+   Original: None
+   Sent: '+1-555-EDIT'
+   Got: '+1' (different!)
+
+❌ READ-ONLY: priceList (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+⚠️ UNEXPECTED: priceListId
+   Original: None
+   Sent: 'edited_value'
+   Got: 0 (different!)
+
+✅ EDITABLE: profit
+   Original: 125212000
+   Sent: 125212001
+   Got: 125212001
+
+❌ READ-ONLY: prospectingCreditRating (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+⚠️ UNEXPECTED: prospectingId
+   Original: 'SE.0.15300619'
+   Sent: 'SE.0.15300619_EDIT'
+   Got: None (different!)
+
+❌ READ-ONLY: prospectingNumericCreditRating (API ignored update)
+   Original: None
+   Sent: 'edited_value'
+   Got: None (unchanged)
+
+⚠️ UNEXPECTED: prospectingUpdateDate
+   Original: '2025-03-10T08:49:21.000Z'
+   Sent: '2025-03-10T08:49:21.000Z_EDIT'
+   Got: None (different!)
+
+❌ READ-ONLY: regDate (API ignored update)
+   Original: '2025-03-10T08:42:38.000Z'
+   Sent: '2025-03-10T08:42:38.000Z_EDIT'
+   Got: '2025-03-10T08:42:38.000Z' (unchanged)
+
+⚠️ UNEXPECTED: registrationDate
+   Original: '1985-03-27T00:00:00.000Z'
+   Sent: '1985-03-27T00:00:00.000Z_EDIT'
+   Got: None (different!)
+
+❌ READ-ONLY: score (API ignored update)
+   Original: 0
+   Sent: 1
+   Got: 0 (unchanged)
+
+❌ READ-ONLY: scoreUpdateDate (API ignored update)
+   Original: None
+   Sent: '2025-12-31'
+   Got: None (unchanged)
+
+⚠️ UNEXPECTED: sicCode
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited' (different!)
+
+✅ EDITABLE: sniCode
+   Original: '80100'
+   Sent: '80100_EDIT'
+   Got: '80100_EDIT'
+
+✅ EDITABLE: turnover
+   Original: 3457806000
+   Sent: 3457806001
+   Got: 3457806001
+
+✅ EDITABLE: twitter
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+⚠️ UNEXPECTED: ukSicCode
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edite' (different!)
+
+❌ READ-ONLY: userEditable (API ignored update)
+   Original: True
+   Sent: False
+   Got: True (unchanged)
+
+❌ READ-ONLY: userRemovable (API ignored update)
+   Original: True
+   Sent: False
+   Got: True (unchanged)
+
+✅ EDITABLE: webpage
+   Original: None
+   Sent: 'edited_value'
+   Got: 'edited_value'
+
+================================================================================
+SUMMARY
+================================================================================
+
+✅ EDITABLE Fields (18):
+   - about
+   - active
+   - autoMatchedProspectingId
+   - cfar
+   - deactivationReason
+   - excludedFromProspectingMonitor
+   - facebook
+   - fax
+   - linkedin
+   - name
+   - notes
+   - orgNo
+   - phone
+   - profit
+   - sniCode
+   - turnover
+   - twitter
+   - webpage
+
+❌ READ-ONLY Fields (29) - Recommend Field(frozen=True):
+   - currency
+   - hadActivity
+   - hadAppointment
+   - hadOpportunity
+   - hadOrder
+   - hasActivity
+   - hasAppointment
+   - hasForm
+   - hasMail
+   - hasOpportunity
+   - hasOrder
+   - hasVisit
+   - headquarters
+   - isExternal
+   - isMonitored
+   - monitorChangeDate
+   - naceCode
+   - numberOfContacts
+   - numberOfContactsTotal
+   - numberOfSubaccounts
+   - parent
+   - priceList
+   - prospectingCreditRating
+   - prospectingNumericCreditRating
+   - regDate
+   - score
+   - scoreUpdateDate
+   - userEditable
+   - userRemovable
+
+⚠️ UNEXPECTED Changes (14):
+   - deactivatedBy: sent 'edited_value', got 0
+   - deactivationDate: sent '2025-12-31', got '2025-12-30T23:00:00.000Z'
+   - dunsNo: sent '632435491_EDIT', got None
+   - importId: sent 'edited_value', got 0
+   - modDate: sent '2025-03-10T08:49:21.000Z_EDIT, got '2025-11-07T09:33:45.000Z'
+   - naicsCode: sent 'edited_value', got 'edited'
+   - noEmployees: sent 'edited_value', got 0
+   - phoneCountryCode: sent '+1-555-EDIT', got '+1'
+   - priceListId: sent 'edited_value', got 0
+   - prospectingId: sent 'SE.0.15300619_EDIT', got None
+   - prospectingUpdateDate: sent '2025-03-10T08:49:21.000Z_EDIT, got None
+   - registrationDate: sent '1985-03-27T00:00:00.000Z_EDIT, got None
+   - sicCode: sent 'edited_value', got 'edited'
+   - ukSicCode: sent 'edited_value', got 'edite'
+
+================================================================================
+📋 RECOMMENDATIONS
+================================================================================
+
+Update model with frozen fields:
+```python
+currency: ... = Field(frozen=True, description='...')
+hadActivity: ... = Field(frozen=True, description='...')
+hadAppointment: ... = Field(frozen=True, description='...')
+hadOpportunity: ... = Field(frozen=True, description='...')
+hadOrder: ... = Field(frozen=True, description='...')
+hasActivity: ... = Field(frozen=True, description='...')
+hasAppointment: ... = Field(frozen=True, description='...')
+hasForm: ... = Field(frozen=True, description='...')
+hasMail: ... = Field(frozen=True, description='...')
+hasOpportunity: ... = Field(frozen=True, description='...')
+hasOrder: ... = Field(frozen=True, description='...')
+hasVisit: ... = Field(frozen=True, description='...')
+headquarters: ... = Field(frozen=True, description='...')
+isExternal: ... = Field(frozen=True, description='...')
+isMonitored: ... = Field(frozen=True, description='...')
+monitorChangeDate: ... = Field(frozen=True, description='...')
+naceCode: ... = Field(frozen=True, description='...')
+numberOfContacts: ... = Field(frozen=True, description='...')
+numberOfContactsTotal: ... = Field(frozen=True, description='...')
+numberOfSubaccounts: ... = Field(frozen=True, description='...')
+parent: ... = Field(frozen=True, description='...')
+priceList: ... = Field(frozen=True, description='...')
+prospectingCreditRating: ... = Field(frozen=True, description='...')
+prospectingNumericCreditRating: ... = Field(frozen=True, description='...')
+regDate: ... = Field(frozen=True, description='...')
+score: ... = Field(frozen=True, description='...')
+scoreUpdateDate: ... = Field(frozen=True, description='...')
+userEditable: ... = Field(frozen=True, description='...')
+userRemovable: ... = Field(frozen=True, description='...')
+```
+
+AccountsUpdateFields TypedDict should include:
+```python
+class AccountsUpdateFields(TypedDict, total=False):
+    about: Any  # Editable
+    active: Any  # Editable
+    autoMatchedProspectingId: Any  # Editable
+    cfar: Any  # Editable
+    deactivationReason: Any  # Editable
+    excludedFromProspectingMonitor: Any  # Editable
+    facebook: Any  # Editable
+    fax: Any  # Editable
+    linkedin: Any  # Editable
+    name: Any  # Editable
+    notes: Any  # Editable
+    orgNo: Any  # Editable
+    phone: Any  # Editable
+    profit: Any  # Editable
+    sniCode: Any  # Editable
+    turnover: Any  # Editable
+    twitter: Any  # Editable
+    webpage: Any  # Editable
+```
+
+================================================================================
+📊 STATISTICS
+================================================================================
+
+   Total fields tested: 61
+   ✅ Editable: 18 (29.5%)
+   ❌ Read-only: 29 (47.5%)
+   ⚠️ Unexpected: 14
+

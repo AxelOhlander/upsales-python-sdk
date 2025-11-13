@@ -16,7 +16,7 @@ import pytest
 import vcr
 
 from upsales import Upsales
-from upsales.models.apiKeys import Apikey
+from upsales.models.api_keys import ApiKey
 
 # Configure VCR for these tests
 my_vcr = vcr.VCR(
@@ -40,7 +40,7 @@ async def test_get_apikey_real_response():
     Test getting an API key with real API response structure.
 
     This test records the actual API response on first run, then
-    replays it from cassette on future runs. This ensures our Apikey
+    replays it from cassette on future runs. This ensures our ApiKey
     model correctly parses real Upsales API data.
 
     Cassette: tests/cassettes/integration/test_apikeys_integration/test_get_apikey_real_response.yaml
@@ -52,8 +52,8 @@ async def test_get_apikey_real_response():
         assert len(apikeys) > 0, "Should have at least one API key"
         apikey = apikeys[0]
 
-        # Validate Apikey model with Pydantic v2 features
-        assert isinstance(apikey, Apikey)
+        # Validate ApiKey model with Pydantic v2 features
+        assert isinstance(apikey, ApiKey)
         assert isinstance(apikey.id, int)
         assert isinstance(apikey.name, str)
         assert apikey.name  # Name should not be empty (NonEmptyStr validator)
@@ -76,7 +76,7 @@ async def test_list_apikeys_real_response():
     """
     Test listing API keys with real API response.
 
-    Validates that list responses correctly parse and return multiple Apikey objects.
+    Validates that list responses correctly parse and return multiple ApiKey objects.
 
     Cassette: tests/cassettes/integration/test_apikeys_integration/test_list_apikeys_real_response.yaml
     """
@@ -85,7 +85,7 @@ async def test_list_apikeys_real_response():
         apikeys = await upsales.apikeys.list(limit=10)
 
         assert isinstance(apikeys, list)
-        assert all(isinstance(key, Apikey) for key in apikeys)
+        assert all(isinstance(key, ApiKey) for key in apikeys)
 
         if len(apikeys) > 0:
             # Validate first API key

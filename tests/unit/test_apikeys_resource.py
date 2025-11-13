@@ -8,8 +8,8 @@ import pytest
 from pytest_httpx import HTTPXMock
 
 from upsales.http import HTTPClient
-from upsales.models.apiKeys import Apikey
-from upsales.resources.apikeys import ApikeysResource
+from upsales.models.api_keys import ApiKey
+from upsales.resources.api_keys import ApikeysResource
 
 
 class TestApikeysResourceCRUD:
@@ -50,7 +50,7 @@ class TestApikeysResourceCRUD:
             resource = ApikeysResource(http)
             result = await resource.create(name="Production API Key", active=True)
 
-            assert isinstance(result, Apikey)
+            assert isinstance(result, ApiKey)
             assert result.id == 1
             assert result.name == "Production API Key"
             assert result.is_active
@@ -67,7 +67,7 @@ class TestApikeysResourceCRUD:
             resource = ApikeysResource(http)
             result = await resource.get(1)
 
-            assert isinstance(result, Apikey)
+            assert isinstance(result, ApiKey)
             assert result.id == 1
             assert result.name == "Production API Key"
             assert result.is_active
@@ -86,7 +86,7 @@ class TestApikeysResourceCRUD:
 
             assert isinstance(results, list)
             assert len(results) == 3
-            assert all(isinstance(item, Apikey) for item in results)
+            assert all(isinstance(item, ApiKey) for item in results)
 
     @pytest.mark.asyncio
     async def test_list_all_single_page(self, httpx_mock: HTTPXMock, sample_data):
@@ -142,7 +142,7 @@ class TestApikeysResourceCRUD:
             resource = ApikeysResource(http)
             result = await resource.update(1, name="Updated API Key")
 
-            assert isinstance(result, Apikey)
+            assert isinstance(result, ApiKey)
             assert result.name == "Updated API Key"
 
     @pytest.mark.asyncio

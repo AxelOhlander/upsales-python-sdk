@@ -50,7 +50,7 @@ class Upsales:
         activity_list: Activity list resource manager for /search/activitylist endpoint (read-only).
         apikeys: API Keys resource manager for /apiKeys endpoint.
         appointments: Appointments resource manager for /appointments endpoint.
-        clientcategories: Client categories resource manager for /clientcategories endpoint.
+        client_categories: Client categories resource manager for /client_categories endpoint.
         companies: Companies resource manager for /accounts endpoint.
         contacts: Contacts resource manager for /contacts endpoint.
         currencies: Currencies resource manager for /currencies endpoint.
@@ -65,6 +65,8 @@ class Upsales:
         pricelists: Pricelists resource manager for /pricelists endpoint.
         products: Products resource manager for /products endpoint.
         project_plan_priorities: Project plan priorities resource manager for /projectPlanPriority endpoint.
+        project_plan_stages: Project plan stages resource manager for /projectPlanStages endpoint.
+        project_plan_statuses: Project plan statuses resource manager for /ProjectPlanStatus endpoint.
         project_plan_types: Project plan types resource manager for /projectPlanTypes endpoint.
         projects: Projects resource manager for /projects endpoint.
         roles: Roles resource manager for /roles endpoint.
@@ -79,6 +81,7 @@ class Upsales:
         users: Users resource manager for /users endpoint.
         custom_fields: Custom fields resource manager for /customFields/{entity}.
         order_stages: Order stages resource manager for /orderStages endpoint.
+        quota: Quotas resource manager for /quota endpoint.
 
     Example:
         >>> async with Upsales(token="YOUR_TOKEN") as upsales:
@@ -151,9 +154,9 @@ class Upsales:
         # Initialize resource managers
         from upsales.resources.activities import ActivitiesResource
         from upsales.resources.activity_list import ActivityListResource
-        from upsales.resources.apikeys import ApikeysResource
+        from upsales.resources.api_keys import ApikeysResource
         from upsales.resources.appointments import AppointmentsResource
-        from upsales.resources.clientcategories import ClientCategoriesResource
+        from upsales.resources.client_categories import ClientCategoriesResource
         from upsales.resources.companies import CompaniesResource
         from upsales.resources.contacts import ContactsResource
         from upsales.resources.currencies import CurrenciesResource
@@ -168,19 +171,22 @@ class Upsales:
         from upsales.resources.notifications import NotificationsResource
         from upsales.resources.opportunity_ai import OpportunityAIResource
         from upsales.resources.orders import OrdersResource
-        from upsales.resources.orderStages import OrderStagesResource
+        from upsales.resources.order_stages import OrderStagesResource
         from upsales.resources.pricelists import PricelistsResource
         from upsales.resources.products import ProductsResource
         from upsales.resources.project_plan_types import ProjectPlanTypesResource
-        from upsales.resources.projectplanpriority import ProjectPlanPrioritiesResource
+        from upsales.resources.project_plan_priority import ProjectPlanPrioritiesResource
+        from upsales.resources.project_plan_stages import ProjectplanstagesResource
+        from upsales.resources.project_plan_status import ProjectPlanStatusesResource
         from upsales.resources.projects import ProjectsResource
+        from upsales.resources.quota import QuotasResource
         from upsales.resources.roles import RolesResource
         from upsales.resources.sales_coaches import SalesCoachesResource
         from upsales.resources.segments import SegmentsResource
         from upsales.resources.self import SelfResource
         from upsales.resources.standard_integrations import StandardIntegrationsResource
         from upsales.resources.static_values import StaticValuesResource
-        from upsales.resources.todoViews import TodoViewsResource
+        from upsales.resources.todo_views import TodoViewsResource
         from upsales.resources.trigger_attributes import TriggerAttributesResource
         from upsales.resources.triggers import TriggersResource
         from upsales.resources.users import UsersResource
@@ -189,7 +195,7 @@ class Upsales:
         self.activity_list = ActivityListResource(self.http)
         self.apikeys = ApikeysResource(self.http)
         self.appointments = AppointmentsResource(self.http)
-        self.clientcategories = ClientCategoriesResource(self.http)
+        self.client_categories = ClientCategoriesResource(self.http)
         self.companies = CompaniesResource(self.http)
         self.contacts = ContactsResource(self.http)
         self.currencies = CurrenciesResource(self.http)
@@ -206,6 +212,8 @@ class Upsales:
         self.pricelists = PricelistsResource(self.http)
         self.products = ProductsResource(self.http)
         self.project_plan_priorities = ProjectPlanPrioritiesResource(self.http)
+        self.project_plan_stages = ProjectplanstagesResource(self.http)
+        self.project_plan_statuses = ProjectPlanStatusesResource(self.http)
         self.project_plan_types = ProjectPlanTypesResource(self.http)
         self.projects = ProjectsResource(self.http)
         self.roles = RolesResource(self.http)
@@ -220,6 +228,7 @@ class Upsales:
         self.users = UsersResource(self.http)
         self.custom_fields = CustomFieldsResource(self.http)
         self.order_stages = OrderStagesResource(self.http)
+        self.quota = QuotasResource(self.http)
 
     @classmethod
     def from_env(cls, env_file: str = ".env") -> "Upsales":

@@ -70,10 +70,16 @@ class ProcessedBy(BaseModel):
     # Required fields
     entityType: NonEmptyStr = Field(description="Entity type that was processed (e.g., 'company')")
     date: NonEmptyStr = Field(description="Processing date in ISO format (YYYY-MM-DD)")
-    time: NonEmptyStr = Field(description="Processing time in HH:MM:SS format")
 
-    # Nested user reference
-    user: PartialUser = Field(description="User who performed the processing")
+    # Optional fields (API doesn't always return these)
+    time: str | None = Field(
+        default=None, description="Processing time in HH:MM:SS format (optional)"
+    )
+
+    # Nested user reference (accepts both PartialUser object and dict)
+    user: PartialUser | dict[str, Any] = Field(
+        description="User who performed the processing (minimal data)"
+    )
 
     async def edit(self, **kwargs: Any) -> "ProcessedBy":
         """

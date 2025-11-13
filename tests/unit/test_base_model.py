@@ -10,8 +10,8 @@ from pydantic import Field, ValidationError
 from upsales.models.base import BaseModel, PartialModel
 
 
-class TestUser(BaseModel):
-    """Test user model with frozen and updatable fields."""
+class SampleUser(BaseModel):
+    """Sample user model with frozen and updatable fields for testing."""
 
     id: int = Field(frozen=True)
     created_at: str | None = Field(None, frozen=True)
@@ -21,8 +21,8 @@ class TestUser(BaseModel):
     active: int = 1
 
 
-class TestPartialUser(PartialModel):
-    """Test partial user model."""
+class SamplePartialUser(PartialModel):
+    """Sample partial user model for testing."""
 
     id: int
     name: str
@@ -30,7 +30,7 @@ class TestPartialUser(PartialModel):
 
 def test_model_creation():
     """Test creating a model instance."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -48,7 +48,7 @@ def test_model_creation():
 
 def test_frozen_field_cannot_be_modified():
     """Test that frozen fields raise error when modified."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -64,7 +64,7 @@ def test_frozen_field_cannot_be_modified():
 
 def test_updatable_field_can_be_modified():
     """Test that updatable fields can be modified."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -83,7 +83,7 @@ def test_updatable_field_can_be_modified():
 
 def test_to_update_dict_excludes_frozen_fields():
     """Test that to_update_dict excludes frozen fields."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -106,7 +106,7 @@ def test_to_update_dict_excludes_frozen_fields():
 
 def test_to_update_dict_with_overrides():
     """Test to_update_dict with override parameters."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -124,7 +124,7 @@ def test_to_update_dict_with_overrides():
 
 def test_to_update_dict_excludes_client():
     """Test that to_update_dict excludes _client field."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -138,7 +138,7 @@ def test_to_update_dict_excludes_client():
 
 def test_to_update_dict_preserves_none_values():
     """Test that to_update_dict keeps None values."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -178,7 +178,7 @@ def test_to_update_dict_with_custom_fields():
 
 def test_to_update_dict_empty_overrides():
     """Test to_update_dict with empty overrides."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -192,25 +192,25 @@ def test_to_update_dict_empty_overrides():
 
 def test_repr():
     """Test string representation."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
     )
 
-    assert repr(user) == "<TestUser id=1>"
+    assert repr(user) == "<SampleUser id=1>"
 
 
 def test_partial_model_repr():
     """Test partial model string representation."""
-    partial = TestPartialUser(id=1, name="John")
+    partial = SamplePartialUser(id=1, name="John")
 
-    assert repr(partial) == "<TestPartialUser id=1>"
+    assert repr(partial) == "<SamplePartialUser id=1>"
 
 
 async def test_edit_not_implemented():
     """Test that edit() raises NotImplementedError on base."""
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",
@@ -222,7 +222,7 @@ async def test_edit_not_implemented():
 
 async def test_partial_fetch_full_not_implemented():
     """Test that fetch_full() raises NotImplementedError on base."""
-    partial = TestPartialUser(id=1, name="John")
+    partial = SamplePartialUser(id=1, name="John")
 
     with pytest.raises(NotImplementedError, match="Subclass must implement fetch_full"):
         await partial.fetch_full()
@@ -230,7 +230,7 @@ async def test_partial_fetch_full_not_implemented():
 
 async def test_partial_edit_not_implemented():
     """Test that edit() raises NotImplementedError on partial base."""
-    partial = TestPartialUser(id=1, name="John")
+    partial = SamplePartialUser(id=1, name="John")
 
     with pytest.raises(NotImplementedError, match="Subclass must implement edit"):
         await partial.edit(name="Jane")
@@ -244,7 +244,7 @@ def test_model_with_client_reference():
 
     client = FakeClient()
 
-    user = TestUser(
+    user = SampleUser(
         id=1,
         name="John",
         email="john@example.com",

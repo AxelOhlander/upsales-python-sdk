@@ -1,0 +1,238 @@
+
+⚠️  WARNING: This script will UPDATE a real object!
+Use with test/sandbox environment only!
+Press Ctrl+C to cancel, Enter to continue...
+C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_editability.py:99: PydanticDeprecatedSince211: Accessing the 'model_fields' attribute on the instance is deprecated. Instead, you should access this attribute from the model class. Deprecated in Pydantic V2.11 to be removed in V3.0.
+  print(f"Testing {len(test_obj.model_fields)} fields...\n")
+C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_editability.py:115: PydanticDeprecatedSince211: Accessing the 'model_fields' attribute on the instance is deprecated. Instead, you should access this attribute from the model class. Deprecated in Pydantic V2.11 to be removed in V3.0.
+  for field_name, field_info in test_obj.model_fields.items():
+
+============================================================
+Testing Field Editability: companies
+============================================================
+
+Using object ID: 4
+Testing 87 fields...
+
+  ⊘ id: Skipped (couldn't generate test value)
+  ❌ ERROR: regDate - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: modDate - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: name - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: active - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: isExternal - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: headquarters - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: cfar - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: numberOfContacts - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: numberOfContactsTotal - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: numberOfSubaccounts - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: score - 2 validation errors for Company
+users.0.email
+  Fi
+  ❌ ERROR: journeyStep - Authentication failed even after token refresh: {"
+  ❌ ERROR: excludedFromProspectingMonitor - Resource not found: accounts/4
+  ❌ ERROR: isMonitored - Resource not found: accounts/4
+  ❌ ERROR: hasVisit - Resource not found: accounts/4
+  ❌ ERROR: hasMail - Resource not found: accounts/4
+  ❌ ERROR: hasForm - Resource not found: accounts/4
+  ❌ ERROR: userEditable - Resource not found: accounts/4
+  ❌ ERROR: userRemovable - Resource not found: accounts/4
+  ❌ ERROR: about - Resource not found: accounts/4
+  ❌ ERROR: phone - Resource not found: accounts/4
+  ❌ ERROR: webpage - Resource not found: accounts/4
+  ❌ ERROR: orgNo - Resource not found: accounts/4
+  ❌ ERROR: currency - Resource not found: accounts/4
+  ❌ ERROR: status - Resource not found: accounts/4
+  ❌ ERROR: notes - Resource not found: accounts/4
+  ❌ ERROR: fax - Resource not found: accounts/4
+  ❌ ERROR: linkedin - Resource not found: accounts/4
+  ❌ ERROR: twitter - Resource not found: accounts/4
+  ❌ ERROR: companyForm - Resource not found: accounts/4
+  ❌ ERROR: naceCode - Resource not found: accounts/4
+  ❌ ERROR: sniCode - Resource not found: accounts/4
+  ❌ ERROR: dunsNo - Resource not found: accounts/4
+  ❌ ERROR: creditRating - Validation failed: {"error":{"key":"InvaildCreditR
+  ❌ ERROR: noEmployees - Resource not found: accounts/4
+  ❌ ERROR: turnover - Resource not found: accounts/4
+  ❌ ERROR: profit - Resource not found: accounts/4
+  ❌ ERROR: scoreUpdateDate - Resource not found: accounts/4
+  ❌ ERROR: registrationDate - Resource not found: accounts/4
+  ❌ ERROR: monitorChangeDate - Resource not found: accounts/4
+  ❌ ERROR: prospectingUpdateDate - Resource not found: accounts/4
+  ❌ ERROR: prospectingId - Resource not found: accounts/4
+  ❌ ERROR: autoMatchedProspectingId - Resource not found: accounts/4
+  ❌ ERROR: prospectingCreditRating - Resource not found: accounts/4
+  ❌ ERROR: prospectingNumericCreditRating - Resource not found: accounts/4
+  ❌ ERROR: hadOrder - Resource not found: accounts/4
+  ❌ ERROR: hasOrder - Resource not found: accounts/4
+  ❌ ERROR: hadActivity - Resource not found: accounts/4
+  ❌ ERROR: hasActivity - Resource not found: accounts/4
+  ❌ ERROR: hadAppointment - Resource not found: accounts/4
+  ❌ ERROR: hasAppointment - Resource not found: accounts/4
+  ❌ ERROR: hadOpportunity - Resource not found: accounts/4
+  ❌ ERROR: hasOpportunity - Resource not found: accounts/4
+  ⊘ custom: Skipped (couldn't generate test value)
+  ⊘ users: Skipped (couldn't generate test value)
+  ⊘ addresses: Skipped (couldn't generate test value)
+  ⊘ adCampaign: Skipped (couldn't generate test value)
+  ⊘ projects: Skipped (couldn't generate test value)
+  ⊘ categories: Skipped (couldn't generate test value)
+  ⊘ clientPlans: Skipped (couldn't generate test value)
+  ⊘ clientQuotas: Skipped (couldn't generate test value)
+  ⊘ connectedClients: Skipped (couldn't generate test value)
+  ⊘ externalClientData: Skipped (couldn't generate test value)
+  ⊘ extraFields: Skipped (couldn't generate test value)
+  ⊘ ads: Skipped (couldn't generate test value)
+  ⊘ assigned: Skipped (couldn't generate test value)
+  ⊘ growth: Skipped (couldn't generate test value)
+  ⊘ mailAddress: Skipped (couldn't generate test value)
+  ⊘ soliditet: Skipped (couldn't generate test value)
+  ⊘ supportTickets: Skipped (couldn't generate test value)
+  ❌ ERROR: parent - Resource not found: accounts/4
+  ⊘ regBy: Skipped (couldn't generate test value)
+  ❌ ERROR: processedBy - Resource not found: accounts/4
+  ❌ ERROR: operationalAccount - Resource not found: accounts/4
+  ⊘ source: Skipped (couldn't generate test value)
+  ❌ ERROR: priceList - Resource not found: accounts/4
+  ❌ ERROR: priceListId - Resource not found: accounts/4
+  ❌ ERROR: phoneCountryCode - Resource not found: accounts/4
+  ❌ ERROR: sicCode - Resource not found: accounts/4
+  ❌ ERROR: ukSicCode - Resource not found: accounts/4
+  ❌ ERROR: naicsCode - Resource not found: accounts/4
+  ❌ ERROR: importId - Resource not found: accounts/4
+  ❌ ERROR: facebook - Resource not found: accounts/4
+  ❌ ERROR: deactivatedBy - Resource not found: accounts/4
+  ❌ ERROR: deactivationDate - Resource not found: accounts/4
+  ❌ ERROR: deactivationReason - Resource not found: accounts/4
+
+============================================================
+SUMMARY
+============================================================
+
+✅ Editable Fields (0):
+
+❌ Read-Only Fields (0):
+
+❌ Errors (67):
+   - regDate: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - modDate: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - name: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - active: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - isExternal: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - headquarters: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - cfar: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - numberOfContacts: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - numberOfContactsTotal: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - numberOfSubaccounts: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - score: 2 validation errors for Company
+users.0.email
+  Field required [type=missing, in
+   - journeyStep: Authentication failed even after token refresh: {"error":{"key":"InvalidStatusCh
+   - excludedFromProspectingMonitor: Resource not found: accounts/4
+   - isMonitored: Resource not found: accounts/4
+   - hasVisit: Resource not found: accounts/4
+   - hasMail: Resource not found: accounts/4
+   - hasForm: Resource not found: accounts/4
+   - userEditable: Resource not found: accounts/4
+   - userRemovable: Resource not found: accounts/4
+   - about: Resource not found: accounts/4
+   - phone: Resource not found: accounts/4
+   - webpage: Resource not found: accounts/4
+   - orgNo: Resource not found: accounts/4
+   - currency: Resource not found: accounts/4
+   - status: Resource not found: accounts/4
+   - notes: Resource not found: accounts/4
+   - fax: Resource not found: accounts/4
+   - linkedin: Resource not found: accounts/4
+   - twitter: Resource not found: accounts/4
+   - companyForm: Resource not found: accounts/4
+   - naceCode: Resource not found: accounts/4
+   - sniCode: Resource not found: accounts/4
+   - dunsNo: Resource not found: accounts/4
+   - creditRating: Validation failed: {"error":{"key":"InvaildCreditRating","code":400,"errorCode":
+   - noEmployees: Resource not found: accounts/4
+   - turnover: Resource not found: accounts/4
+   - profit: Resource not found: accounts/4
+   - scoreUpdateDate: Resource not found: accounts/4
+   - registrationDate: Resource not found: accounts/4
+   - monitorChangeDate: Resource not found: accounts/4
+   - prospectingUpdateDate: Resource not found: accounts/4
+   - prospectingId: Resource not found: accounts/4
+   - autoMatchedProspectingId: Resource not found: accounts/4
+   - prospectingCreditRating: Resource not found: accounts/4
+   - prospectingNumericCreditRating: Resource not found: accounts/4
+   - hadOrder: Resource not found: accounts/4
+   - hasOrder: Resource not found: accounts/4
+   - hadActivity: Resource not found: accounts/4
+   - hasActivity: Resource not found: accounts/4
+   - hadAppointment: Resource not found: accounts/4
+   - hasAppointment: Resource not found: accounts/4
+   - hadOpportunity: Resource not found: accounts/4
+   - hasOpportunity: Resource not found: accounts/4
+   - parent: Resource not found: accounts/4
+   - processedBy: Resource not found: accounts/4
+   - operationalAccount: Resource not found: accounts/4
+   - priceList: Resource not found: accounts/4
+   - priceListId: Resource not found: accounts/4
+   - phoneCountryCode: Resource not found: accounts/4
+   - sicCode: Resource not found: accounts/4
+   - ukSicCode: Resource not found: accounts/4
+   - naicsCode: Resource not found: accounts/4
+   - importId: Resource not found: accounts/4
+   - facebook: Resource not found: accounts/4
+   - deactivatedBy: Resource not found: accounts/4
+   - deactivationDate: Resource not found: accounts/4
+   - deactivationReason: Resource not found: accounts/4
+
+============================================================
+RECOMMENDATIONS
+============================================================
+
+Check TypedDict completeness:
+  - Should include 0 editable fields
+  - Should exclude 0 read-only fields
+
+Next steps:
+  1. Update model with frozen field corrections
+  2. Update TypedDict to match editable fields
+  3. Re-run tests to verify
+  4. Re-record VCR cassettes if model changed

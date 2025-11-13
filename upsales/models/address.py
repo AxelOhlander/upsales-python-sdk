@@ -24,8 +24,6 @@ from typing import Any
 from pydantic import BaseModel as PydanticBase
 from pydantic import ConfigDict, Field, computed_field
 
-from upsales.validators import NonEmptyStr
-
 
 class Address(PydanticBase):
     """
@@ -59,11 +57,11 @@ class Address(PydanticBase):
         populate_by_name=True,  # Allow both field name and alias
     )
 
-    # Core address fields (required)
-    type: NonEmptyStr = Field(description="Address type (e.g., 'Visit', 'Mail')")
-    address: NonEmptyStr = Field(description="Street address")
-    city: NonEmptyStr = Field(description="City name")
-    country: NonEmptyStr = Field(description="Country code (e.g., 'SE', 'US')")
+    # Core address fields (required but can be empty strings from API)
+    type: str = Field(description="Address type (e.g., 'Visit', 'Mail')")
+    address: str = Field(description="Street address (can be empty)")
+    city: str = Field(description="City name (can be empty)")
+    country: str = Field(description="Country code (e.g., 'SE', 'US', can be empty)")
 
     # Optional address fields
     zipcode: str | None = Field(None, description="Postal/ZIP code")
@@ -85,15 +83,19 @@ class Address(PydanticBase):
 
         Example:
             >>> address.full_address
-            'Bergsnäsgatan 11, 77441 Avesta, DALARNA, SE'
+            'Bergsnäsgatan 11, 77441, Avesta, DALARNA, SE'
         """
-        parts = [self.address]
+        parts = []
+        if self.address:
+            parts.append(self.address)
         if self.zipcode:
             parts.append(self.zipcode)
-        parts.append(self.city)
+        if self.city:
+            parts.append(self.city)
         if self.state:
             parts.append(self.state)
-        parts.append(self.country)
+        if self.country:
+            parts.append(self.country)
         return ", ".join(parts)
 
     @computed_field
@@ -109,7 +111,7 @@ class Address(PydanticBase):
             >>> address.is_visit_address
             True
         """
-        return self.type.lower() == "visit"
+        return bool(self.type and self.type.lower() == "visit")
 
     @computed_field
     @property
@@ -124,7 +126,7 @@ class Address(PydanticBase):
             >>> address.is_mail_address
             False
         """
-        return self.type.lower() == "mail"
+        return bool(self.type and self.type.lower() == "mail")
 
     @computed_field
     @property
@@ -220,7 +222,7 @@ class PartialAddress(PydanticBase):
             >>> address.is_visit_address
             True
         """
-        return self.type.lower() == "visit"
+        return bool(self.type and self.type.lower() == "visit")
 
     @computed_field
     @property
@@ -235,7 +237,7 @@ class PartialAddress(PydanticBase):
             >>> address.is_mail_address
             False
         """
-        return self.type.lower() == "mail"
+        return bool(self.type and self.type.lower() == "mail")
 
     @computed_field
     @property

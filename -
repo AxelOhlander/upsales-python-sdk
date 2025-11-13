@@ -1,0 +1,250 @@
+# Autonomous Endpoint Addition Guide - AI Version
+
+**Target**: 30-60 minutes per endpoint. Quality non-negotiable.
+
+## Success Criteria
+ALL must pass:
+- Model with 12 Pydantic v2 patterns
+- Resource with BaseResource inheritance
+- Tests passing with 100% resource coverage
+- VCR cassette recorded
+- ruff, mypy, interrogate all pass
+- Exports updated
+- Client registered
+- 100% docstrings
+
+## Critical Patterns (MEMORIZE)
+
+### 1. Decorator Order (CRITICAL - #1 Bug)
+```python
+@computed_field  # FIRST
+@property        # SECOND
+def is_active(self) -> bool:
+    return self.active == 1
+```
+WRONG order causes TypeError. This was found in 17 fields.
+
+### 2. Reusable Validators (REQUIRED)
+```python
+from upsales.validators import BinaryFlag, EmailStr, CustomFieldsList, NonEmptyStr, PositiveInt, Percentage
+
+active: BinaryFlag = Field(default=1, description="0=no, 1=yes")
+email: EmailStr = Field(description="Email")
+custom: CustomFieldsList = Field(default=[], description="Custom fields")
+name: NonEmptyStr = Field(description="Name")
+probability: Percentage = Field(description="0-100")
+```
+
+### 3. Frozen Fields (REQUIRED)
+```python
+id: int = Field(frozen=True, strict=True, description="ID")
+regDate: str = Field(frozen=True, description="Registration")
+modDate: str = Field(frozen=True, description="Modified")
+```
+
+### 4. TypedDict (REQUIRED)
+```python
+class ContactUpdateFields(TypedDict, total=False):
+    """All updatable fields (NOT frozen ones)."""
+    name: str
+    email: str
+    active: int
+    # Count MUST equal: model fields - frozen fields
+```
+
+### 5. edit() Method (REQUIRED)
+```python
+async def edit(self, **kwargs: Unpack[ContactUpdateFields]) -> "Contact":
+    """Edit via API."""
+    if not self._client:
+        raise RuntimeError("No client available")
+    return await self._client.contacts.update(
+        self.id,
+        **self.to_api_dict(**kwargs)  # Use to_api_dict NOT to_update_dict
+    )
+```
+
+### 6. Field Serializer (REQUIRED if custom field exists)
+```python
+@field_serializer('custom', when_used='json')
+def serialize_custom_fields(self, custom: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Clean custom fields for API."""
+    return [
+        {"fieldId": item["fieldId"], "value": item.get("value")}
+        for item in custom
+        if "value" in item and item.get("value") is not None
+    ]
+```
+
+### 7. Computed Fields (REQUIRED if applicable)
+```python
+from pydantic import computed_field
+from upsales.models.custom_fields import CustomFields
+
+@computed_field
+@property
+def custom_fields(self) -> CustomFields:
+    """Dict-like access."""
+    return CustomFields(self.custom)
+
+@computed_field
+@property
+def is_active(self) -> bool:
+    """Boolean helper."""
+    return self.active == 1
+```
+
+### 8. Field Descriptions (REQUIRED - 100%)
+```python
+# CORRECT
+name: str = Field(description="Contact name")
+
+# WRONG - fails interrogate
+name: str
+```
+
+### 9. PartialModel Pattern
+```python
+class PartialContact(PartialModel):
+    id: int = Field(frozen=True, strict=True, description="ID")
+    name: NonEmptyStr = Field(description="Name")
+
+    async def fetch_full(self) -> Contact:
+        if not self._client:
+            raise RuntimeError("No client available")
+        return await self._client.contacts.get(self.id)
+
+    async def edit(self, **kwargs: Any) -> Contact:
+        if not self._client:
+            raise RuntimeError("No client available")
+        return await self._client.contacts.update(self.id, **kwargs)
+```
+
+### 10. Resource Inheritance
+```python
+from upsales.resources.base import BaseResource
+
+class ContactsResource(BaseResource[Contact, PartialContact]):
+    def __init__(self, http: HTTPClient):
+        super().__init__(
+            http=http,
+            endpoint="/contacts",  # Verify actual API endpoint
+            model_class=Contact,
+            partial_class=PartialContact,
+        )
+```
+
+### 11. search() Operators
+Inherited from BaseResource. Natural operators:
+- `>=value`, `>value`, `<=value`, `<value`, `=value`, `!=value`
+- `*value` - substring
+- `=1,2,3` - IN list
+
+### 12. Field Selection & Sorting
+```python
+# Field selection (50-90% faster)
+results = await upsales.contacts.search(
+    active=1,
+    fields=["id", "name"],  # Optimize
+    sort="-regDate"  # Descending
+)
+```
+
+## Workflow Steps
+
+**⚠️ CRITICAL ORDER CHANGE** (2025-11-08): Steps 2-4 create/register the resource BEFORE
+recording VCR in Step 5. This unblocks the workflow - you cannot record VCR without the
+resource being registered first!
+
+**Resource-first approach**:
+1. Consult api_endpoints_with_fields.json for expected fields
+2. Generate model
+3. **Create and register resource immediately** (Steps 2-4)
+4. **Record VCR cassette** (Step 5) - now unblocked
+5. **Run full CRUD validation** (Step 6) - 15 min of real API testing
+6. **Apply validation results** (Step 8) - use verified data, not guesses
+7. All subsequent work uses VCR, NOT live API!
+
+### STEP 0: Consult API Endpoints Reference (2 min) ⭐ **NEW**
+```bash
+# Check expected required fields for CREATE
+cat api_endpoints_with_fields.json | jq '.endpoints.{endpoint}.methods.POST.required'
+
+# Check updatable fields for UPDATE
+cat api_endpoints_with_fields.json | jq '.endpoints.{endpoint}.methods.PUT.allowed'
+
+# Check read-only fields
+cat api_endpoints_with_fields.json | jq '.endpoints.{endpoint}.methods.PUT.readOnly'
+```
+Use this as a **starting point** (verify with real testing).
+
+### STEP 0a: Environment Check (1 min) ⭐ **NEW**
+Ensure your environment can initialize the client safely (no network calls yet).
+
+```bash
+# Verify .env has required settings (do not commit this file)
+cat .env | sed -E 's/(UPSALES_TOKEN=).*/\1REDACTED/'
+```
+
+```python
+# Quick no-op sanity check (no API call)
+import asyncio
+from upsales import Upsales
+
+async def main():
+    async with Upsales.from_env():
+        pass  # Ensures settings parse and client initializes
+
+asyncio.run(main())
+```
+
+Security:
+- Never print real tokens or credentials to console/logs.
+- .env is already gitignored; keep secrets out of code and cassettes.
+
+### STEP 1: Generate Model (5 min)
+```bash
+uv run upsales generate-model {endpoint} --partial
+```
+Creates `upsales/models/{endpoint}.py` with TypedDict.
+
+### STEP 2: Create Resource (2 min) ⭐ **ENABLE VCR TESTING**
+```bash
+uv run upsales init-resource {endpoint}
+```
+Creates `upsales/resources/{endpoint}.py` with BaseResource inheritance.
+Verify endpoint path matches actual API (e.g., `/accounts` not `/companies`).
+
+**Why Now?** VCR testing (Step 5) requires the resource to be registered in the client.
+Creating it early unblocks the entire workflow.
+
+### STEP 3: Register in Client (2 min)
+Edit `upsales/client.py`:
+```python
+from upsales.resources.{endpoint} import {Model}sResource
+
+self.{endpoint} = {Model}sResource(self.http)
+```
+Update class docstring to add resource to the Attributes list.
+
+### STEP 4: Update Exports (2 min)
+Edit `upsales/models/__init__.py`:
+```python
+from upsales.models.{endpoint} import {Model}, {Model}UpdateFields, Partial{Model}
+
+__all__ = [..., "{Model}", "{Model}UpdateFields", "Partial{Model}"]
+```
+
+Registration & Exports (Resources): Also update `upsales/resources/__init__.py` to export
+the new resource so imports and docs stay consistent:
+```python
+from upsales.resources.{endpoint} import {Model}sResource
+
+__all__ = [..., "{Model}sResource"]
+```
+
+Forward References (optional): If the new model has forward references, add a
+`{Model}.model_rebuild()` call in `upsales/models/__init__.py` after imports to resolve
+Pydantic v2 forward refs.
+
+### STEP 5: Record VCR Cassette (5 min) ⭐ **CAPTURE API NOW**

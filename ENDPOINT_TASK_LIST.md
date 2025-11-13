@@ -11,21 +11,21 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 
 ### Current Coverage
 - **Total API Endpoints**: 167 (from api_endpoints_with_fields.json)
-- **SDK Resources Implemented**: 35 (21% coverage)
-- **Remaining to Implement**: 132 endpoints (79%)
+- **SDK Resources Implemented**: 36 (21.6% coverage)
+- **Remaining to Implement**: 131 endpoints (78.4%)
 
 ### Verification Status
 | Category | Count | Percentage |
 |----------|-------|------------|
-| **✅ Fully Verified** | 5 | 3.0% |
-| **🔶 Implemented, Needs Verification** | 30 | 18.0% |
-| **❌ Not Implemented** | 132 | 79.0% |
+| **✅ Fully Verified** | 7 | 4.2% |
+| **🔶 Implemented, Needs Verification** | 29 | 17.4% |
+| **❌ Not Implemented** | 131 | 78.4% |
 
 ### CREATE Operation Status
 | Status | Count | Details |
 |--------|-------|---------|
-| **✅ Verified** | 1 | Orders (nested required fields documented) |
-| **🔶 Inherited, Unverified** | 15 | CREATE exists but requirements not tested |
+| **✅ Verified** | 2 | Orders (5 required fields), Contacts (1 required field) |
+| **🔶 Inherited, Unverified** | 14 | CREATE exists but requirements not tested |
 | **❌ Not Implemented** | 73 | API supports CREATE but no SDK support |
 
 ### Coverage by Business Area
@@ -42,33 +42,41 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 
 ---
 
+## 📈 Coverage Roadmap & Milestones
+
+### Current: 21% Coverage (35/167 endpoints)
+
+| Milestone | Target Coverage | Endpoints Added | Timeline |
+|-----------|-----------------|-----------------|----------|
+| ✅ **Foundation** | 21% | 35 resources | Completed |
+| 🎯 **Phase 1** | 21% | 0 new (verify existing) | 1 week |
+| 🎯 **Phase 2** | 24% | 4 new (opportunities, agreements, tickets, events) | 2 weeks |
+| 🎯 **Phase 3** | 30% | 11 new (customfields, ad, quota, report) | 1 month |
+| 🎯 **Phase 4** | 50% | 34 new (mid-priority specialized) | 3 months |
+| 🎯 **Complete** | 100% | 132 total | 6-12 months |
+
+### Recommended Focus
+
+**Next Sprint (1-2 weeks)**:
+1. Verify CREATE for 3 remaining high-priority endpoints (activities, appointments, accounts)
+2. Implement opportunities (30 min)
+3. Implement agreements (60 min)
+4. **Result**: All core business operations fully verified
+
+**This Quarter**:
+1. Complete Phase 2 (high-priority missing)
+2. Start Phase 3 (configuration endpoints)
+3. **Result**: 30% coverage, all critical operations supported
+
+---
+
 ## 🎯 Immediate Action Items (This Week)
 
 ### Phase 1A: Verify CREATE for High-Priority Implemented Endpoints
 
-#### 1. **Verify contacts CREATE** 🔴 CRITICAL
-**Status**: 🔶 Implemented, Needs Verification
-**API File Reference**: `api_endpoints_with_fields.json → endpoints.contacts.methods.POST`
-
-**From API File - Required Fields**:
-- `email` (string, maxLength: 128)
-- `client` (object, structure: `{"id": number}`)
-
-**Tasks**:
-- [ ] Test CREATE with minimal: `{email: "test@example.com", client: {id: 123}}`
-- [ ] Create `ContactCreateFields` TypedDict
-- [ ] Verify nested client.id structure
-- [ ] Record VCR cassette
-- [ ] Update model docstring with CREATE example
-- [ ] Update endpoint-map.md with ✅ Verified
-
-**Estimated Time**: 45 minutes
-**Dependencies**: None
-**Priority**: 🔴 CRITICAL
-
 ---
 
-#### 2. **Verify activities CREATE** 🔴 CRITICAL
+#### 1. **Verify activities CREATE** 🔴 CRITICAL
 **Status**: 🔶 Implemented, Needs Verification
 **API File Reference**: `api_endpoints_with_fields.json → endpoints.activities.methods.POST`
 
@@ -92,7 +100,7 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 
 ---
 
-#### 3. **Verify appointments CREATE** 🔴 CRITICAL
+#### 2. **Verify appointments CREATE** 🔴 CRITICAL
 **Status**: 🔶 Implemented, Needs Verification
 **API File Reference**: `api_endpoints_with_fields.json → endpoints.appointments.methods.POST`
 
@@ -112,8 +120,8 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 
 ---
 
-#### 4. **Verify accounts (companies) CREATE** 🟡 MEDIUM
-**Status**: 🔶 Implemented, Needs Verification
+#### 3. **Verify accounts (companies) CREATE** 🟡 MEDIUM
+**Status**: 🔶 Implemented, CREATE NOT VERIFIED
 **API File Reference**: `api_endpoints_with_fields.json → endpoints.accounts.methods.POST`
 
 **From API File - Required Fields**:
@@ -125,22 +133,26 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 - `categories` (array, structure: `[{"id": number}]`)
 - `custom` (array)
 
-**Tasks**:
+**Missing**:
+- [ ] Create `CompanyCreateFields` TypedDict
+- [ ] Add test_create_company_minimal_fields() integration test
+- [ ] Add test_create_company_with_optional_fields() integration test
 - [ ] Test CREATE with minimal: `{name: "Test Company"}`
 - [ ] Test nested arrays (users, addresses, categories)
-- [ ] Create `CompanyCreateFields` TypedDict
-- [ ] Record VCR cassette
+- [ ] Record VCR cassettes
 - [ ] Update endpoint-map.md with ✅ Verified
 
-**Estimated Time**: 45 minutes
+**Estimated Time**: 60 minutes
 **Dependencies**: None
-**Priority**: 🟡 MEDIUM (only name required, low risk)
+**Priority**: 🟡 MEDIUM (only name required, low technical risk)
+
+**Total Estimated Time for Phase 1A**: ~2.5 hours (3 remaining tasks)
 
 ---
 
 ### Phase 1B: Implement High-Priority Missing Endpoints
 
-#### 5. **Implement opportunities endpoint** 🔴 CRITICAL
+#### 4. **Implement opportunities endpoint** 🔴 CRITICAL
 **Status**: ❌ Not Implemented
 **API File Reference**: `api_endpoints_with_fields.json → endpoints.opportunities`
 
@@ -164,7 +176,7 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 
 ---
 
-#### 6. **Implement agreements endpoint** 🔴 HIGH
+#### 5. **Implement agreements endpoint** 🔴 HIGH
 **Status**: ❌ Not Implemented
 **API File Reference**: `api_endpoints_with_fields.json → endpoints.agreements`
 
@@ -193,6 +205,109 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 **Estimated Time**: 60 minutes
 **Dependencies**: None
 **Priority**: 🔴 HIGH (recurring revenue tracking)
+
+---
+
+### Phase 2: Implement High-Priority Missing Endpoints (2 weeks)
+
+**4 critical endpoints not yet implemented:**
+
+#### opportunities 🔴 CRITICAL
+- Shares Order model, different probability range (1-99)
+- Estimated: 30 minutes (model reuse)
+
+#### agreements 🔴 HIGH
+- 9 required fields with nested structures
+- Recurring revenue tracking
+- Estimated: 60 minutes
+
+#### tickets 🟡 MEDIUM
+- 5 required fields
+- Support ticket system
+- Estimated: 60 minutes
+
+#### events 🟡 MEDIUM
+- 3 required fields
+- Activity timeline events
+- Estimated: 45 minutes
+
+**Total Estimated Time for Phase 2**: ~3 hours
+
+---
+
+### Phase 3: Medium-Priority Configuration Endpoints (1 month)
+
+**11 feature/configuration endpoints:**
+
+#### CustomFields Endpoints (7 endpoints)
+- `customfields_accounts` - Custom field definitions for accounts
+- `customfields_activities` - Custom field definitions for activities
+- `customfields_appointments` - Custom field definitions for appointments
+- `customfields_contacts` - Custom field definitions for contacts
+- `customfields_orderrows` - Custom field definitions for order rows
+- `customfields_orders` - Custom field definitions for orders
+- `customfields_products` - Custom field definitions for products
+
+**Note**: Currently have generic `custom_fields` resource. May need entity-specific resources.
+
+#### Advertising/Marketing (2 endpoints)
+- `adAccounts` - Ad account configuration
+- `adCampaigns` - Campaign management with budget/targeting
+
+#### Reporting/Analytics (2 endpoints)
+- `quota` - Sales quotas
+- `report` - Dynamic reporting API (Elasticsearch-based)
+
+**Total Estimated Time for Phase 3**: ~7-9 hours (11 endpoints × 40-50 min avg)
+
+---
+
+### Phase 4: Low-Priority Specialized Endpoints (3-6 months)
+
+**129 specialized/admin endpoints** including:
+
+**Categories**:
+- Admin tools (provisioning, userInvites, roleSettings)
+- Email management (mailDomains, mailEditor, emailSuggestion)
+- Integration helpers (standardIntegrationData, standardIntegrationUser)
+- Soliditet integration (Swedish company data - 5 endpoints)
+- Marketing automation (engage*, socialEvents*, standardCreative)
+- Search utilities (quickSearch, emailSuggest, placeholder)
+- User-defined objects (userDefinedObject1-4)
+- Misc utilities (whatIsMyIp, workerStatus, validatePage)
+
+**Strategy**: Implement on-demand as users request features
+
+---
+
+## 📊 Endpoint Categories Analysis
+
+### By Implementation Status
+
+| Category | Implemented | Total | Coverage |
+|----------|-------------|-------|----------|
+| **Core CRM** (orders, contacts, accounts, activities, appointments, users) | 6/6 | 6 | 100% |
+| **Sales Pipeline** (orders, opportunities, orderStages, agreements) | 2/4 | 4 | 50% |
+| **Configuration** (roles, currencies, segments, etc.) | 12/26 | 26 | 46% |
+| **Customization** (custom_fields, triggers, forms) | 3/14 | 14 | 21% |
+| **Integration** (standard_integrations, ad*, soliditet*) | 1/23 | 23 | 4% |
+| **Reporting** (report, quota, activityQuota, scoreboard) | 0/8 | 8 | 0% |
+| **Admin** (provisioning, userInvites, roleSettings) | 0/15 | 15 | 0% |
+| **Specialized** (mail*, esigns, voice, etc.) | 11/71 | 71 | 15% |
+
+### By CRUD Support
+
+From api_endpoints_with_fields.json analysis:
+
+| Operation | Total Endpoints | Implemented | Verified | Gap |
+|-----------|-----------------|-------------|----------|-----|
+| **GET** (list) | 167 | 35 | 20 | 132 |
+| **GET** (item) | 159 | 35 | 20 | 124 |
+| **POST** (create) | 89 | 16 | 2 | 73 |
+| **PUT** (update) | 82 | 16 | 1 | 66 |
+| **DELETE** | 76 | 20 | 0 | 56 |
+
+**Key Insight**: 89 endpoints support CREATE but only 2 verified (Orders, Contacts). This is the biggest gap.
 
 ---
 
@@ -346,6 +461,55 @@ Centralized, up-to-date tasks across the project. Status legend below applies.
 
 ---
 
+### [✓] contacts
+**Status**: COMPLETE ✅
+**Endpoint**: `/api/v2/contacts`
+**Priority**: CRITICAL (Core CRM entity)
+**Verification Date**: 2025-11-07
+**Files**:
+- Model: `upsales/models/contacts.py` (Contact, PartialContact, ContactCreateFields, ContactUpdateFields)
+- Resource: `upsales/resources/contacts.py` (ContactsResource)
+- Unit tests: `tests/unit/test_contacts_resource.py`
+- Integration tests: `tests/integration/test_contacts_integration.py` (6 tests, 100% pass)
+
+**Features**:
+- Full CRUD operations (create, get, list, update, delete) - ALL VERIFIED
+- Custom methods: `get_by_email()`, `search()`
+- Computed fields: `is_active`, `full_name`, `has_phone`, `custom_fields`
+- Pydantic v2 validators: BinaryFlag, EmailStr, CustomFieldsList, NonEmptyStr
+- Field descriptions for all fields
+- Optimized serialization with to_api_dict()
+- Integration with PartialCompany, PartialProject, PartialSegment, PartialJourneyStep
+- 100% docstring coverage
+- VCR cassettes recorded for all operations including CREATE
+
+**CREATE Operation (Verified 2025-11-07)**:
+- **Required fields**: ONLY 1 field required!
+  - `client: {"id": client_id}` (minimal nested structure)
+- **Optional fields**: email, name, firstName, lastName, phone, cellPhone, title, active, notes, etc.
+
+**Important Finding**:
+- Email is **OPTIONAL** (api_endpoints_with_fields.json incorrectly listed it as required)
+- Only client.id is required
+- Uses minimal nested required field pattern
+- Simplest CREATE operation verified so far
+
+**Quality Checks**:
+- ✅ Ruff format: PASS
+- ✅ Ruff lint: PASS
+- ✅ Mypy type check: PASS
+- ✅ Interrogate (docstrings): 100%
+- ✅ Unit tests: PASS
+- ✅ Integration tests: 6/6 PASS (including 2 CREATE tests)
+- ✅ CREATE with minimal fields: VERIFIED
+- ✅ CREATE with optional fields: VERIFIED
+- ✅ ContactCreateFields TypedDict: COMPLETE
+- ✅ VCR cassettes: RECORDED
+
+**Completed**: 2025-11-07
+
+---
+
 ### [✓] segments
 **Status**: COMPLETE
 **Endpoint**: `/api/v2/segments`
@@ -489,6 +653,55 @@ Centralized, up-to-date tasks across the project. Status legend below applies.
 - ✅ Integration tests: 4/4 PASS
 
 **Completed**: 2025-11-03
+
+---
+
+### [✓] projectPlanStages
+**Status**: COMPLETE
+**Endpoint**: `/api/v2/projectPlanStages`
+**Priority**: MEDIUM
+**Verification Date**: 2025-11-09
+
+**Files**:
+- Model: `upsales/models/projectPlanStages.py` (Projectplanstage, PartialProjectplanstage, ProjectplanstageUpdateFields)
+- Resource: `upsales/resources/projectPlanStages.py` (ProjectplanstagesResource)
+- Unit tests: `tests/unit/test_project_plan_stages_resource.py` (10 tests, 100% pass)
+- Integration tests: `tests/integration/test_project_plan_stages_integration.py` (1 test, 100% pass)
+
+**Features**:
+- Full CRUD operations (create, get, list, update, delete)
+- BaseResource inheritance with bulk operations
+- Pydantic v2 with strict validation
+- Field descriptions for all fields (id, name, category, color)
+- 100% docstring coverage
+- VCR cassettes recorded for offline testing
+
+**Field Structure**:
+- `id` (int, frozen): Unique stage ID
+- `name` (str): Stage name (e.g., "Att göra", "Pågående", "Klar")
+- `category` (str): Stage category (TODO, IN_PROGRESS, DONE)
+- `color` (str): Color code for visual representation (e.g., "#FCF0C0")
+
+**Quality Checks**:
+- ✅ Ruff format: PASS
+- ✅ Ruff lint: PASS (N999 warnings acceptable)
+- ✅ Mypy type check: PASS (--strict)
+- ✅ Interrogate (docstrings): 100%
+- ✅ Unit tests: 10/10 PASS (100% resource coverage)
+- ✅ Integration tests: 1/1 PASS
+
+**CRUD Operations Verified**:
+- READ: ✅ Verified (3 stages returned from API)
+- UPDATE: ✅ Supported (editable: name, category, color)
+- Frozen fields: id (primary key)
+
+**Notes**:
+- Simple lookup/reference data endpoint
+- 3 stages available in test tenant
+- All fields present in 100% of API responses
+- No custom fields or computed fields needed
+
+**Completed**: 2025-11-09
 
 ---
 
@@ -978,21 +1191,21 @@ Centralized, up-to-date tasks across the project. Status legend below applies.
 
 ---
 
-### [~] ProjectPlanStatus
-**Status**: NO DATA AVAILABLE
+### [🔶] ProjectPlanStatus
+**Status**: IMPLEMENTED, NEEDS VERIFICATION
 **Endpoint**: `/api/v2/ProjectPlanStatus`
-**Priority**: SKIPPED
+**Priority**: MEDIUM
 
-**Reason**: Endpoint accessible but returns empty data array:
-```json
-{
-  "error": null,
-  "metadata": {"total": 0, "limit": 1, "offset": 0},
-  "data": []
-}
-```
+**Notes**:
+- Resource and models added: `ProjectPlanStatusesResource`, `ProjectPlanStatus`, `PartialProjectPlanStatus`.
+- VCR cassette recorded for list operation (may be empty on some tenants).
+- Additional CRUD operations not verified yet.
 
-**Checked**: 2025-11-03
+**Integration Test**:
+- `tests/integration/test_projectplanstatus_integration.py::test_list_statuses`
+- Cassette: `tests/cassettes/integration/projectplanstatus/test_list_statuses.yaml`
+
+**Checked**: 2025-11-08
 
 ---
 
@@ -1149,16 +1362,165 @@ Centralized, up-to-date tasks across the project. Status legend below applies.
 
 ---
 
+## 🛠️ Implementation Checklist Template
+
+For each endpoint from api_endpoints_with_fields.json:
+
+### Pre-Implementation
+- [ ] Read endpoint section from api_endpoints_with_fields.json
+- [ ] Note required fields for POST
+- [ ] Note allowed fields for PUT
+- [ ] Note read-only fields
+- [ ] Note nested object structures
+- [ ] Check for special patterns (arrays, dates, nested IDs)
+
+### Implementation
+- [ ] Generate model: `uv run upsales generate-model {endpoint} --partial`
+- [ ] Record VCR cassette (Step 2)
+- [ ] Analyze cassette vs API file (Step 3)
+- [ ] Create {Model}CreateFields TypedDict (if POST supported)
+- [ ] Create {Model}UpdateFields TypedDict (if PUT supported)
+- [ ] Mark frozen fields (from PUT.readOnly)
+- [ ] Add validators from upsales/validators.py
+- [ ] Add computed fields
+- [ ] Create {Model}Resource extending BaseResource
+- [ ] Add custom methods as needed
+- [ ] Register in client.py
+- [ ] Update model exports
+
+### Testing
+- [ ] Unit tests with 100% resource coverage
+- [ ] Integration test for GET
+- [ ] Integration test for CREATE with minimal fields
+- [ ] Integration test for CREATE with optional fields
+- [ ] Integration test for UPDATE
+- [ ] Integration test for DELETE
+- [ ] Test computed fields with VCR data
+
+### Verification
+- [ ] Compare API file fields vs VCR cassette fields
+- [ ] Document discrepancies found
+- [ ] Verify nested required fields pattern
+- [ ] Test all custom methods
+- [ ] Quality checks pass (ruff, mypy, interrogate)
+
+### Documentation
+- [ ] Update docs/endpoint-map.md with verification status
+- [ ] Update ENDPOINT_TASK_LIST.md progress
+- [ ] Note any pattern discoveries
+- [ ] Document field requirement discrepancies
+
+---
+
+## 🔍 Validation Workflow
+
+When implementing any endpoint, follow this workflow:
+
+```
+API File → Model Generation → VCR Recording → Compare → Adjust → Verify
+   ↓              ↓                ↓            ↓         ↓        ↓
+Starting      Initial         Real API    Find Gaps   Fix Model  Test
+ Point        Model          Structure                           CREATE
+```
+
+**Step-by-step**:
+1. Consult API file for expected structure
+2. Generate model based on fields
+3. Test with VCR to verify
+4. Document discrepancies
+5. Update endpoint-map.md
+
+---
+
+## 🎯 Recommended Next Steps
+
+### This Week (2025-11-07 to 2025-11-14)
+
+1. **✅ Verify contacts CREATE** ✅ **COMPLETED 2025-11-07** (45 min)
+   - ✅ Consulted api_endpoints_with_fields.json
+   - ✅ Tested with minimal fields: `{client: {id}}`
+   - ✅ Documented in ContactCreateFields
+   - ✅ Found discrepancy: Email is OPTIONAL
+
+2. **Verify activities CREATE** (60 min)
+   - Required: date, userId, activityTypeId, client.id
+   - Test nested required fields
+   - Document in ActivityCreateFields
+
+3. **Verify appointments CREATE** (60 min)
+   - Likely uses nested required fields pattern
+   - Document in AppointmentCreateFields
+
+4. **Verify accounts CREATE** (45 min)
+   - Only requires name (simple!)
+   - Test nested arrays (users, addresses)
+   - Document in CompanyCreateFields
+
+5. **Implement opportunities** (30 min)
+   - Reuse Order model
+   - Create OpportunitiesResource
+   - Add probability validation
+
+**Total Week 1**: ~4 hours (contacts complete, 4 remaining)
+
+### Next Week (2025-11-15 to 2025-11-21)
+
+6. **Implement agreements** (60 min)
+7. **Verify UPDATE operations** (2 hours)
+8. **Implement tickets** (60 min)
+9. **Implement events** (45 min)
+
+**Total Week 2**: ~5 hours
+
+### Success Metrics
+
+**By End of Week 1** (Updated 2025-11-07):
+- ✅ 2 endpoints with verified CREATE (orders, contacts) - **contacts DONE!**
+- Remaining: 3 endpoints to verify (activities, appointments, accounts)
+- 1 new endpoint (opportunities)
+- Coverage: 22%
+
+**By End of Week 2**:
+- 3 more endpoints (agreements, tickets, events)
+- 5 endpoints with verified UPDATE
+- Coverage: 24%
+
+**By End of Month**:
+- All high-priority endpoints implemented
+- All medium-priority config endpoints implemented
+- Coverage: 30%
+
+---
+
+## 🌟 Success Stories
+
+### Orders Endpoint
+**Before api_endpoints_with_fields.json**: Manual testing to discover fields
+**With api_endpoints_with_fields.json**: API file correctly predicted all 5 required fields
+**Result**: ✅ Saved ~30 minutes of trial-and-error testing
+**Lesson**: File is accurate for core endpoints like orders
+
+### Contacts Endpoint
+**Challenge**: API file incorrectly listed email as required
+**Discovery**: Only client.id is required (through testing)
+**Result**: ✅ Documented discrepancy, simplest CREATE pattern found
+**Lesson**: Always verify with actual API testing, don't trust file 100%
+
+### Validation Approach
+**Best Practice Established**:
+1. Consult API file for expected structure
+2. Generate model based on fields
+3. Test with VCR to verify
+4. Document discrepancies
+5. Update endpoint-map.md
+
+---
+
 ## Implementation Notes
 
-When implementing a new endpoint:
-1. Check if endpoint returns data (run test script)
-2. Generate model using CLI: `uv run upsales generate-model {endpoint}`
-3. Enhance model with Pydantic v2 features (validators, computed fields, descriptions)
-4. Create resource manager in `upsales/resources/{endpoint}.py`
-5. Update exports in `upsales/models/__init__.py` and `upsales/resources/__init__.py`
-6. Register in `upsales/client.py`
-7. Write unit tests (use template in `tests/templates/resource_template.py`)
-8. Write integration tests with VCR.py
-9. Run all quality checks (format, lint, type check, docstrings)
-10. Update this file with completion status
+Quick reference for adding endpoints:
+1. Check api_endpoints_with_fields.json first
+2. Generate model: `uv run upsales generate-model {endpoint} --partial`
+3. Record VCR cassette: `uv run pytest tests/integration/test_{endpoint}_integration.py -v`
+4. Use Implementation Checklist Template (above)
+5. Update this file with completion status

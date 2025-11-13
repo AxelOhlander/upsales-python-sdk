@@ -152,10 +152,55 @@ results = await upsales.contacts.search(
 
 ## Workflow Steps
 
-**CRITICAL**: VCR-first approach:
-1. Generate model
-2. **Record VCR immediately** (Step 2)
-3. All subsequent work uses VCR, NOT live API!
+**⚠️ CRITICAL ORDER CHANGE** (2025-11-08): Steps 2-4 create/register the resource BEFORE
+recording VCR in Step 5. This unblocks the workflow - you cannot record VCR without the
+resource being registered first!
+
+**Resource-first approach**:
+1. Consult api_endpoints_with_fields.json for expected fields
+2. Generate model
+3. **Create and register resource immediately** (Steps 2-4)
+4. **Record VCR cassette** (Step 5) - now unblocked
+5. **Run full CRUD validation** (Step 6) - 15 min of real API testing
+6. **Apply validation results** (Step 8) - use verified data, not guesses
+7. All subsequent work uses VCR, NOT live API!
+
+### STEP 0: Consult API Endpoints Reference (2 min) ⭐ **NEW**
+```bash
+# Check expected required fields for CREATE
+cat api_endpoints_with_fields.json | jq '.endpoints.{endpoint}.methods.POST.required'
+
+# Check updatable fields for UPDATE
+cat api_endpoints_with_fields.json | jq '.endpoints.{endpoint}.methods.PUT.allowed'
+
+# Check read-only fields
+cat api_endpoints_with_fields.json | jq '.endpoints.{endpoint}.methods.PUT.readOnly'
+```
+Use this as a **starting point** (verify with real testing).
+
+### STEP 0a: Environment Check (1 min) ⭐ **NEW**
+Ensure your environment can initialize the client safely (no network calls yet).
+
+```bash
+# Verify .env has required settings (do not commit this file)
+cat .env | sed -E 's/(UPSALES_TOKEN=).*/\1REDACTED/'
+```
+
+```python
+# Quick no-op sanity check (no API call)
+import asyncio
+from upsales import Upsales
+
+async def main():
+    async with Upsales.from_env():
+        pass  # Ensures settings parse and client initializes
+
+asyncio.run(main())
+```
+
+Security:
+- Never print real tokens or credentials to console/logs.
+- .env is already gitignored; keep secrets out of code and cassettes.
 
 ### STEP 1: Generate Model (5 min)
 ```bash
@@ -163,7 +208,46 @@ uv run upsales generate-model {endpoint} --partial
 ```
 Creates `upsales/models/{endpoint}.py` with TypedDict.
 
-### STEP 2: Record VCR Cassette (5 min) ⭐ **CAPTURE API NOW**
+### STEP 2: Create Resource (2 min) ⭐ **ENABLE VCR TESTING**
+```bash
+uv run upsales init-resource {endpoint}
+```
+Creates `upsales/resources/{endpoint}.py` with BaseResource inheritance.
+Verify endpoint path matches actual API (e.g., `/accounts` not `/companies`).
+
+**Why Now?** VCR testing (Step 5) requires the resource to be registered in the client.
+Creating it early unblocks the entire workflow.
+
+### STEP 3: Register in Client (2 min)
+Edit `upsales/client.py`:
+```python
+from upsales.resources.{endpoint} import {Model}sResource
+
+self.{endpoint} = {Model}sResource(self.http)
+```
+Update class docstring to add resource to the Attributes list.
+
+### STEP 4: Update Exports (2 min)
+Edit `upsales/models/__init__.py`:
+```python
+from upsales.models.{endpoint} import {Model}, {Model}UpdateFields, Partial{Model}
+
+__all__ = [..., "{Model}", "{Model}UpdateFields", "Partial{Model}"]
+```
+
+Registration & Exports (Resources): Also update `upsales/resources/__init__.py` to export
+the new resource so imports and docs stay consistent:
+```python
+from upsales.resources.{endpoint} import {Model}sResource
+
+__all__ = [..., "{Model}sResource"]
+```
+
+Forward References (optional): If the new model has forward references, add a
+`{Model}.model_rebuild()` call in `upsales/models/__init__.py` after imports to resolve
+Pydantic v2 forward refs.
+
+### STEP 5: Record VCR Cassette (5 min) ⭐ **CAPTURE API NOW**
 ```bash
 # Create minimal test
 cat > tests/integration/test_contacts_integration.py << 'EOF'
@@ -176,7 +260,13 @@ my_vcr = vcr.VCR(
     cassette_library_dir="tests/cassettes/integration",
     record_mode="once",
     match_on=["method", "scheme", "host", "port", "path", "query"],
-    filter_headers=[("cookie", "REDACTED")],
+    filter_headers=[
+        ("cookie", "REDACTED"),
+        ("set-cookie", "REDACTED"),  # Safety: redact tokens from responses
+    ],
+    filter_query_parameters=[
+        ("token", "REDACTED"),  # Safety: redact token in query if ever present
+    ],
     filter_post_data_parameters=[("password", "REDACTED")],
 )
 
@@ -195,7 +285,65 @@ uv run pytest tests/integration/test_contacts_integration.py -v
 ```
 From now on: VCR only, no more API calls!
 
-### STEP 3: Analyze Cassette (5 min) ⭐ **VALIDATE MODEL**
+VCR Hygiene & Safety:
+- Keep `record_mode="once"`; do not switch to `"all"` unless intentionally re-recording.
+- Always scrub credentials: redact `cookie` and `set-cookie` headers, query `token`, and
+  any sensitive body fields (e.g., `password`).
+
+### STEP 6: Run Full CRUD Validation (15 min) ⭐ **VERIFY ALL OPERATIONS**
+
+**CRITICAL**: This step validates all CRUD operations against the real API and provides
+authoritative results. Skip this and you'll guess which fields are required/editable!
+
+```bash
+# Run comprehensive validation (makes real API calls - creates/updates/deletes test records)
+python scripts/test_full_crud_lifecycle.py {endpoint} --full
+
+# Or run individual validators:
+python scripts/test_required_create_fields.py {endpoint}    # POST: required fields
+python scripts/test_required_update_fields.py {endpoint}    # PUT: updatable fields
+python scripts/test_field_editability_bulk.py {endpoint}    # PUT: read-only detection
+python scripts/test_search_validation.py {endpoint}         # GET: searchable fields
+python scripts/test_sort_validation.py {endpoint}           # GET: sortable fields & order
+python scripts/test_pagination.py {endpoint}                # GET: limit/offset behavior
+python scripts/test_delete_operation.py {endpoint}          # DELETE: can delete?
+```
+
+**What This Tests**:
+1. **POST (Create)**: Discovers actual required vs optional fields
+2. **PUT (Update)**: Tests which fields can be edited, which are read-only
+3. **GET (Search)**: Validates search() works with various field filters
+4. **GET (Sort)**: Verifies sortable fields and sort order (asc/desc)
+5. **GET (Pagination)**: Validates limit/offset behavior and page stitching
+6. **DELETE**: Tests if records can be deleted
+
+**Expected Output**:
+```
+✅ POST Validation:
+   Required fields: year, month, value, user.id
+   Optional fields: currency, currencyRate
+
+✅ PUT Validation:
+   Editable: year, month, value, currencyRate, currency
+   Read-only: id, date, valueInMasterCurrency, user
+
+✅ Search Validation:
+   Searchable: year, month, user.id
+   Not searchable: currency, currencyRate
+
+✅ DELETE Validation:
+   Can delete: Yes
+```
+
+**Apply Results Immediately**:
+1. Update `{Model}CreateFields` TypedDict with discovered required fields
+2. Mark read-only fields as `frozen=True` in model
+3. Update `{Model}UpdateFields` to exclude read-only fields
+4. Document search limitations in model docstring
+
+**Time**: 15 minutes (but saves 60+ minutes of manual trial-and-error testing!)
+
+### STEP 7: Analyze Cassette (5 min) ⭐ **VALIDATE MODEL STRUCTURE**
 ```python
 # ai_temp_files/analyze_cassette.py
 import yaml, json
@@ -224,65 +372,126 @@ if extra:
 ```
 Trust the cassette! Fix model if mismatch.
 
-### STEP 4: Review Generated Code (5 min)
-Use cassette as source of truth for field types.
+### STEP 8: Apply Validation Results to Model (10 min) ⭐ **USE VERIFIED DATA**
+**Use STEP 6 validation results and cassette as source of truth.**
 
-### STEP 5: Mark Frozen Fields (2 min)
-Add `frozen=True` to: id, regDate, modDate, createdAt, updatedAt
+**Apply CRUD validation results from STEP 6**:
+1. Add `{Model}CreateFields` TypedDict with discovered required fields
+2. Mark read-only fields as `frozen=True` (from PUT validation)
+3. Update `{Model}UpdateFields` to exclude read-only fields
+4. Add CREATE examples to model docstring with actual required fields
+5. Document search limitations if any fields are not searchable
 
-### STEP 6: Add Validators (10 min)
+**Example**:
+```python
+# From test_required_create_fields.py output:
+class ContactCreateFields(TypedDict, total=False):
+    """Required: client.id only (verified 2025-11-07)"""
+    client: dict[str, int]  # Required
+    email: str  # Optional (API file was wrong!)
+    name: str
+    # ... other optional fields
+
+# From test_field_editability_bulk.py output:
+# Mark these as frozen=True:
+regDate: str = Field(frozen=True, description="...")
+score: int = Field(frozen=True, description="...")  # Calculated
+numberOfContacts: int = Field(frozen=True, description="...")  # Calculated
+```
+
+### STEP 9: Document Always-Returned Fields (5 min)
+
+**Note**: Frozen fields should already be marked in STEP 8 based on validation results.
+
+**Document always-returned fields** (from field selection test):
+Run `test_field_selection.py` or check raw HTTP responses to discover which
+fields are always returned even with field selection.
+
+**Documentation Pattern** (3 levels):
+
+1. **Model Docstring** - Complete list in class docstring:
+```python
+class Contact(BaseModel):
+    """
+    Contact model from /api/v2/contacts.
+
+    Field Selection (Performance Optimization):
+        When using fields=["id", "name"], these 12 fields are ALWAYS returned
+        regardless of field selection (verified YYYY-MM-DD):
+
+        - id (primary key)
+        - userEditable, userRemovable (permissions)
+        - has*, had* tracking fields (8 fields)
+        - score (lead score)
+
+        All other fields can be excluded for bandwidth reduction.
+
+        Example:
+            >>> contacts = await upsales.contacts.list(
+            ...     fields=["id", "name", "email"],
+            ...     limit=100
+            ... )
+            >>> # Returns: requested fields + always-returned fields
+    """
+```
+
+2. **Section Comments** - Group related always-returned fields:
+```python
+# NOTE: These tracking fields are ALWAYS returned even with field selection (verified YYYY-MM-DD)
+hasActivity: str | None = Field(None, description="Has activity (always returned)")
+hadActivity: str | None = Field(None, description="Had activity (always returned)")
+```
+
+3. **Field Descriptions** - Mark individual fields:
+```python
+# NOTE: 'id' is ALWAYS returned even with field selection
+id: int = Field(frozen=True, strict=True, description="Unique ID")
+
+dunsNo: str | None = Field(None, description="DUNS number (always returned)")
+prospectingId: str | None = Field(None, description="Prospecting ID (always returned)")
+```
+
+**Why document at 3 levels**:
+- Model docstring: Complete overview with example
+- Section comments: Quick scanning for developers
+- Field descriptions: IDE tooltips, generated docs
+
+**Example from Company model**:
+- 17 always-returned fields documented
+- Docstring explains 80% bandwidth reduction possible
+- Comments mark each group of related fields
+- Descriptions show "(always returned)" for discoverability
+
+### STEP 10: Add Validators (10 min)
 Replace primitive types with BinaryFlag, EmailStr, CustomFieldsList, NonEmptyStr, PositiveInt, Percentage
 
-### STEP 7: Add Computed Fields (10 min)
+### STEP 11: Add Computed Fields (10 min)
 - custom_fields property (if custom field exists)
 - is_active property (if active field exists)
 - Domain-specific helpers
 
 Order: @computed_field THEN @property
 
-### STEP 8: Add Field Serializer (5 min)
+### STEP 12: Add Field Serializer (5 min)
 If custom field exists, add serializer.
 
-### STEP 9: Verify TypedDict (5 min)
+### STEP 13: Verify TypedDict (5 min)
 Count: model fields - frozen fields = TypedDict fields
 
-### STEP 10: Implement edit() (5 min)
+### STEP 14: Implement edit() (5 min)
 Use pattern from Pattern 5. Use to_api_dict(**kwargs).
 
-### STEP 11: Enhance PartialModel (5 min)
+### STEP 15: Enhance PartialModel (5 min)
 Add fetch_full() and edit() methods.
 
-### STEP 12: Create Resource (2 min)
-```bash
-uv run upsales init-resource {endpoint}
-```
-Verify endpoint path matches actual API.
-
-### STEP 13: Add Custom Methods (10 min - optional)
+### STEP 16: Add Custom Methods (10 min - optional)
 Common patterns:
 - get_by_email(email)
 - get_by_company(company_id)
 - get_active()
 Use inherited list_all(), don't reimplement.
 
-### STEP 14: Register in Client (2 min)
-Edit `upsales/client.py`:
-```python
-from upsales.resources.contacts import ContactsResource
-
-self.contacts = ContactsResource(self.http)
-```
-Update docstring.
-
-### STEP 15: Update Exports (2 min)
-Edit `upsales/models/__init__.py`:
-```python
-from upsales.models.contact import Contact, ContactUpdateFields, PartialContact
-
-__all__ = [..., "Contact", "ContactUpdateFields", "PartialContact"]
-```
-
-### STEP 16: Copy Test Template (15 min)
+### STEP 17: Copy Test Template (15 min)
 ```bash
 cp tests/templates/resource_template.py tests/unit/test_contacts_resource.py
 ```
@@ -295,13 +504,13 @@ Global replace:
 
 Update imports, create sample_data fixture with ALL required fields (check model for fields without defaults).
 
-### STEP 17: Run Unit Tests (5 min)
+### STEP 18: Run Unit Tests (5 min)
 ```bash
 uv run pytest tests/unit/test_contacts_resource.py -v --cov=upsales/resources/contacts.py --cov-report=term-missing
 ```
 MUST achieve 100% resource coverage.
 
-### STEP 18: Expand Integration Tests (10 min)
+### STEP 19: Expand Integration Tests (10 min)
 Add to existing test file (already has VCR configured):
 ```python
 @pytest.mark.asyncio
@@ -326,14 +535,14 @@ async def test_serialization_with_vcr():
 ```
 Run to record new cassettes (uses VCR, instant replay after first run).
 
-### STEP 19: Verify All Tests Use VCR (2 min)
+### STEP 20: Verify All Tests Use VCR (2 min)
 ```bash
 # All integration tests should use cassettes (fast!)
 uv run pytest tests/integration/test_contacts_integration.py -v
 # Should complete in < 2 seconds (VCR replay)
 ```
 
-### STEP 20: Quality Checks (5 min)
+### STEP 21: Quality Checks (5 min)
 ALL must pass:
 ```bash
 uv run interrogate upsales  # MUST be 100%
@@ -342,6 +551,138 @@ uv run ruff format .  # MUST format
 uv run ruff check .  # MUST pass (N999 warnings acceptable)
 uv run pytest tests/unit/test_contacts_resource.py --cov=upsales/resources/contacts.py  # MUST be 100%
 ```
+
+### STEP 22: Update Documentation (5 min) ⭐ **RECORD YOUR WORK**
+
+**CRITICAL**: Update tracking files to record verification status and share knowledge with the team.
+
+**A. Update `docs/endpoint-map.md`**:
+
+Mark endpoint as verified with complete CRUD status:
+
+```markdown
+### {endpoint}
+**Status**: ✅ VERIFIED
+**Verification Date**: YYYY-MM-DD
+**Endpoint**: /api/v2/{endpoint}
+
+**CRUD Operations**:
+- CREATE: ✅ Verified (required: field1, field2, field3)
+- READ: ✅ Verified
+- UPDATE: ✅ Verified (editable: field1, field2; read-only: id, date)
+- DELETE: ✅ Verified
+- SEARCH: ✅ Verified (searchable: field1, field2)
+
+**Discrepancies from API File**:
+- Field X was listed as required but is actually optional
+- Field Y is read-only but API file didn't document it
+
+**Notes**:
+- Nested required field pattern: client.id, user.id
+- Special validation: probability must be 1-99
+```
+
+**B. Update `ENDPOINT_TASK_LIST.md`**:
+
+Move endpoint from "🔶 Implemented, Needs Verification" to "✅ Fully Verified" section:
+
+```markdown
+### [✓] {endpoint}
+**Status**: COMPLETE
+**Endpoint**: `/api/v2/{endpoint}`
+**Priority**: {CRITICAL/HIGH/MEDIUM/LOW}
+**Verification Date**: YYYY-MM-DD
+
+**Files**:
+- Model: `upsales/models/{endpoint}.py`
+- Resource: `upsales/resources/{endpoint}.py`
+- Unit tests: `tests/unit/test_{endpoint}_resource.py`
+- Integration tests: `tests/integration/test_{endpoint}_integration.py`
+
+**CREATE Operation (Verified YYYY-MM-DD)**:
+- **Required fields**: field1, field2, field3 (with nested structures)
+- **Optional fields**: field4, field5, field6
+
+**UPDATE Operation (Verified YYYY-MM-DD)**:
+- **Editable**: field1, field2, field3
+- **Read-only**: id, date, calculatedField
+
+**SEARCH Operation (Verified YYYY-MM-DD)**:
+- **Searchable**: field1, field2
+- **Not searchable**: field3, field4
+
+**DELETE Operation (Verified YYYY-MM-DD)**:
+- Can delete: Yes/No
+
+**Quality Checks**:
+- ✅ Ruff format: PASS
+- ✅ Ruff lint: PASS
+- ✅ Mypy type check: PASS
+- ✅ Interrogate (docstrings): 100%
+- ✅ Unit tests: X/X PASS (100% resource coverage)
+- ✅ Integration tests: X/X PASS
+- ✅ CRUD validation: ALL OPERATIONS VERIFIED
+
+**Completed**: YYYY-MM-DD
+```
+
+**C. Update Dashboard Statistics** (in ENDPOINT_TASK_LIST.md):
+
+Update the coverage numbers at the top:
+```markdown
+### Current Coverage
+- **Total API Endpoints**: 167
+- **SDK Resources Implemented**: 36 (was 35) ← INCREMENT
+- **Remaining to Implement**: 131 (was 132) ← DECREMENT
+
+### Verification Status
+| Category | Count | Percentage |
+|----------|-------|------------|
+| **✅ Fully Verified** | 7 (was 6) ← INCREMENT | 4.2% (was 3.6%) |
+| **🔶 Implemented, Needs Verification** | 29 (no change) | 17.4% |
+| **❌ Not Implemented** | 131 (was 132) ← DECREMENT | 78.4% |
+```
+
+**Why This Matters**:
+- ✅ Team knows what's been verified vs just implemented
+- ✅ Discrepancies from API file are documented for future reference
+- ✅ Required fields are recorded (saves others from rediscovering them)
+- ✅ Progress is visible at a glance
+
+**Time**: 5 minutes (but provides value for months)
+
+**D. Update API Reference (docs coverage)**:
+
+Add the new resource and models to the API reference pages so MkDocs includes
+them in the published docs.
+
+- Edit `docs/api-reference/resources.md` and add:
+  ```markdown
+  ::: upsales.resources.{endpoint}.{Model}sResource
+      options:
+        show_root_heading: true
+        show_source: false
+  ```
+
+- Edit `docs/api-reference/models.md` and add both full and partial models:
+  ```markdown
+  ::: upsales.models.{endpoint}.{Model}
+      options:
+        show_root_heading: true
+        show_source: false
+        members_order: source
+
+  ::: upsales.models.{endpoint}.Partial{Model}
+      options:
+        show_root_heading: true
+        show_source: false
+  ```
+
+**E. Build Docs**:
+```bash
+uv run mkdocs build
+```
+Ensures reference pages render and import paths are correct.
 
 ## Common Issues
 
@@ -355,12 +696,42 @@ uv run pytest tests/unit/test_contacts_resource.py --cov=upsales/resources/conta
 8. **Wrong endpoint**: Verify actual API path (e.g., /accounts not /companies)
 9. **Sample data missing required fields**: Check model for fields without defaults
 10. **Computed fields in serialization**: Should be excluded automatically
+11. **Field selection not documented**: Mark always-returned fields (see STEP 9)
+12. **Missing None defaults**: Fields need `| None` defaults for field selection support
+13. **Skipping CRUD validation**: Always run STEP 6 validation - guessing requirements leads to bugs
+14. **Skipping documentation**: Always update STEP 22 docs - undocumented work is invisible to the team
+15. **Resources exports not updated**: Add import + `__all__` entry in `upsales/resources/__init__.py`.
+16. **Docstrings missing on helper types**: Ensure TypedDict classes and PartialModel helpers have docstrings to satisfy `interrogate` 100%.
+17. **Insufficient VCR scrubbing**: Redact `set-cookie`, `cookie`, query `token`, and any sensitive body fields.
+18. **API reference not updated**: Add new resource/model entries to `docs/api-reference/*.md` and run `mkdocs build`.
 
 ## Reference Files
-- Models: `upsales/models/user.py`, `upsales/models/company.py`
+
+### Models & Resources
+- Models: `upsales/models/user.py`, `upsales/models/company.py`, `upsales/models/contacts.py`
 - Resources: `upsales/resources/users.py`, `upsales/resources/base.py`
 - Tests: `tests/templates/resource_template.py`, `tests/integration/test_users_integration.py`
 - Validators: `upsales/validators.py`
+
+### Automation Scripts ⭐ **TIME SAVERS**
+- **API Reference**: `api_endpoints_with_fields.json` (167 endpoints documented)
+- **CREATE Validator**: `scripts/test_required_create_fields.py` (discovers required fields + DELETE)
+- **UPDATE Validator**: `scripts/test_required_update_fields.py` (discovers required update fields)
+- **Editability Tester**: `scripts/test_field_editability_bulk.py` (bulk update, discovers read-only fields)
+- **Search Validator**: `scripts/test_search_validation.py` (validates searchable fields + results)
+- **Sort Validator**: `scripts/test_sort_validation.py` (validates sorting + actual order)
+- **Field Selection**: `scripts/test_field_selection.py` (discovers always-returned fields)
+- **Pagination Test**: `scripts/test_pagination.py` (validates limit/offset, run once)
+- **DELETE Validator**: `scripts/test_delete_operation.py` (standalone DELETE verification)
+- **Full CRUD Lifecycle**: `scripts/test_full_crud_lifecycle.py` (orchestrator, runs all validators)
+- **Field Analyzer**: `ai_temp_files/find_unmapped_fields.py` (compare cassette vs model)
+
+**Time Savings**: ~45-60 minutes per endpoint with automation vs manual testing
+
+**Comprehensive Testing**: Run all validators with:
+```bash
+python scripts/test_full_crud_lifecycle.py {endpoint} --full
+```
 
 ## Validator Selection Rules
 - 0/1 flags → BinaryFlag
@@ -380,6 +751,15 @@ Verify in `ai_temp_files/postman_api_analysis.md`
 ## Final Verification
 Before marking complete:
 - [ ] All 12 patterns applied
+- [ ] **STEP 6: Full CRUD validation completed** ⭐ CRITICAL
+  - [ ] CREATE requirements verified with `test_required_create_fields.py`
+  - [ ] UPDATE requirements verified with `test_required_update_fields.py`
+  - [ ] Field editability verified with `test_field_editability_bulk.py`
+  - [ ] Search validation completed with `test_search_validation.py`
+  - [ ] DELETE operation verified with `test_delete_operation.py`
+- [ ] Frozen fields marked based on validation results
+- [ ] {Model}CreateFields TypedDict added
+- [ ] {Model}UpdateFields includes only editable fields
 - [ ] 100% resource coverage
 - [ ] 100% docstrings (interrogate)
 - [ ] mypy strict passing
@@ -388,5 +768,43 @@ Before marking complete:
 - [ ] Client registered
 - [ ] Exports updated
 - [ ] Integration tests passing
+- [ ] **STEP 22: Documentation updated** ⭐ REQUIRED
+  - [ ] docs/endpoint-map.md updated with ✅ Verified status
+  - [ ] ENDPOINT_TASK_LIST.md updated with verification details
+  - [ ] Dashboard statistics incremented
+  - [ ] CRUD operation results documented
+  - [ ] Discrepancies from API file noted
 
-Time budget: 60 minutes. Do not skip steps.
+Time budget: 65 minutes with automation (was 90+ manual). Do not skip steps.
+
+## Automation Workflow Summary
+
+**Old Manual Way** (90-120 min):
+```
+Generate → VCR → Analyze → Trial-and-error CREATE testing →
+Trial-and-error UPDATE testing → Guess frozen fields → Document
+```
+
+**New Automated Way** (45-60 min):
+```
+Check API file → Generate → Create Resource → Register → Export →
+VCR → Full CRUD Validation (STEP 6 - 15 min) →
+Apply Results → Analyze Cassette → Enhance Model → Test → Quality Checks
+```
+
+**STEP 6 CRUD Validation Runs**:
+- test_required_create_fields.py (POST: required fields)
+- test_required_update_fields.py (PUT: updatable fields)
+- test_field_editability_bulk.py (PUT: read-only detection)
+- test_search_validation.py (GET: searchable fields)
+- test_delete_operation.py (DELETE: can delete?)
+
+**Why Resource Early?** VCR testing (Step 5) requires the resource to be registered in the
+client. Creating and registering it immediately (Steps 2-4) unblocks the workflow.
+
+**Why CRUD Validation?** STEP 6 provides authoritative results from real API testing, eliminating
+guesswork about which fields are required, editable, or searchable.
+
+**Time Saved**: 30-60 minutes per endpoint
+**Accuracy**: Higher (no guessing, real API testing)
+**Confidence**: Verified with actual API responses

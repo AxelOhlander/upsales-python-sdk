@@ -27,7 +27,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from upsales.http import HTTPClient
 
-from upsales.models.todoViews import TodoView
+from upsales.models.todo_views import TodoView
 
 
 class TodoViewsResource:

@@ -11,7 +11,7 @@ Example:
 """
 
 from upsales.http import HTTPClient
-from upsales.models.orderStages import OrderStage, PartialOrderStage
+from upsales.models.order_stages import OrderStage, PartialOrderStage
 from upsales.resources.base import BaseResource
 
 

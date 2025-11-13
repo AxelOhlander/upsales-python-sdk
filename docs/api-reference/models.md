@@ -180,3 +180,29 @@ Auto-generated API documentation for all Upsales models.
     options:
       show_root_heading: true
       show_source: false
+
+## Projectplanstage Model
+
+::: upsales.models.projectPlanStages.Projectplanstage
+    options:
+      show_root_heading: true
+      show_source: false
+      members_order: source
+
+::: upsales.models.projectPlanStages.PartialProjectplanstage
+    options:
+      show_root_heading: true
+      show_source: false
+
+## ProjectPlanStatus Model
+
+::: upsales.models.projectplanstatus.ProjectPlanStatus
+    options:
+      show_root_heading: true
+      show_source: false
+      members_order: source
+
+::: upsales.models.projectplanstatus.PartialProjectPlanStatus
+    options:
+      show_root_heading: true
+      show_source: false

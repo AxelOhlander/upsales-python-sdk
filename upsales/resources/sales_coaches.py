@@ -17,7 +17,7 @@ Example:
 """
 
 from upsales.http import HTTPClient
-from upsales.models.salesCoaches import PartialSalesCoach, SalesCoach
+from upsales.models.sales_coaches import PartialSalesCoach, SalesCoach
 from upsales.resources.base import BaseResource
 
 

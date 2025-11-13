@@ -113,11 +113,15 @@ class StandardIntegration(BaseModel):
     alias: str | None = Field(None, description="URL-friendly alias for the integration")
 
     # Categorization and branding
-    category: NonEmptyStr = Field(description="Integration category (e.g., 'CRM', 'Marketing')")
+    category: str = Field(
+        default="", description="Integration category (e.g., 'CRM', 'Marketing', can be empty)"
+    )
     url: str | None = Field(None, description="Integration website or documentation URL")
     imageLink: str | None = Field(None, description="URL to integration logo/image")
-    color: NonEmptyStr = Field(description="Brand color for UI display (hex code)")
-    version: NonEmptyStr = Field(description="Integration version number")
+    color: str = Field(
+        default="", description="Brand color for UI display (hex code, can be empty)"
+    )
+    version: str = Field(default="", description="Integration version number (can be empty)")
 
     # Availability flags
     active: bool = Field(description="Whether integration is currently active")

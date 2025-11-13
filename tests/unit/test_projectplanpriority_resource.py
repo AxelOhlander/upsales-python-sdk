@@ -8,8 +8,8 @@ import pytest
 from pytest_httpx import HTTPXMock
 
 from upsales.http import HTTPClient
-from upsales.models.projectplanpriority import ProjectPlanPriority
-from upsales.resources.projectplanpriority import ProjectPlanPrioritiesResource
+from upsales.models.project_plan_priority import ProjectPlanPriority
+from upsales.resources.project_plan_priority import ProjectPlanPrioritiesResource
 
 
 class TestProjectPlanPrioritiesResourceCRUD:

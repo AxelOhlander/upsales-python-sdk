@@ -8,8 +8,8 @@ import pytest
 from pytest_httpx import HTTPXMock
 
 from upsales.http import HTTPClient
-from upsales.models.orderStages import OrderStage
-from upsales.resources.orderStages import OrderStagesResource
+from upsales.models.order_stages import OrderStage
+from upsales.resources.order_stages import OrderStagesResource
 
 
 class TestOrderStagesResourceCRUD:

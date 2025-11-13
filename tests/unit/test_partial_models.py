@@ -7,8 +7,6 @@ used for nested objects in API responses.
 Coverage target: 90%+
 """
 
-import pytest
-
 from upsales.models.campaign import PartialCampaign
 from upsales.models.category import PartialCategory
 from upsales.models.role import PartialRole
@@ -45,16 +43,6 @@ class TestPartialRole:
         assert role.name == "Administrator"
         assert role.description == "Admin role"
 
-    @pytest.mark.skip(reason="Full Role model not yet implemented")
-    def test_fetch_full_role(self):
-        """Test fetching full Role from PartialRole (when Role model exists)."""
-        pass
-
-    @pytest.mark.skip(reason="Full Role model not yet implemented")
-    def test_edit_partial_role(self):
-        """Test editing via PartialRole (when Role model exists)."""
-        pass
-
 
 class TestPartialCategory:
     """Test PartialCategory model used in Product.category."""
@@ -73,20 +61,6 @@ class TestPartialCategory:
         repr_str = repr(category)
         assert "PartialCategory" in repr_str
         assert "id=5" in repr_str
-
-    @pytest.mark.skip(
-        reason="Full Category model not yet implemented - only PartialCategory exists"
-    )
-    def test_fetch_full_category(self):
-        """Test fetching full Category from PartialCategory (when implemented)."""
-        pass
-
-    @pytest.mark.skip(
-        reason="Full Category model not yet implemented - only PartialCategory exists"
-    )
-    def test_edit_partial_category(self):
-        """Test editing via PartialCategory (when implemented)."""
-        pass
 
 
 class TestPartialCampaign:
@@ -112,20 +86,6 @@ class TestPartialCampaign:
         campaign = PartialCampaign(id=1, name="Q1 Campaign")
 
         assert campaign.display_name == "Q1 Campaign"
-
-    @pytest.mark.skip(
-        reason="Full Campaign model not yet implemented - only PartialCampaign exists"
-    )
-    def test_fetch_full_campaign(self):
-        """Test fetching full Campaign from PartialCampaign (when implemented)."""
-        pass
-
-    @pytest.mark.skip(
-        reason="Full Campaign model not yet implemented - only PartialCampaign exists"
-    )
-    def test_edit_partial_campaign(self):
-        """Test editing via PartialCampaign (when implemented)."""
-        pass
 
 
 # Coverage check

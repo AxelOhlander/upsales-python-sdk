@@ -19,24 +19,27 @@ interactions:
   response:
     body:
       string: !!binary |
-        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
+        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
+        PwCZwfINQigAAA==
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -53,18 +56,15 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 02 Nov 2025 14:35:43 GMT
+      - Sat, 08 Nov 2025 07:12:02 GMT
       ETag:
-      - W/"3053-XzDjyKzC8s9gMnzG/a0DpsxTwSY"
+      - W/"2842-Wd2P/BP1RxHIW4WWxSGCSiAdOSI"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Set-Cookie:
-      - token=e33f218bd86aef67d90a7eb27c9290d350f7595698092d7bce6d22f47437e60c5679aea1885f094efd025b38d33b0cf3;
-        Max-Age=3600; Path=/; Expires=Sun, 02 Nov 2025 15:35:43 GMT; HttpOnly; Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Transfer-Encoding:
@@ -79,6 +79,12 @@ interactions:
       - noopen
       X-Frame-Options:
       - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '198'
+      X-RateLimit-Reset:
+      - '10'
       X-XSS-Protection:
       - 1; mode=block
     status:
@@ -103,10 +109,8 @@ interactions:
     uri: https://power.upsales.com/api/v2/products?isRecurring=1&limit=100&offset=0
   response:
     body:
-      string: '{"error":null,"metadata":{"total":3,"limit":100,"offset":0},"data":[{"id":3,"name":"Ads","listPrice":10000,"active":1,"category":{"name":"Digital
-        Ads","id":2},"sortId":0,"recurringInterval":null,"isMultiCurrency":1,"isRecurring":1,"custom":[],"userRemovable":true,"userEditable":true,"roles":[],"currencies":[{"currency":"EUR","price":1000,"purchaseCost":0,"maxDiscount":null},{"currency":"GBP","price":1000,"purchaseCost":0,"maxDiscount":null},{"currency":"SEK","price":10000,"purchaseCost":0,"maxDiscount":null},{"currency":"USD","price":1000,"purchaseCost":0,"maxDiscount":null}],"tiers":[],"purchaseCost":0,"articleNo":null,"importId":null,"bundle":[],"bundlePriceAdjustment":null,"bundlePriceAdjustmentType":null,"bundleFixedPrice":false,"bundleEditable":false,"description":null,"projectPlanTemplate":null},{"id":11,"name":"Subscription
-        12 months","listPrice":1999,"active":1,"category":{"name":"Subscription products","id":3},"sortId":0,"recurringInterval":null,"isMultiCurrency":1,"isRecurring":1,"custom":[],"userRemovable":true,"userEditable":true,"roles":[],"currencies":[{"currency":"EUR","price":199,"purchaseCost":0,"maxDiscount":null},{"currency":"GBP","price":199,"purchaseCost":0,"maxDiscount":null},{"currency":"SEK","price":1999,"purchaseCost":0,"maxDiscount":null},{"currency":"USD","price":199,"purchaseCost":0,"maxDiscount":null}],"tiers":[],"purchaseCost":0,"articleNo":null,"importId":null,"bundle":[],"bundlePriceAdjustment":null,"bundlePriceAdjustmentType":null,"bundleFixedPrice":false,"bundleEditable":false,"description":null,"projectPlanTemplate":null},{"id":10000020,"name":"test","listPrice":31999,"active":1,"category":null,"sortId":0,"recurringInterval":12,"isMultiCurrency":1,"isRecurring":1,"custom":[],"userRemovable":true,"userEditable":true,"roles":[],"currencies":[{"currency":"SEK","price":31999,"purchaseCost":0,"maxDiscount":null}],"tiers":[],"purchaseCost":0,"articleNo":"12345678","importId":null,"bundle":[{"quantity":1,"adjustable":false,"productId":11,"tierQuantity":1,"product":{"tiers":[],"purchaseCost":0,"name":"Subscription
-        12 months","isRecurring":1,"id":11,"articleNo":null,"recurringInterval":null,"listPrice":1999,"currencies":[{"purchaseCost":0,"price":199,"priceListId":1,"currency":"EUR","maxDiscount":null},{"purchaseCost":0,"price":199,"priceListId":1,"currency":"GBP","maxDiscount":null},{"purchaseCost":0,"price":1999,"priceListId":1,"currency":"SEK","maxDiscount":null},{"purchaseCost":0,"price":199,"priceListId":1,"currency":"USD","maxDiscount":null}]}},{"quantity":1,"adjustable":false,"productId":3,"tierQuantity":1,"product":{"tiers":[],"purchaseCost":0,"name":"Ads","isRecurring":1,"id":3,"articleNo":null,"recurringInterval":null,"listPrice":10000,"currencies":[{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"EUR","maxDiscount":null},{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"GBP","maxDiscount":null},{"purchaseCost":0,"price":10000,"priceListId":1,"currency":"SEK","maxDiscount":null},{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"USD","maxDiscount":null}]}},{"quantity":1,"adjustable":false,"productId":3,"tierQuantity":1,"product":{"tiers":[],"purchaseCost":0,"name":"Ads","isRecurring":1,"id":3,"articleNo":null,"recurringInterval":null,"listPrice":10000,"currencies":[{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"EUR","maxDiscount":null},{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"GBP","maxDiscount":null},{"purchaseCost":0,"price":10000,"priceListId":1,"currency":"SEK","maxDiscount":null},{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"USD","maxDiscount":null}]}},{"quantity":1,"adjustable":false,"productId":3,"tierQuantity":1,"product":{"tiers":[],"purchaseCost":0,"name":"Ads","isRecurring":1,"id":3,"articleNo":null,"recurringInterval":null,"listPrice":10000,"currencies":[{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"EUR","maxDiscount":null},{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"GBP","maxDiscount":null},{"purchaseCost":0,"price":10000,"priceListId":1,"currency":"SEK","maxDiscount":null},{"purchaseCost":0,"price":1000,"priceListId":1,"currency":"USD","maxDiscount":null}]}}],"bundlePriceAdjustment":1,"bundlePriceAdjustmentType":null,"bundleFixedPrice":false,"bundleEditable":false,"description":null,"projectPlanTemplate":null}]}'
+      string: '{"error":null,"metadata":{"total":1,"limit":100,"offset":0},"data":[{"id":23,"name":"PowerBox
+        Steel feet","listPrice":80000,"active":1,"category":null,"sortId":0,"recurringInterval":12,"isMultiCurrency":1,"isRecurring":1,"custom":[{"value":"25","valueInteger":25,"valueDouble":25,"valueArray":["25"],"fieldId":1}],"userRemovable":true,"userEditable":true,"roles":[],"currencies":[{"currency":"SEK","price":80000,"purchaseCost":0,"maxDiscount":null}],"tiers":[],"purchaseCost":0,"articleNo":"25","importId":null,"bundle":[],"bundlePriceAdjustment":null,"bundlePriceAdjustmentType":null,"bundleFixedPrice":false,"bundleEditable":false,"description":null,"projectPlanTemplate":null}]}'
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -119,22 +123,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '4336'
+      - '681'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 02 Nov 2025 14:35:43 GMT
+      - Sat, 08 Nov 2025 07:12:02 GMT
       ETag:
-      - W/"10f0-OlO7ZcojLbAcRubFl+kNn3G1doo"
+      - W/"2a9-y997zcwlhw0+2RwKmtTCZ/qklWs"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Set-Cookie:
-      - token=e33f218bd86aef67d90a7eb27c9290d350f7595698092d7bce6d22f47437e60c5679aea1885f094efd025b38d33b0cf3;
-        Max-Age=3600; Path=/; Expires=Sun, 02 Nov 2025 15:35:43 GMT; HttpOnly; Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -145,6 +146,12 @@ interactions:
       - noopen
       X-Frame-Options:
       - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '197'
+      X-RateLimit-Reset:
+      - '10'
       X-XSS-Protection:
       - 1; mode=block
     status:

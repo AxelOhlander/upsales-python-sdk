@@ -80,30 +80,31 @@ class TestAdCampaign:
         )
         assert inactive_campaign.is_active is False
 
-    def test_active_validates_binary_flag(self):
-        """Test active field validates as binary flag (0 or 1)."""
-        # Valid values
+    def test_active_validates_boolean(self):
+        """Test active field validates as boolean (API returns bool true/false)."""
+        # Valid values - booleans
+        campaign_false = AdCampaign(
+            id=1, active=False, brandId=1, clicks=0, impressions=0, grade="F", hasIp=False
+        )
+        assert campaign_false.active is False
+        assert campaign_false.is_active is False
+
+        campaign_true = AdCampaign(
+            id=1, active=True, brandId=1, clicks=100, impressions=1000, grade="A", hasIp=True
+        )
+        assert campaign_true.active is True
+        assert campaign_true.is_active is True
+
+        # Pydantic coerces 0/1 to bool
         campaign_0 = AdCampaign(
             id=1, active=0, brandId=1, clicks=0, impressions=0, grade="F", hasIp=False
         )
-        assert campaign_0.active == 0
+        assert campaign_0.active is False
 
         campaign_1 = AdCampaign(
             id=1, active=1, brandId=1, clicks=100, impressions=1000, grade="A", hasIp=True
         )
-        assert campaign_1.active == 1
-
-        # Invalid: not 0 or 1
-        with pytest.raises(ValidationError) as exc_info:
-            AdCampaign(id=1, active=2, brandId=1, clicks=0, impressions=0, grade="F", hasIp=False)
-        assert "Binary flag must be 0 or 1" in str(exc_info.value)
-
-        # Invalid: boolean
-        with pytest.raises(ValidationError) as exc_info:
-            AdCampaign(
-                id=1, active=True, brandId=1, clicks=0, impressions=0, grade="F", hasIp=False
-            )
-        assert "Binary flag must be int (not bool)" in str(exc_info.value)
+        assert campaign_1.active is True
 
     def test_clicks_validates_positive_int(self):
         """Test clicks field validates as positive integer."""

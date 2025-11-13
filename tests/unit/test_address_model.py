@@ -104,37 +104,37 @@ def test_address_minimal_creation(minimal_address_data):
 
 
 def test_address_validates_required_fields():
-    """Test that Address validates required fields."""
-    # Missing type
+    """Test that Address validates required fields (but allows empty strings)."""
+    # Missing type - should raise
     with pytest.raises(ValidationError, match="type"):
         Address(address="123 Main St", city="Stockholm", country="SE")
 
-    # Missing address
+    # Missing address - should raise
     with pytest.raises(ValidationError, match="address"):
         Address(type="Visit", city="Stockholm", country="SE")
 
-    # Missing city
+    # Missing city - should raise
     with pytest.raises(ValidationError, match="city"):
         Address(type="Visit", address="123 Main St", country="SE")
 
-    # Missing country
+    # Missing country - should raise
     with pytest.raises(ValidationError, match="country"):
         Address(type="Visit", address="123 Main St", city="Stockholm")
 
 
 def test_address_validates_non_empty_strings():
-    """Test that Address validates non-empty strings."""
-    # Empty type
-    with pytest.raises(ValidationError):
-        Address(type="", address="123 Main St", city="Stockholm", country="SE")
+    """Test that Address allows empty strings (API can return empty strings)."""
+    # Empty type is allowed by API
+    address = Address(type="", address="123 Main St", city="Stockholm", country="SE")
+    assert address.type == ""
 
-    # Whitespace-only type
-    with pytest.raises(ValidationError):
-        Address(type="   ", address="123 Main St", city="Stockholm", country="SE")
+    # Whitespace-only type is allowed
+    address = Address(type="   ", address="123 Main St", city="Stockholm", country="SE")
+    assert address.type == "   "
 
-    # Empty address
-    with pytest.raises(ValidationError):
-        Address(type="Visit", address="", city="Stockholm", country="SE")
+    # Empty address is allowed by API
+    address = Address(type="Visit", address="", city="Stockholm", country="SE")
+    assert address.address == ""
 
 
 def test_address_full_address_computed(sample_address_data):
@@ -234,9 +234,9 @@ def test_address_mutability(sample_address_data):
     address.city = "Stockholm"
     assert address.city == "Stockholm"
 
-    # Should validate on assignment
-    with pytest.raises(ValidationError):
-        address.city = ""
+    # Should allow empty strings (API can return them)
+    address.city = ""
+    assert address.city == ""
 
 
 # ============================================================================
@@ -333,13 +333,15 @@ def test_partial_address_to_full(sample_address_data):
 
 
 def test_partial_address_to_full_validates():
-    """Test that to_full() validates when converting."""
-    # PartialAddress allows empty strings, but Address doesn't
+    """Test that to_full() successfully converts even with empty strings."""
+    # Both PartialAddress and Address allow empty strings (API reality)
     partial = PartialAddress(type="", address="", city="", country="")
 
-    # Should raise ValidationError when converting to Address
-    with pytest.raises(ValidationError):
-        partial.to_full()
+    # Should successfully convert to Address
+    full = partial.to_full()
+    assert isinstance(full, Address)
+    assert full.type == ""
+    assert full.address == ""
 
 
 def test_partial_address_repr():

@@ -12,7 +12,7 @@ import pytest
 import vcr
 
 from upsales import Upsales
-from upsales.models.orderStages import OrderStage
+from upsales.models.order_stages import OrderStage
 
 # Configure VCR for this test module
 my_vcr = vcr.VCR(

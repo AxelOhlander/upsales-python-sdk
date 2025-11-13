@@ -1,0 +1,46 @@
+⚠️  This script will make multiple API requests to test field selection
+⚠️  Estimated: ~20-30 requests depending on endpoint size
+
+
+================================================================================
+🧪 TESTING FIELD SELECTION: companies
+================================================================================
+
+Step 1: Fetching object with ALL fields...
+✅ Baseline has 86 testable fields
+   (Excluding 4 computed/private fields)
+
+Step 2: Testing minimal field selection (id only)...
+Traceback (most recent call last):
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_selection.py", line 225, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_selection.py", line 221, in main
+    await test_field_selection(endpoint)
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\scripts\test_field_selection.py", line 82, in test_field_selection
+    minimal_results = await resource.list(limit=1, fields=["id"])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\upsales\resources\base.py", line 250, in list
+    self._model_class(**item, _client=self._http._upsales_client)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Turbo\PycharmProjects\upsales_api_wrapper_python_v3\upsales\models\base.py", line 89, in __init__
+    super().__init__(**data)
+    ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for Company
+modDate
+  Field required [type=missing, input_value={'id': 23, 'dunsNo': None...991', 'extraFields': {}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+name
+  Field required [type=missing, input_value={'id': 23, 'dunsNo': None...991', 'extraFields': {}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing

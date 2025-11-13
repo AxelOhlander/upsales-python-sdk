@@ -5,8 +5,6 @@ Tests the smart address collection that provides both list-like access
 and convenient property accessors for address types.
 """
 
-import pytest
-
 from upsales.models.address import Address
 from upsales.models.address_list import AddressList
 
@@ -187,10 +185,12 @@ class TestAddressListListBehavior:
 
     def test_repr(self):
         """Test string representation."""
-        addresses = AddressList([
-            Address(type="Mail", address="Box 1", city="City", country="SE"),
-            Address(type="Visit", address="St 1", city="City", country="SE"),
-        ])
+        addresses = AddressList(
+            [
+                Address(type="Mail", address="Box 1", city="City", country="SE"),
+                Address(type="Visit", address="St 1", city="City", country="SE"),
+            ]
+        )
 
         assert repr(addresses) == "<AddressList count=2>"
 
@@ -200,11 +200,21 @@ class TestAddressListIntegration:
 
     def test_company_address_access_pattern(self):
         """Test typical usage pattern with company addresses."""
-        addresses = AddressList([
-            Address(type="Visit", address="Bergsnäsgatan 11", city="Avesta", country="SE", zipcode="77441"),
-            Address(type="Mail", address="Box 74", city="Stockholm", country="SE", zipcode="10052"),
-            Address(type="Billing", address="Invoice Dept", city="Malmö", country="SE"),
-        ])
+        addresses = AddressList(
+            [
+                Address(
+                    type="Visit",
+                    address="Bergsnäsgatan 11",
+                    city="Avesta",
+                    country="SE",
+                    zipcode="77441",
+                ),
+                Address(
+                    type="Mail", address="Box 74", city="Stockholm", country="SE", zipcode="10052"
+                ),
+                Address(type="Billing", address="Invoice Dept", city="Malmö", country="SE"),
+            ]
+        )
 
         # Property access
         assert addresses.mail is not None
@@ -227,10 +237,19 @@ class TestAddressListIntegration:
 
     def test_iterate_with_computed_fields(self):
         """Test iterating and using Address computed fields."""
-        addresses = AddressList([
-            Address(type="Visit", address="Main St 1", city="City1", country="SE", latitude=59.0, longitude=18.0),
-            Address(type="Mail", address="Box 1", city="City2", country="SE"),
-        ])
+        addresses = AddressList(
+            [
+                Address(
+                    type="Visit",
+                    address="Main St 1",
+                    city="City1",
+                    country="SE",
+                    latitude=59.0,
+                    longitude=18.0,
+                ),
+                Address(type="Mail", address="Box 1", city="City2", country="SE"),
+            ]
+        )
 
         with_geo = [a for a in addresses if a.has_geolocation]
         assert len(with_geo) == 1

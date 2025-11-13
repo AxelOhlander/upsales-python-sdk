@@ -12,7 +12,7 @@ import pytest
 import vcr
 
 from upsales import Upsales
-from upsales.models.salesCoaches import SalesCoach
+from upsales.models.sales_coaches import SalesCoach
 
 # Configure VCR for this test module
 my_vcr = vcr.VCR(

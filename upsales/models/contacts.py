@@ -195,7 +195,9 @@ class Contact(BaseModel):
     firstName: str = Field(default="", description="Contact's first name")
     lastName: str = Field(default="", description="Contact's last name")
     email: str = Field(default="", description="Contact's email (optional, can be empty)")
-    emailBounceReason: str = Field(default="", description="Email bounce reason (empty if no bounces)")
+    emailBounceReason: str = Field(
+        default="", description="Email bounce reason (empty if no bounces)"
+    )
     journeyStep: str = Field(default="", description="Contact's position in customer journey")
 
     # Binary flags (validated 0 or 1)

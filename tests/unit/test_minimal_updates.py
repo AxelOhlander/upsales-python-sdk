@@ -10,8 +10,8 @@ from pydantic import Field
 from upsales.models.base import BaseModel
 
 
-class TestModelWithRequired(BaseModel):
-    """Test model with required update fields."""
+class SampleModelWithRequired(BaseModel):
+    """Sample model with required update fields for testing."""
 
     _required_update_fields = {"email"}  # email is required for updates
 
@@ -22,8 +22,8 @@ class TestModelWithRequired(BaseModel):
     optional_field: str | None = None
 
 
-class TestModelNoRequired(BaseModel):
-    """Test model without required update fields."""
+class SampleModelNoRequired(BaseModel):
+    """Sample model without required update fields for testing."""
 
     id: int = Field(frozen=True)
     name: str
@@ -32,7 +32,7 @@ class TestModelNoRequired(BaseModel):
 
 def test_minimal_update_with_required_fields():
     """Test to_update_dict_minimal includes required fields."""
-    user = TestModelWithRequired(
+    user = SampleModelWithRequired(
         id=1, name="John", email="john@example.com", active=1, optional_field="optional"
     )
 
@@ -56,7 +56,7 @@ def test_minimal_update_with_required_fields():
 
 def test_minimal_update_without_required_fields():
     """Test to_update_dict_minimal when no required fields defined."""
-    user = TestModelNoRequired(id=1, name="John", active=1)
+    user = SampleModelNoRequired(id=1, name="John", active=1)
 
     # Change only name
     minimal = user.to_update_dict_minimal(name="Jane")
@@ -73,7 +73,7 @@ def test_minimal_update_without_required_fields():
 
 def test_minimal_update_multiple_changes():
     """Test to_update_dict_minimal with multiple changed fields."""
-    user = TestModelWithRequired(
+    user = SampleModelWithRequired(
         id=1, name="John", email="john@example.com", active=1, optional_field="test"
     )
 
@@ -90,7 +90,7 @@ def test_minimal_update_multiple_changes():
 
 def test_minimal_update_changing_required_field():
     """Test changing a required field itself."""
-    user = TestModelWithRequired(id=1, name="John", email="john@example.com", active=1)
+    user = SampleModelWithRequired(id=1, name="John", email="john@example.com", active=1)
 
     # Change email (which is also required)
     minimal = user.to_update_dict_minimal(email="jane@example.com")
@@ -101,7 +101,7 @@ def test_minimal_update_changing_required_field():
 
 def test_minimal_update_frozen_fields_excluded():
     """Test that frozen fields are never included."""
-    user = TestModelWithRequired(id=1, name="John", email="john@example.com")
+    user = SampleModelWithRequired(id=1, name="John", email="john@example.com")
 
     # Try to override frozen field (should be ignored)
     minimal = user.to_update_dict_minimal(id=999, name="Jane")
@@ -116,7 +116,7 @@ def test_minimal_update_frozen_fields_excluded():
 
 def test_minimal_vs_full_update():
     """Compare minimal vs full update payloads."""
-    user = TestModelWithRequired(
+    user = SampleModelWithRequired(
         id=1, name="John", email="john@example.com", active=1, optional_field="test"
     )
 

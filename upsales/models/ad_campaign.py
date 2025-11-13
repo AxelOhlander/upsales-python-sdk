@@ -66,9 +66,9 @@ class AdCampaign(BaseModel):
         strict=True,
         description="Unique campaign identifier",
     )
-    active: BinaryFlag = Field(
+    active: bool = Field(
         frozen=True,
-        description="Campaign active status (0=inactive, 1=active)",
+        description="Campaign active status (true/false)",
     )
     brandId: int = Field(
         frozen=True,
@@ -82,18 +82,19 @@ class AdCampaign(BaseModel):
         frozen=True,
         description="Total number of ad impressions shown",
     )
-    grade: str = Field(
+    grade: str | None = Field(
+        default=None,
         frozen=True,
-        description="Campaign performance grade (e.g., 'A', 'B', 'C')",
+        description="Campaign performance grade (e.g., 'A', 'B', 'C', optional)",
     )
     hasIp: bool = Field(
         frozen=True,
         description="Whether campaign has IP tracking enabled",
     )
-    lastTimestamp: str | None = Field(
-        None,
+    lastTimestamp: int | str | None = Field(
+        default=None,
         frozen=True,
-        description="ISO 8601 timestamp of last campaign activity",
+        description="Last campaign activity timestamp (Unix int or ISO string, optional)",
     )
 
     @computed_field
@@ -103,17 +104,17 @@ class AdCampaign(BaseModel):
         Check if campaign is currently active.
 
         Returns:
-            True if campaign is active (active=1), False otherwise.
+            True if campaign is active, False otherwise.
 
         Example:
-            >>> campaign = AdCampaign(id=1, active=1, brandId=1, clicks=100, impressions=1000, grade="A", hasIp=True)
+            >>> campaign = AdCampaign(id=1, active=True, brandId=1, clicks=100, impressions=1000, grade="A", hasIp=True)
             >>> campaign.is_active
             True
-            >>> inactive = AdCampaign(id=2, active=0, brandId=1, clicks=0, impressions=0, grade="F", hasIp=False)
+            >>> inactive = AdCampaign(id=2, active=False, brandId=1, clicks=0, impressions=0, grade="F", hasIp=False)
             >>> inactive.is_active
             False
         """
-        return self.active == 1
+        return self.active
 
     async def edit(self, **kwargs: Any) -> "AdCampaign":
         """
@@ -178,7 +179,7 @@ class PartialAdCampaign(PartialModel):
         Check if campaign is currently active.
 
         Returns:
-            True if campaign is active (active=1), False otherwise.
+            True if campaign is active, False otherwise.
 
         Example:
             >>> partial = PartialAdCampaign(id=1, active=1, clicks=100, impressions=1000)

@@ -25,7 +25,8 @@ from upsales.models.activity_list_item import ActivityListItem
 from upsales.models.ad_campaign import AdCampaign, PartialAdCampaign
 from upsales.models.address import Address, PartialAddress
 from upsales.models.address_list import AddressList
-from upsales.models.apiKeys import Apikey, ApikeyUpdateFields, PartialApikey
+from upsales.models.address_types import VALID_ADDRESS_TYPES, AddressType
+from upsales.models.api_keys import ApiKey, ApiKeyUpdateFields, PartialApiKey
 from upsales.models.appointments import Appointment, AppointmentUpdateFields, PartialAppointment
 from upsales.models.assignment import Assignment, PartialAssignment
 from upsales.models.base import BaseModel, PartialModel
@@ -36,13 +37,18 @@ from upsales.models.bundled_product import (
 )
 from upsales.models.campaign import PartialCampaign
 from upsales.models.category import PartialCategory
-from upsales.models.clientcategories import (
+from upsales.models.client_categories import (
     ClientCategory,
     ClientCategoryUpdateFields,
     PartialClientCategory,
 )
 from upsales.models.company import Company, PartialCompany
-from upsales.models.contacts import Contact, ContactCreateFields, ContactUpdateFields, PartialContact
+from upsales.models.contacts import (
+    Contact,
+    ContactCreateFields,
+    ContactUpdateFields,
+    PartialContact,
+)
 from upsales.models.currency import Currency, CurrencyUpdateFields, PartialCurrency
 from upsales.models.currency_configuration import (
     CurrencyConfiguration,
@@ -77,25 +83,36 @@ from upsales.models.notifications import (
     PartialNotification,
 )
 from upsales.models.opportunity_ai import OpportunityAI, PartialOpportunityAI
+from upsales.models.order_stages import OrderStage, OrderStageUpdateFields, PartialOrderStage
 from upsales.models.orders import Order, OrderCreateFields, OrderUpdateFields, PartialOrder
-from upsales.models.orderStages import OrderStage, OrderStageUpdateFields, PartialOrderStage
 from upsales.models.price_tier import PartialPriceTier, PriceTier
 from upsales.models.pricelist import PartialPricelist, Pricelist, PricelistUpdateFields
 from upsales.models.processed_by import PartialProcessedBy, ProcessedBy
 from upsales.models.product import PartialProduct, Product
+from upsales.models.project_plan_priority import (
+    PartialProjectPlanPriority,
+    ProjectPlanPriority,
+    ProjectPlanPriorityUpdateFields,
+)
+from upsales.models.project_plan_stages import (
+    PartialProjectPlanStage,
+    ProjectPlanStage,
+    ProjectPlanStageUpdateFields,
+)
+from upsales.models.project_plan_status import (
+    PartialProjectPlanStatus,
+    ProjectPlanStatus,
+    ProjectPlanStatusUpdateFields,
+)
 from upsales.models.project_plan_types import (
     PartialProjectPlanType,
     ProjectPlanType,
     ProjectPlanTypeUpdateFields,
 )
-from upsales.models.projectplanpriority import (
-    PartialProjectPlanPriority,
-    ProjectPlanPriority,
-    ProjectPlanPriorityUpdateFields,
-)
 from upsales.models.projects import PartialProject, Project, ProjectUpdateFields
+from upsales.models.quota import PartialQuota, Quota, QuotaUpdateFields
 from upsales.models.roles import PartialRole, Role, RoleUpdateFields
-from upsales.models.salesCoaches import PartialSalesCoach, SalesCoach, SalesCoachUpdateFields
+from upsales.models.sales_coaches import PartialSalesCoach, SalesCoach, SalesCoachUpdateFields
 from upsales.models.segments import PartialSegment, Segment, SegmentUpdateFields
 from upsales.models.self import AccountManager, ClientDetail, Self, SelfClient, VersionData
 from upsales.models.standard_integration import (
@@ -104,7 +121,7 @@ from upsales.models.standard_integration import (
     StandardIntegrationUpdateFields,
 )
 from upsales.models.static_values import CreditRating, IndustryCode, StaticValue, StaticValues
-from upsales.models.todoViews import TodoView
+from upsales.models.todo_views import TodoView
 from upsales.models.trigger_attributes import TriggerAttribute, TriggerAttributes
 from upsales.models.triggers import PartialTrigger, Trigger, TriggerUpdateFields
 from upsales.models.user import PartialUser, User
@@ -131,10 +148,12 @@ __all__ = [
     "PartialAdCampaign",
     "Address",
     "AddressList",
+    "AddressType",
+    "VALID_ADDRESS_TYPES",
     "PartialAddress",
-    "Apikey",
-    "ApikeyUpdateFields",
-    "PartialApikey",
+    "ApiKey",
+    "ApiKeyUpdateFields",
+    "PartialApiKey",
     "Appointment",
     "AppointmentUpdateFields",
     "PartialAppointment",
@@ -205,12 +224,21 @@ __all__ = [
     "ProjectPlanPriority",
     "ProjectPlanPriorityUpdateFields",
     "PartialProjectPlanPriority",
+    "ProjectPlanStage",
+    "ProjectPlanStageUpdateFields",
+    "PartialProjectPlanStage",
+    "ProjectPlanStatus",
+    "ProjectPlanStatusUpdateFields",
+    "PartialProjectPlanStatus",
     "ProjectPlanType",
     "ProjectPlanTypeUpdateFields",
     "PartialProjectPlanType",
     "Project",
     "ProjectUpdateFields",
     "PartialProject",
+    "Quota",
+    "QuotaUpdateFields",
+    "PartialQuota",
     "Role",
     "RoleUpdateFields",
     "PartialRole",

@@ -72,3 +72,17 @@ Auto-generated API documentation for resource managers.
     options:
       show_root_heading: true
       show_source: false
+
+## Project Plan Stages Resource
+
+::: upsales.resources.projectPlanStages.ProjectplanstagesResource
+    options:
+      show_root_heading: true
+      show_source: false
+
+## Project Plan Statuses Resource
+
+::: upsales.resources.projectplanstatus.ProjectPlanStatusesResource
+    options:
+      show_root_heading: true
+      show_source: false

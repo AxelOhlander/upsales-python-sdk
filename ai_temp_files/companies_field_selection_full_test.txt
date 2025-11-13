@@ -1,0 +1,95 @@
+⚠️  This script will make multiple API requests to test field selection
+⚠️  Estimated: ~20-30 requests depending on endpoint size
+
+
+================================================================================
+🧪 TESTING FIELD SELECTION: companies
+================================================================================
+
+Step 1: Fetching object with ALL fields...
+✅ Baseline has 86 testable fields
+   (Excluding 4 computed/private fields)
+
+Step 2: Testing minimal field selection (id only)...
+✅ Requested: ['id']
+   Got: 90 fields
+   Always returned (can't exclude): 89
+   Fields: ['creditRating', 'currency', 'deactivationDate', 'externalClientData', 'hasActivity', 'isMonitored', 'orgNo', 'priceListId', 'regBy', 'status']
+   ... and 79 more
+
+Step 3: Testing each field individually...
+   (Request id + this_field, see if other fields excluded)
+
+   Testing about... ⚠️ 84 extra fields returned
+   Testing active... ⚠️ 84 extra fields returned
+   Testing adCampaign... ⚠️ 84 extra fields returned
+   Testing addresses... ⚠️ 84 extra fields returned
+   Testing ads... ⚠️ 84 extra fields returned
+   Testing assigned... ⚠️ 84 extra fields returned
+   Testing autoMatchedProspectingId... ⚠️ 84 extra fields returned
+   Testing categories... ⚠️ 84 extra fields returned
+   Testing cfar... ⚠️ 84 extra fields returned
+   Testing clientPlans... ⚠️ 84 extra fields returned
+   Testing clientQuotas... ⚠️ 84 extra fields returned
+   Testing companyForm... ⚠️ 84 extra fields returned
+   Testing connectedClients... ⚠️ 84 extra fields returned
+   Testing creditRating... ⚠️ 84 extra fields returned
+   Testing currency... ⚠️ 84 extra fields returned
+   Testing custom... ⚠️ 84 extra fields returned
+   Testing deactivatedBy... ⚠️ 84 extra fields returned
+   Testing deactivationDate... ⚠️ 84 extra fields returned
+   Testing deactivationReason... ⚠️ 84 extra fields returned
+   Testing dunsNo... ⚠️ 84 extra fields returned
+
+================================================================================
+SUMMARY
+================================================================================
+
+✅ EXCLUDABLE Fields (0):
+   (Can be removed from response with field selection)
+
+
+❌ ALWAYS RETURNED Fields (109):
+   (Always in response, cannot be excluded)
+
+   From minimal test (id only):
+   - about
+   - active
+   - adCampaign
+   - addresses
+   - ads
+   - assigned
+   - autoMatchedProspectingId
+   - categories
+   - cfar
+   - clientPlans
+   - clientQuotas
+   - companyForm
+   - connectedClients
+   - contact_count
+   - creditRating
+   ... and 74 more
+
+   From individual tests:
+   - about (+84 other fields also returned)
+   - active (+84 other fields also returned)
+   - adCampaign (+84 other fields also returned)
+   - addresses (+84 other fields also returned)
+   - ads (+84 other fields also returned)
+
+================================================================================
+📊 PERFORMANCE IMPACT
+================================================================================
+
+   Total fields: 86
+   Excludable: 0 (0.0%)
+   Always returned: 109
+
+   💡 Potential bandwidth savings: Up to 0% with optimal field selection
+
+   Example optimal query:
+   results = await upsales.companies.list(
+       fields=["id", "name"],  # Minimal fields
+       limit=50
+   )
+   # Returns only essential fields, 0% smaller response

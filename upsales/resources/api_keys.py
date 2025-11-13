@@ -1,7 +1,7 @@
 """
 API Keys resource manager for Upsales API.
 
-Provides methods to interact with the /apiKeys endpoint using Apikey models.
+Provides methods to interact with the /apiKeys endpoint using ApiKey models.
 
 Example:
     >>> async with Upsales(token="...") as upsales:
@@ -20,11 +20,11 @@ Example:
 """
 
 from upsales.http import HTTPClient
-from upsales.models.apiKeys import Apikey, PartialApikey
+from upsales.models.api_keys import ApiKey, PartialApiKey
 from upsales.resources.base import BaseResource
 
 
-class ApikeysResource(BaseResource[Apikey, PartialApikey]):
+class ApikeysResource(BaseResource[ApiKey, PartialApiKey]):
     """
     Resource manager for API Keys endpoint.
 
@@ -60,11 +60,11 @@ class ApikeysResource(BaseResource[Apikey, PartialApikey]):
         super().__init__(
             http=http,
             endpoint="/apiKeys",
-            model_class=Apikey,
+            model_class=ApiKey,
             partial_class=PartialApikey,
         )
 
-    async def get_active(self) -> list[Apikey]:
+    async def get_active(self) -> list[ApiKey]:
         """
         Get all active API keys.
 
@@ -76,10 +76,10 @@ class ApikeysResource(BaseResource[Apikey, PartialApikey]):
             >>> for key in active_keys:
             ...     print(f"{key.name} - Active")
         """
-        all_keys: list[Apikey] = await self.list_all()
+        all_keys: list[ApiKey] = await self.list_all()
         return [key for key in all_keys if key.is_active]
 
-    async def get_inactive(self) -> list[Apikey]:
+    async def get_inactive(self) -> list[ApiKey]:
         """
         Get all inactive API keys.
 
@@ -91,10 +91,10 @@ class ApikeysResource(BaseResource[Apikey, PartialApikey]):
             >>> for key in inactive_keys:
             ...     print(f"{key.name} - Inactive")
         """
-        all_keys: list[Apikey] = await self.list_all()
+        all_keys: list[ApiKey] = await self.list_all()
         return [key for key in all_keys if not key.is_active]
 
-    async def get_by_name(self, name: str) -> Apikey | None:
+    async def get_by_name(self, name: str) -> ApiKey | None:
         """
         Get API key by name.
 
@@ -102,14 +102,14 @@ class ApikeysResource(BaseResource[Apikey, PartialApikey]):
             name: API key name to search for (case-insensitive).
 
         Returns:
-            Apikey object if found, None otherwise.
+            ApiKey object if found, None otherwise.
 
         Example:
             >>> apikey = await upsales.apikeys.get_by_name("Production")
             >>> if apikey:
             ...     print(apikey.id, apikey.is_active)
         """
-        all_keys: list[Apikey] = await self.list_all()
+        all_keys: list[ApiKey] = await self.list_all()
         for key in all_keys:
             if key.name.lower() == name.lower():
                 return key

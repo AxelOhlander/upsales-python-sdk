@@ -5,8 +5,6 @@ Tests the automatic merging of mailAddress into the addresses collection
 and the convenient property access pattern.
 """
 
-import pytest
-
 from upsales.models.address import Address
 from upsales.models.address_list import AddressList
 from upsales.models.company import Company
@@ -20,10 +18,12 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Visit", address="Main St 1", city="Stockholm", country="SE"),
-                Address(type="Mail", address="Box 123", city="Stockholm", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Visit", address="Main St 1", city="Stockholm", country="SE"),
+                    Address(type="Mail", address="Box 123", city="Stockholm", country="SE"),
+                ]
+            ),
         )
 
         assert isinstance(company.addresses, AddressList)
@@ -36,10 +36,17 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Visit", address="Main St 1", city="Stockholm", country="SE"),
-            ]),
-            mailAddress=Address(type="Mail", address="Box 123", city="Stockholm", country="SE"),
+            addresses=AddressList(
+                [
+                    Address(type="Visit", address="Main St 1", city="Stockholm", country="SE"),
+                ]
+            ),
+            mailAddress={
+                "type": "Mail",
+                "address": "Box 123",
+                "city": "Stockholm",
+                "country": "SE",
+            },
         )
 
         # After model_validator, mailAddress should be merged
@@ -53,9 +60,11 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Mail", address="Box 456", city="Malmö", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Mail", address="Box 456", city="Malmö", country="SE"),
+                ]
+            ),
         )
 
         mail = company.addresses.mail
@@ -68,9 +77,11 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Visit", address="Office Plaza", city="Göteborg", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Visit", address="Office Plaza", city="Göteborg", country="SE"),
+                ]
+            ),
         )
 
         visit = company.addresses.visit
@@ -82,13 +93,15 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Mail", address="Box 1", city="City1", country="SE"),
-                Address(type="Visit", address="St 2", city="City2", country="SE"),
-                Address(type="Postal", address="PO 3", city="City3", country="SE"),
-                Address(type="Billing", address="Invoice 4", city="City4", country="SE"),
-                Address(type="Delivery", address="Warehouse 5", city="City5", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Mail", address="Box 1", city="City1", country="SE"),
+                    Address(type="Visit", address="St 2", city="City2", country="SE"),
+                    Address(type="Postal", address="PO 3", city="City3", country="SE"),
+                    Address(type="Billing", address="Invoice 4", city="City4", country="SE"),
+                    Address(type="Delivery", address="Warehouse 5", city="City5", country="SE"),
+                ]
+            ),
         )
 
         assert company.addresses.mail.address == "Box 1"
@@ -102,10 +115,12 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Visit", address="St 1", city="City1", country="SE"),
-                Address(type="Mail", address="Box 2", city="City2", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Visit", address="St 1", city="City1", country="SE"),
+                    Address(type="Mail", address="Box 2", city="City2", country="SE"),
+                ]
+            ),
         )
 
         cities = [addr.city for addr in company.addresses]
@@ -126,11 +141,13 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Visit", address="5th Ave", city="New York", country="US"),
-                Address(type="Mail", address="Box 1", city="Stockholm", country="SE"),
-                Address(type="Billing", address="Main St", city="Malmö", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Visit", address="5th Ave", city="New York", country="US"),
+                    Address(type="Mail", address="Box 1", city="Stockholm", country="SE"),
+                    Address(type="Billing", address="Main St", city="Malmö", country="SE"),
+                ]
+            ),
         )
 
         se_addresses = company.addresses.filter_by_country("SE")
@@ -142,9 +159,11 @@ class TestCompanyAddressListIntegration:
         company = Company(
             id=1,
             name="ACME Corp",
-            addresses=AddressList([
-                Address(type="Visit", address="Main", city="City", country="SE"),
-            ]),
+            addresses=AddressList(
+                [
+                    Address(type="Visit", address="Main", city="City", country="SE"),
+                ]
+            ),
         )
 
         visit = company.addresses.get_by_type("visit")

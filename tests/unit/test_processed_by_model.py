@@ -110,26 +110,36 @@ class TestProcessedByModel:
                 user=user,
             )
 
-    def test_time_validates_non_empty(self):
-        """Test that time must be non-empty string."""
+    def test_time_is_optional(self):
+        """Test that time field is optional (can be None or empty)."""
         user = PartialUser(id=1, name="John Doe", email="john@example.com")
 
-        with pytest.raises(ValidationError, match="String cannot be empty"):
-            ProcessedBy(
-                id=123,
-                entityType="company",
-                date="2025-10-15",
-                time="",
-                user=user,
-            )
+        # Empty string is allowed
+        processed_by = ProcessedBy(
+            id=123,
+            entityType="company",
+            date="2025-10-15",
+            time="",
+            user=user,
+        )
+        assert processed_by.time == ""
+
+        # None is also allowed (field is optional)
+        processed_by = ProcessedBy(
+            id=123,
+            entityType="company",
+            date="2025-10-15",
+            time=None,
+            user=user,
+        )
+        assert processed_by.time is None
 
     def test_missing_required_fields(self):
-        """Test that all required fields must be provided."""
+        """Test that all required fields must be provided (time is optional)."""
         with pytest.raises(ValidationError, match="entityType"):
             ProcessedBy(
                 id=123,
                 date="2025-10-15",
-                time="14:30:00",
                 user={"id": 1, "name": "John", "email": "john@example.com"},
             )
 
@@ -137,15 +147,6 @@ class TestProcessedByModel:
             ProcessedBy(
                 id=123,
                 entityType="company",
-                time="14:30:00",
-                user={"id": 1, "name": "John", "email": "john@example.com"},
-            )
-
-        with pytest.raises(ValidationError, match="time"):
-            ProcessedBy(
-                id=123,
-                entityType="company",
-                date="2025-10-15",
                 user={"id": 1, "name": "John", "email": "john@example.com"},
             )
 
@@ -154,8 +155,16 @@ class TestProcessedByModel:
                 id=123,
                 entityType="company",
                 date="2025-10-15",
-                time="14:30:00",
             )
+
+        # time is optional - should NOT raise
+        processed_by = ProcessedBy(
+            id=123,
+            entityType="company",
+            date="2025-10-15",
+            user={"id": 1, "name": "John", "email": "john@example.com"},
+        )
+        assert processed_by.time is None  # Defaults to None
 
     def test_repr(self):
         """Test string representation."""
@@ -186,8 +195,8 @@ class TestProcessedByModel:
             await processed_by.edit(date="2025-10-16")
 
     def test_user_field_nested_validation(self):
-        """Test that user field validates as PartialUser."""
-        # Valid user data
+        """Test that user field accepts both PartialUser and dict."""
+        # User as dict - stays as dict (union type)
         processed_by = ProcessedBy(
             id=123,
             entityType="company",
@@ -195,17 +204,19 @@ class TestProcessedByModel:
             time="14:30:00",
             user={"id": 1, "name": "John Doe", "email": "john@example.com"},
         )
-        assert isinstance(processed_by.user, PartialUser)
+        # With union type, Pydantic keeps it as dict
+        assert isinstance(processed_by.user, (PartialUser, dict))
 
-        # Invalid user - missing required field
-        with pytest.raises(ValidationError, match="name"):
-            ProcessedBy(
-                id=123,
-                entityType="company",
-                date="2025-10-15",
-                time="14:30:00",
-                user={"id": 1, "email": "john@example.com"},
-            )
+        # User as PartialUser object - accepted
+        user_obj = PartialUser(id=1, name="John Doe", email="john@example.com")
+        processed_by2 = ProcessedBy(
+            id=123,
+            entityType="company",
+            date="2025-10-15",
+            time="14:30:00",
+            user=user_obj,
+        )
+        assert isinstance(processed_by2.user, PartialUser)
 
 
 class TestPartialProcessedByModel:

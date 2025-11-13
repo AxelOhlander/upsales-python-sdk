@@ -1,0 +1,46 @@
+
+================================================================================
+🧪 TESTING SEARCH VALIDATION: companies
+================================================================================
+
+Testing active='1'... (13 results) ✅ VALIDATED (all match!)
+Testing name='*AB'... (10 results) ✅ VALIDATED (all match!)
+Testing phone='*555'... (1 results) ✅ VALIDATED (all match!)
+Testing score='>0'... ⚠️ No results (can't validate)
+Testing numberOfContacts='>0'... (11 results) ✅ VALIDATED (all match!)
+Testing turnover='>1000000'... (8 results) ✅ VALIDATED (all match!)
+Testing profit='>0'... (8 results) ✅ VALIDATED (all match!)
+Testing isExternal='0'... (15 results) ✅ VALIDATED (all match!)
+Testing headquarters='1'... (8 results) ✅ VALIDATED (all match!)
+Testing journeyStep='lead'... (9 results) ✅ VALIDATED (all match!)
+Testing status='active'... (9 results) ✅ VALIDATED (all match!)
+
+================================================================================
+SUMMARY
+================================================================================
+
+✅ VALIDATED Fields (10):
+   (Search works AND all results match criteria)
+
+   - active                    query='1' (13 results, all valid)
+   - name                      query='*AB' (10 results, all valid)
+   - phone                     query='*555' (1 results, all valid)
+   - numberOfContacts          query='>0' (11 results, all valid)
+   - turnover                  query='>1000000' (8 results, all valid)
+   - profit                    query='>0' (8 results, all valid)
+   - isExternal                query='0' (15 results, all valid)
+   - headquarters              query='1' (8 results, all valid)
+   - journeyStep               query='lead' (9 results, all valid)
+   - status                    query='active' (9 results, all valid)
+
+⚠️ PARTIAL Fields (1):
+   (Search works but some results don't match)
+
+   - score                     query='>0' - No results to validate
+
+📊 STATISTICS:
+   Total fields tested: 11
+   ✅ Fully validated: 10 (90.9%)
+   ⚠️ Partial/No results: 1
+   ❌ Failed: 0
+

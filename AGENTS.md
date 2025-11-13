@@ -37,6 +37,18 @@
 - Follow patterns in `upsales/models/base.py` and `upsales/resources/base.py` when adding endpoints.
 - Prefer minimal, surgical diffs consistent with existing style and tooling.
 
+### Endpoint Addition Compliance (Required)
+- Follow `docs/guides/adding-endpoints-ai.md` step‑by‑step without skipping steps.
+- Run all documented commands when adding endpoints:
+  - `uv run upsales generate-model {endpoint} --partial`
+  - `uv run upsales init-resource {endpoint}`
+  - Register in `upsales/client.py` and update `__init__.py` exports
+  - Record VCR cassettes via integration tests
+  - Execute validator scripts (CRUD, search, sort, field selection)
+- STOP AND ASK before any deviation from the guide (e.g., generator naming quirks, endpoint casing, skipping validators, or altering step order). Obtain explicit approval first.
+- Use `.env` for credentials; never print or commit secrets. Redact in logs/cassettes.
+- Document results in `ENDPOINT_TASK_LIST.md` and update docs as the guide specifies.
+
 ## Temporary Files Policy
 - Place all non‑permanent docs, scratch notes, data dumps, and one‑off scripts in `ai_temp_files/`.
 - Examples: `ai_temp_files/scripts/tmp_*.py`, `ai_temp_files/notes/`, `ai_temp_files/session-YYYY-MM-DD/`.

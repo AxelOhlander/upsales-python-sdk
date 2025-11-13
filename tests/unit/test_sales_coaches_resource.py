@@ -8,7 +8,7 @@ import pytest
 from pytest_httpx import HTTPXMock
 
 from upsales.http import HTTPClient
-from upsales.models.salesCoaches import SalesCoach
+from upsales.models.sales_coaches import SalesCoach
 from upsales.resources.sales_coaches import SalesCoachesResource
 
 

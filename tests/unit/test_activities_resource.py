@@ -401,9 +401,7 @@ class TestActivitiesResourceCustomMethods:
     async def test_get_high_priority(self, httpx_mock: HTTPXMock, appointment_data):
         """Test get_high_priority() custom method."""
         httpx_mock.add_response(
-            url=re.compile(
-                r"https://power\.upsales\.com/api/v2/activities"
-            ),
+            url=re.compile(r"https://power\.upsales\.com/api/v2/activities"),
             json={"error": None, "data": [{**appointment_data, "priority": 5}]},
         )
 
@@ -418,9 +416,7 @@ class TestActivitiesResourceCustomMethods:
         """Test get_recent() custom method."""
         # Match any date in the URL (since it's dynamic - uses gte:YYYY-MM-DD format after transformation)
         httpx_mock.add_response(
-            url=re.compile(
-                r"https://power\.upsales\.com/api/v2/activities"
-            ),
+            url=re.compile(r"https://power\.upsales\.com/api/v2/activities"),
             json={"error": None, "data": [appointment_data]},
         )
 

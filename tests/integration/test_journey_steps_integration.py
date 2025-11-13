@@ -10,7 +10,6 @@ import pytest
 from upsales import Upsales
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_list_all_journey_steps():
     """Test listing all journey steps from API."""
@@ -33,7 +32,6 @@ async def test_list_all_journey_steps():
             assert isinstance(step.priority, int)
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_get_by_value():
     """Test getting a specific journey step by value."""
@@ -52,7 +50,6 @@ async def test_get_by_value():
         assert step.name == steps[0].name
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_get_by_name():
     """Test getting a specific journey step by name."""
@@ -71,7 +68,6 @@ async def test_get_by_name():
         assert step.value == steps[0].value
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_get_lead_stages():
     """Test getting lead-related journey steps."""
@@ -87,7 +83,6 @@ async def test_get_lead_stages():
             assert stage.is_lead_stage
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_get_customer_stages():
     """Test getting customer-related journey steps."""
@@ -100,7 +95,6 @@ async def test_get_customer_stages():
             assert stage.is_customer_stage
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_get_sorted_by_priority():
     """Test getting journey steps sorted by priority."""
@@ -115,7 +109,6 @@ async def test_get_sorted_by_priority():
         assert priorities == sorted(priorities)
 
 
-@pytest.mark.vcr()
 @pytest.mark.asyncio
 async def test_computed_fields():
     """Test computed fields on journey step model."""

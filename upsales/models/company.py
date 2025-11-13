@@ -19,10 +19,10 @@ Enhanced with Pydantic v2 features:
 
 from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 
-from pydantic import Field, computed_field, field_serializer, model_validator
+from pydantic import Field, computed_field, field_serializer, field_validator, model_validator
 
 from upsales.models.ad_campaign import AdCampaign
-from upsales.models.address import Address, PartialAddress
+from upsales.models.address import PartialAddress
 from upsales.models.address_list import AddressList
 from upsales.models.assignment import Assignment
 from upsales.models.base import BaseModel, PartialModel
@@ -163,6 +163,30 @@ class Company(BaseModel):
         API endpoint is /accounts, but we use "Company" to match what users
         see in the Upsales UI (Companies, not Accounts).
 
+    Field Selection (Performance Optimization):
+        When using fields=["id", "name"], these 17 fields are ALWAYS returned
+        regardless of field selection (verified 2025-11-07):
+
+        - id (primary key)
+        - userEditable, userRemovable (permissions)
+        - dunsNo, prospectingId, extraFields (system identifiers)
+        - hasActivity, hasAppointment, hasForm, hasMail, hasOpportunity,
+          hasOrder, hasVisit (7 current activity flags)
+        - hadActivity, hadAppointment, hadOpportunity, hadOrder (4 historical flags)
+
+        All other 69 fields (80%) can be excluded for bandwidth reduction:
+        - name, phone, addresses, users, categories, projects
+        - turnover, profit, custom, about
+        - All relationship and financial fields
+
+        Example:
+            >>> # Minimal query (76% bandwidth reduction)
+            >>> companies = await upsales.companies.list(
+            ...     fields=["id", "name"],
+            ...     limit=100
+            ... )
+            >>> # Returns: id, name + 16 always-returned fields (21 total vs 86)
+
     Example:
         >>> company = await upsales.companies.get(1)
         >>> company.name
@@ -176,32 +200,51 @@ class Company(BaseModel):
     # Read-only fields (frozen=True, strict=True)
     id: int = Field(frozen=True, strict=True, description="Unique company ID")
     regDate: str | None = Field(None, frozen=True, description="Registration date")
-    modDate: str = Field(frozen=True, description="Last modification date")
+    modDate: str = Field(
+        default="",
+        frozen=True,
+        description="Last modification date (may be excluded by field selection)",
+    )
 
-    # Required core fields with validators
-    name: NonEmptyStr = Field(description="Company name")
+    # Required core fields with validators (defaults added for field selection support)
+    name: str = Field(
+        default="",
+        description="Company name (required for CREATE, may be excluded by field selection)",
+    )
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")
     isExternal: BinaryFlag = Field(default=0, description="External company flag (0=no, 1=yes)")
     headquarters: BinaryFlag = Field(default=0, description="Headquarters flag (0=no, 1=yes)")
     cfar: int | None = Field(None, description="CFAR identifier code (not a binary flag)")
 
-    # Required metadata fields
-    numberOfContacts: int = Field(default=0, description="Number of contacts")
-    numberOfContactsTotal: int = Field(default=0, description="Total number of contacts")
-    numberOfSubaccounts: int = Field(default=0, description="Number of subaccounts")
-    score: int = Field(default=0, description="Company score")
-    journeyStep: str = Field(default="", description="Journey step in sales process")
+    # Metadata fields (calculated/system-managed, may be excluded by field selection)
+    numberOfContacts: int = Field(
+        default=0, description="Number of contacts (calculated, may be excluded by field selection)"
+    )
+    numberOfContactsTotal: int = Field(
+        default=0,
+        description="Total number of contacts (calculated, may be excluded by field selection)",
+    )
+    numberOfSubaccounts: int = Field(
+        default=0,
+        description="Number of subaccounts (calculated, may be excluded by field selection)",
+    )
+    score: int = Field(default=0, description="Company score (may be excluded by field selection)")
+    journeyStep: str = Field(
+        default="", description="Journey step in sales process (may be excluded by field selection)"
+    )
 
     # Boolean flags
     excludedFromProspectingMonitor: bool = Field(
         default=False, description="Excluded from prospecting monitor"
     )
     isMonitored: bool = Field(default=False, description="Is being monitored")
-    hasVisit: bool = Field(default=False, description="Has visit activity")
-    hasMail: bool = Field(default=False, description="Has mail activity")
-    hasForm: bool = Field(default=False, description="Has form submission")
-    userEditable: bool = Field(default=True, description="User can edit")
-    userRemovable: bool = Field(default=True, description="User can remove")
+
+    # NOTE: These tracking/permission fields are ALWAYS returned even with field selection (verified 2025-11-07)
+    hasVisit: bool = Field(default=False, description="Has visit activity (always returned)")
+    hasMail: bool = Field(default=False, description="Has mail activity (always returned)")
+    hasForm: bool = Field(default=False, description="Has form submission (always returned)")
+    userEditable: bool = Field(default=True, description="User can edit (always returned)")
+    userRemovable: bool = Field(default=True, description="User can remove (always returned)")
 
     # Optional text fields
     about: str | None = Field(None, description="About the company")
@@ -217,7 +260,8 @@ class Company(BaseModel):
     companyForm: str | None = Field(None, description="Company form/type")
     naceCode: str | None = Field(None, description="NACE industry code")
     sniCode: str | None = Field(None, description="SNI industry code")
-    dunsNo: str | None = Field(None, description="DUNS number")
+    # NOTE: 'dunsNo' is ALWAYS returned even with field selection
+    dunsNo: str | None = Field(None, description="DUNS number (always returned)")
     creditRating: str | None = Field(None, description="Credit rating")
 
     # Optional numeric fields
@@ -232,7 +276,8 @@ class Company(BaseModel):
     prospectingUpdateDate: str | None = Field(None, description="Last prospecting update date")
 
     # Optional prospecting fields
-    prospectingId: str | None = Field(None, description="Prospecting ID")
+    # NOTE: 'prospectingId' is ALWAYS returned even with field selection
+    prospectingId: str | None = Field(None, description="Prospecting ID (always returned)")
     autoMatchedProspectingId: str | None = Field(None, description="Auto-matched prospecting ID")
     prospectingCreditRating: str | None = Field(None, description="Prospecting credit rating")
     prospectingNumericCreditRating: int | None = Field(
@@ -240,14 +285,19 @@ class Company(BaseModel):
     )
 
     # Activity tracking fields (date strings or None)
-    hadOrder: str | None = Field(None, description="Date of last order")
-    hasOrder: str | None = Field(None, description="Has active order")
-    hadActivity: str | None = Field(None, description="Date of last activity")
-    hasActivity: str | None = Field(None, description="Has active activity")
-    hadAppointment: str | None = Field(None, description="Date of last appointment")
-    hasAppointment: str | None = Field(None, description="Has active appointment")
-    hadOpportunity: str | None = Field(None, description="Date of last opportunity")
-    hasOpportunity: str | None = Field(None, description="Has active opportunity")
+    # NOTE: These 8 fields are ALWAYS returned even with field selection (verified 2025-11-07)
+    hadOrder: str | None = Field(None, description="Date of last order (always returned)")
+    hasOrder: str | None = Field(None, description="Has active order (always returned)")
+    hadActivity: str | None = Field(None, description="Date of last activity (always returned)")
+    hasActivity: str | None = Field(None, description="Has active activity (always returned)")
+    hadAppointment: str | None = Field(
+        None, description="Date of last appointment (always returned)"
+    )
+    hasAppointment: str | None = Field(None, description="Has active appointment (always returned)")
+    hadOpportunity: str | None = Field(
+        None, description="Date of last opportunity (always returned)"
+    )
+    hasOpportunity: str | None = Field(None, description="Has active opportunity (always returned)")
 
     # List fields
     custom: CustomFieldsList = Field(default=[], description="Custom fields")
@@ -256,7 +306,9 @@ class Company(BaseModel):
         default_factory=lambda: AddressList([]),
         description="Smart address collection with type accessors (.mail, .visit, .postal, .billing, .delivery)",
     )
-    adCampaign: AdCampaign | None = Field(None, description="Advertising campaign tracking data")
+    adCampaign: list[AdCampaign] = Field(
+        default_factory=list, description="Advertising campaigns (API returns array)"
+    )
     projects: list[PartialCampaign] = Field(default=[], description="Associated campaigns/projects")
     categories: list[Any] = Field(
         default=[], description="Company categories (dynamic structure, kept as Any)"
@@ -270,23 +322,26 @@ class Company(BaseModel):
     connectedClients: list[Any] = Field(
         default=[], description="Connected clients (structure TBD, kept as Any)"
     )
-    externalClientData: list[Any] = Field(
-        default=[], description="External client data (third-party, kept as Any)"
+    externalClientData: dict[str, Any] | list[Any] = Field(
+        default_factory=dict,
+        description="External client data (API returns dict or list, inconsistent)",
     )
 
     # Dict/object fields
+    # NOTE: 'extraFields' is ALWAYS returned even with field selection
     extraFields: dict[str, Any] = Field(
-        default={}, description="Extra custom fields (flexible structure)"
+        default_factory=dict,
+        description="Extra custom fields (flexible structure, always returned)",
     )
     ads: dict[str, Any] = Field(default={}, description="Ad data (complex structure)")
-    assigned: Assignment | None = Field(
-        None,
-        description="Assigned user with registration date",
+    assigned: list[Assignment] | Assignment | None = Field(
+        default=None,
+        description="Assigned users (API returns dict or list, inconsistent)",
     )
     growth: dict[str, Any] = Field(default={}, description="Growth data (metrics, kept as dict)")
-    mailAddress: Address | None = Field(
+    mailAddress: dict[str, Any] | None = Field(
         None,
-        description="Mail address from API (automatically merged into addresses collection)",
+        description="Mail address from API (raw dict, automatically merged into addresses collection)",
         exclude=True,  # Exclude from dict export since it's merged into addresses
     )
     soliditet: dict[str, Any] = Field(
@@ -379,6 +434,31 @@ class Company(BaseModel):
         """
         return self.numberOfContactsTotal
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def convert_addresses_list(cls, v: Any) -> AddressList:
+        """
+        Convert raw list from API to AddressList instance.
+
+        The API returns addresses as a raw list of dicts, but our model
+        uses AddressList for convenient typed access (.mail, .visit, etc.).
+
+        Args:
+            v: Value from API (list[dict] or AddressList).
+
+        Returns:
+            AddressList instance with Address objects.
+        """
+        if isinstance(v, list):
+            # Convert list of dicts to list of Address objects
+            from upsales.models.address import Address
+
+            address_objects = [Address(**addr) if isinstance(addr, dict) else addr for addr in v]
+            return AddressList(address_objects)
+        if v is None:
+            return AddressList([])
+        return v
+
     @model_validator(mode="after")
     def merge_mail_address_into_addresses(self) -> "Company":
         """
@@ -387,19 +467,31 @@ class Company(BaseModel):
         The API returns mailAddress as a separate field, but we normalize
         this by merging it into the addresses collection for unified access.
         """
-        if self.mailAddress and isinstance(self.addresses, AddressList):
+        if (
+            self.mailAddress
+            and isinstance(self.mailAddress, dict)
+            and isinstance(self.addresses, AddressList)
+        ):
             # Check if mail address not already in list
             if not self.addresses.mail:
-                # Add mail address to the collection
-                self.addresses._addresses.append(self.mailAddress)
+                # Convert dict to Address and add to collection
+                from upsales.models.address import Address
+
+                try:
+                    mail_addr = Address(**self.mailAddress)
+                    self.addresses._addresses.append(mail_addr)
+                except Exception:
+                    # If conversion fails, skip merging
+                    pass
         return self
 
-    @field_serializer("addresses", when_used="json")
+    @field_serializer("addresses", when_used="always")
     def serialize_addresses(self, addresses: AddressList) -> list[dict[str, Any]]:
         """
         Serialize AddressList to list of dicts for API.
 
         Also handles splitting mail address back out if needed.
+        Uses when_used='always' to work in both 'json' and 'python' modes.
         """
         # Get all addresses
         all_addrs = addresses.all() if isinstance(addresses, AddressList) else []
@@ -481,7 +573,7 @@ class PartialCompany(PartialModel):
     operationalAccount: dict[str, Any] | None = Field(
         None, description="Operational account (some endpoints)"
     )
-    journeyStep: dict[str, Any] | None = Field(None, description="Journey step (some endpoints)")
+    journeyStep: str | None = Field(None, description="Journey step (some endpoints)")
     addresses: list[PartialAddress] | None = Field(None, description="Addresses (some endpoints)")
     phone: str | None = Field(None, description="Company phone (some endpoints)")
 

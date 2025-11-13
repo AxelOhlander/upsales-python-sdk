@@ -23,10 +23,10 @@ from pydantic import ConfigDict, Field, computed_field
 
 from upsales.models.company import PartialCompany
 from upsales.models.contacts import PartialContact
-from upsales.models.user import PartialUser
-from upsales.models.projects import PartialProject
-from upsales.models.orders import PartialOrder
 from upsales.models.mail_templates import PartialMailTemplate
+from upsales.models.orders import PartialOrder
+from upsales.models.projects import PartialProject
+from upsales.models.user import PartialUser
 from upsales.validators import CustomFieldsList
 
 if TYPE_CHECKING:

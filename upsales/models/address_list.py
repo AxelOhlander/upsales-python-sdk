@@ -7,7 +7,7 @@ list-like behavior for iteration and indexing.
 
 from __future__ import annotations
 
-from typing import Iterator
+from collections.abc import Iterator
 
 from upsales.models.address import Address
 

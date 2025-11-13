@@ -21,7 +21,7 @@ Example:
 """
 
 from upsales.http import HTTPClient
-from upsales.models.projectplanpriority import (
+from upsales.models.project_plan_priority import (
     PartialProjectPlanPriority,
     ProjectPlanPriority,
 )

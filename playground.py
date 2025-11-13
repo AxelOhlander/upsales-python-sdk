@@ -26,6 +26,9 @@ async def main():
 
     # Create client from .env file
     async with Upsales.from_env() as upsales:
+        pps = await upsales.project_plan_statuses.get(1)
+        print(pps.regDate)
+        exit()
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # BASIC OPERATIONS
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

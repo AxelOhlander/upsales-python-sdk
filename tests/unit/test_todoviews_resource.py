@@ -20,12 +20,18 @@ import pytest
 from pytest_httpx import HTTPXMock
 
 from upsales.http import HTTPClient
-from upsales.models.todoViews import TodoView
-from upsales.resources.todoViews import TodoViewsResource
+from upsales.models.todo_views import TodoView
+from upsales.resources.todo_views import TodoViewsResource
 
 
 class TestTodoViewsResource:
     """Test TodoViewsResource operations."""
+
+    @pytest.fixture
+    async def resource(self):
+        """Create TodoViewsResource for testing."""
+        async with HTTPClient(token="test_token", auth_manager=None) as http:
+            yield TodoViewsResource(http)
 
     @pytest.fixture
     def sample_views(self):

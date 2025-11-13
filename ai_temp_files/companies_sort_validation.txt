@@ -1,0 +1,59 @@
+
+================================================================================
+🧪 TESTING SORT VALIDATION: companies
+================================================================================
+
+Testing sort='name' (string, ascending)... (10 results) ❌ NOT SORTED (ascending)
+      Values: ['Avarn Security AB - Platskontor Malmö_EDIT', 'Bing Bong AB', 'Boards on Fire AB', 'HMS Industrial Networks AB_TEST', 'IKEA of Sweden AB']
+Testing sort='-name' (string, descending)... (10 results) ❌ NOT SORTED (descending)
+      Values: ['Wise Professionals Konsult AB', 'Upsales Nordic AB', 'test rosanna', 'Test Company AB', 'Test 2']
+Testing sort='turnover' (number, ascending)... (10 results) ❌ NOT SORTED (ascending)
+      Values: [171000, 8589000, 38123000, 152619000, 278540000]
+Testing sort='-turnover' (number, descending)... (10 results) ✅ VALIDATED (descending)
+      Values: [7780693000, 3457806001, 2569764000]
+Testing sort='numberOfContacts' (number, ascending)... (10 results) ✅ VALIDATED (ascending)
+      Values: [0, 0, 0]
+Testing sort='-numberOfContacts' (number, descending)... (10 results) ✅ VALIDATED (descending)
+      Values: [43, 27, 23]
+Testing sort='regDate' (date, ascending)... (10 results) ✅ VALIDATED (ascending)
+      Values: ['2024-11-20T09:46:45.000Z', '2025-03-10T08:42:19.000Z', '2025-03-10T08:42:38.000Z']
+Testing sort='-regDate' (date, descending)... (10 results) ✅ VALIDATED (descending)
+      Values: ['2025-08-25T13:04:30.000Z', '2025-06-04T11:22:37.000Z', '2025-05-21T12:45:56.000Z']
+
+================================================================================
+SUMMARY
+================================================================================
+
+✅ VALIDATED Sorts (5):
+   (Results are actually sorted correctly)
+
+   - -turnover                 descending   Sample: [7780693000, 3457806001, 2569764000]
+   - numberOfContacts          ascending    Sample: [0, 0, 0]
+   - -numberOfContacts         descending   Sample: [43, 27, 23]
+   - regDate                   ascending    Sample: ['2024-11-20T09:46:45.000Z', '2025-03-10T08:42:19.000Z', '2025-03-10T08:42:38.000Z']
+   - -regDate                  descending   Sample: ['2025-08-25T13:04:30.000Z', '2025-06-04T11:22:37.000Z', '2025-05-21T12:45:56.000Z']
+
+❌ FAILED (3):
+   - name                      Results not in ascending order
+   - -name                     Results not in descending order
+   - turnover                  Results not in ascending order
+
+📊 STATISTICS:
+   Total sort tests: 8
+   ✅ Validated: 5 (62.5%)
+   ⚠️ Partial: 0
+   ❌ Failed: 3
+
+💡 USAGE EXAMPLES:
+   # Ascending order
+   results = await upsales.companies.list(sort='name')
+
+   # Descending order
+   results = await upsales.companies.list(sort='-turnover')
+
+   # Combined with search
+   results = await upsales.companies.search(
+       active=1,
+       sort='-regDate'  # Newest first
+   )
+

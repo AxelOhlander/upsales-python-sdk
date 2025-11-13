@@ -16,7 +16,7 @@ import pytest
 import vcr
 
 from upsales import Upsales
-from upsales.models.todoViews import TodoView
+from upsales.models.todo_views import TodoView
 
 # Configure VCR for these tests
 my_vcr = vcr.VCR(

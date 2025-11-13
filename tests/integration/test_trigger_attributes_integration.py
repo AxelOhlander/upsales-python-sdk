@@ -16,7 +16,6 @@ import pytest
 from upsales import Upsales
 
 
-@pytest.mark.vcr
 @pytest.mark.asyncio
 async def test_get_trigger_attributes():
     """Test getting all trigger attributes."""
@@ -38,7 +37,6 @@ async def test_get_trigger_attributes():
         assert attrs.entity_types == sorted(attrs.entity_types)  # Should be sorted
 
 
-@pytest.mark.vcr
 @pytest.mark.asyncio
 async def test_get_entity_attributes():
     """Test getting attributes for specific entity type."""
@@ -71,7 +69,6 @@ async def test_get_entity_attributes():
         assert name_attr.field_name == "Name"
 
 
-@pytest.mark.vcr
 @pytest.mark.asyncio
 async def test_get_criteria_attributes():
     """Test getting only criteria attributes."""
@@ -86,7 +83,6 @@ async def test_get_criteria_attributes():
         assert all(attr.asCriteria for attr in criteria)
 
 
-@pytest.mark.vcr
 @pytest.mark.asyncio
 async def test_get_attribute_by_id():
     """Test getting single attribute by ID."""

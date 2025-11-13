@@ -313,6 +313,213 @@ class Contact(BaseModel):
 
 See `docs/terminology.md` for complete rationale.
 
+## Naming Conventions
+
+**CRITICAL**: This project follows strict PEP 8 naming conventions. All files, classes, and identifiers must adhere to these rules.
+
+### File Naming Rules
+
+#### Models (`upsales/models/`)
+
+**Rule**: Always use `snake_case` for file names.
+
+```
+✅ CORRECT:
+- order_stages.py
+- sales_coaches.py
+- todo_views.py
+- api_keys.py
+- project_plan_stages.py
+- client_categories.py
+
+❌ WRONG:
+- orderStages.py        # camelCase
+- salesCoaches.py       # camelCase
+- todoViews.py          # camelCase
+- apiKeys.py            # camelCase
+- projectPlanStages.py  # PascalCase
+- clientcategories.py   # no underscores
+```
+
+**Conversion Formula**: `camelCase` or `PascalCase` → `snake_case`
+- `orderStages` → `order_stages`
+- `SalesCoach` → `sales_coaches` (model file, plural)
+- `ApiKey` → `api_keys` (model file, plural)
+
+#### Resources (`upsales/resources/`)
+
+**Rule**: Always use `snake_case` for file names, always plural.
+
+```
+✅ CORRECT:
+- order_stages.py      # Plural, snake_case
+- sales_coaches.py     # Plural, snake_case
+- todo_views.py        # Plural, snake_case
+- api_keys.py          # Plural, snake_case
+
+❌ WRONG:
+- order_stage.py       # Singular (should be plural)
+- orderStages.py       # camelCase (should be snake_case)
+- salesCoach.py        # Singular + camelCase
+```
+
+### Class Naming Rules
+
+#### Model Classes
+
+**Rule**: Always use `PascalCase`, always singular.
+
+```
+✅ CORRECT:
+class OrderStage(BaseModel):        # PascalCase, singular
+class SalesCoach(BaseModel):        # PascalCase, singular
+class TodoView(BaseModel):          # PascalCase, singular
+class ApiKey(BaseModel):            # PascalCase, singular
+class ProjectPlanStage(BaseModel):  # PascalCase, singular
+
+❌ WRONG:
+class Orderstage(BaseModel):        # Missing capitals
+class salesCoach(BaseModel):        # camelCase
+class Apikey(BaseModel):            # Wrong capitalization (should be ApiKey)
+class Projectplanstage(BaseModel):  # Missing capitals (should be ProjectPlanStage)
+class OrderStages(BaseModel):       # Plural (should be singular)
+```
+
+#### Partial Model Classes
+
+**Rule**: Prefix with `Partial`, use `PascalCase`, singular.
+
+```
+✅ CORRECT:
+class PartialOrderStage(PartialModel):
+class PartialSalesCoach(PartialModel):
+class PartialApiKey(PartialModel):
+class PartialProjectPlanStage(PartialModel):
+
+❌ WRONG:
+class PartialApikey(PartialModel):         # Wrong capitalization
+class PartialProjectplanstage(PartialModel):  # Missing capitals
+```
+
+#### Resource Classes
+
+**Rule**: Use `PascalCase` + `Resource` suffix, always plural for the base name.
+
+```
+✅ CORRECT:
+class OrderStagesResource(BaseResource):     # Plural + Resource
+class SalesCoachesResource(BaseResource):    # Plural + Resource
+class TodoViewsResource(BaseResource):       # Plural + Resource
+class ApiKeysResource(BaseResource):         # Plural + Resource
+
+❌ WRONG:
+class OrderStageResource(BaseResource):      # Singular (should be plural)
+class Orderstagesresource(BaseResource):     # Wrong capitalization
+```
+
+### Client Attribute Naming
+
+**Rule**: Use `snake_case`, always plural.
+
+```python
+# In upsales/client.py
+
+class Upsales:
+    def __init__(self, token: str, ...):
+        self.http = HTTPClient(token, ...)
+
+        # ✅ CORRECT: snake_case, plural
+        self.order_stages = OrderStagesResource(self.http)
+        self.sales_coaches = SalesCoachesResource(self.http)
+        self.todo_views = TodoViewsResource(self.http)
+        self.api_keys = ApiKeysResource(self.http)
+        self.project_plan_stages = ProjectPlanStagesResource(self.http)
+
+        # ❌ WRONG: camelCase or incorrect plural
+        self.orderStages = OrderStagesResource(self.http)    # camelCase
+        self.order_stage = OrderStagesResource(self.http)    # Singular
+```
+
+### TypedDict Naming
+
+**Rule**: Use `PascalCase` + descriptive suffix.
+
+```python
+✅ CORRECT:
+class OrderStageUpdateFields(TypedDict, total=False):
+class OrderStageCreateFields(TypedDict, total=False):
+class SalesCoachUpdateFields(TypedDict, total=False):
+
+❌ WRONG:
+class orderStageUpdateFields(TypedDict, total=False):  # camelCase
+class UpdateFieldsOrderStage(TypedDict, total=False):  # Wrong order
+```
+
+### Special Cases
+
+#### Acronyms and Initialisms
+
+**Rule**: Treat acronyms as words, capitalize only the first letter in PascalCase.
+
+```
+✅ CORRECT:
+- ApiKey (not APIKey)
+- HttpClient (not HTTPClient)
+- JsonData (not JSONData)
+
+Exception for well-known short acronyms:
+- URL (acceptable)
+- ID (acceptable when alone, but use Id in compounds: userId)
+```
+
+#### Multi-word API Endpoints
+
+**Rule**: Use underscores to separate all words.
+
+```
+API Endpoint         →  File Name              →  Class Name
+-----------------------------------------------------------------
+/orderStages         →  order_stages.py        →  OrderStage
+/salesCoaches        →  sales_coaches.py       →  SalesCoach
+/projectPlanStages   →  project_plan_stages.py →  ProjectPlanStage
+/clientCategories    →  client_categories.py   →  ClientCategory
+/apiKeys             →  api_keys.py            →  ApiKey
+```
+
+### Standardization Script
+
+**A refactoring script is provided to fix existing naming inconsistencies**:
+
+```bash
+# Preview changes (dry-run mode)
+python scripts/standardize_naming.py --dry-run
+
+# Apply changes
+python scripts/standardize_naming.py --execute
+```
+
+**What it does**:
+1. Renames model files from camelCase to snake_case
+2. Renames resource files to snake_case
+3. Fixes class names to proper PascalCase
+4. Updates all imports in __init__.py files
+5. Updates client.py attributes
+6. Updates test file imports
+
+**When to use**: Only run this once if you're working with legacy code that doesn't follow conventions.
+
+### Quick Reference
+
+| Element | Convention | Example |
+|---------|-----------|---------|
+| **Model file** | snake_case | `order_stages.py` |
+| **Resource file** | snake_case, plural | `order_stages.py` |
+| **Model class** | PascalCase, singular | `OrderStage` |
+| **Partial class** | Partial + PascalCase, singular | `PartialOrderStage` |
+| **Resource class** | PascalCase plural + Resource | `OrderStagesResource` |
+| **Client attribute** | snake_case, plural | `upsales.order_stages` |
+| **TypedDict** | PascalCase + Fields | `OrderStageUpdateFields` |
+
 ### Key Design Principles
 
 1. **Template-Driven Architecture**: `BaseModel`, `PartialModel`, and `BaseResource` are designed as replicable templates for extending the SDK with new endpoints
@@ -1186,24 +1393,26 @@ See `docs/patterns/type-safe-updates.md` for complete guide including alternativ
 ### Naming & Terminology
 5. **Don't use API naming in user code**: Use `Company` (not `Account`), `upsales.companies` (not `client.accounts`)
 6. **Don't forget field aliases**: When API field name differs (e.g., `"client"`), use `Field(alias="client")`
+7. **Don't use camelCase for file names**: Always use `snake_case` for model and resource files. See [Naming Conventions](#naming-conventions) for complete rules.
+8. **Don't use wrong capitalization in class names**: Use proper `PascalCase`: `ApiKey` (not `Apikey`), `ProjectPlanStage` (not `Projectplanstage`)
 
 ### Pydantic v2 Models
-7. **Don't use custom validators**: Use reusable validators from `upsales/validators.py` (`BinaryFlag`, `EmailStr`, `CustomFieldsList`, etc.)
-8. **Don't forget to use to_api_dict()**: Prefer `to_api_dict()` over `to_update_dict()` for 5-50x faster serialization
-9. **Don't forget custom fields validator**: Always use `custom: CustomFieldsList = []` (not `list[dict]`)
-10. **Don't forget to mark read-only fields**: Use `Field(frozen=True, strict=True)` for `id`, timestamps, etc.
-11. **Don't forget @computed_field**: Add `@computed_field` for `custom_fields` property and boolean helpers like `is_admin`
-12. **Don't forget TypedDict for edit()**: Define `{Model}UpdateFields(TypedDict, total=False)` with ALL updatable fields for complete IDE autocomplete
-13. **Don't use `self.model_fields`**: Access from class: `self.__class__.model_fields` (Pydantic v2.11+ deprecation)
-14. **Don't forget @field_serializer**: Add for custom fields to clean data before API requests
-15. **Don't forget field descriptions**: Add `description=` to all fields for documentation
+9. **Don't use custom validators**: Use reusable validators from `upsales/validators.py` (`BinaryFlag`, `EmailStr`, `CustomFieldsList`, etc.)
+10. **Don't forget to use to_api_dict()**: Prefer `to_api_dict()` over `to_update_dict()` for 5-50x faster serialization
+11. **Don't forget custom fields validator**: Always use `custom: CustomFieldsList = []` (not `list[dict]`)
+12. **Don't forget to mark read-only fields**: Use `Field(frozen=True, strict=True)` for `id`, timestamps, etc.
+13. **Don't forget @computed_field**: Add `@computed_field` for `custom_fields` property and boolean helpers like `is_admin`
+14. **Don't forget TypedDict for edit()**: Define `{Model}UpdateFields(TypedDict, total=False)` with ALL updatable fields for complete IDE autocomplete
+15. **Don't use `self.model_fields`**: Access from class: `self.__class__.model_fields` (Pydantic v2.11+ deprecation)
+16. **Don't forget @field_serializer**: Add for custom fields to clean data before API requests
+17. **Don't forget field descriptions**: Add `description=` to all fields for documentation
 
 ### Configuration (pydantic-settings)
-16. **Don't use manual .env loading**: Use `Upsales.from_env()` which uses pydantic-settings for type-safe configuration
-17. **Don't forget to reuse validators in settings**: Settings use the same validators as models (e.g., `EmailStr`)
+18. **Don't use manual .env loading**: Use `Upsales.from_env()` which uses pydantic-settings for type-safe configuration
+19. **Don't forget to reuse validators in settings**: Settings use the same validators as models (e.g., `EmailStr`)
 
 ### Architecture
-18. **Don't forget _client reference**: Models need optional `_client` for instance methods
-19. **Don't forget exception groups**: Bulk operations must use `ExceptionGroup` for errors
-20. **Don't forget pattern matching**: Use for HTTP status codes and complex conditionals
-21. **Don't forget `from __future__ import annotations`**: Required in files using type parameter syntax with subscripting (e.g., `BaseResource[T, P]`)
+20. **Don't forget _client reference**: Models need optional `_client` for instance methods
+21. **Don't forget exception groups**: Bulk operations must use `ExceptionGroup` for errors
+22. **Don't forget pattern matching**: Use for HTTP status codes and complex conditionals
+23. **Don't forget `from __future__ import annotations`**: Required in files using type parameter syntax with subscripting (e.g., `BaseResource[T, P]`)

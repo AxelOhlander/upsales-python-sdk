@@ -16,7 +16,7 @@ import pytest
 import vcr
 
 from upsales import Upsales
-from upsales.models.projectplanpriority import ProjectPlanPriority
+from upsales.models.project_plan_priority import ProjectPlanPriority
 
 # Configure VCR for these tests
 my_vcr = vcr.VCR(
