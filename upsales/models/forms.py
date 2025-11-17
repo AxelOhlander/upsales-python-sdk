@@ -1,237 +1,279 @@
 """
 Form models for Upsales API.
 
-Generated from /api/v2/forms endpoint.
-Analysis based on API data.
+Web forms for capturing leads and submissions through Upsales.
 
-Enhanced with Pydantic v2 features:
-- Field descriptions for all fields
-- Computed fields for boolean helpers
-- Strict type checking for read-only fields
-- Optimized serialization
+Generated from /api/v2/forms endpoint.
+Analysis based on 17 samples.
+
+Example:
+    >>> # Create a new form
+    >>> form = await upsales.forms.create(
+    ...     name="Contact Form",
+    ...     internalName="contact_form",
+    ...     title="Get in Touch",
+    ...     description="Contact us for more information",
+    ...     landingPage="https://example.com/contact",
+    ...     buttonText="Submit",
+    ...     thankYouTitle="Thank You!",
+    ...     thankYouText="We'll be in touch soon."
+    ... )
+    >>>
+    >>> # Update a form
+    >>> await form.edit(title="Updated Contact Form")
+    >>>
+    >>> # Check form statistics
+    >>> print(f"Form has {form.submits} submissions")
+    >>> print(f"Form has {form.views} views")
 """
 
-from typing import Any, TypedDict, Unpack
+from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 
 from pydantic import Field, computed_field
 
 from upsales.models.base import BaseModel, PartialModel
-from upsales.models.form_action import FormAction
-from upsales.models.form_element import FormElement
-from upsales.models.user import PartialUser
-from upsales.validators import BinaryFlag, NonEmptyStr
+from upsales.validators import BinaryFlag
+
+if TYPE_CHECKING:
+    from upsales.models.user import PartialUser
 
 
 class FormUpdateFields(TypedDict, total=False):
     """
     Available fields for updating a Form.
 
-    All fields are optional. Use with Unpack for IDE autocomplete.
+    All fields are optional. Read-only fields (id, uuid, submits, etc.) are excluded.
     """
 
-    title: str
+    # Form identification
     name: str
     internalName: str
+    title: str
     description: str
+
+    # Form configuration
+    formType: str
+    fields: list[dict[str, Any]]
+    actions: list[dict[str, Any]]
+    html: str
+    isArchived: int
+
+    # Landing page settings
     landingPage: str
-    buttonText: str
-    thankYouTitle: str
-    thankYouTitleOnDemand: str | None
-    thankYouText: str
-    thankYouTextOnDemand: str | None
-    formType: str | None
-    supportEmailId: int | None
-    buttonBgColor: str
-    buttonTextColor: str
+    landingPageBody: dict[str, Any]
     backgroundColor: str
-    backgroundColorOnDemand: str | None
+    backgroundColorOnDemand: str
     textColor: str
     linkColor: str
-    score: int
-    redirect: int
+    buttonBgColor: str
+    buttonTextColor: str
+    buttonText: str
     showTitle: int
-    fields: list[dict[str, Any]]
-    actions: list[FormAction]
-    isArchived: int
-    landingPageBody: str | None
-    socialEventId: int | None
-    domain: str | None
-    urlName: str | None
+    domain: str
+    urlName: str
+
+    # Thank you page settings
+    thankYouTitle: str
+    thankYouText: str
+    thankYouElement: dict[str, Any]
+    thankYouTitleOnDemand: str
+    thankYouTextOnDemand: str
+    thankYouElementOnDemand: Any
+    redirect: int
+
+    # Additional settings
+    labels: list[Any]
+    projects: list[Any]
+    socialEventId: int
+    socialMediaTags: str
+    supportEmailId: Any
+    brandId: int
+    score: int
 
 
 class Form(BaseModel):
     """
-    Form model from /api/v2/forms.
+    Web form for capturing leads and submissions.
 
-    Represents a form (landing page) in Upsales for lead capture.
-    Forms can be embedded on websites or used as standalone landing pages.
+    Forms can be embedded on web pages or hosted on Upsales landing pages.
+    They support custom fields, actions (like creating contacts/companies),
+    and can be configured with branding and thank you pages.
 
-    Example:
-        >>> form = await upsales.forms.get(1)
-        >>> form.title
-        'Contact Us'
-        >>> form.is_archived
-        False
-        >>> form.submission_count
-        42
-        >>> await form.edit(title="New Title")
+    Attributes:
+        id: Unique form identifier (read-only).
+        uuid: Unique form UUID (read-only).
+        name: Form display name.
+        internalName: Internal reference name.
+        title: Form title shown to users.
+        description: Form description.
+        formType: Type of form (e.g., "lead", "contact").
+        fields: List of form field definitions.
+        actions: Actions to execute on form submission.
+        html: Custom HTML for the form.
+        isArchived: Whether form is archived (0=active, 1=archived).
+        landingPage: Landing page URL.
+        landingPageBody: Landing page body configuration.
+        backgroundColor: Landing page background color.
+        backgroundColorOnDemand: Alternative background color.
+        textColor: Landing page text color.
+        linkColor: Landing page link color.
+        buttonBgColor: Submit button background color.
+        buttonTextColor: Submit button text color.
+        buttonText: Submit button text.
+        showTitle: Whether to show form title (0=no, 1=yes).
+        domain: Custom domain for form.
+        urlName: URL-friendly form name.
+        thankYouTitle: Thank you page title.
+        thankYouText: Thank you page text.
+        thankYouElement: Thank you page element configuration.
+        thankYouTitleOnDemand: Alternative thank you title.
+        thankYouTextOnDemand: Alternative thank you text.
+        thankYouElementOnDemand: Alternative thank you element.
+        redirect: Whether to redirect after submission (0=no, 1=yes).
+        labels: Form labels/tags.
+        projects: Associated projects.
+        socialEventId: Associated social event ID.
+        socialMediaTags: Social media meta tags.
+        supportEmailId: Support email ID.
+        brandId: Brand ID for styling.
+        score: Form score/priority.
+        submits: Total number of submissions (read-only).
+        views: Total number of views (read-only).
+        lastSubmitDate: Date of last submission (read-only).
+        regDate: Registration date (read-only).
+        modDate: Last modification date (read-only).
+        user: User who created the form.
+        userEditable: Whether current user can edit (read-only).
+        userRemovable: Whether current user can delete (read-only).
     """
 
-    # Read-only fields (frozen=True, strict=True)
-    id: int = Field(frozen=True, strict=True, description="Unique form ID")
-    regDate: str = Field(frozen=True, description="Registration date (ISO 8601)")
-    modDate: str = Field(frozen=True, description="Last modification date (ISO 8601)")
-    uuid: str = Field(frozen=True, description="Unique form UUID for public URL")
-    html: str = Field(frozen=True, description="Generated HTML for the form (read-only)")
-    socialMediaTags: str = Field(
-        frozen=True, description="Generated social media tags JSON (read-only)"
-    )
-    user: PartialUser = Field(frozen=True, description="User who created this form (read-only)")
-    submits: int = Field(
-        frozen=True, default=0, description="Total number of form submissions (read-only)"
-    )
-    views: int = Field(frozen=True, default=0, description="Total number of form views (read-only)")
-    lastSubmitDate: str | None = Field(
-        frozen=True, default=None, description="Date of last submission (ISO 8601, read-only)"
-    )
-    userEditable: bool = Field(
-        frozen=True, default=True, description="Whether user can edit this form (read-only)"
-    )
-    userRemovable: bool = Field(
-        frozen=True,
-        default=True,
-        description="Whether user can remove this form (read-only)",
-    )
-    brandId: int = Field(frozen=True, description="Brand ID (read-only)")
+    # Read-only fields
+    id: int = Field(frozen=True, strict=True, description="Unique form identifier")
+    uuid: str = Field(frozen=True, description="Unique form UUID")
+    submits: int = Field(frozen=True, description="Total number of submissions")
+    views: int = Field(frozen=True, description="Total number of views")
+    lastSubmitDate: str | None = Field(None, frozen=True, description="Date of last submission")
+    regDate: str = Field(frozen=True, description="Registration date (YYYY-MM-DD HH:MM:SS)")
+    modDate: str | None = Field(None, frozen=True, description="Last modification date")
+    userEditable: bool = Field(frozen=True, description="Whether current user can edit")
+    userRemovable: bool = Field(frozen=True, description="Whether current user can delete")
 
-    # Required updatable fields
-    title: NonEmptyStr = Field(description="Form display title")
-    name: NonEmptyStr = Field(description="Internal form name")
-    internalName: str = Field(default="", description="Additional internal identifier")
-    description: str = Field(default="", description="Form description/subtitle")
-    buttonText: str = Field(default="Submit", description="Submit button text")
-    thankYouTitle: str = Field(default="Thank you", description="Thank you page title")
-    thankYouTitleOnDemand: str | None = Field(
-        default=None, description="Thank you title for on-demand events"
+    # Form identification
+    name: str = Field(description="Form display name")
+    internalName: str = Field(description="Internal reference name")
+    title: str = Field(description="Form title shown to users")
+    description: str = Field(description="Form description")
+
+    # Form configuration
+    formType: str | None = Field(None, description="Type of form")
+    fields: list[dict[str, Any]] = Field(default=[], description="Form field definitions")
+    actions: list[dict[str, Any]] = Field(default=[], description="Actions on form submission")
+    html: str | None = Field(None, description="Custom HTML for the form")
+    isArchived: BinaryFlag = Field(default=0, description="Whether form is archived")
+
+    # Landing page settings
+    landingPage: str = Field(description="Landing page URL")
+    landingPageBody: dict[str, Any] | None = Field(
+        None, description="Landing page body configuration"
     )
-    thankYouText: str = Field(default="", description="Thank you page message")
-    thankYouTextOnDemand: str | None = Field(
-        default=None, description="Thank you message for on-demand events"
+    backgroundColor: str = Field(description="Landing page background color")
+    backgroundColorOnDemand: str | None = Field(None, description="Alternative background color")
+    textColor: str = Field(description="Landing page text color")
+    linkColor: str = Field(description="Landing page link color")
+    buttonBgColor: str = Field(description="Submit button background color")
+    buttonTextColor: str = Field(description="Submit button text color")
+    buttonText: str = Field(description="Submit button text")
+    showTitle: BinaryFlag = Field(default=1, description="Whether to show form title")
+    domain: str | None = Field(None, description="Custom domain for form")
+    urlName: str | None = Field(None, description="URL-friendly form name")
+
+    # Thank you page settings
+    thankYouTitle: str = Field(description="Thank you page title")
+    thankYouText: str = Field(description="Thank you page text")
+    thankYouElement: dict[str, Any] | None = Field(
+        None, description="Thank you page element configuration"
     )
-    buttonBgColor: str = Field(default="#000000", description="Submit button background color")
-    buttonTextColor: str = Field(default="#ffffff", description="Submit button text color (hex)")
-    backgroundColor: str = Field(default="#ffffff", description="Form background color (hex)")
-    backgroundColorOnDemand: str | None = Field(
-        default=None, description="Background color for on-demand events (hex)"
-    )
-    textColor: str = Field(default="#000000", description="Form text color (hex)")
-    linkColor: str = Field(default="#4A90E2", description="Form link color (hex)")
-    landingPage: str = Field(default="", description="Landing page URL")
-    score: int = Field(default=0, description="Form score value")
-    redirect: BinaryFlag = Field(default=0, description="Redirect after submission (0=no, 1=yes)")
-    showTitle: BinaryFlag = Field(default=1, description="Show form title (0=no, 1=yes)")
-    isArchived: BinaryFlag = Field(default=0, description="Archived status (0=active, 1=archived)")
-    fields: list[dict[str, Any]] = Field(
-        default=[], description="Form field definitions (name, title, required, datatype, etc.)"
-    )
-    actions: list[FormAction] = Field(default=[], description="Form actions/triggers")
+    thankYouTitleOnDemand: str | None = Field(None, description="Alternative thank you title")
+    thankYouTextOnDemand: str | None = Field(None, description="Alternative thank you text")
+    thankYouElementOnDemand: Any | None = Field(None, description="Alternative thank you element")
+    redirect: BinaryFlag = Field(default=0, description="Whether to redirect after submission")
+
+    # Additional settings
     labels: list[Any] = Field(default=[], description="Form labels/tags")
     projects: list[Any] = Field(default=[], description="Associated projects")
+    socialEventId: int | None = Field(None, description="Associated social event ID")
+    socialMediaTags: str | None = Field(None, description="Social media meta tags")
+    supportEmailId: Any | None = Field(None, description="Support email ID")
+    brandId: int = Field(description="Brand ID for styling")
+    score: int = Field(description="Form score/priority")
 
-    # Optional fields
-    formType: str | None = Field(default=None, description="Form type identifier")
-    supportEmailId: int | None = Field(default=None, description="Support email ID for routing")
-    landingPageBody: str | None = Field(default=None, description="Custom landing page HTML body")
-    thankYouElement: FormElement | None = Field(
-        default=None, description="Custom thank you page element (text, image, etc.)"
-    )
-    thankYouElementOnDemand: FormElement | None = Field(
-        default=None, description="Custom thank you element for on-demand events"
-    )
-    socialEventId: int | None = Field(default=None, description="Associated social event ID")
-    domain: str | None = Field(default=None, description="Custom domain for form")
-    urlName: str | None = Field(default=None, description="Custom URL slug")
+    # Relations
+    user: "PartialUser" = Field(description="User who created the form")
 
     @computed_field
     @property
     def is_archived(self) -> bool:
-        """
-        Check if form is archived.
-
-        Returns:
-            True if isArchived flag is 1, False otherwise.
-
-        Example:
-            >>> form.is_archived
-            False
-        """
+        """Check if form is archived."""
         return self.isArchived == 1
 
     @computed_field
     @property
+    def is_active(self) -> bool:
+        """Check if form is active (not archived)."""
+        return self.isArchived == 0
+
+    @computed_field
+    @property
     def has_submissions(self) -> bool:
-        """
-        Check if form has any submissions.
-
-        Returns:
-            True if submits > 0, False otherwise.
-
-        Example:
-            >>> form.has_submissions
-            True
-        """
+        """Check if form has any submissions."""
         return self.submits > 0
 
     @computed_field
     @property
     def submission_count(self) -> int:
-        """
-        Get total number of form submissions.
-
-        Returns:
-            Number of submissions.
-
-        Example:
-            >>> form.submission_count
-            42
-        """
+        """Get total number of submissions (alias for submits)."""
         return self.submits
 
     @computed_field
     @property
     def view_count(self) -> int:
-        """
-        Get total number of form views.
-
-        Returns:
-            Number of views.
-
-        Example:
-            >>> form.view_count
-            150
-        """
+        """Human-friendly alias for total view counter."""
         return self.views
+
+    @computed_field
+    @property
+    def conversion_rate(self) -> float:
+        """Calculate form conversion rate (submits/views)."""
+        if self.views == 0:
+            return 0.0
+        return (self.submits / self.views) * 100
 
     async def edit(self, **kwargs: Unpack[FormUpdateFields]) -> "Form":
         """
         Edit this form.
 
-        Uses Pydantic v2's optimized serialization via to_api_dict().
-
         Args:
-            **kwargs: Fields to update (full IDE autocomplete support).
+            **kwargs: Fields to update. Available fields include:
+                name: Form display name
+                title: Form title
+                description: Form description
+                fields: Form field definitions
+                actions: Actions on submission
+                isArchived: Archive status (0 or 1)
+                And many more styling/configuration options.
 
         Returns:
-            Updated form with fresh data from API.
+            Updated form instance.
 
         Raises:
-            RuntimeError: If no client reference available.
+            RuntimeError: If no client is available.
 
         Example:
             >>> form = await upsales.forms.get(1)
-            >>> updated = await form.edit(
-            ...     title="New Form Title",
-            ...     description="Updated description"
+            >>> await form.edit(
+            ...     title="Updated Form Title",
+            ...     description="New description",
+            ...     isArchived=0
             ... )
         """
         if not self._client:
@@ -241,34 +283,35 @@ class Form(BaseModel):
 
 class PartialForm(PartialModel):
     """
-    Partial form model for nested references.
+    Partial Form for nested responses.
 
-    Contains minimal form data when forms appear nested in other objects.
+    Contains minimal form information when forms appear in nested contexts
+    (e.g., referenced from other objects).
 
-    Example:
-        >>> partial = contact.form  # If contact has form reference
-        >>> full = await partial.fetch_full()
+    Attributes:
+        id: Unique form identifier.
+        name: Form display name.
+        title: Form title shown to users.
     """
 
-    id: int = Field(description="Unique form ID")
-    name: str = Field(description="Form name")
-    title: str | None = Field(default=None, description="Form display title")
+    id: int = Field(description="Unique form identifier")
+    name: str = Field(description="Form display name")
+    title: str = Field(description="Form title shown to users")
 
     async def fetch_full(self) -> Form:
         """
-        Fetch the complete form object.
+        Fetch complete form data.
 
         Returns:
-            Full Form object with all fields.
+            Full Form instance with all fields.
 
         Raises:
-            RuntimeError: If no client reference available.
+            RuntimeError: If no client is available.
 
         Example:
-            >>> partial_form = contact.form
+            >>> partial_form = PartialForm(id=1, name="Contact", title="Contact Us")
             >>> full_form = await partial_form.fetch_full()
-            >>> full_form.description
-            'Contact form for leads'
+            >>> print(full_form.submits)  # Access full form data
         """
         if not self._client:
             raise RuntimeError("No client available")
@@ -276,20 +319,20 @@ class PartialForm(PartialModel):
 
     async def edit(self, **kwargs: Unpack[FormUpdateFields]) -> Form:
         """
-        Edit this form and return the full updated object.
+        Edit this form.
 
         Args:
             **kwargs: Fields to update.
 
         Returns:
-            Updated full Form object.
+            Updated full Form instance.
 
         Raises:
-            RuntimeError: If no client reference available.
+            RuntimeError: If no client is available.
 
         Example:
-            >>> partial_form = contact.form
-            >>> updated = await partial_form.edit(title="New Title")
+            >>> partial_form = PartialForm(id=1, name="Contact", title="Contact Us")
+            >>> updated_form = await partial_form.edit(title="New Title")
         """
         if not self._client:
             raise RuntimeError("No client available")
