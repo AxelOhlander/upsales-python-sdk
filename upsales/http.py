@@ -99,6 +99,8 @@ class HTTPClient:
         self._upsales_client = upsales_client  # Parent Upsales instance
         self._client: httpx.AsyncClient | None = None
         self._auth_refresh_attempted = False
+        # Marker used by resources to know when temporary sessions are allowed.
+        self._auto_allow_uninitialized = True
 
     async def __aenter__(self) -> "HTTPClient":
         """
@@ -118,11 +120,13 @@ class HTTPClient:
         """Close httpx client when exiting async context."""
         if self._client:
             await self._client.aclose()
+            self._client = None
 
     async def close(self) -> None:
         """Close the HTTP client explicitly."""
         if self._client:
             await self._client.aclose()
+            self._client = None
 
     async def _update_token(self, new_token: str) -> None:
         """
@@ -190,77 +194,91 @@ class HTTPClient:
             infinite loops. If the refreshed token also fails, AuthenticationError
             is raised.
         """
+        created_temp_client = False
+        allow_temp = kwargs.pop("_allow_uninitialized", False)
         if not self._client:
-            raise RuntimeError("HTTP client not initialized. Use 'async with' context.")
+            if not allow_temp:
+                raise RuntimeError("HTTP client not initialized. Use 'async with' context.")
+            await self.__aenter__()
+            created_temp_client = True
 
-        endpoint = endpoint.lstrip("/")
-        response = await self._client.request(method, endpoint, **kwargs)
+        try:
+            path = endpoint if endpoint.startswith("/") else f"/{endpoint}"
+            response = await self._client.request(method, path, **kwargs)
 
-        # Pattern matching for clean error handling (Python 3.10+)
-        match response.status_code:
-            case 200 | 201:
-                pass  # Success - continue to parse response
-            case 400:
-                raise ValidationError(f"Validation failed: {response.text}")
-            case 401 | 403:
-                # Attempt token refresh if enabled and not already attempted
-                if (
-                    self.auth_manager
-                    and self.auth_manager.should_retry_with_refresh()
-                    and not self._auth_refresh_attempted
-                ):
-                    # Mark that we're attempting refresh to avoid infinite loops
-                    self._auth_refresh_attempted = True
+            # Pattern matching for clean error handling (Python 3.10+)
+            match response.status_code:
+                case 200 | 201:
+                    pass  # Success - continue to parse response
+                case 400:
+                    raise ValidationError(f"Validation failed: {response.text}")
+                case 401 | 403:
+                    # Attempt token refresh if enabled and not already attempted
+                    if (
+                        self.auth_manager
+                        and self.auth_manager.should_retry_with_refresh()
+                        and not self._auth_refresh_attempted
+                    ):
+                        # Mark that we're attempting refresh to avoid infinite loops
+                        self._auth_refresh_attempted = True
 
-                    try:
-                        # Refresh token
-                        new_token = await self.auth_manager.refresh_token()
+                        try:
+                            # Refresh token
+                            new_token = await self.auth_manager.refresh_token()
 
-                        # Update client with new token
-                        await self._update_token(new_token)
+                            # Update client with new token
+                            await self._update_token(new_token)
 
-                        # Retry the request with new token
-                        response = await self._client.request(method, endpoint, **kwargs)
+                            # Retry the request with new token
+                            response = await self._client.request(method, endpoint, **kwargs)
 
-                        # Reset flag on success
-                        self._auth_refresh_attempted = False
+                            # Reset flag on success
+                            self._auth_refresh_attempted = False
 
-                        # Check if retry succeeded
-                        if response.status_code not in (200, 201):
-                            raise AuthenticationError(
-                                f"Authentication failed even after token refresh: {response.text}"
-                            )
+                            # Check if retry succeeded
+                            if response.status_code not in (200, 201):
+                                raise AuthenticationError(
+                                    f"Authentication failed even after token refresh: {response.text}"
+                                )
 
-                    except Exception as e:
-                        # Reset flag
-                        self._auth_refresh_attempted = False
+                        except Exception as e:
+                            # Reset flag
+                            self._auth_refresh_attempted = False
 
-                        # Re-raise if it's already an AuthenticationError
-                        if isinstance(e, AuthenticationError):
-                            raise
+                            # Re-raise if it's already an AuthenticationError
+                            if isinstance(e, AuthenticationError):
+                                raise
 
-                        # Wrap other errors
-                        raise AuthenticationError(f"Token refresh failed: {e}") from e
-                else:
-                    raise AuthenticationError(f"Authentication failed: {response.text}")
-            case 404:
-                raise NotFoundError(f"Resource not found: {endpoint}")
-            case 429:
-                raise RateLimitError("Rate limit exceeded (200 req/10 sec)")
-            case code if code >= 500:
-                raise ServerError(f"Server error {code}: {response.text}")
-            case _:
-                # Fallback for any other status codes
-                response.raise_for_status()
+                            # Wrap other errors
+                            raise AuthenticationError(f"Token refresh failed: {e}") from e
+                    else:
+                        raise AuthenticationError(f"Authentication failed: {response.text}")
+                case 404:
+                    raise NotFoundError(f"Resource not found: {endpoint}")
+                case 429:
+                    raise RateLimitError("Rate limit exceeded (200 req/10 sec)")
+                case code if code >= 500:
+                    raise ServerError(f"Server error {code}: {response.text}")
+                case _:
+                    # Fallback for any other status codes
+                    response.raise_for_status()
 
-        # Parse Upsales API response wrapper
-        data: dict[str, Any] = response.json()
-        if data.get("error"):
-            raise ValidationError(f"API error: {data['error']}")
+            # Parse Upsales API response wrapper
+            data: dict[str, Any] = response.json()
+            if data.get("error"):
+                raise ValidationError(f"API error: {data['error']}")
 
-        return data
+            return data
+        finally:
+            if created_temp_client:
+                await self.__aexit__(None, None, None)
 
-    async def get(self, endpoint: str, **params: Any) -> dict[str, Any]:
+    async def get(
+        self,
+        endpoint: str,
+        _allow_uninitialized: bool = False,
+        **params: Any,
+    ) -> dict[str, Any]:
         """
         Make GET request.
 
@@ -274,9 +292,19 @@ class HTTPClient:
         Example:
             >>> users = await client.get("/users", limit=100, offset=0)
         """
-        return await self.request("GET", endpoint, params=params)
+        return await self.request(
+            "GET",
+            endpoint,
+            _allow_uninitialized=_allow_uninitialized,
+            params=params,
+        )
 
-    async def post(self, endpoint: str, **data: Any) -> dict[str, Any]:
+    async def post(
+        self,
+        endpoint: str,
+        _allow_uninitialized: bool = False,
+        **data: Any,
+    ) -> dict[str, Any]:
         """
         Make POST request.
 
@@ -290,9 +318,19 @@ class HTTPClient:
         Example:
             >>> user = await client.post("/users", name="John", email="john@example.com")
         """
-        return await self.request("POST", endpoint, json=data)
+        return await self.request(
+            "POST",
+            endpoint,
+            _allow_uninitialized=_allow_uninitialized,
+            json=data,
+        )
 
-    async def put(self, endpoint: str, **data: Any) -> dict[str, Any]:
+    async def put(
+        self,
+        endpoint: str,
+        _allow_uninitialized: bool = False,
+        **data: Any,
+    ) -> dict[str, Any]:
         """
         Make PUT request.
 
@@ -306,9 +344,18 @@ class HTTPClient:
         Example:
             >>> user = await client.put("/users/1", name="Jane")
         """
-        return await self.request("PUT", endpoint, json=data)
+        return await self.request(
+            "PUT",
+            endpoint,
+            _allow_uninitialized=_allow_uninitialized,
+            json=data,
+        )
 
-    async def delete(self, endpoint: str) -> dict[str, Any]:
+    async def delete(
+        self,
+        endpoint: str,
+        _allow_uninitialized: bool = False,
+    ) -> dict[str, Any]:
         """
         Make DELETE request.
 
@@ -321,4 +368,8 @@ class HTTPClient:
         Example:
             >>> await client.delete("/users/1")
         """
-        return await self.request("DELETE", endpoint)
+        return await self.request(
+            "DELETE",
+            endpoint,
+            _allow_uninitialized=_allow_uninitialized,
+        )

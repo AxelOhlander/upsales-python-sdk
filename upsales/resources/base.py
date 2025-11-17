@@ -38,8 +38,10 @@ from __future__ import annotations  # Required for type parameter syntax with su
 import asyncio
 from typing import TYPE_CHECKING, Any
 
+from upsales.http import HTTPClient
+
 if TYPE_CHECKING:
-    from upsales.http import HTTPClient
+    from upsales.http import HTTPClient  # noqa: F401
 
 from upsales.models.base import BaseModel, PartialModel
 
@@ -108,6 +110,21 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         self._model_class = model_class
         self._partial_class = partial_class
 
+    def _prepare_http_kwargs(self, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """
+        Prepare HTTP kwargs, injecting the auto-initialization flag when needed.
+
+        Args:
+            params: Existing kwargs (query params, etc.).
+
+        Returns:
+            Updated kwargs dict.
+        """
+        kwargs = dict(params or {})
+        if getattr(self._http, "_auto_allow_uninitialized", None) is True:
+            kwargs["_allow_uninitialized"] = True
+        return kwargs
+
     async def create(self, **data: Any) -> T:
         """
         Create a new resource.
@@ -145,7 +162,8 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             The API generates the ID and timestamps (regDate, modDate).
             These will be present in the returned object.
         """
-        response = await self._http.post(self._endpoint, **data)
+        request_kwargs = self._prepare_http_kwargs()
+        response = await self._http.post(self._endpoint, **request_kwargs, **data)
         return self._model_class(**response["data"], _client=self._http._upsales_client)
 
     async def get(self, resource_id: int) -> T:
@@ -166,8 +184,41 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             >>> user = await client.users.get(1)
             >>> print(f"{user.name = }, {user.email = }")
         """
-        response = await self._http.get(f"{self._endpoint}/{resource_id}")
+        response = await self._http.get(
+            f"{self._endpoint}/{resource_id}",
+            **self._prepare_http_kwargs(),
+        )
         return self._model_class(**response["data"], _client=self._http._upsales_client)
+
+    async def _list_with_metadata(
+        self,
+        limit: int = 100,
+        offset: int = 0,
+        fields: list[str] | None = None,
+        sort: str | list[str] | None = None,
+        **params: Any,
+    ) -> tuple[list[T], dict[str, Any]]:
+        """
+        Internal helper for fetching a page with accompanying metadata.
+
+        Returns:
+            Tuple of (items, metadata dict).
+        """
+        all_params = params | {"limit": limit, "offset": offset}
+        if fields:
+            all_params["f[]"] = fields
+        if sort:
+            all_params["sort"] = sort
+        response = await self._http.get(
+            self._endpoint,
+            **self._prepare_http_kwargs(all_params),
+        )
+        metadata = response.get("metadata") or {}
+        items = [
+            self._model_class(**item, _client=self._http._upsales_client)
+            for item in response["data"]
+        ]
+        return items, metadata
 
     async def list(
         self,
@@ -179,9 +230,6 @@ class BaseResource[T: BaseModel, P: PartialModel]:
     ) -> list[T]:
         """
         List resources with pagination.
-
-        The Upsales API returns paginated results with metadata about
-        total count, limit, and offset.
 
         Args:
             limit: Maximum results per page (default: 100).
@@ -230,26 +278,14 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             Sorting with "-field" (minus prefix) sorts descending. Not all fields
             may support sorting - test with your specific endpoint.
         """
-        # Dictionary merge operator (Python 3.9+)
-        all_params = params | {"limit": limit, "offset": offset}
-
-        # Add field selection if specified
-        if fields:
-            # Upsales API uses f[]=field1&f[]=field2 format
-            all_params["f[]"] = fields
-
-        # Add sorting if specified
-        if sort:
-            # Upsales API uses sort=field or sort=-field
-            # For multiple sorts, pass as list
-            all_params["sort"] = sort
-
-        response = await self._http.get(self._endpoint, **all_params)
-
-        return [
-            self._model_class(**item, _client=self._http._upsales_client)
-            for item in response["data"]
-        ]
+        items, _ = await self._list_with_metadata(
+            limit=limit,
+            offset=offset,
+            fields=fields,
+            sort=sort,
+            **params,
+        )
+        return items
 
     async def list_all(
         self,
@@ -305,29 +341,39 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             Field selection reduces bandwidth and improves query speed.
             Sorting maintains order across all paginated requests.
         """
-        # Get first page to determine total count
-        first_page = await self.list(limit=batch_size, offset=0, fields=fields, sort=sort, **params)
+        collected: list[T] = []
+        offset = 0
+        total: int | None = None
 
-        # If less than batch_size, we have all results
-        if len(first_page) < batch_size:
-            return first_page
-
-        # Fetch remaining pages in parallel
-        # Calculate number of additional pages needed
-        offset = batch_size
-
-        # Create tasks for subsequent pages
-        # We'll fetch up to 10 pages in parallel to avoid overwhelming the API
         while True:
-            page = await self.list(
-                limit=batch_size, offset=offset, fields=fields, sort=sort, **params
+            page, metadata = await self._list_with_metadata(
+                limit=batch_size,
+                offset=offset,
+                fields=fields,
+                sort=sort,
+                **params,
             )
-            first_page.extend(page)
-            if len(page) < batch_size:
+            collected.extend(page)
+
+            if total is None:
+                total = metadata.get("total")
+
+            fetch_more = True
+            if total is not None and total < batch_size and offset == 0:
+                fetch_more = False
+            if total is not None:
+                if len(collected) >= total or not page:
+                    fetch_more = False
+            else:
+                if len(page) < batch_size:
+                    fetch_more = False
+
+            if not fetch_more:
                 break
+
             offset += batch_size
 
-        return first_page
+        return collected
 
     async def search(
         self,
@@ -495,7 +541,12 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             >>> user = await client.users.update(1, name="New Name")
             >>> print(f"{user.name = }")
         """
-        response = await self._http.put(f"{self._endpoint}/{resource_id}", **data)
+        request_kwargs = self._prepare_http_kwargs()
+        response = await self._http.put(
+            f"{self._endpoint}/{resource_id}",
+            **request_kwargs,
+            **data,
+        )
         return self._model_class(**response["data"], _client=self._http._upsales_client)
 
     async def delete(self, resource_id: int) -> dict[str, Any]:
@@ -511,7 +562,10 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         Example:
             >>> await client.users.delete(1)
         """
-        return await self._http.delete(f"{self._endpoint}/{resource_id}")
+        return await self._http.delete(
+            f"{self._endpoint}/{resource_id}",
+            **self._prepare_http_kwargs(),
+        )
 
     async def bulk_update(
         self,
