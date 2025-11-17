@@ -118,8 +118,7 @@ class AuthenticationManager:
         async with self._refresh_lock:
             # Check if we recently refreshed (within debounce period)
             # This prevents the second concurrent call from making another API request
-            current_time = time.time()
-            if current_time - self._last_refresh_time < self._refresh_debounce:
+            if time.time() - self._last_refresh_time < self._refresh_debounce:
                 return self.token
 
             async with httpx.AsyncClient(base_url=self.base_url, timeout=30.0) as client:
@@ -139,7 +138,9 @@ class AuthenticationManager:
                             data = response.json()
                             new_token: str = data["data"]["token"]
                             self.token = new_token
-                            self._last_refresh_time = current_time
+                            # Record the actual refresh completion time so
+                            # concurrent callers skip issuing another request.
+                            self._last_refresh_time = time.time()
                             return new_token
                         case 401:
                             raise RuntimeError(
