@@ -54,7 +54,7 @@ Auto-generated API documentation for resource managers.
 
 ## Order Stages Resource
 
-::: upsales.resources.orderStages.OrderStagesResource
+::: upsales.resources.order_stages.OrderStagesResource
     options:
       show_root_heading: true
       show_source: false
@@ -75,14 +75,14 @@ Auto-generated API documentation for resource managers.
 
 ## Project Plan Stages Resource
 
-::: upsales.resources.projectPlanStages.ProjectplanstagesResource
+::: upsales.resources.project_plan_stages.ProjectplanstagesResource
     options:
       show_root_heading: true
       show_source: false
 
 ## Project Plan Statuses Resource
 
-::: upsales.resources.projectplanstatus.ProjectPlanStatusesResource
+::: upsales.resources.project_plan_status.ProjectPlanStatusesResource
     options:
       show_root_heading: true
       show_source: false

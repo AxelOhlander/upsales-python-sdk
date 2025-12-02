@@ -98,13 +98,13 @@ Auto-generated API documentation for all Upsales models.
 
 ## OrderStage Model
 
-::: upsales.models.orderStages.OrderStage
+::: upsales.models.order_stages.OrderStage
     options:
       show_root_heading: true
       show_source: false
       members_order: source
 
-::: upsales.models.orderStages.PartialOrderStage
+::: upsales.models.order_stages.PartialOrderStage
     options:
       show_root_heading: true
       show_source: false
@@ -181,28 +181,28 @@ Auto-generated API documentation for all Upsales models.
       show_root_heading: true
       show_source: false
 
-## Projectplanstage Model
+## ProjectPlanStage Model
 
-::: upsales.models.projectPlanStages.Projectplanstage
+::: upsales.models.project_plan_stages.ProjectPlanStage
     options:
       show_root_heading: true
       show_source: false
       members_order: source
 
-::: upsales.models.projectPlanStages.PartialProjectplanstage
+::: upsales.models.project_plan_stages.PartialProjectPlanStage
     options:
       show_root_heading: true
       show_source: false
 
 ## ProjectPlanStatus Model
 
-::: upsales.models.projectplanstatus.ProjectPlanStatus
+::: upsales.models.project_plan_status.ProjectPlanStatus
     options:
       show_root_heading: true
       show_source: false
       members_order: source
 
-::: upsales.models.projectplanstatus.PartialProjectPlanStatus
+::: upsales.models.project_plan_status.PartialProjectPlanStatus
     options:
       show_root_heading: true
       show_source: false
