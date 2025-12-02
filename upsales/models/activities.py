@@ -102,8 +102,8 @@ class Activity(BaseModel):
 
     # Required fields with validators
     description: NonEmptyStr = Field(description="Activity description")
-    notes: str = Field(default="", description="Activity notes/content")
-    date: str = Field(description="Activity date (ISO 8601 format)")
+    notes: str | None = Field(default=None, description="Activity notes/content")
+    date: str | None = Field(default=None, description="Activity date (ISO 8601 format)")
 
     # Binary flags (validated 0 or 1)
     isAppointment: BinaryFlag = Field(
@@ -128,8 +128,8 @@ class Activity(BaseModel):
         description="Activity type definition (complex structure, not PartialActivity)",
     )
     client: PartialCompany | None = Field(None, description="Linked company/client")
-    regBy: PartialUser = Field(description="Created by user")
-    lastOutcome: dict[str, Any] = Field(default_factory=dict, description="Last outcome record")
+    regBy: PartialUser | None = Field(None, description="Created by user")
+    lastOutcome: dict[str, Any] | None = Field(None, description="Last outcome record")
 
     # Arrays of related entities
     contacts: list[PartialContact] = Field(default=[], description="Linked contacts")

@@ -388,7 +388,9 @@ class PartialContact(PartialModel):
     id: int = Field(frozen=True, strict=True, description="Unique contact ID")
     name: NonEmptyStr = Field(description="Contact's name")
     email: EmailStr | None = Field(None, description="Contact's email")
-    journeyStep: PartialJourneyStep | None = Field(None, description="Contact's journey step")
+    journeyStep: PartialJourneyStep | str | None = Field(
+        None, description="Contact's journey step (can be object or string)"
+    )
 
     async def fetch_full(self) -> Contact:
         """

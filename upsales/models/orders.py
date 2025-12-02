@@ -254,7 +254,9 @@ class Order(BaseModel):
 
     # Monetary values
     oneOffValue: int = Field(default=0, description="One-time value in local currency")
-    monthlyValue: int = Field(default=0, description="Monthly recurring value in local currency")
+    monthlyValue: int | float = Field(
+        default=0, description="Monthly recurring value in local currency (API may return float)"
+    )
     annualValue: int = Field(default=0, description="Annual recurring value in local currency")
     purchaseCost: int = Field(default=0, description="Purchase cost in local currency")
     contributionMargin: int = Field(default=0, description="Contribution margin in local currency")
@@ -267,8 +269,8 @@ class Order(BaseModel):
     oneOffValueInMasterCurrency: int = Field(
         default=0, description="One-time value in master currency"
     )
-    monthlyValueInMasterCurrency: int = Field(
-        default=0, description="Monthly value in master currency"
+    monthlyValueInMasterCurrency: int | float = Field(
+        default=0, description="Monthly value in master currency (API may return float)"
     )
     annualValueInMasterCurrency: int = Field(
         default=0, description="Annual value in master currency"
@@ -277,7 +279,9 @@ class Order(BaseModel):
     # Weighted values (calculated by API based on probability)
     weightedValue: int = Field(default=0, description="Weighted value (value * probability / 100)")
     weightedOneOffValue: int = Field(default=0, description="Weighted one-time value")
-    weightedMonthlyValue: int = Field(default=0, description="Weighted monthly value")
+    weightedMonthlyValue: int | float = Field(
+        default=0, description="Weighted monthly value (API may return float)"
+    )
     weightedAnnualValue: int = Field(default=0, description="Weighted annual value")
     weightedContributionMargin: int = Field(default=0, description="Weighted contribution margin")
     weightedContributionMarginLocalCurrency: int = Field(
@@ -289,8 +293,8 @@ class Order(BaseModel):
     weightedOneOffValueInMasterCurrency: int = Field(
         default=0, description="Weighted one-time value in master currency"
     )
-    weightedMonthlyValueInMasterCurrency: int = Field(
-        default=0, description="Weighted monthly value in master currency"
+    weightedMonthlyValueInMasterCurrency: int | float = Field(
+        default=0, description="Weighted monthly value in master currency (API may return float)"
     )
     weightedAnnualValueInMasterCurrency: int = Field(
         default=0, description="Weighted annual value in master currency"

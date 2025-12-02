@@ -150,18 +150,20 @@ def validate_non_empty_string(v: Any) -> str:
     return stripped
 
 
-def validate_email(v: Any) -> str:
+def validate_email(v: Any) -> str | None:
     """
     Validate and normalize email address.
 
     Performs basic validation (must contain '@') and normalizes by
     converting to lowercase and stripping whitespace.
 
+    Empty strings are converted to None for optional email fields.
+
     Args:
         v: Email string to validate.
 
     Returns:
-        Normalized email (lowercase, stripped).
+        Normalized email (lowercase, stripped), or None if empty.
 
     Raises:
         ValueError: If email format is invalid.
@@ -171,14 +173,12 @@ def validate_email(v: Any) -> str:
         'user@example.com'
         >>> validate_email("  User@Example.COM  ")
         'user@example.com'
+        >>> validate_email("")
+        >>> validate_email("   ")
         >>> validate_email("invalid-email")
         Traceback (most recent call last):
         ...
         ValueError: Email must contain '@': invalid-email
-        >>> validate_email("")
-        Traceback (most recent call last):
-        ...
-        ValueError: Email cannot be empty
         >>> validate_email(123)
         Traceback (most recent call last):
         ...
@@ -189,7 +189,8 @@ def validate_email(v: Any) -> str:
 
     stripped = v.strip()
     if not stripped:
-        raise ValueError("Email cannot be empty")
+        # Empty strings convert to None for optional email fields
+        return None
 
     if "@" not in stripped:
         raise ValueError(f"Email must contain '@': {stripped}")
@@ -285,18 +286,19 @@ Example:
 """
 
 EmailStr = Annotated[
-    str,
+    str | None,
     BeforeValidator(validate_email),
 ]
 """
 Type alias for email with validation and normalization.
 
 Validates basic email format and normalizes to lowercase.
+Empty strings are converted to None.
 
 Example:
     >>> from pydantic import BaseModel
     >>> class User(BaseModel):
-    ...     email: EmailStr
+    ...     email: EmailStr | None = None
 """
 
 PositiveInt = Annotated[
