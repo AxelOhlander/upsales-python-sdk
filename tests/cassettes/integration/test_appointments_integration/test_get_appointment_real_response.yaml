@@ -1,0 +1,149 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/appointments?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":532,\"limit\":1,\"offset\":0},\"data\":[{\"id\":6,\"description\":\"S\xE4lj
+        in\",\"externalCalendarId\":null,\"seriesMasterId\":null,\"notes\":\"Gustav
+        Pettersson 2013-09-06 14:12:\\n\\n\",\"aiNotes\":null,\"aiNotesEn\":null,\"agenda\":null,\"weblinkUrl\":null,\"includeWeblink\":0,\"date\":\"2025-11-03T15:00:00.000Z\",\"client\":{\"operationalAccount\":null,\"journeyStep\":\"customer\",\"phone\":\"+46841065000\",\"name\":\"Nobina
+        Sverige AB\",\"id\":102,\"users\":[{\"name\":\"Gustav Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"},{\"name\":\"John Wilson\",\"id\":9,\"role\":{\"name\":\"DACH
+        Sales\",\"id\":2},\"email\":\"demo_eng@upsales.com\"}]},\"users\":[{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Gustav Pettersson\",\"id\":1,\"email\":\"demo_se@upsales.com\"},{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Sara Melander\",\"id\":5,\"email\":\"demo_6@upsales.com\"}],\"project\":null,\"activityType\":{\"name\":\"Meeting\",\"id\":6,\"first\":false},\"regDate\":\"2024-07-07T06:34:48.000Z\",\"endDate\":\"2025-11-03T16:00:00.000Z\",\"private\":false,\"isExternalHost\":false,\"bookedRooms\":null,\"isAppointment\":1,\"regBy\":{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Gustav Pettersson\",\"id\":1,\"email\":\"demo_se@upsales.com\"},\"modDate\":\"2025-12-01T15:13:16.000Z\",\"opportunity\":null,\"clientConnection\":null,\"contacts\":[{\"journeyStep\":\"pipeline\",\"titleCategory\":null,\"phoneCountryCode\":null,\"phone\":\"(639)-944-5881\",\"name\":\"Raymond
+        Richards\",\"client\":{\"operationalAccount\":null,\"addresses\":[{\"zipcode\":\"17171\",\"country\":\"SE\",\"address\":\"Terminalv\xE4gen
+        24\",\"city\":\"Solna\",\"latitude\":59.349472,\"municipality\":\"SOLNA\",\"state\":\"STOCKHOLM\",\"type\":\"Visit\",\"longitude\":18.009888},{\"zipcode\":\"17173\",\"country\":\"SE\",\"address\":\"Terminalv\xE4gen
+        24\",\"city\":\"SOLNA\",\"latitude\":59.349472,\"municipality\":\"STOCKHOLM\",\"state\":\"STOCKHOLM\",\"type\":\"Other\",\"longitude\":18.009888},{\"zipcode\":\"17171\",\"country\":\"SE\",\"address\":\"Terminalv\xE4gen
+        24\",\"city\":\"Solna\",\"latitude\":59.349472,\"municipality\":\"SOLNA\",\"state\":\"STOCKHOLM\",\"type\":\"Mail\",\"longitude\":18.009888}],\"name\":\"Nobina
+        Sverige AB\",\"id\":102,\"users\":[{\"name\":\"Gustav Pettersson\",\"id\":1},{\"name\":\"John
+        Wilson\",\"id\":9}]},\"id\":645,\"email\":\"raymond.richards@example.com\",\"cellPhone\":\"(460)-431-6031\",\"cellPhoneCountryCode\":null}],\"custom\":[],\"location\":null,\"outcome\":\"completed\",\"userRemovable\":true,\"userEditable\":true,\"outcomeCommentId\":null,\"outcomeAction\":null,\"outcomeExtra\":null,\"outcomeType\":null,\"emailAttendees\":[],\"projectPlan\":null}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2439'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:10:33 GMT
+      ETag:
+      - W/"987-CPXe4NJRFCMdq0yZ5XdSjN2yUI8"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/appointments/6
+  response:
+    body:
+      string: "{\"error\":null,\"data\":{\"id\":6,\"description\":\"S\xE4lj in\",\"externalCalendarId\":null,\"seriesMasterId\":null,\"notes\":\"Gustav
+        Pettersson 2013-09-06 14:12:\\n\\n\",\"aiNotes\":null,\"aiNotesEn\":null,\"agenda\":null,\"weblinkUrl\":null,\"includeWeblink\":0,\"date\":\"2025-11-03T15:00:00.000Z\",\"client\":{\"operationalAccount\":null,\"journeyStep\":\"customer\",\"phone\":\"+46841065000\",\"name\":\"Nobina
+        Sverige AB\",\"id\":102,\"users\":[{\"name\":\"Gustav Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"},{\"name\":\"John Wilson\",\"id\":9,\"role\":{\"name\":\"DACH
+        Sales\",\"id\":2},\"email\":\"demo_eng@upsales.com\"}]},\"users\":[{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Gustav Pettersson\",\"id\":1,\"email\":\"demo_se@upsales.com\"},{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Sara Melander\",\"id\":5,\"email\":\"demo_6@upsales.com\"}],\"project\":null,\"activityType\":{\"name\":\"Meeting\",\"id\":6,\"first\":false},\"regDate\":\"2024-07-07T06:34:48.000Z\",\"endDate\":\"2025-11-03T16:00:00.000Z\",\"private\":false,\"isExternalHost\":false,\"bookedRooms\":null,\"isAppointment\":1,\"hostHasCalendarIntegration\":true,\"regBy\":{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Gustav Pettersson\",\"id\":1,\"email\":\"demo_se@upsales.com\"},\"modDate\":\"2025-12-01T15:13:16.000Z\",\"opportunity\":null,\"clientConnection\":null,\"contacts\":[{\"journeyStep\":\"pipeline\",\"titleCategory\":null,\"phoneCountryCode\":null,\"phone\":\"(639)-944-5881\",\"name\":\"Raymond
+        Richards\",\"client\":{\"operationalAccount\":null,\"addresses\":[{\"zipcode\":\"17171\",\"country\":\"SE\",\"address\":\"Terminalv\xE4gen
+        24\",\"city\":\"Solna\",\"latitude\":59.349472,\"municipality\":\"SOLNA\",\"state\":\"STOCKHOLM\",\"type\":\"Visit\",\"longitude\":18.009888},{\"zipcode\":\"17173\",\"country\":\"SE\",\"address\":\"Terminalv\xE4gen
+        24\",\"city\":\"SOLNA\",\"latitude\":59.349472,\"municipality\":\"STOCKHOLM\",\"state\":\"STOCKHOLM\",\"type\":\"Other\",\"longitude\":18.009888},{\"zipcode\":\"17171\",\"country\":\"SE\",\"address\":\"Terminalv\xE4gen
+        24\",\"city\":\"Solna\",\"latitude\":59.349472,\"municipality\":\"SOLNA\",\"state\":\"STOCKHOLM\",\"type\":\"Mail\",\"longitude\":18.009888}],\"name\":\"Nobina
+        Sverige AB\",\"id\":102,\"users\":[{\"name\":\"Gustav Pettersson\",\"id\":1},{\"name\":\"John
+        Wilson\",\"id\":9}]},\"id\":645,\"email\":\"raymond.richards@example.com\",\"cellPhone\":\"(460)-431-6031\",\"cellPhoneCountryCode\":null}],\"custom\":[],\"location\":null,\"outcome\":\"completed\",\"userRemovable\":true,\"userEditable\":true,\"outcomeCommentId\":null,\"outcomeAction\":null,\"outcomeExtra\":null,\"outcomeType\":null,\"emailAttendees\":[],\"projectPlan\":null}}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2425'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:10:33 GMT
+      ETag:
+      - W/"979-RWC6UaTVd2KcbnrX0R8TeuavarE"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

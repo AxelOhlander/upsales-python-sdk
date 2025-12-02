@@ -1,0 +1,173 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/activities?limit=20&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:11:17 GMT
+      ETag:
+      - W/"53ae-xbRdayJ8S5RCafgct2DmcRnB1Wg"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/activities/3
+  response:
+    body:
+      string: '{"error":null,"data":{"id":3,"description":"Ring och kolla intresse","notes":null,"date":"2024-05-07","closeDate":"2025-11-14T13:48:39Z","time":null,"client":{"operationalAccount":null,"journeyStep":"customer","phone":"+46890100","name":"Telia
+        Company AB","id":110,"users":[{"name":"Pernilla Hansson","id":2,"role":{"name":"Nordic
+        Sales","id":1},"email":"demo_4@upsales.com"}]},"contacts":[{"journeyStep":"customer","titleCategory":null,"phone":"0614-6001030","name":"Erik
+        Peters","id":705,"title":"Personalchef","email":"erik.peters@example.com","cellPhone":"0170-8202668","regBy":null}],"users":[{"role":{"name":"Nordic
+        Sales","id":1},"name":"Martina Johansson","id":3,"email":"demo_3@up.com"}],"project":null,"projectPlan":null,"parentActivityId":null,"parentAppointmentId":null,"activityType":{"name":"Phonecall","id":1234567894},"regDate":"2024-07-07T06:32:24.000Z","isAppointment":0,"regBy":{"name":"Gustav
+        Pettersson","id":1,"role":{"name":"Nordic Sales","id":1},"email":"demo_se@upsales.com"},"modDate":"2025-11-14T13:48:39.000Z","opportunity":null,"custom":[],"userRemovable":true,"userEditable":true,"phoneCalls":[{"id":1,"durationInS":312,"user":{"id":3,"name":"Martina
+        Johansson"},"userId":3,"type":"31","contact":{"id":705,"name":"Erik Peters"},"contactId":705,"date":"Mon
+        May 06 2024 16:27:13 GMT+0200","status":1,"phoneNumber":"0701234567","conversationUrl":null,"client":{"id":110,"name":"Telia
+        Company AB"},"clientId":110,"externalId":"3"}],"priority":0,"outcomes":[],"lastOutcome":null,"callList":null,"ticketId":null,"agreementId":null}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1556'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:11:17 GMT
+      ETag:
+      - W/"614-l27Ea6+DN1tLRYb6BXOcSNl8PlQ"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

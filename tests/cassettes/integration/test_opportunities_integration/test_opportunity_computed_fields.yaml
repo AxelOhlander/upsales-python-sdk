@@ -1,0 +1,72 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/opportunities?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":2852,\"limit\":1,\"offset\":0},\"data\":[{\"id\":2,\"description\":\"Bra
+        aff\xE4r kanske\",\"closeDate\":null,\"date\":\"2025-10-11\",\"notes\":\"\",\"user\":{\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"name\":\"Pernilla Hansson\",\"id\":2,\"email\":\"demo_4@upsales.com\"},\"client\":{\"operationalAccount\":null,\"journeyStep\":\"customer\",\"name\":\"Nobina
+        Sverige AB\",\"id\":102,\"users\":[{\"name\":\"Gustav Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic
+        Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"},{\"name\":\"John Wilson\",\"id\":9,\"role\":{\"name\":\"DACH
+        Sales\",\"id\":2},\"email\":\"demo_eng@upsales.com\"}]},\"contact\":{\"journeyStep\":\"pipeline\",\"name\":\"Raymond
+        Richards\",\"id\":645,\"email\":\"raymond.richards@example.com\"},\"project\":null,\"regDate\":\"2024-07-07T06:37:24.000Z\",\"stage\":{\"name\":\"Verbal
+        Agreement\",\"id\":11},\"probability\":90,\"modDate\":\"2025-11-29T14:28:07.000Z\",\"clientConnection\":null,\"currencyRate\":1,\"currency\":\"SEK\",\"locked\":0,\"custom\":[],\"stakeholders\":[],\"titleCategories\":[],\"orderRow\":[{\"id\":4,\"quantity\":1,\"price\":1200,\"discount\":0,\"custom\":[],\"product\":{\"purchaseCost\":0,\"name\":\"Consulting\",\"isRecurring\":false,\"id\":4,\"category\":{\"name\":\"Services\",\"id\":1},\"articleNo\":null,\"projectPlanTemplate\":{\"name\":\"Onboarding
+        {{Client.Name}}\",\"active\":true,\"id\":1}},\"bundleRows\":[],\"productId\":4,\"tierQuantity\":0,\"sortId\":0,\"listPrice\":1200,\"purchaseCost\":null,\"bundleFixedPrice\":false,\"contributionMargin\":1200,\"contributionMarginLocalCurrency\":1200},{\"id\":109,\"quantity\":50,\"price\":5000,\"discount\":0,\"custom\":[],\"bundleRows\":[],\"product\":{\"purchaseCost\":0,\"name\":\"Banner\",\"isRecurring\":false,\"id\":7,\"category\":{\"name\":\"Digital
+        Ads\",\"id\":2},\"articleNo\":null,\"projectPlanTemplate\":null},\"productId\":7,\"tierQuantity\":0,\"sortId\":1,\"listPrice\":5000,\"purchaseCost\":null,\"bundleFixedPrice\":false,\"contributionMargin\":250000,\"contributionMarginLocalCurrency\":250000}],\"recurringInterval\":12,\"periodization\":null,\"value\":251200,\"contributionMargin\":251200,\"weightedContributionMargin\":226080,\"contributionMarginLocalCurrency\":251200,\"weightedContributionMarginLocalCurrency\":226080,\"purchaseCost\":0,\"annualValue\":0,\"annualValueInMasterCurrency\":0,\"weightedAnnualValue\":0,\"weightedAnnualValueInMasterCurrency\":0,\"monthlyValue\":0,\"monthlyValueInMasterCurrency\":0,\"weightedMonthlyValue\":0,\"weightedMonthlyValueInMasterCurrency\":0,\"weightedValue\":226080,\"valueInMasterCurrency\":251200,\"weightedValueInMasterCurrency\":226080,\"oneOffValue\":251200,\"weightedOneOffValue\":226080,\"oneOffValueInMasterCurrency\":251200,\"weightedOneOffValueInMasterCurrency\":226080,\"agreement\":null,\"userRemovable\":true,\"userEditable\":true,\"lastIntegrationStatus\":[],\"confirmedBudget\":null,\"confirmedDate\":null,\"confirmedSolution\":false,\"lostReason\":null,\"competitorId\":null,\"regBy\":null,\"salesCoach\":[{\"id\":1,\"name\":\"Upsales
+        Sales Coaching\"}],\"checklist\":[],\"marketingContribution\":null,\"risks\":{\"closingDateChangedOccured\":null,\"companySizeOccured\":null,\"daysInStageOccured\":\"2024-01-24T22:30:15.000Z\",\"noAppointmentsOccured\":null,\"noNextStepOccured\":\"2022-11-16T22:31:03.000Z\",\"noRecentContactOccured\":\"2022-11-14T22:42:42.000Z\",\"noStakeholderInvolvedOccured\":\"2022-11-14T22:42:42.000Z\",\"notAnsweringCallsOccured\":null,\"orderValueChangedOccured\":null,\"orderValueOccured\":null,\"postponedAppointmentsOccured\":null},\"noCompletedAppointments\":0,\"noPostponedAppointments\":0,\"noTimesCallsNotAnswered\":0,\"noTimesClosingDateChanged\":0,\"noTimesOrderValueChanged\":0,\"userSalesStatistics\":{\"mostCommonAppointmentsPerOrder\":1,\"mostCommonStakeholder\":null,\"avgSalesCycleLength\":14},\"priceListId\":1,\"invoiceRelatedClient\":false,\"projectPlanOptions\":[]}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3581'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:10:14 GMT
+      ETag:
+      - W/"dfd-2XJGfvLsBu9QN4PI2rZ8uOlaA4Y"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,86 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/activities?limit=5&offset=0
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+1X227jNhD9FYIPxRa1AupqSU+b3Syatrttmhgt0CIoGHnscE2RAkkFdYP81v7A
+        /liHtmzLruMUiwZNgAB+kMnhXM7MOaJuKRijDS1VK+WA1uD4mDtOy1vqtOOSlknEBlSKWjhapgOq
+        JxML+MjuBnRp+fstFWNahtkQt8dgKyMaJ7SiJf255caBkXNioBZqDKYkVWudrsGQSivHK0cHVGkH
+        dpUCOoXVcyW1hZPeghN1b1OAcj5T3YDhPiSXx1WlW7+6tPmoW6NgfuGgwXRWoTFkc60VeqLfJFkc
+        ZlnKGPOJcO+e/qLljSYjqK6Vlno6J8dvcNMXmYTZgLYWjF3U3dl/r68V+VVIi0Uv7YoBNVqCT66z
+        OTl+e0ouuMRClyYRAgg1FwgxolbrP0BNX7eN9SZHla7p3SVadCD5cJf9yP/G+6HsHoiMABn9Eao1
+        kN3fM8nVeokbxP+4cuJGuPl34531ptFCuRofN1u8Mx7Nm372Z74ZFZeyyy+M4iTNhnmRYBUGpssJ
+        oBGL0iCMAhaNGCujvGTsCPv2mz9le/FwOBfH3szXY63HnY+wGBbeRxyOohgd9Hwshm3UGzCNLo1r
+        FSa8nrnFBG2acY7w3fAr3wtnWlguvhsL119rjNBm4QTz0q1DiKFrqOTW/bRcWYWwOLLVAh23QImu
+        qNOB4638YCBc74V1G2ZUM+hDPTUAffTvBmueZs+Wp2wPT09gAsoCOZ45AVda8umarMMXsr6Q9TmT
+        Nd5l6rlQU6KrazLTUnKCIBqwFvaT0zchCVgasCHdImnXnTAIk1EYl0lexoVH9TFomxcs7JN2BFJw
+        8lbXDVe9N2sYsj1kPQOjhC/0lCu74UT0D8b+qM1YVFusCnc5mxxk7O391TjhJLxF5KbarKdrVSLL
+        wiRAYQpZ3KvynREzcgbO17NMZ8jSztOyLuvxrK5hQjdpAp46ahanXsOfvG4kLHLFREHKs1XEcMiC
+        HFuYZTndIs/dIdm5B6Ju9wO+AYTiBAVoC+p4B8QYQXziuoMjP8TfiGVlHJVR8qDurGN8iz3nN75v
+        vgUbEMIvmjcL2wPXl7Y9BFyl+f8o2RdLVLIrURczPMrJ5PMng18TUyvURN+vTyhOqPHpPn1abIzC
+        6HH1KWTDKN6+V5zzqQoukHGWnEM1x0gouhulYvEepXrc0fmvtCrN86AYRkWeJz2tksLyK3DX5L1Q
+        M+hyytJ4o1eoDjPFx3ZXr1Ynj6Q/eVizfDdZwpL4RbMOaxZedeKnrFlR7DWLRciEZ6pZxa5m/bC4
+        TbVNQ3RNxkAsCtjs86eGHxKukAUs33ux8huPLlz5sMjStK9bp+Qr8oGcglJg/SNvEcu/yMUN3ium
+        0L9rJc9VwV4lUfF1kKTDIMevA9qTAtWCJCe6neKgrK5cMXvwylUvDh6NlwcPKNirNMbIYZ4GaZEU
+        Lxp2UMOS9InfuzYaFj03Dbu8+xsYpkD2tRUAAA==
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:11:17 GMT
+      ETag:
+      - W/"15b5-W+0ZiJJBProqDdWwi0k895eG/oM"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

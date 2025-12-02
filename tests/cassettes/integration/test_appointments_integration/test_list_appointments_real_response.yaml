@@ -1,0 +1,100 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/appointments?limit=5&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 11:09:52 GMT
+      ETag:
+      - W/"2a81-jW0t4/aN2RUeqYNpbYJGtzXxbFE"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
