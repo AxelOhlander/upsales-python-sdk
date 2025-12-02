@@ -169,12 +169,10 @@ class TestEmailValidator:
             validate_email("test.com")
 
     def test_empty_email(self):
-        """Test empty email raises ValueError."""
-        with pytest.raises(ValueError, match="Email cannot be empty"):
-            validate_email("")
-
-        with pytest.raises(ValueError, match="Email cannot be empty"):
-            validate_email("   ")
+        """Test empty email returns None (for optional email fields)."""
+        # Empty strings convert to None for optional email fields
+        assert validate_email("") is None
+        assert validate_email("   ") is None
 
     def test_invalid_type(self):
         """Test non-string types raise ValueError."""
