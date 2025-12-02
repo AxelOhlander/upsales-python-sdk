@@ -1,0 +1,132 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/tickets?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":9,\"limit\":1,\"offset\":0},\"data\":[{\"id\":13,\"title\":\"New
+        Title\",\"resolveDate\":\"2024-10-30T08:44:40.000Z\",\"lastUpdated\":\"2024-05-06T08:03:27.000Z\",\"source\":null,\"regDate\":\"2024-05-06T08:03:27.000Z\",\"modDate\":\"2025-12-02T10:07:00.000Z\",\"modBy\":13,\"isMultiMatch\":false,\"isArchived\":false,\"isPending\":false,\"isRead\":true,\"priority\":0,\"emailUsed\":\"demosupport@upsales.com\",\"firstReplyDate\":null,\"firstResolveDate\":\"2024-10-30T08:44:40.000Z\",\"snoozeDate\":null,\"relatedTicketId\":null,\"agreementId\":null,\"mergedWithId\":null,\"unreadComments\":0,\"customStatusSort\":5,\"client\":{\"id\":248,\"name\":\"AB
+        Volvo\",\"journeyStep\":\"pipeline\",\"active\":true,\"users\":[],\"operationalAccount\":null},\"user\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"contact\":{\"id\":1974,\"name\":\"Lionel Lenz\",\"phone\":\"0748-4546195\",\"cellPhone\":\"0172-1694645\",\"email\":\"lionel.lenz@example.com\",\"title\":\"Personalansvarig\"},\"status\":{\"id\":2,\"name\":\"St\xE4ngd\",\"closed\":true},\"type\":{\"id\":4,\"name\":\"Produktfr\xE5gor\"},\"regBy\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"custom\":[],\"involved\":[{\"type\":\"TO\",\"email\":\"lionel.lenz@example.com\",\"contact\":{\"id\":1974,\"name\":\"Lionel
+        Lenz\",\"phone\":\"0748-4546195\",\"cellPhone\":\"0172-1694645\",\"email\":\"lionel.lenz@example.com\",\"title\":\"Personalansvarig\"}}],\"externalContacts\":[],\"multiMatchClientContacts\":[],\"mergedTickets\":[],\"directlyMergedTicketIds\":[]}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1360'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 10:11:02 GMT
+      ETag:
+      - W/"550-lBLohke0aFFnr5Iy3GyvSWlhJ74"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/tickets/13
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":null,\"data\":{\"id\":13,\"title\":\"New
+        Title\",\"resolveDate\":\"2024-10-30T08:44:40.000Z\",\"lastUpdated\":\"2024-05-06T08:03:27.000Z\",\"source\":null,\"regDate\":\"2024-05-06T08:03:27.000Z\",\"modDate\":\"2025-12-02T10:07:00.000Z\",\"modBy\":13,\"isMultiMatch\":false,\"isArchived\":false,\"isPending\":false,\"isRead\":true,\"priority\":0,\"emailUsed\":\"demosupport@upsales.com\",\"firstReplyDate\":null,\"firstResolveDate\":\"2024-10-30T08:44:40.000Z\",\"snoozeDate\":null,\"relatedTicketId\":null,\"agreementId\":null,\"mergedWithId\":null,\"unreadComments\":0,\"customStatusSort\":5,\"client\":{\"id\":248,\"name\":\"AB
+        Volvo\",\"journeyStep\":\"pipeline\",\"active\":true,\"users\":[],\"operationalAccount\":null},\"user\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"contact\":{\"id\":1974,\"name\":\"Lionel Lenz\",\"phone\":\"0748-4546195\",\"cellPhone\":\"0172-1694645\",\"email\":\"lionel.lenz@example.com\",\"title\":\"Personalansvarig\"},\"status\":{\"id\":2,\"name\":\"St\xE4ngd\",\"closed\":true},\"type\":{\"id\":4,\"name\":\"Produktfr\xE5gor\"},\"regBy\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"custom\":[],\"involved\":[{\"type\":\"TO\",\"email\":\"lionel.lenz@example.com\",\"contact\":{\"id\":1974,\"name\":\"Lionel
+        Lenz\",\"phone\":\"0748-4546195\",\"cellPhone\":\"0172-1694645\",\"email\":\"lionel.lenz@example.com\",\"title\":\"Personalansvarig\"}}],\"externalContacts\":[],\"multiMatchClientContacts\":[],\"mergedTickets\":[],\"directlyMergedTicketIds\":[]}}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1330'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 10:11:02 GMT
+      ETag:
+      - W/"532-/CQSzT3aSZIgsLC4v2X+Z0znF0E"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
