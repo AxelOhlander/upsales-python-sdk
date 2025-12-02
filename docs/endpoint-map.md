@@ -1702,6 +1702,7 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 | **Minimal ID Structure for CREATE** | 2 verified | Orders, Contacts: `client: {"id": 123}` |
 | **Array with Nested IDs** | 1 verified | Orders: `orderRow: [{"product": {"id": 5}}]` |
 | **Simple Single Required Field** | 1 verified | Contacts: only `client.id` required |
+| **ID Required in PUT Body** | 1 verified | Tickets: `id` must be in request body for updates, not just URL. SDK workaround in `TicketsResource.update()`. **TODO**: Remove if Upsales fixes this. |
 
 ---
 

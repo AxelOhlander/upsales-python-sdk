@@ -9,6 +9,8 @@ Example:
     ...     tickets_list = await upsales.tickets.list(limit=10)
 """
 
+from typing import Any
+
 from upsales.http import HTTPClient
 from upsales.models.tickets import PartialTicket, Ticket
 from upsales.resources.base import BaseResource
@@ -47,8 +49,39 @@ class TicketsResource(BaseResource[Ticket, PartialTicket]):
             partial_class=PartialTicket,
         )
 
-    # Add custom methods here as needed
-    # Example:
-    # async def get_active(self) -> list[Ticket]:
-    #     """Get all active tickets."""
-    #     return await self.list_all(active=1)
+    async def update(self, resource_id: int, **data: Any) -> Ticket:
+        """
+        Update a ticket.
+
+        Note:
+            The Upsales tickets API requires the `id` field in the request body
+            for updates. Without it, the API creates a new ticket instead of
+            updating the existing one.
+
+        Args:
+            resource_id: Ticket ID to update.
+            **data: Fields to update with new values.
+
+        Returns:
+            Updated Ticket object with fresh data from API.
+
+        Raises:
+            NotFoundError: If ticket with given ID does not exist.
+            ValidationError: If field validation fails.
+            AuthenticationError: If authentication fails.
+
+        Example:
+            >>> ticket = await upsales.tickets.update(
+            ...     1,
+            ...     title="Updated title",
+            ...     statusId=2
+            ... )
+        """
+        request_kwargs = self._prepare_http_kwargs()
+        response = await self._http.put(
+            f"{self._endpoint}/{resource_id}",
+            **request_kwargs,
+            id=resource_id,  # Required by Upsales tickets API
+            **data,
+        )
+        return self._model_class(**response["data"], _client=self._http._upsales_client)
