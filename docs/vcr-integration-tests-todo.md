@@ -51,9 +51,9 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 
 ## P0 - Critical (Core CRM)
 
-- [ ] `activities` - Activity tracking (calls, emails, meetings)
-- [ ] `appointments` - Calendar appointments
-- [ ] `opportunities` - Sales opportunities/deals
+- [x] `activities` - Activity tracking (calls, emails, meetings)
+- [x] `appointments` - Calendar appointments
+- [x] `opportunities` - Sales opportunities/deals
 - [ ] `orders` - Sales orders
 - [ ] `leads` - Lead management
 
