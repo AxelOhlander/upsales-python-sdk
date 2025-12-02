@@ -181,7 +181,7 @@ async def test_appointment_nested_objects():
             assert isinstance(appointment.project.id, int)
             print(f"[OK] PartialProject validated: ID {appointment.project.id}")
 
-        print(f"[OK] Nested objects validation complete")
+        print("[OK] Nested objects validation complete")
 
 
 @pytest.mark.asyncio

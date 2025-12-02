@@ -16,7 +16,7 @@ import pytest
 import vcr
 
 from upsales import Upsales
-from upsales.models.tickets import PartialTicket, Ticket
+from upsales.models.tickets import Ticket
 
 # Configure VCR for these tests
 my_vcr = vcr.VCR(

@@ -202,7 +202,7 @@ async def test_activity_nested_objects():
                 found_project = True
 
         # Report findings
-        print(f"[OK] Nested objects validated:")
+        print("[OK] Nested objects validated:")
         print(f"  - PartialUser (regBy): {found_user}")
         print(f"  - PartialCompany (client): {found_company}")
         print(f"  - PartialContact (contacts): {found_contact}")
@@ -270,7 +270,7 @@ async def test_activity_computed_fields():
                 assert not activity.has_opportunity
 
         # Report findings
-        print(f"[OK] Computed fields validated:")
+        print("[OK] Computed fields validated:")
         print(f"  - is_appointment: {found_appointment}")
         print(f"  - is_task: {found_task}")
         print(f"  - is_closed: {found_closed}")
