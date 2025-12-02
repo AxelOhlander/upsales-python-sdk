@@ -152,14 +152,14 @@ class Ticket(BaseModel):
     contact: PartialContact | None = Field(
         None, frozen=True, description="Associated contact (nested)"
     )
-    lastUpdated: str = Field(frozen=True, description="Last update timestamp")
+    lastUpdated: str | None = Field(None, frozen=True, description="Last update timestamp")
     resolveDate: str | None = Field(None, frozen=True, description="Date ticket was resolved")
     firstResolveDate: str | None = Field(None, frozen=True, description="First resolution date")
     firstReplyDate: str | None = Field(None, frozen=True, description="First reply date")
-    regDate: str = Field(frozen=True, description="Registration date (ISO 8601)")
-    regBy: PartialUser = Field(frozen=True, description="User who created ticket")
-    modDate: str = Field(frozen=True, description="Last modification date (ISO 8601)")
-    modBy: int = Field(frozen=True, description="Last user who modified ticket")
+    regDate: str | None = Field(None, frozen=True, description="Registration date (ISO 8601)")
+    regBy: PartialUser | None = Field(None, frozen=True, description="User who created ticket")
+    modDate: str | None = Field(None, frozen=True, description="Last modification date (ISO 8601)")
+    modBy: int | None = Field(None, frozen=True, description="Last user who modified ticket")
 
     # Updatable fields
     title: str = Field(description="Ticket title (max 150 chars)", max_length=150)

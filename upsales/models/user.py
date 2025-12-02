@@ -287,7 +287,7 @@ class PartialUser(PartialModel):
 
     id: int = Field(frozen=True, strict=True, description="Unique user ID")
     name: NonEmptyStr = Field(description="User's name")
-    email: EmailStr = Field(description="User's email")
+    email: EmailStr | None = Field(None, description="User's email (may not be present in nested)")
     role: dict[str, Any] | None = Field(None, description="User's role information")
 
     async def fetch_full(self) -> User:
