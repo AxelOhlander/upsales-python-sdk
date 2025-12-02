@@ -1,33 +1,26 @@
 """
 Trigger models for Upsales API.
 
-Generated from /api/v2/triggers endpoint.
-Analysis based on 4 samples.
-
-Enhanced with Pydantic v2 features:
-- Field descriptions for all fields
-- Computed fields for boolean helpers
-- Strict type checking for read-only fields
-- Optimized serialization
+Workflow automation triggers that execute actions based on events and criteria.
 """
 
 from typing import Any, TypedDict, Unpack
 
-from pydantic import Field, computed_field
+from pydantic import Field
 
 from upsales.models.base import BaseModel, PartialModel
-from upsales.validators import BinaryFlag, NonEmptyStr
+from upsales.validators import BinaryFlag
 
 
 class TriggerUpdateFields(TypedDict, total=False):
     """
     Available fields for updating a Trigger.
 
-    All fields are optional. Use with Unpack for IDE autocomplete.
+    All fields are optional for updates.
     """
 
     name: str
-    description: str | None
+    description: str
     active: int
     events: list[str]
     actions: list[dict[str, Any]]
@@ -38,96 +31,89 @@ class Trigger(BaseModel):
     """
     Trigger model from /api/v2/triggers.
 
-    Represents an automation trigger in Upsales that executes actions when
-    specific events occur and criteria are met. Triggers are used to automate
-    workflows such as creating activities, sending emails, or updating records.
+    Represents a workflow automation trigger that executes actions
+    based on events and criteria.
 
-    Generated from 4 samples with field analysis.
-
-    Example:
-        >>> trigger = await upsales.triggers.get(1001003)
-        >>> trigger.name
-        'Trigger that creates meeting on order'
-        >>> trigger.is_active
-        True
-        >>> await trigger.edit(name="Updated Trigger")
+    Attributes:
+        id: Unique trigger identifier (read-only).
+        name: Name of the trigger.
+        description: Detailed description of the trigger's purpose.
+        active: Active status (0=inactive, 1=active).
+        events: List of events that activate this trigger.
+        triggers: List of trigger conditions (returned by GET, name variant).
+        criterias: List of criteria for trigger evaluation.
     """
 
-    # Read-only fields (frozen=True, strict=True)
-    id: int = Field(frozen=True, strict=True, description="Unique trigger ID")
+    # Read-only fields
+    id: int = Field(frozen=True, strict=True, description="Unique trigger identifier")
+    client_id: int | None = Field(None, frozen=True, description="Client ID (read-only)")
 
-    # Required updatable fields
-    name: NonEmptyStr = Field(description="Trigger name")
+    # Updatable fields
+    name: str | None = Field(None, description="Trigger name")
+    description: str | None = Field(None, description="Trigger description")
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")
-    events: list[str] = Field(
-        default=[],
-        description="List of events that activate this trigger (e.g., 'after_order_insert')",
+    events: list[str] = Field(default=[], description="Events that activate this trigger")
+    triggers: list[dict[str, Any]] = Field(
+        default=[], description="Trigger conditions (GET response)"
     )
-    actions: list[dict[str, Any]] = Field(
-        default=[], description="List of actions to execute when trigger fires"
-    )
-    criterias: list[dict[str, Any]] = Field(
-        default=[], description="List of criteria that must be met for trigger to fire"
-    )
+    actions: list[dict[str, Any]] = Field(default=[], description="Actions to execute")
+    criterias: list[dict[str, Any]] = Field(default=[], description="Criteria for evaluation")
 
-    # Optional fields
-    description: str | None = Field(default=None, description="Trigger description")
-
-    @computed_field
     @property
     def is_active(self) -> bool:
         """
         Check if trigger is active.
 
         Returns:
-            True if active flag is 1, False otherwise.
+            True if trigger is active (active == 1), False otherwise.
 
         Example:
+            >>> trigger = Trigger(id=1, active=1)
             >>> trigger.is_active
             True
         """
         return self.active == 1
 
-    @computed_field
     @property
     def has_events(self) -> bool:
         """
         Check if trigger has any events configured.
 
         Returns:
-            True if events list is not empty, False otherwise.
+            True if trigger has at least one event.
 
         Example:
+            >>> trigger = Trigger(id=1, events=["after_order_insert"])
             >>> trigger.has_events
             True
         """
         return len(self.events) > 0
 
-    @computed_field
     @property
     def has_actions(self) -> bool:
         """
         Check if trigger has any actions configured.
 
         Returns:
-            True if actions list is not empty, False otherwise.
+            True if trigger has at least one action.
 
         Example:
+            >>> trigger = Trigger(id=1, actions=[{"alias": "CreateAppointment"}])
             >>> trigger.has_actions
             True
         """
         return len(self.actions) > 0
 
-    @computed_field
     @property
     def has_criterias(self) -> bool:
         """
-        Check if trigger has any criteria configured.
+        Check if trigger has any criterias configured.
 
         Returns:
-            True if criterias list is not empty, False otherwise.
+            True if trigger has at least one criteria.
 
         Example:
+            >>> trigger = Trigger(id=1, criterias=[{"attribute": "Order.Stage"}])
             >>> trigger.has_criterias
             True
         """
@@ -135,64 +121,57 @@ class Trigger(BaseModel):
 
     async def edit(self, **kwargs: Unpack[TriggerUpdateFields]) -> "Trigger":
         """
-        Edit this trigger.
-
-        Uses Pydantic v2's optimized serialization via to_api_dict().
+        Edit this trigger with full IDE autocomplete.
 
         Args:
-            **kwargs: Fields to update (full IDE autocomplete support).
+            **kwargs: Fields to update (name, description, active, events, actions, criterias).
 
         Returns:
-            Updated trigger with fresh data from API.
+            Updated trigger instance with new values.
 
         Raises:
-            RuntimeError: If no client reference available.
+            RuntimeError: If no client is available.
 
         Example:
-            >>> trigger = await upsales.triggers.get(1001003)
+            >>> trigger = await upsales.triggers.get(1)
             >>> updated = await trigger.edit(
-            ...     name="Updated Trigger",
-            ...     description="New description",
-            ...     active=1
+            ...     name="New Trigger Name",
+            ...     active=0
             ... )
         """
         if not self._client:
             raise RuntimeError("No client available")
-        return await self._client.triggers.update(self.id, **self.to_update_dict(**kwargs))
+        return await self._client.triggers.update(self.id, **self.to_api_dict(**kwargs))
 
 
 class PartialTrigger(PartialModel):
     """
     Partial Trigger for nested responses.
 
-    Contains minimal fields for when Trigger appears nested in other
-    API responses. Use fetch_full() to get complete Trigger object with all fields.
+    Minimal representation when triggers appear in nested contexts.
 
-    Example:
-        >>> # If trigger appeared nested somewhere
-        >>> partial_trigger = some_object.trigger  # PartialTrigger
-        >>> full_trigger = await partial_trigger.fetch_full()  # Now Trigger
+    Attributes:
+        id: Unique trigger identifier.
+        name: Trigger name.
     """
 
-    id: int = Field(frozen=True, strict=True, description="Unique trigger ID")
-    name: NonEmptyStr = Field(description="Trigger name")
-    active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")
+    id: int = Field(description="Unique trigger identifier")
+    name: str | None = Field(None, description="Trigger name")
 
     async def fetch_full(self) -> Trigger:
         """
-        Fetch complete trigger data.
+        Fetch complete trigger data from API.
 
         Returns:
-            Full Trigger object with all fields populated.
+            Full Trigger instance with all fields populated.
 
         Raises:
-            RuntimeError: If no client reference available.
+            RuntimeError: If no client is available.
 
         Example:
-            >>> partial = some_object.trigger  # PartialTrigger
-            >>> full = await partial.fetch_full()  # Trigger
-            >>> full.events  # Now available
-            ['after_order_insert', 'after_order_update']
+            >>> partial = PartialTrigger(id=1, name="My Trigger")
+            >>> full = await partial.fetch_full()
+            >>> print(full.description)
         """
         if not self._client:
             raise RuntimeError("No client available")
@@ -202,20 +181,18 @@ class PartialTrigger(PartialModel):
         """
         Edit this trigger.
 
-        Returns full Trigger object after update.
-
         Args:
-            **kwargs: Fields to update (full IDE autocomplete support).
+            **kwargs: Fields to update.
 
         Returns:
-            Updated full Trigger object.
+            Updated full Trigger instance.
 
         Raises:
-            RuntimeError: If no client reference available.
+            RuntimeError: If no client is available.
 
         Example:
-            >>> partial = some_object.trigger  # PartialTrigger
-            >>> updated = await partial.edit(name="New Name")  # Returns Trigger
+            >>> partial = PartialTrigger(id=1, name="My Trigger")
+            >>> updated = await partial.edit(active=0)
         """
         if not self._client:
             raise RuntimeError("No client available")

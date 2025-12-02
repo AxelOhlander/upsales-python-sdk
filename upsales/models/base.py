@@ -36,7 +36,7 @@ Example:
 from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel as PydanticBase
-from pydantic import ConfigDict
+from pydantic import ConfigDict, PrivateAttr
 
 if TYPE_CHECKING:
     from upsales.client import Upsales
@@ -76,7 +76,7 @@ class BaseModel(PydanticBase):
     )
 
     id: int
-    _client: "Upsales | None" = None
+    _client: "Upsales | None" = PrivateAttr(default=None)
 
     def __init__(self, **data: Any) -> None:
         """
@@ -87,8 +87,7 @@ class BaseModel(PydanticBase):
         """
         client = data.pop("_client", None)
         super().__init__(**data)
-        # Use object.__setattr__ to bypass frozen check
-        object.__setattr__(self, "_client", client)
+        self._client = client
 
     def to_update_dict(self, **overrides: Any) -> dict[str, Any]:
         """
@@ -327,7 +326,7 @@ class PartialModel(PydanticBase):
     )
 
     id: int
-    _client: "Upsales | None" = None
+    _client: "Upsales | None" = PrivateAttr(default=None)
 
     def __init__(self, **data: Any) -> None:
         """
@@ -338,7 +337,7 @@ class PartialModel(PydanticBase):
         """
         client = data.pop("_client", None)
         super().__init__(**data)
-        object.__setattr__(self, "_client", client)
+        self._client = client
 
     async def fetch_full(self) -> BaseModel:
         """

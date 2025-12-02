@@ -252,10 +252,10 @@ class Activity(BaseModel):
         Example:
             >>> activity.has_opportunity
             True
-            >>> activity.opportunity
-            {'id': 5, 'name': 'Q4 Deal'}
+            >>> activity.opportunity.id
+            5
         """
-        return bool(self.opportunity and self.opportunity.get("id"))
+        return bool(self.opportunity and self.opportunity.id)
 
     @field_serializer("custom", when_used="json")
     def serialize_custom_fields(self, custom: list[dict[str, Any]]) -> list[dict[str, Any]]:
