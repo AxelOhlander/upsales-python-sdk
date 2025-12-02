@@ -17,6 +17,7 @@ Tests cover:
 import pytest
 from pytest_httpx import HTTPXMock
 
+from upsales import Upsales
 from upsales.exceptions import NotFoundError
 from upsales.http import HTTPClient
 from upsales.models.notifications import Notification, PartialNotification

@@ -5,10 +5,37 @@ Provides fixtures for testing the Upsales SDK.
 """
 
 from typing import Any
+from unittest.mock import MagicMock
 
 import pytest
 
 from upsales import Upsales
+
+
+@pytest.fixture
+def base_url() -> str:
+    """
+    Base API URL for testing.
+
+    Returns:
+        The default Upsales API base URL.
+    """
+    return "https://power.upsales.com/api/v2"
+
+
+@pytest.fixture
+def mock_http_client() -> MagicMock:
+    """
+    Create a mock HTTP client for testing.
+
+    Returns:
+        Mock HTTP client with async methods.
+
+    Example:
+        >>> def test_with_mock(mock_http_client):
+        ...     mock_http_client.get.return_value = {"id": 1}
+    """
+    return MagicMock()
 
 
 @pytest.fixture

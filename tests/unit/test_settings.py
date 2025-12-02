@@ -27,7 +27,7 @@ class TestUpsalesSettings:
         )
 
         # Load settings
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
 
         assert settings.upsales_token == "test_token_12345"
         assert settings.upsales_email == "user@example.com"  # EmailStr normalizes
@@ -41,7 +41,7 @@ class TestUpsalesSettings:
         env_file = tmp_path / ".env"
         env_file.write_text("UPSALES_TOKEN=test_token_12345\n")
 
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
 
         assert settings.upsales_token == "test_token_12345"
         assert settings.upsales_email is None
@@ -53,13 +53,12 @@ class TestUpsalesSettings:
     def test_missing_required_token(self, tmp_path):
         """Test validation error when required token is missing."""
         env_file = tmp_path / ".env"
-        env_file.write_text("")  # Empty .env
+        env_file.write_text("UPSALES_EMAIL=user@example.com\n")
 
         with pytest.raises(ValidationError) as exc_info:
-            UpsalesSettings(_env_file=str(env_file))
+            load_settings(str(env_file))
 
-        error_dict = exc_info.value.errors()
-        assert any("upsales_token" in str(e) for e in error_dict)
+        assert "upsales_token" in str(exc_info.value)
 
     def test_email_validation(self, tmp_path):
         """Test EmailStr validator works in settings."""
@@ -68,7 +67,7 @@ class TestUpsalesSettings:
             "UPSALES_TOKEN=test_token\nUPSALES_EMAIL=User@Example.COM\n"  # Mixed case
         )
 
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
 
         # EmailStr normalizes to lowercase
         assert settings.upsales_email == "user@example.com"
@@ -81,7 +80,7 @@ class TestUpsalesSettings:
         )
 
         with pytest.raises(ValidationError) as exc_info:
-            UpsalesSettings(_env_file=str(env_file))
+            load_settings(str(env_file))
 
         assert "email" in str(exc_info.value).lower()
 
@@ -91,7 +90,7 @@ class TestUpsalesSettings:
         env_file = tmp_path / ".env"
         env_file.write_text("UPSALES_TOKEN=test_token\nUPSALES_MAX_CONCURRENT=100\n")
 
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert settings.upsales_max_concurrent == 100
 
     def test_max_concurrent_too_low(self, tmp_path):
@@ -102,7 +101,7 @@ class TestUpsalesSettings:
         )
 
         with pytest.raises(ValidationError) as exc_info:
-            UpsalesSettings(_env_file=str(env_file))
+            load_settings(str(env_file))
 
         assert "greater than or equal to 1" in str(exc_info.value)
 
@@ -114,7 +113,7 @@ class TestUpsalesSettings:
         )
 
         with pytest.raises(ValidationError) as exc_info:
-            UpsalesSettings(_env_file=str(env_file))
+            load_settings(str(env_file))
 
         assert "200" in str(exc_info.value)
 
@@ -125,7 +124,7 @@ class TestUpsalesSettings:
             "UPSALES_TOKEN=test_token\nUPSALES_BASE_URL=https://api.upsales.com/v2\n"
         )
 
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert "https://api.upsales.com/v2" in str(settings.upsales_base_url)
 
     @pytest.mark.skip(
@@ -146,7 +145,7 @@ class TestUpsalesSettings:
         )
 
         with pytest.raises(ValidationError) as exc_info:
-            UpsalesSettings(_env_file=str(env_file))
+            load_settings(str(env_file))
 
         assert "url" in str(exc_info.value).lower()
 
@@ -155,17 +154,17 @@ class TestUpsalesSettings:
         # Test "true"
         env_file = tmp_path / ".env"
         env_file.write_text("UPSALES_TOKEN=test_token\nUPSALES_ENABLE_FALLBACK_AUTH=true\n")
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert settings.upsales_enable_fallback_auth is True
 
         # Test "1"
         env_file.write_text("UPSALES_TOKEN=test_token\nUPSALES_ENABLE_FALLBACK_AUTH=1\n")
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert settings.upsales_enable_fallback_auth is True
 
         # Test "false"
         env_file.write_text("UPSALES_TOKEN=test_token\nUPSALES_ENABLE_FALLBACK_AUTH=false\n")
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert settings.upsales_enable_fallback_auth is False
 
     def test_case_insensitive(self, tmp_path):
@@ -176,7 +175,7 @@ class TestUpsalesSettings:
             "UPSALES_EMAIL=TEST@EXAMPLE.COM\n"  # uppercase
         )
 
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert settings.upsales_token == "test_token"
         assert settings.upsales_email == "test@example.com"  # Normalized
 
@@ -190,7 +189,7 @@ class TestUpsalesSettings:
         )
 
         # Should not raise error (extra="ignore")
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
         assert settings.upsales_token == "test_token"
 
 
@@ -270,7 +269,7 @@ class TestValidatorReuse:
             "UPSALES_EMAIL=  User@Example.COM  \n"  # Whitespace, mixed case
         )
 
-        settings = UpsalesSettings(_env_file=str(env_file))
+        settings = load_settings(str(env_file))
 
         # EmailStr should normalize to lowercase and strip
         assert settings.upsales_email == "user@example.com"

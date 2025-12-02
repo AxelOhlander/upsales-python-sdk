@@ -160,13 +160,13 @@ def load_settings(env_file: str = ".env") -> UpsalesSettings:
         ... except ValidationError as e:
         ...     print(f"Invalid configuration: {e}")
     """
-    # Load settings with custom env_file by temporarily updating config
-    # Pydantic settings will load from env_file in model_config
-    original_env_file = UpsalesSettings.model_config.get("env_file")
-    try:
-        UpsalesSettings.model_config["env_file"] = env_file
-        return UpsalesSettings()
-    finally:
-        # Restore original
-        if original_env_file:
-            UpsalesSettings.model_config["env_file"] = original_env_file
+
+    class TmpSettings(UpsalesSettings):
+        model_config = SettingsConfigDict(
+            env_file=env_file,
+            env_file_encoding="utf-8",
+            case_sensitive=False,
+            extra="ignore",
+        )
+
+    return TmpSettings()
