@@ -62,6 +62,9 @@ dmypy.json
 *~
 .DS_Store
 
+# Playground (personal test file)
+playground.py
+
 # Claude Code local settings (personal preferences, not project config)
 .claude/settings.local.json
 
