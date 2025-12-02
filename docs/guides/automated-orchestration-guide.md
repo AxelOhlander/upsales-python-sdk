@@ -68,7 +68,9 @@ Work through all 10 endpoints systematically. Report progress after each endpoin
 
 **What Claude will do**:
 - Implement each endpoint following the 22-step workflow
-- Run validation scripts automatically
+- Run validation scripts with `--compact` flag (saves tokens):
+  - `python scripts/test_required_create_fields.py {endpoint} --compact`
+  - `python scripts/test_field_editability_bulk.py {endpoint} --compact`
 - Apply results to models
 - Create and run tests
 - Update documentation
@@ -156,6 +158,60 @@ This gives Claude:
 - ✅ Clear, focused task
 - ✅ Minimal context (saves tokens)
 - ✅ Structured output for tracking
+
+---
+
+## Validation Scripts for Agents
+
+When agents need to validate field requirements, use the `--compact` flag for minimal token output:
+
+### Required Fields Discovery (CREATE)
+
+```bash
+# Verbose (for humans)
+python scripts/test_required_create_fields.py orders
+
+# Compact JSON (for AI agents - saves ~90% tokens)
+python scripts/test_required_create_fields.py orders --compact
+```
+
+**Compact output** (~200 tokens instead of ~3000):
+```json
+{
+  "endpoint": "orders",
+  "required_fields": [{"field": "client", "type": "object", "structure": {"id": "number"}}],
+  "optional_fields": ["description", "probability"],
+  "minimal_payload": {"client": {"id": 123}}
+}
+```
+
+### Field Editability Discovery (UPDATE)
+
+```bash
+# Verbose (for humans)
+python scripts/test_field_editability_bulk.py accounts
+
+# Compact JSON (for AI agents - saves ~90% tokens)
+python scripts/test_field_editability_bulk.py accounts --compact
+```
+
+**Compact output** (~150 tokens instead of ~2000):
+```json
+{
+  "endpoint": "accounts",
+  "editable_fields": ["name", "phone", "active"],
+  "read_only_fields": ["id", "regDate", "modDate"],
+  "frozen_recommendations": ["id", "regDate", "modDate"]
+}
+```
+
+### When to Use Each Script
+
+| Script | Purpose | Use Case |
+|--------|---------|----------|
+| `test_required_create_fields.py --compact` | Find CREATE requirements | Before implementing POST |
+| `test_field_editability_bulk.py --compact` | Find UPDATE capabilities | Before implementing PUT |
+| `scripts/extract_endpoint_info.py` | Get API spec | Before any implementation |
 
 ---
 
@@ -290,22 +346,24 @@ python ai_temp_files/generate_final_report.py
 **Traditional approach**:
 - Reads CLAUDE.md (1418 lines) = 6K tokens
 - Reads api_endpoints_with_fields.json (3535 lines) = 12K tokens
+- Validation scripts (verbose output) = 5K tokens
 - Processes workflow = 20K tokens
-- **Total: ~38K tokens**
+- **Total: ~43K tokens**
 
-**Orchestrated approach**:
+**Orchestrated approach with --compact**:
 - Reads context bundle (300 lines) = 1.4K tokens
 - Reads API spec (50 lines) = 0.2K tokens
+- Validation scripts with `--compact` = 0.4K tokens (90% reduction!)
 - Processes workflow = 13K tokens
 - **Total: ~15K tokens**
 
-**Savings**: 23K tokens per endpoint (61% reduction)
+**Savings**: 28K tokens per endpoint (65% reduction)
 
 ### For 131 Endpoints
 
-**Traditional**: 131 × 38K = 4.98M tokens
-**Orchestrated**: 131 × 15K = 1.97M tokens
-**Savings**: 3.01M tokens (60% reduction)
+**Traditional**: 131 × 43K = 5.63M tokens
+**Orchestrated with --compact**: 131 × 15K = 1.97M tokens
+**Savings**: 3.66M tokens (65% reduction)
 
 ---
 
@@ -667,9 +725,9 @@ For each endpoint:
 
 1. ✅ **Created**: Orchestration scripts
 2. ✅ **Created**: Context extraction tool
-3. **Next**: Add JSON output mode to validation scripts (optional)
-4. **Then**: Run pilot batch (opportunities, tickets, events)
-5. **Finally**: Full production batches
+3. ✅ **Done**: JSON output mode added to validation scripts (`--compact` flag)
+4. **Next**: Run pilot batch (opportunities, tickets, events)
+5. **Then**: Full production batches
 
 ---
 

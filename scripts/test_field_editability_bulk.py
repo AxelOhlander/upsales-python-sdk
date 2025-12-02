@@ -36,6 +36,7 @@ Example Output:
     - modDate (read-only timestamp)
 """
 
+import argparse
 import asyncio
 import json
 import os
@@ -51,6 +52,15 @@ load_dotenv()
 
 BASE_URL = "https://power.upsales.com/api/v2"
 TOKEN = os.getenv("UPSALES_TOKEN")
+
+# Global flag for compact output mode
+COMPACT_MODE = False
+
+
+def log(message: str = "") -> None:
+    """Print message only if not in compact mode."""
+    if not COMPACT_MODE:
+        print(message)
 
 
 def get_test_value(field_name: str, current_value: Any, field_type: str = "unknown") -> Any:
@@ -111,16 +121,19 @@ def get_test_value(field_name: str, current_value: Any, field_type: str = "unkno
     return current_value
 
 
-async def test_bulk_editability(endpoint: str):
+async def test_bulk_editability(endpoint: str) -> dict:
     """
     Test field editability by updating all fields at once.
 
     Args:
         endpoint: API endpoint name (e.g., 'accounts', 'contacts', 'orders')
+
+    Returns:
+        Dict with results for compact output mode
     """
-    print("\n" + "=" * 80)
-    print(f"🧪 TESTING FIELD EDITABILITY (BULK UPDATE): /{endpoint}")
-    print("=" * 80 + "\n")
+    log("\n" + "=" * 80)
+    log(f"🧪 TESTING FIELD EDITABILITY (BULK UPDATE): /{endpoint}")
+    log("=" * 80 + "\n")
 
     async with httpx.AsyncClient(
         base_url=BASE_URL,
@@ -129,34 +142,34 @@ async def test_bulk_editability(endpoint: str):
     ) as client:
 
         # Step 1: Get TWO objects for real value testing
-        print("Step 1: Fetching test objects...")
+        log("Step 1: Fetching test objects...")
         response = await client.get(f"/{endpoint}", params={"limit": 2})
         data = response.json()
 
         if not data.get("data") or len(data["data"]) == 0:
             print(f"❌ No objects found in /{endpoint}")
-            return
+            return {"error": "No objects found"}
 
         objects = data["data"]
-        
+
         # Use first object as the one to update
         original = objects[0]
         obj_id = original["id"]
-        
+
         # Use second object as source of real test values (if available)
         value_source = objects[1] if len(objects) > 1 else original
 
-        print(f"✅ Got object to update: ID {obj_id}")
-        print(f"   Total fields: {len(original)}")
+        log(f"✅ Got object to update: ID {obj_id}")
+        log(f"   Total fields: {len(original)}")
         if len(objects) > 1:
-            print(f"✅ Got value source object: ID {value_source['id']}")
-            print(f"   Will use real values from existing data")
+            log(f"✅ Got value source object: ID {value_source['id']}")
+            log(f"   Will use real values from existing data")
         else:
-            print(f"   ⚠️  Only 1 object available - will use modified values from same object")
-        print()
+            log(f"   ⚠️  Only 1 object available - will use modified values from same object")
+        log()
 
         # Step 2: Build update payload using real values from value_source
-        print("Step 2: Building update payload with real values from existing data...")
+        log("Step 2: Building update payload with real values from existing data...")
 
         update_payload = {}
         skip_fields = {
@@ -175,22 +188,22 @@ async def test_bulk_editability(endpoint: str):
 
             # Get value from source object (real data from API)
             source_value = value_source.get(field_name)
-            
+
             # Only include if source has a different value
             if source_value is not None and source_value != current_value:
                 update_payload[field_name] = source_value
                 test_values[field_name] = source_value
 
-        print(f"   Prepared {len(update_payload)} fields for update")
-        print(f"   Skipped {len(skip_fields)} system fields (id, regDate, modDate, etc.)")
+        log(f"   Prepared {len(update_payload)} fields for update")
+        log(f"   Skipped {len(skip_fields)} system fields (id, regDate, modDate, etc.)")
         unchanged = len(original) - len(update_payload) - len(skip_fields)
         if unchanged > 0:
-            print(f"   Skipped {unchanged} fields (same value in both objects)\n")
+            log(f"   Skipped {unchanged} fields (same value in both objects)\n")
         else:
-            print()
+            log()
 
         # Step 3: Update with all fields at once
-        print("Step 3: Sending bulk update with all modified fields...")
+        log("Step 3: Sending bulk update with all modified fields...")
 
         response = await client.put(
             f"/{endpoint}/{obj_id}",
@@ -199,17 +212,16 @@ async def test_bulk_editability(endpoint: str):
 
         if response.status_code not in (200, 201):
             print(f"❌ Update failed: {response.status_code}")
-            print(f"   Response: {response.text}")
-            return
+            return {"error": "Update failed", "status": response.status_code}
 
         updated = response.json().get("data", {})
-        print(f"✅ Update succeeded (status {response.status_code})")
-        print(f"   Response contains {len(updated)} fields\n")
+        log(f"✅ Update succeeded (status {response.status_code})")
+        log(f"   Response contains {len(updated)} fields\n")
 
         # Step 4: Compare before vs after
-        print("=" * 80)
-        print("FIELD-BY-FIELD COMPARISON")
-        print("=" * 80 + "\n")
+        log("=" * 80)
+        log("FIELD-BY-FIELD COMPARISON")
+        log("=" * 80 + "\n")
 
         editable = []
         read_only = []
@@ -224,30 +236,45 @@ async def test_bulk_editability(endpoint: str):
             if updated_value == sent_value:
                 # Field changed to what we sent
                 editable.append(field_name)
-                print(f"✅ EDITABLE: {field_name}")
-                print(f"   Original: {repr(original_value)[:50]}")
-                print(f"   Sent: {repr(sent_value)[:50]}")
-                print(f"   Got: {repr(updated_value)[:50]}")
+                log(f"✅ EDITABLE: {field_name}")
+                log(f"   Original: {repr(original_value)[:50]}")
+                log(f"   Sent: {repr(sent_value)[:50]}")
+                log(f"   Got: {repr(updated_value)[:50]}")
 
             elif updated_value == original_value:
                 # Field unchanged (API ignored our update)
                 read_only.append(field_name)
-                print(f"❌ READ-ONLY: {field_name} (API ignored update)")
-                print(f"   Original: {repr(original_value)[:50]}")
-                print(f"   Sent: {repr(sent_value)[:50]}")
-                print(f"   Got: {repr(updated_value)[:50]} (unchanged)")
+                log(f"❌ READ-ONLY: {field_name} (API ignored update)")
+                log(f"   Original: {repr(original_value)[:50]}")
+                log(f"   Sent: {repr(sent_value)[:50]}")
+                log(f"   Got: {repr(updated_value)[:50]} (unchanged)")
 
             else:
                 # Field changed but to something unexpected
                 unexpected.append((field_name, sent_value, updated_value))
-                print(f"⚠️ UNEXPECTED: {field_name}")
-                print(f"   Original: {repr(original_value)[:50]}")
-                print(f"   Sent: {repr(sent_value)[:50]}")
-                print(f"   Got: {repr(updated_value)[:50]} (different!)")
+                log(f"⚠️ UNEXPECTED: {field_name}")
+                log(f"   Original: {repr(original_value)[:50]}")
+                log(f"   Sent: {repr(sent_value)[:50]}")
+                log(f"   Got: {repr(updated_value)[:50]} (different!)")
 
-            print()
+            log()
 
-        # Step 5: Summary
+        # Build results dict (for compact mode and return value)
+        results = {
+            "endpoint": endpoint,
+            "editable_fields": sorted(editable),
+            "read_only_fields": sorted(read_only),
+            "unexpected_fields": [{"field": f, "sent": s, "got": g} for f, s, g in unexpected],
+            "total_tested": len(editable) + len(read_only) + len(unexpected),
+            "frozen_recommendations": sorted(read_only),
+        }
+
+        # Compact mode: output JSON only
+        if COMPACT_MODE:
+            print(json.dumps(results, indent=2, default=str))
+            return results
+
+        # Verbose mode: full output
         print("=" * 80)
         print("SUMMARY")
         print("=" * 80 + "\n")
@@ -265,26 +292,6 @@ async def test_bulk_editability(endpoint: str):
             for field, sent, got in unexpected:
                 print(f"   - {field}: sent {repr(sent)[:30]}, got {repr(got)[:30]}")
 
-        # Step 6: Recommendations
-        print("\n" + "=" * 80)
-        print("📋 RECOMMENDATIONS")
-        print("=" * 80 + "\n")
-
-        print("Update model with frozen fields:")
-        print(f"```python")
-        for field in sorted(read_only):
-            print(f"{field}: ... = Field(frozen=True, description='...')")
-        print(f"```")
-
-        print(f"\n{endpoint.capitalize()}UpdateFields TypedDict should include:")
-        print(f"```python")
-        print(f"class {endpoint.capitalize()}UpdateFields(TypedDict, total=False):")
-        for field in sorted(editable)[:20]:  # Show first 20
-            print(f"    {field}: Any  # Editable")
-        if len(editable) > 20:
-            print(f"    # ... and {len(editable) - 20} more editable fields")
-        print(f"```")
-
         # Stats
         print("\n" + "=" * 80)
         print("📊 STATISTICS")
@@ -300,30 +307,45 @@ async def test_bulk_editability(endpoint: str):
         print(f"   ⚠️ Unexpected: {len(unexpected)}")
         print()
 
+        return results
+
 
 async def main():
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python scripts/test_field_editability_bulk.py <endpoint>")
-        print("\nExamples:")
-        print("  python scripts/test_field_editability_bulk.py accounts")
-        print("  python scripts/test_field_editability_bulk.py contacts")
-        print("  python scripts/test_field_editability_bulk.py orders")
-        print("  python scripts/test_field_editability_bulk.py activities")
-        sys.exit(1)
+    global COMPACT_MODE
 
-    endpoint = sys.argv[1]
+    parser = argparse.ArgumentParser(
+        description="Test which fields are truly EDITABLE vs READ-ONLY by bulk updating.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python scripts/test_field_editability_bulk.py accounts
+  python scripts/test_field_editability_bulk.py contacts --compact
+  python scripts/test_field_editability_bulk.py orders
+
+Use --compact for AI agent workflows (outputs JSON only, minimal tokens).
+        """,
+    )
+    parser.add_argument("endpoint", help="API endpoint name (e.g., 'accounts', 'contacts')")
+    parser.add_argument(
+        "--compact",
+        action="store_true",
+        help="Output compact JSON only (for AI agents, saves tokens)",
+    )
+
+    args = parser.parse_args()
+    COMPACT_MODE = args.compact
 
     if not TOKEN:
         print("❌ UPSALES_TOKEN not found in environment")
-        print("Create a .env file with: UPSALES_TOKEN=your_token")
         sys.exit(1)
 
-    print("⚠️  WARNING: This script will UPDATE a real object!")
-    print("⚠️  Use SANDBOX/TEST environment only, NOT production!")
-    print()
+    if not COMPACT_MODE:
+        print("⚠️  WARNING: This script will UPDATE a real object!")
+        print("⚠️  Use SANDBOX/TEST environment only, NOT production!")
+        print()
 
-    await test_bulk_editability(endpoint)
+    await test_bulk_editability(args.endpoint)
 
 
 if __name__ == "__main__":

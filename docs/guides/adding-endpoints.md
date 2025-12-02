@@ -30,6 +30,26 @@ Your work will be considered complete when:
 
 ---
 
+### 🔧 Field Discovery Scripts (AI Agent Optimized)
+
+Use these scripts with `--compact` flag for minimal token output:
+
+```bash
+# Discover required fields for CREATE (POST)
+python scripts/test_required_create_fields.py {endpoint} --compact
+
+# Discover editable vs read-only fields for UPDATE (PUT)
+python scripts/test_field_editability_bulk.py {endpoint} --compact
+```
+
+**Compact mode outputs JSON** with exactly what you need:
+- `required_fields` / `optional_fields` for CREATE
+- `editable_fields` / `frozen_recommendations` for UPDATE
+
+**Token savings**: ~90% compared to verbose output.
+
+---
+
 ## 📚 REQUIRED READING: Critical Documents
 
 Before starting, understand these key documents contain essential patterns:
@@ -842,6 +862,14 @@ updated: str | None = Field(None, frozen=True, description="...")
 
 **Why frozen**: These are set by the API and should never be modified by client.
 
+**Discover frozen fields automatically** (optional but recommended):
+```bash
+# Run with --compact for minimal output (for AI agents)
+python scripts/test_field_editability_bulk.py {endpoint} --compact
+```
+
+This outputs JSON with `frozen_recommendations` listing fields that should be `Field(frozen=True)`.
+
 **Reference**: See `upsales/models/user.py:78-79` for example.
 
 ---
@@ -1050,6 +1078,12 @@ class ContactUpdateFields(TypedDict, total=False):
 ```
 
 **If generator missed fields, ADD them manually!**
+
+**Verify with script** (optional but recommended):
+```bash
+python scripts/test_field_editability_bulk.py {endpoint} --compact
+```
+The `editable_fields` list in the output shows exactly which fields should be in your TypedDict.
 
 **Reference**: See `upsales/models/company.py:32-146` for complete TypedDict with 84 fields.
 

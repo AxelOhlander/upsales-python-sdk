@@ -49,6 +49,7 @@ Example:
     }
 """
 
+import argparse
 import asyncio
 import json
 import os
@@ -61,8 +62,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Global flag for compact output mode
+COMPACT_MODE = False
+
 BASE_URL = "https://power.upsales.com/api/v2"
 TOKEN = os.getenv("UPSALES_TOKEN")
+
+
+def log(message: str = "") -> None:
+    """Print message only if not in compact mode."""
+    if not COMPACT_MODE:
+        print(message)
 
 # Load API endpoints file for field reference
 API_FILE = Path("api_endpoints_with_fields.json")
@@ -216,7 +226,7 @@ def get_test_value(
     return None
 
 
-async def test_create_required_fields(endpoint: str):
+async def test_create_required_fields(endpoint: str) -> dict:
     """
     Test which fields are required for creating a resource.
 
@@ -227,40 +237,42 @@ async def test_create_required_fields(endpoint: str):
     4. Remove one field at a time and test creation
     5. Mark field as REQUIRED if creation fails without it
     6. Mark field as OPTIONAL if creation succeeds without it
+
+    Returns:
+        Dict with results for compact output mode
     """
-    print("\n" + "=" * 80)
-    print(f"🧪 TESTING CREATE REQUIRED FIELDS: /{endpoint}")
-    print("=" * 80 + "\n")
+    log("\n" + "=" * 80)
+    log(f"🧪 TESTING CREATE REQUIRED FIELDS: /{endpoint}")
+    log("=" * 80 + "\n")
 
     # Get API file info for this endpoint
     if not API_DATA:
         print("❌ Cannot proceed without api_endpoints_with_fields.json")
-        return
+        return {"error": "API file not found"}
 
     endpoint_info = API_DATA.get("endpoints", {}).get(endpoint)
     if not endpoint_info:
         print(f"❌ Endpoint '{endpoint}' not found in api_endpoints_with_fields.json")
-        print(f"Available endpoints: {list(API_DATA['endpoints'].keys())[:10]}...")
-        return
+        return {"error": f"Endpoint '{endpoint}' not found"}
 
     post_method = endpoint_info.get("methods", {}).get("POST")
     if not post_method:
         print(f"❌ Endpoint '{endpoint}' does not support POST (create) operation")
-        return
+        return {"error": f"Endpoint '{endpoint}' does not support POST"}
 
-    print("📖 API File Information:")
-    print(f"   Endpoint: {endpoint_info.get('base_path')}")
-    print(f"   Description: {endpoint_info.get('description')}")
-    print()
+    log("📖 API File Information:")
+    log(f"   Endpoint: {endpoint_info.get('base_path')}")
+    log(f"   Description: {endpoint_info.get('description')}")
+    log()
 
     # Get required and optional fields from API file
     required_from_api = post_method.get("required", [])
     optional_from_api = post_method.get("optional", [])
 
-    print(f"📋 From api_endpoints_with_fields.json:")
-    print(f"   Expected REQUIRED fields: {len(required_from_api)}")
-    print(f"   Expected OPTIONAL fields: {len(optional_from_api)}")
-    print()
+    log(f"📋 From api_endpoints_with_fields.json:")
+    log(f"   Expected REQUIRED fields: {len(required_from_api)}")
+    log(f"   Expected OPTIONAL fields: {len(optional_from_api)}")
+    log()
 
     # Setup HTTP client first (needed for fetching real IDs)
     async with httpx.AsyncClient(
@@ -268,24 +280,24 @@ async def test_create_required_fields(endpoint: str):
         headers={"Cookie": f"token={TOKEN}"},
         timeout=30.0
     ) as client:
-        
+
         # Fetch real IDs from existing data
-        print("🔍 Fetching real IDs from existing data...")
+        log("🔍 Fetching real IDs from existing data...")
         real_ids = await fetch_real_ids(client, endpoint)
-        
+
         if real_ids:
-            print(f"   Found {len(real_ids)} valid IDs:")
+            log(f"   Found {len(real_ids)} valid IDs:")
             for field_name, id_value in real_ids.items():
-                print(f"   - {field_name}: {id_value}")
+                log(f"   - {field_name}: {id_value}")
         else:
-            print("   ⚠️  No real IDs found - using fallback values")
-        print()
-        
+            log("   ⚠️  No real IDs found - using fallback values")
+        log()
+
         # Build test payload from API file specifications
         test_payload = {}
         field_metadata = {}
 
-        print("🔨 Building test payload from API file...")
+        log("🔨 Building test payload from API file...")
 
         for field_spec in required_from_api:
             field_name = field_spec["field"]
@@ -301,7 +313,7 @@ async def test_create_required_fields(endpoint: str):
                 "notes": field_spec.get("notes", "")
             }
 
-            print(f"   + {field_name}: {test_value} (expected REQUIRED)")
+            log(f"   + {field_name}: {test_value} (expected REQUIRED)")
 
         for field_spec in optional_from_api:
             field_name = field_spec["field"]
@@ -320,67 +332,62 @@ async def test_create_required_fields(endpoint: str):
                     "default": default,
                     "notes": field_spec.get("notes", "")
                 }
-                print(f"   + {field_name}: {test_value} (expected OPTIONAL)")
+                log(f"   + {field_name}: {test_value} (expected OPTIONAL)")
 
-        print(f"\n📦 Test payload built with {len(test_payload)} fields")
-        print()
+        log(f"\n📦 Test payload built with {len(test_payload)} fields")
+        log()
 
         # Step 1: Test baseline creation with ALL fields
-        print("=" * 80)
-        print("STEP 1: Baseline Test (Create with ALL fields)")
-        print("=" * 80 + "\n")
+        log("=" * 80)
+        log("STEP 1: Baseline Test (Create with ALL fields)")
+        log("=" * 80 + "\n")
 
-        print("⚠️  IMPORTANT: This will create a test object in your Upsales account!")
-        print(f"Payload: {json.dumps(test_payload, indent=2)}\n")
+        log("⚠️  IMPORTANT: This will create a test object in your Upsales account!")
+        log(f"Payload: {json.dumps(test_payload, indent=2)}\n")
 
         response = await client.post(f"/{endpoint}", json=test_payload)
 
         if response.status_code not in (200, 201):
             print(f"❌ Baseline creation FAILED (status {response.status_code})")
             print(f"Response: {response.text}")
-            print("\n⚠️  Cannot proceed - baseline creation must work")
-            print("Possible issues:")
-            print("  - Invalid test data (check IDs exist)")
-            print("  - Missing required fields not in API file")
-            print("  - Permission issues")
-            return
+            return {"error": "Baseline creation failed", "status": response.status_code}
 
         baseline_data = response.json()
         created_id = baseline_data.get("data", {}).get("id")
 
-        print(f"✅ Baseline creation SUCCEEDED")
-        print(f"   Created ID: {created_id}")
-        print(f"   Status: {response.status_code}")
-        print()
+        log(f"✅ Baseline creation SUCCEEDED")
+        log(f"   Created ID: {created_id}")
+        log(f"   Status: {response.status_code}")
+        log()
 
         # Test DELETE operation (verify it actually deletes)
         if created_id:
-            print(f"🗑️  Testing DELETE operation...")
+            log(f"🗑️  Testing DELETE operation...")
 
             # Delete the object
             delete_response = await client.delete(f"/{endpoint}/{created_id}")
 
             if delete_response.status_code in (200, 204):
-                print(f"   ✅ DELETE succeeded (status {delete_response.status_code})")
+                log(f"   ✅ DELETE succeeded (status {delete_response.status_code})")
 
                 # Verify it's actually gone (should get 404)
                 verify_response = await client.get(f"/{endpoint}/{created_id}")
 
                 if verify_response.status_code == 404:
-                    print(f"   ✅ Verified deletion (GET returned 404)")
+                    log(f"   ✅ Verified deletion (GET returned 404)")
                 elif verify_response.status_code == 200:
-                    print(f"   ⚠️ WARNING: Object still exists after DELETE!")
+                    log(f"   ⚠️ WARNING: Object still exists after DELETE!")
                 else:
-                    print(f"   ⚠️ Unexpected status {verify_response.status_code}")
+                    log(f"   ⚠️ Unexpected status {verify_response.status_code}")
             else:
-                print(f"   ❌ DELETE failed (status {delete_response.status_code})")
+                log(f"   ❌ DELETE failed (status {delete_response.status_code})")
 
-            print()
+            log()
 
         # Step 2: Test each field individually
-        print("=" * 80)
-        print("STEP 2: Field-by-Field Testing")
-        print("=" * 80 + "\n")
+        log("=" * 80)
+        log("STEP 2: Field-by-Field Testing")
+        log("=" * 80 + "\n")
 
         required_fields = []
         optional_fields = []
@@ -393,7 +400,7 @@ async def test_create_required_fields(endpoint: str):
             # Create payload WITHOUT this field
             test_without = {k: v for k, v in test_payload.items() if k != field_name}
 
-            print(f"Testing without '{field_name}'... ", end="", flush=True)
+            log(f"Testing without '{field_name}'... ", end="", flush=True) if not COMPACT_MODE else None
 
             try:
                 response = await client.post(f"/{endpoint}", json=test_without)
@@ -403,7 +410,7 @@ async def test_create_required_fields(endpoint: str):
                     optional_fields.append(field_name)
                     created_id = response.json().get("data", {}).get("id")
 
-                    print(f"⚠️  OPTIONAL (creation succeeded)")
+                    log(f"⚠️  OPTIONAL (creation succeeded)")
 
                     # Clean up
                     if created_id:
@@ -413,16 +420,37 @@ async def test_create_required_fields(endpoint: str):
                     # Creation failed - field is required
                     required_fields.append(field_name)
                     error_msg = response.json().get("error", {}).get("message", "")
-                    print(f"✅ REQUIRED (got 400: {error_msg[:50]})")
+                    log(f"✅ REQUIRED (got 400: {error_msg[:50]})")
 
                 else:
                     # Unexpected status
-                    print(f"⚠️  Unexpected status {response.status_code}")
+                    log(f"⚠️  Unexpected status {response.status_code}")
 
             except Exception as e:
-                print(f"❌ Error: {e}")
+                log(f"❌ Error: {e}")
 
-        # Step 3: Report findings
+        # Build results dict (for compact mode and return value)
+        results = {
+            "endpoint": endpoint,
+            "required_fields": [
+                {
+                    "field": f,
+                    "type": field_metadata.get(f, {}).get("type", "unknown"),
+                    "structure": field_metadata.get(f, {}).get("structure"),
+                }
+                for f in required_fields
+            ],
+            "optional_fields": [f for f in optional_fields],
+            "total_tested": len(test_payload),
+            "minimal_payload": {f: test_payload.get(f) for f in required_fields},
+        }
+
+        # Compact mode: output JSON only
+        if COMPACT_MODE:
+            print(json.dumps(results, indent=2, default=str))
+            return results
+
+        # Verbose mode: full output
         print("\n" + "=" * 80)
         print("RESULTS")
         print("=" * 80 + "\n")
@@ -526,46 +554,6 @@ async def test_create_required_fields(endpoint: str):
         if len(optional_fields) > 10:
             print(f'    # ... and {len(optional_fields) - 10} more optional fields')
 
-        # Step 5: Generate minimal example
-        print("\n" + "=" * 80)
-        print("💡 Example Usage")
-        print("=" * 80 + "\n")
-
-        print("# Create with minimal required fields:")
-        print(f"new_{endpoint} = await upsales.{endpoint}.create(")
-        for i, field in enumerate(required_fields):
-            value = test_payload.get(field)
-            # Format value for display
-            if isinstance(value, dict):
-                value_str = json.dumps(value)
-            elif isinstance(value, list):
-                value_str = json.dumps(value)
-            elif isinstance(value, str):
-                value_str = f'"{value}"'
-            else:
-                value_str = str(value)
-
-            comma = "," if i < len(required_fields) - 1 else ""
-            print(f"    {field}={value_str}{comma}")
-        print(")")
-
-        print("\n# Create with optional fields:")
-        print(f"detailed_{endpoint} = await upsales.{endpoint}.create(")
-        for i, field in enumerate(required_fields + optional_fields[:3]):
-            value = test_payload.get(field)
-            if isinstance(value, dict):
-                value_str = json.dumps(value)
-            elif isinstance(value, list):
-                value_str = json.dumps(value)
-            elif isinstance(value, str):
-                value_str = f'"{value}"'
-            else:
-                value_str = str(value)
-
-            comma = "," if i < len(required_fields) + 2 else ""
-            print(f"    {field}={value_str}{comma}")
-        print(")")
-
         # Summary
         print("\n" + "=" * 80)
         print("📊 SUMMARY")
@@ -574,48 +562,46 @@ async def test_create_required_fields(endpoint: str):
         print(f"   ✅ REQUIRED fields: {len(required_fields)}")
         print(f"   ⚠️  OPTIONAL fields: {len(optional_fields)}")
         print()
-        print("📝 Next Steps:")
-        print(f"   1. Add {endpoint.capitalize()}CreateFields TypedDict to upsales/models/{endpoint}.py")
-        print(f"   2. Update {endpoint.capitalize()} model docstring with CREATE example")
-        print(f"   3. Add integration test for CREATE with minimal fields")
-        print(f"   4. Record VCR cassette for offline testing")
-        print(f"   5. Update docs/endpoint-map.md with ✅ Verified CREATE status")
-        print()
+
+        return results
 
 
 async def main():
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python scripts/test_required_create_fields.py <endpoint>")
-        print("\nExamples:")
-        print("  python scripts/test_required_create_fields.py orders")
-        print("  python scripts/test_required_create_fields.py contacts")
-        print("  python scripts/test_required_create_fields.py activities")
-        print("  python scripts/test_required_create_fields.py appointments")
-        print("\nAvailable endpoints:")
-        if API_DATA:
-            create_capable = [
-                name for name, info in API_DATA["endpoints"].items()
-                if "POST" in info.get("methods", {})
-            ]
-            for ep in sorted(create_capable)[:20]:
-                print(f"  - {ep}")
-            if len(create_capable) > 20:
-                print(f"  ... and {len(create_capable) - 20} more")
-        sys.exit(1)
+    global COMPACT_MODE
 
-    endpoint = sys.argv[1]
+    parser = argparse.ArgumentParser(
+        description="Test which fields are REQUIRED vs OPTIONAL when creating resources.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python scripts/test_required_create_fields.py orders
+  python scripts/test_required_create_fields.py contacts --compact
+  python scripts/test_required_create_fields.py activities
+
+Use --compact for AI agent workflows (outputs JSON only, minimal tokens).
+        """,
+    )
+    parser.add_argument("endpoint", help="API endpoint name (e.g., 'orders', 'contacts')")
+    parser.add_argument(
+        "--compact",
+        action="store_true",
+        help="Output compact JSON only (for AI agents, saves tokens)",
+    )
+
+    args = parser.parse_args()
+    COMPACT_MODE = args.compact
 
     if not TOKEN:
         print("❌ UPSALES_TOKEN not found in environment")
-        print("Create a .env file with: UPSALES_TOKEN=your_token")
         sys.exit(1)
 
-    print("⚠️  WARNING: This script will CREATE and DELETE test data!")
-    print("⚠️  Use SANDBOX/TEST environment only, NOT production!")
-    print()
+    if not COMPACT_MODE:
+        print("⚠️  WARNING: This script will CREATE and DELETE test data!")
+        print("⚠️  Use SANDBOX/TEST environment only, NOT production!")
+        print()
 
-    await test_create_required_fields(endpoint)
+    await test_create_required_fields(args.endpoint)
 
 
 if __name__ == "__main__":

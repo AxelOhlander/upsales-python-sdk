@@ -2,6 +2,25 @@
 
 This directory contains testing utilities for the Upsales SDK.
 
+## Compact Mode (--compact)
+
+All main scripts support `--compact` flag for AI agent workflows:
+
+```bash
+# Verbose output (default) - for humans
+python scripts/test_required_create_fields.py orders
+
+# Compact JSON output - for AI agents (saves ~90% tokens)
+python scripts/test_required_create_fields.py orders --compact
+python scripts/test_field_editability_bulk.py accounts --compact
+```
+
+**Compact mode benefits:**
+- Outputs structured JSON only
+- No decorative headers or dividers
+- No generated code examples
+- ~90% token reduction for AI agents
+
 ## Available Scripts
 
 ### test_required_create_fields.py ⭐ NEW
@@ -9,7 +28,7 @@ This directory contains testing utilities for the Upsales SDK.
 
 ```bash
 python scripts/test_required_create_fields.py orders
-python scripts/test_required_create_fields.py contacts
+python scripts/test_required_create_fields.py contacts --compact  # For AI agents
 python scripts/test_required_create_fields.py activities
 ```
 
@@ -80,7 +99,7 @@ python scripts/test_required_update_fields.py users
 
 ```bash
 python scripts/test_field_editability_bulk.py accounts
-python scripts/test_field_editability_bulk.py contacts
+python scripts/test_field_editability_bulk.py contacts --compact  # For AI agents
 python scripts/test_field_editability_bulk.py orders
 ```
 

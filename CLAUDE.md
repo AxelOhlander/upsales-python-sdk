@@ -8,237 +8,29 @@ This is an async Python wrapper for the Upsales CRM API, designed as both a prod
 
 ## API Endpoints Reference File
 
-**CRITICAL**: The file `api_endpoints_with_fields.json` in the project root contains **comprehensive documentation of all 167 Upsales API endpoints** extracted from the official Upsales codebase on GitHub.
+**CRITICAL**: `api_endpoints_with_fields.json` documents **all 167 Upsales API endpoints** with field information for GET/POST/PUT/DELETE operations.
 
-### What This File Contains
+### Quick Queries
 
-```json
-{
-  "metadata": {
-    "total_endpoints_documented": 167,
-    "generated": "2025-11-07",
-    "version": "v2"
-  },
-  "endpoints": {
-    "endpoint_name": {
-      "base_path": "/api/v2/endpoint",
-      "description": "...",
-      "methods": {
-        "GET_list": { "returns": ["field1", "field2", ...] },
-        "GET_item": { "returns": ["field1", "field2", ...] },
-        "POST": {
-          "required": [
-            {"field": "name", "type": "string", "structure": {...}, "notes": "..."}
-          ],
-          "optional": [
-            {"field": "name", "type": "string", "default": "...", "notes": "..."}
-          ]
-        },
-        "PUT": {
-          "allowed": ["field1", "field2", ...],
-          "readOnly": ["id", "regDate", ...]
-        },
-        "DELETE": { "path": "/api/v2/endpoint/:id" }
-      }
-    }
-  }
-}
-```
+| Purpose | Command |
+|---------|---------|
+| Required fields (POST) | `jq '.endpoints.orders.methods.POST.required' api_endpoints_with_fields.json` |
+| Updatable fields (PUT) | `jq '.endpoints.contacts.methods.PUT.allowed' api_endpoints_with_fields.json` |
+| Read-only fields | `jq '.endpoints.accounts.methods.PUT.readOnly' api_endpoints_with_fields.json` |
+| Returned fields (GET) | `jq '.endpoints.activities.methods.GET_list.returns' api_endpoints_with_fields.json` |
+| All endpoint names | `jq '.endpoints \| keys' api_endpoints_with_fields.json` |
 
-### Critical Information Provided
+### Development Workflow
 
-For **each of 167 endpoints**, the file documents:
+1. **Consult API file**: `jq '.endpoints.endpoint_name' api_endpoints_with_fields.json`
+2. **Generate model**: `uv run upsales generate-model endpoint_name --partial`
+3. **Verify with VCR**: `uv run pytest tests/integration/test_endpoint_integration.py -v`
+4. **Compare**: `uv run python ai_temp_files/find_unmapped_fields.py`
+5. **Document**: Update `docs/endpoint-map.md` with verified info
 
-1. **GET Operations**:
-   - All fields returned by list endpoint
-   - All fields returned by single item endpoint
-   - Differences between list and item responses
+### ⚠️ Important Caveat
 
-2. **POST Operations** (Create):
-   - **Required fields** with:
-     - Field name
-     - Data type (string, number, object, array, etc.)
-     - Structure for nested objects (e.g., `{"id": "number"}`)
-     - Format specifications (e.g., "YYYY-MM-DD" for dates)
-     - Special notes and constraints
-     - Default values
-   - **Optional fields** with:
-     - Same details as required
-     - Default values
-     - Conditional requirements
-
-3. **PUT Operations** (Update):
-   - **Allowed fields** - Fields that can be updated
-   - **Read-only fields** - Fields that cannot be changed
-   - Constraints and special rules
-
-4. **DELETE Operations**:
-   - Endpoint paths and requirements
-
-5. **Special Patterns**:
-   - Nested object structures (e.g., `user: {"id": number}`)
-   - Array structures with examples
-   - Field dependencies
-   - Validation rules
-
-### How to Use This File
-
-#### 1. **Discovering Required Fields for CREATE**
-
-```bash
-# Example: Check what's required to create an order
-cat api_endpoints_with_fields.json | jq '.endpoints.orders.methods.POST.required'
-
-# Output:
-[
-  {"field": "client", "type": "object", "structure": {"id": "number"}},
-  {"field": "user", "type": "object", "structure": {"id": "number"}},
-  {"field": "stage", "type": "object", "structure": {"id": "number"}},
-  {"field": "date", "type": "string", "format": "YYYY-MM-DD"},
-  {"field": "orderRow", "type": "array", "structure": [{"product": {"id": "number"}}]}
-]
-```
-
-#### 2. **Discovering Updatable Fields for UPDATE**
-
-```bash
-# Example: Check what can be updated on a contact
-cat api_endpoints_with_fields.json | jq '.endpoints.contacts.methods.PUT.allowed'
-
-# Output:
-["name", "firstName", "lastName", "email", "phone", "cellPhone", "title",
- "active", "custom", "categories", "projects"]
-```
-
-#### 3. **Discovering Read-Only Fields**
-
-```bash
-# Example: Check read-only fields for accounts
-cat api_endpoints_with_fields.json | jq '.endpoints.accounts.methods.PUT.readOnly'
-
-# Output:
-["id", "regDate", "totalOrderValue", "userRemovable", "userEditable", "growth"]
-```
-
-#### 4. **Discovering All Returned Fields**
-
-```bash
-# Example: Check what fields are returned for activities
-cat api_endpoints_with_fields.json | jq '.endpoints.activities.methods.GET_list.returns'
-```
-
-### Important Caveats
-
-**⚠️ VALIDATION REQUIRED**: While this file provides a **strong foundation**, the field information may be:
-- **Incomplete** - Some fields might be missing
-- **Incorrect** - Field types or requirements might be wrong
-- **Outdated** - API may have changed since extraction
-- **Over-specified** - Some "required" fields might actually be optional
-
-**Always validate with real API testing:**
-1. Use VCR cassettes to capture actual API responses
-2. Test CREATE operations with minimal fields to discover true requirements
-3. Verify field structures match actual API responses
-4. Document discrepancies found during testing
-
-### Integration with Development Workflow
-
-#### Step 1: Consult API File First
-
-Before implementing an endpoint:
-```bash
-# Check what the API file says about the endpoint
-cat api_endpoints_with_fields.json | jq '.endpoints.endpoint_name'
-```
-
-#### Step 2: Generate Initial Model
-
-Use the field information to guide model generation:
-```bash
-uv run upsales generate-model endpoint_name --partial
-```
-
-#### Step 3: Verify with VCR Testing
-
-Record actual API responses (Step 2 in workflow):
-```bash
-# This captures REAL field structure
-uv run pytest tests/integration/test_endpoint_integration.py -v
-```
-
-#### Step 4: Compare and Adjust
-
-Use the analysis script to find discrepancies:
-```python
-# Compare API file vs VCR cassette vs model
-uv run python ai_temp_files/find_unmapped_fields.py
-```
-
-#### Step 5: Document Findings
-
-Update the endpoint-map.md with verified information:
-- Mark fields as verified
-- Note discrepancies from API file
-- Document actual requirements
-
-### Current Implementation Status
-
-**As of 2025-11-07:**
-- **API File Documents**: 167 endpoints
-- **Currently Implemented**: 35 resources (21%)
-- **Remaining to Implement**: 132 endpoints (79%)
-
-**High Priority Endpoints in API File** (commonly used):
-- ✅ orders (implemented, verified with nested required fields)
-- ✅ opportunities (shares model with orders)
-- ✅ accounts (companies - implemented)
-- ✅ contacts (implemented, needs verification)
-- ✅ activities (implemented, needs verification)
-- ✅ appointments (implemented, needs verification)
-- ✅ products (implemented, verified)
-- ✅ users (implemented, verified)
-- ❌ agreements (not implemented)
-- ❌ projects (partially implemented)
-- ❌ tickets (not implemented)
-- ❌ quotes (not implemented)
-
-### Finding Endpoints by Category
-
-```bash
-# All endpoints
-cat api_endpoints_with_fields.json | jq '.endpoints | keys'
-
-# Count by operation support
-cat api_endpoints_with_fields.json | jq '.endpoints | to_entries[] |
-  select(.value.methods.POST) | .key' | wc -l  # Count create-capable endpoints
-
-cat api_endpoints_with_fields.json | jq '.endpoints | to_entries[] |
-  select(.value.methods.PUT) | .key' | wc -l   # Count update-capable endpoints
-```
-
-### Example: Using API File for Orders
-
-The Orders endpoint documentation in the API file correctly identified:
-- ✅ Required fields: client.id, user.id, stage.id, date, orderRow with product.id
-- ✅ Nested structure: `{"id": number}` for related entities
-- ✅ Date format: "YYYY-MM-DD"
-- ✅ Read-only fields: regDate, modDate, orderValue, weightedValue
-
-This was verified through manual testing and documented in:
-- `upsales/models/orders.py` - OrderCreateFields TypedDict
-- `docs/patterns/nested-required-fields.md` - Pattern guide
-- `docs/endpoint-map.md` - Verification status
-
-### Best Practice
-
-**Always use this file as a starting point, not the final authority.**
-
-1. ✅ **DO**: Use it to guide model generation and understand API structure
-2. ✅ **DO**: Use it to identify likely required fields before testing
-3. ✅ **DO**: Compare it with VCR cassettes to validate
-4. ❌ **DON'T**: Assume all field information is 100% accurate
-5. ❌ **DON'T**: Skip VCR testing because "the file has the fields"
-6. ❌ **DON'T**: Trust optional/required designations without verification
+**Use as starting point, not final authority.** Field info may be incomplete, incorrect, or outdated. Always validate with VCR cassettes and real API testing before trusting required/optional designations.
 
 ## Temporary Files and Testing
 
@@ -287,238 +79,40 @@ This was verified through manual testing and documented in:
 2. **`Company`** (not `Account`) - Matches UI terminology for better user experience.
 3. **Field aliases** - API `"client"` → Python `company` using Pydantic `Field(alias="client")`
 
-**Clean Separation**:
-```python
-# SDK instance
-upsales = Upsales(token="...")
-
-# Data model
-company: Company = await upsales.companies.get(1)
-contact_company: PartialCompany = contact.company
-
-# No naming collisions!
-```
-
-**Nested Field Mapping**: When the API returns a field named `"client"` in nested responses (e.g., in contacts), we map it to `company` in Python using Pydantic field aliases:
-
-```python
-from pydantic import Field
-
-class Contact(BaseModel):
-    id: int
-    name: str
-    # API sends "client", Python uses "company"
-    company: PartialCompany = Field(alias="client")
-```
+**Nested Field Mapping**: API field `"client"` → Python `company` using Pydantic `Field(alias="client")`. See [Field Aliases](#field-aliases) in Pydantic v2 Patterns for implementation details.
 
 See `docs/terminology.md` for complete rationale.
 
 ## Naming Conventions
 
-**CRITICAL**: This project follows strict PEP 8 naming conventions. All files, classes, and identifiers must adhere to these rules.
-
-### File Naming Rules
-
-#### Models (`upsales/models/`)
-
-**Rule**: Always use `snake_case` for file names.
-
-```
-✅ CORRECT:
-- order_stages.py
-- sales_coaches.py
-- todo_views.py
-- api_keys.py
-- project_plan_stages.py
-- client_categories.py
-
-❌ WRONG:
-- orderStages.py        # camelCase
-- salesCoaches.py       # camelCase
-- todoViews.py          # camelCase
-- apiKeys.py            # camelCase
-- projectPlanStages.py  # PascalCase
-- clientcategories.py   # no underscores
-```
-
-**Conversion Formula**: `camelCase` or `PascalCase` → `snake_case`
-- `orderStages` → `order_stages`
-- `SalesCoach` → `sales_coaches` (model file, plural)
-- `ApiKey` → `api_keys` (model file, plural)
-
-#### Resources (`upsales/resources/`)
-
-**Rule**: Always use `snake_case` for file names, always plural.
-
-```
-✅ CORRECT:
-- order_stages.py      # Plural, snake_case
-- sales_coaches.py     # Plural, snake_case
-- todo_views.py        # Plural, snake_case
-- api_keys.py          # Plural, snake_case
-
-❌ WRONG:
-- order_stage.py       # Singular (should be plural)
-- orderStages.py       # camelCase (should be snake_case)
-- salesCoach.py        # Singular + camelCase
-```
-
-### Class Naming Rules
-
-#### Model Classes
-
-**Rule**: Always use `PascalCase`, always singular.
-
-```
-✅ CORRECT:
-class OrderStage(BaseModel):        # PascalCase, singular
-class SalesCoach(BaseModel):        # PascalCase, singular
-class TodoView(BaseModel):          # PascalCase, singular
-class ApiKey(BaseModel):            # PascalCase, singular
-class ProjectPlanStage(BaseModel):  # PascalCase, singular
-
-❌ WRONG:
-class Orderstage(BaseModel):        # Missing capitals
-class salesCoach(BaseModel):        # camelCase
-class Apikey(BaseModel):            # Wrong capitalization (should be ApiKey)
-class Projectplanstage(BaseModel):  # Missing capitals (should be ProjectPlanStage)
-class OrderStages(BaseModel):       # Plural (should be singular)
-```
-
-#### Partial Model Classes
-
-**Rule**: Prefix with `Partial`, use `PascalCase`, singular.
-
-```
-✅ CORRECT:
-class PartialOrderStage(PartialModel):
-class PartialSalesCoach(PartialModel):
-class PartialApiKey(PartialModel):
-class PartialProjectPlanStage(PartialModel):
-
-❌ WRONG:
-class PartialApikey(PartialModel):         # Wrong capitalization
-class PartialProjectplanstage(PartialModel):  # Missing capitals
-```
-
-#### Resource Classes
-
-**Rule**: Use `PascalCase` + `Resource` suffix, always plural for the base name.
-
-```
-✅ CORRECT:
-class OrderStagesResource(BaseResource):     # Plural + Resource
-class SalesCoachesResource(BaseResource):    # Plural + Resource
-class TodoViewsResource(BaseResource):       # Plural + Resource
-class ApiKeysResource(BaseResource):         # Plural + Resource
-
-❌ WRONG:
-class OrderStageResource(BaseResource):      # Singular (should be plural)
-class Orderstagesresource(BaseResource):     # Wrong capitalization
-```
-
-### Client Attribute Naming
-
-**Rule**: Use `snake_case`, always plural.
-
-```python
-# In upsales/client.py
-
-class Upsales:
-    def __init__(self, token: str, ...):
-        self.http = HTTPClient(token, ...)
-
-        # ✅ CORRECT: snake_case, plural
-        self.order_stages = OrderStagesResource(self.http)
-        self.sales_coaches = SalesCoachesResource(self.http)
-        self.todo_views = TodoViewsResource(self.http)
-        self.api_keys = ApiKeysResource(self.http)
-        self.project_plan_stages = ProjectPlanStagesResource(self.http)
-
-        # ❌ WRONG: camelCase or incorrect plural
-        self.orderStages = OrderStagesResource(self.http)    # camelCase
-        self.order_stage = OrderStagesResource(self.http)    # Singular
-```
-
-### TypedDict Naming
-
-**Rule**: Use `PascalCase` + descriptive suffix.
-
-```python
-✅ CORRECT:
-class OrderStageUpdateFields(TypedDict, total=False):
-class OrderStageCreateFields(TypedDict, total=False):
-class SalesCoachUpdateFields(TypedDict, total=False):
-
-❌ WRONG:
-class orderStageUpdateFields(TypedDict, total=False):  # camelCase
-class UpdateFieldsOrderStage(TypedDict, total=False):  # Wrong order
-```
-
-### Special Cases
-
-#### Acronyms and Initialisms
-
-**Rule**: Treat acronyms as words, capitalize only the first letter in PascalCase.
-
-```
-✅ CORRECT:
-- ApiKey (not APIKey)
-- HttpClient (not HTTPClient)
-- JsonData (not JSONData)
-
-Exception for well-known short acronyms:
-- URL (acceptable)
-- ID (acceptable when alone, but use Id in compounds: userId)
-```
-
-#### Multi-word API Endpoints
-
-**Rule**: Use underscores to separate all words.
-
-```
-API Endpoint         →  File Name              →  Class Name
------------------------------------------------------------------
-/orderStages         →  order_stages.py        →  OrderStage
-/salesCoaches        →  sales_coaches.py       →  SalesCoach
-/projectPlanStages   →  project_plan_stages.py →  ProjectPlanStage
-/clientCategories    →  client_categories.py   →  ClientCategory
-/apiKeys             →  api_keys.py            →  ApiKey
-```
-
-### Standardization Script
-
-**A refactoring script is provided to fix existing naming inconsistencies**:
-
-```bash
-# Preview changes (dry-run mode)
-python scripts/standardize_naming.py --dry-run
-
-# Apply changes
-python scripts/standardize_naming.py --execute
-```
-
-**What it does**:
-1. Renames model files from camelCase to snake_case
-2. Renames resource files to snake_case
-3. Fixes class names to proper PascalCase
-4. Updates all imports in __init__.py files
-5. Updates client.py attributes
-6. Updates test file imports
-
-**When to use**: Only run this once if you're working with legacy code that doesn't follow conventions.
+**CRITICAL**: This project follows strict PEP 8 naming conventions.
 
 ### Quick Reference
 
-| Element | Convention | Example |
-|---------|-----------|---------|
-| **Model file** | snake_case | `order_stages.py` |
-| **Resource file** | snake_case, plural | `order_stages.py` |
-| **Model class** | PascalCase, singular | `OrderStage` |
-| **Partial class** | Partial + PascalCase, singular | `PartialOrderStage` |
-| **Resource class** | PascalCase plural + Resource | `OrderStagesResource` |
-| **Client attribute** | snake_case, plural | `upsales.order_stages` |
-| **TypedDict** | PascalCase + Fields | `OrderStageUpdateFields` |
+| Element | Convention | Example | Wrong |
+|---------|-----------|---------|-------|
+| **Model/Resource file** | snake_case, plural | `order_stages.py` | `orderStages.py`, `order_stage.py` |
+| **Model class** | PascalCase, singular | `OrderStage` | `Orderstage`, `OrderStages` |
+| **Partial class** | Partial + PascalCase | `PartialOrderStage` | `PartialOrderstage` |
+| **Resource class** | PascalCase plural + Resource | `OrderStagesResource` | `OrderStageResource` |
+| **Client attribute** | snake_case, plural | `upsales.order_stages` | `upsales.orderStages` |
+| **TypedDict** | PascalCase + Fields | `OrderStageUpdateFields` | `orderStageUpdateFields` |
+
+### Conversion Rules
+
+**API endpoint → File → Class:**
+```
+/orderStages      → order_stages.py  → OrderStage
+/projectPlanStages → project_plan_stages.py → ProjectPlanStage
+/apiKeys          → api_keys.py      → ApiKey
+```
+
+**Acronyms**: Treat as words - `ApiKey` not `APIKey`, `HttpClient` not `HTTPClient`
+(Exception: `URL`, `ID` alone are acceptable)
+
+### Standardization Script
+
+Fix legacy naming issues with `python scripts/standardize_naming.py --dry-run` (preview) or `--execute` (apply).
 
 ### Key Design Principles
 
@@ -914,11 +508,9 @@ class UsersResource(BaseResource[User, PartialUser]):
 **HTTPClient** (`upsales/http.py`) handles:
 - Authentication via `Cookie: token=...` header
 - Pattern matching for HTTP status codes (200/201/400/401/403/404/429/500+)
-- Automatic retry with exponential backoff on rate limits (429)
+- Automatic retry with exponential backoff on rate limits (429) - see [Rate Limiting](#rate-limiting)
 - Tenacity integration (5 retries, 1-60s backoff)
 - Upsales API response wrapper parsing (`{"error": ..., "data": ...}`)
-
-**Rate Limiting**: Upsales enforces 200 req/10 sec. Bulk operations use semaphores for concurrency control.
 
 ### Exception Hierarchy
 
@@ -1256,131 +848,6 @@ Note:
 - `docs/patterns/adding-resources.md` - Resource manager guide
 - `docs/patterns/custom-fields.md` - Custom fields usage
 - `CONTRIBUTING.md` - Full contributing guidelines with ✅/❌ examples
-
-## Handling Read-Only and Updatable Fields
-
-Different CRUD operations have different field requirements:
-- **GET**: Returns all fields including `id`, timestamps
-- **PUT/PATCH**: `id` in URL path, timestamps read-only, some fields updatable
-
-### Solution: Pydantic Field Metadata
-
-Mark read-only fields with `Field(frozen=True)`:
-
-```python
-from pydantic import Field
-
-class User(BaseModel):
-    # Read-only - never sent in updates
-    id: int = Field(frozen=True)
-    created_at: str | None = Field(None, frozen=True)
-    updated_at: str | None = Field(None, frozen=True)
-
-    # Updatable
-    name: str
-    email: str
-```
-
-### Using to_api_dict() (Recommended)
-
-BaseModel provides `to_api_dict()` with Pydantic v2 optimized serialization (5-50x faster):
-
-```python
-user = await upsales.users.get(1)
-user.name = "Jane"
-
-# Use to_api_dict() for Pydantic v2 optimized serialization
-api_data = user.to_api_dict()
-# Automatically excludes: id (frozen), uses field aliases, 5-50x faster
-
-# Or with overrides
-api_data = user.to_api_dict(active=0)
-
-# Use in edit()
-await user.edit(name="Jane")  # Uses to_api_dict() internally
-```
-
-### Using to_update_dict() (Legacy)
-
-BaseModel also provides `to_update_dict()` for backward compatibility:
-
-```python
-user = await upsales.users.get(1)
-user.name = "Jane"
-
-# Only sends updatable fields (name, email, etc.)
-# Excludes: id, created_at, updated_at
-update_data = user.to_update_dict()
-
-# Or with overrides
-update_data = user.to_update_dict(active=0)
-
-# Use in edit()
-await user.edit(name="Jane")  # Automatically excludes frozen fields
-```
-
-**Pattern in models**:
-```python
-async def edit(self, **kwargs) -> "User":
-    if not self._client:
-        raise RuntimeError("No client available")
-    return await self._upsales.users.update(
-        self.id,
-        **self.to_update_dict(**kwargs)  # Excludes frozen fields
-    )
-```
-
-See `docs/patterns/field-types.md` for complete guide including alternative approaches.
-
-## IDE Autocomplete for Updates
-
-Use **TypedDict with Unpack** for full IDE autocomplete in `.edit()` methods:
-
-```python
-from typing import Unpack, TypedDict
-
-# Define updatable fields for IDE autocomplete
-class UserUpdateFields(TypedDict, total=False):
-    """All fields are optional (total=False)."""
-    name: str
-    email: str
-    administrator: int
-
-class User(BaseModel):
-    id: int = Field(frozen=True)
-    name: str
-    email: str
-    administrator: int
-
-    async def edit(self, **kwargs: Unpack[UserUpdateFields]) -> "User":
-        """IDE provides autocomplete for name, email, administrator."""
-        if not self._client:
-            raise RuntimeError("No client available")
-        return await self._upsales.users.update(
-            self.id,
-            **self.to_update_dict(**kwargs)
-        )
-```
-
-**IDE Experience**:
-```python
-user = await upsales.users.get(1)
-
-# When typing: await user.edit(
-# IDE suggests: name, email, administrator with correct types
-await user.edit(
-    name="Jane",        # ✅ IDE autocompletes
-    email="jane@..."    # ✅ Type checked
-)
-```
-
-**Benefits**:
-- Full IDE autocomplete for all updatable fields
-- Type checking with mypy/pyright
-- Self-documenting (TypedDict shows available fields)
-- Still flexible (any subset of fields can be passed)
-
-See `docs/patterns/type-safe-updates.md` for complete guide including alternatives.
 
 ## Common Pitfalls
 
