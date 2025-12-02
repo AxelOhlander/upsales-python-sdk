@@ -9,6 +9,8 @@ Example:
     ...     categories = await upsales.client_categories.list(limit=10)
 """
 
+from typing import Any
+
 from upsales.http import HTTPClient
 from upsales.models.client_categories import ClientCategory, PartialClientCategory
 from upsales.resources.base import BaseResource
@@ -43,7 +45,7 @@ class ClientCategoriesResource(BaseResource[ClientCategory, PartialClientCategor
         """
         super().__init__(
             http=http,
-            endpoint="/client_categories",
+            endpoint="/clientcategories",
             model_class=ClientCategory,
             partial_class=PartialClientCategory,
         )
@@ -101,3 +103,44 @@ class ClientCategoriesResource(BaseResource[ClientCategory, PartialClientCategor
         """
         all_categories: list[ClientCategory] = await self.list_all()
         return [category for category in all_categories if category.categoryType == category_type]
+
+    async def merge(
+        self, from_id: int, to_id: int, category_type: int, name: str | None = None
+    ) -> dict[str, Any]:
+        """
+        Merge one category into another.
+
+        This operation combines two categories, moving all associations
+        from the source category to the target category.
+
+        Args:
+            from_id: ID of the category to merge from (will be removed).
+            to_id: ID of the category to merge into (will remain).
+            category_type: Category type ID for the merged category.
+            name: Optional new name for the merged category.
+
+        Returns:
+            API response with merge result.
+
+        Raises:
+            NotFoundError: If either category doesn't exist.
+            ValidationError: If merge operation is invalid.
+
+        Example:
+            >>> result = await upsales.client_categories.merge(
+            ...     from_id=5,
+            ...     to_id=3,
+            ...     category_type=1,
+            ...     name="Merged Enterprise Category"
+            ... )
+        """
+        data: dict[str, Any] = {
+            "from": from_id,
+            "to": to_id,
+            "categoryType": category_type,
+        }
+        if name:
+            data["name"] = name
+
+        response = await self._http.post(f"{self._endpoint}/merge", json=data)
+        return response

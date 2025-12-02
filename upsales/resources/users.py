@@ -1,22 +1,12 @@
 """
 Users resource manager for Upsales API.
 
-Provides methods to interact with the /users endpoint using User models.
+Provides methods to interact with the /users endpoint.
 
 Example:
     >>> async with Upsales(token="...") as upsales:
-    ...     # Get single user
     ...     user = await upsales.users.get(1)
-    ...     print(user.name, user.is_admin)
-    ...
-    ...     # List users
-    ...     users = await upsales.users.list(limit=10)
-    ...
-    ...     # Get user by email
-    ...     user = await upsales.users.get_by_email("john@example.com")
-    ...
-    ...     # Get all administrators
-    ...     admins = await upsales.users.get_administrators()
+    ...     users_list = await upsales.users.list(limit=10)
 """
 
 from upsales.http import HTTPClient
@@ -37,16 +27,10 @@ class UsersResource(BaseResource[User, PartialUser]):
     - bulk_update(ids, data, max_concurrent) - Parallel updates
     - bulk_delete(ids, max_concurrent) - Parallel deletes
 
-    Additional methods:
-    - get_by_email(email) - Get user by email address
-    - get_administrators() - Get all administrator users
-    - get_active() - Get all active users
-
     Example:
-        >>> users = UsersResource(http_client)
-        >>> user = await users.get(1)
-        >>> admin = await users.get_by_email("admin@company.com")
-        >>> all_admins = await users.get_administrators()
+        >>> resource = UsersResource(http_client)
+        >>> user = await resource.get(1)
+        >>> all_active = await resource.list_all(active=1)
     """
 
     def __init__(self, http: HTTPClient):
@@ -67,36 +51,32 @@ class UsersResource(BaseResource[User, PartialUser]):
         """
         Get user by email address.
 
+        Fetches all users and filters client-side for the email.
+
         Args:
-            email: Email address to search for.
+            email: Email address to search for (case-insensitive).
 
         Returns:
-            User object if found, None otherwise.
+            User if found, None otherwise.
 
         Example:
             >>> user = await upsales.users.get_by_email("john@example.com")
-            >>> if user:
-            ...     print(user.name)
         """
-        # Note: This assumes API supports filtering by email
-        # May need adjustment based on actual API behavior
-        all_users: list[User] = await self.list_all()
-        for user in all_users:
-            if user.email.lower() == email.lower():
-                return user
-        return None
+        users: list[User] = await self.list_all()
+        # Filter client-side (case-insensitive)
+        email_lower = email.lower()
+        matching = [u for u in users if u.email.lower() == email_lower]
+        return matching[0] if matching else None
 
     async def get_administrators(self) -> list[User]:
         """
         Get all administrator users.
 
         Returns:
-            List of users with administrator=1.
+            List of users with administrator flag set.
 
         Example:
             >>> admins = await upsales.users.get_administrators()
-            >>> for admin in admins:
-            ...     print(f"{admin.name} - {admin.email}")
         """
         return await self.list_all(administrator=1)
 
@@ -104,32 +84,24 @@ class UsersResource(BaseResource[User, PartialUser]):
         """
         Get all active users.
 
-        User types in Upsales:
-        - Active users: ghost=0, active=1 (regular users)
-        - API keys: ghost=1, active=1 (service accounts)
-        - Inactive users: ghost=0, active=0
-        - Invalid state: ghost=1, active=0 (inactive API key - shouldn't exist)
+        By default, excludes API keys/service accounts (ghost=1).
+        Set include_api_keys=True to include them.
 
         Args:
-            include_api_keys: If True, include API keys (ghost=1, active=1).
-                            If False (default), only regular users (ghost=0, active=1).
+            include_api_keys: If True, include API keys (ghost=1). Default: False.
 
         Returns:
-            List of active users, optionally excluding API keys.
+            List of active users.
 
         Example:
-            >>> # Get active users (excludes API keys by default)
-            >>> users = await upsales.users.get_active()
-            >>> all(u.ghost == 0 for u in users)
-            True
+            >>> # Get active users only (excludes API keys)
+            >>> active_users = await upsales.users.get_active()
+            >>> # All returned users have active=1 and ghost=0
             >>>
             >>> # Include API keys
             >>> all_active = await upsales.users.get_active(include_api_keys=True)
-            >>> # Returns both ghost=0 and ghost=1 users (all with active=1)
+            >>> # Includes both ghost=0 and ghost=1
         """
         if include_api_keys:
-            # Include both regular users and API keys (all with active=1)
             return await self.list_all(active=1)
-        else:
-            # Exclude API keys (only ghost=0, active=1)
-            return await self.list_all(active=1, ghost=0)
+        return await self.list_all(active=1, ghost=0)

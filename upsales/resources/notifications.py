@@ -7,13 +7,14 @@ Notifications cannot be created, updated, or deleted via the API.
 
 from __future__ import annotations
 
-import builtins
 from typing import TYPE_CHECKING
 
-from upsales.models.notifications import Notification
-
 if TYPE_CHECKING:
+    import builtins
+
     from upsales.http import HTTPClient
+
+from upsales.models.notifications import Notification
 
 
 class NotificationsResource:

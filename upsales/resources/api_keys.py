@@ -61,7 +61,7 @@ class ApikeysResource(BaseResource[ApiKey, PartialApiKey]):
             http=http,
             endpoint="/apiKeys",
             model_class=ApiKey,
-            partial_class=PartialApikey,
+            partial_class=PartialApiKey,
         )
 
     async def get_active(self) -> list[ApiKey]:
