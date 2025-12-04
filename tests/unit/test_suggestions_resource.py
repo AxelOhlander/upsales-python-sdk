@@ -86,7 +86,9 @@ class TestSuggestionsResourceCustomMethods:
         )
 
         async with Upsales(token="test_token") as upsales:
-            result = await upsales.suggestions.create(boxid=999, data={"actions": [{"type": "email"}]})
+            result = await upsales.suggestions.create(
+                boxid=999, data={"actions": [{"type": "email"}]}
+            )
 
             assert isinstance(result, Suggestion)
             assert result.boxid == 999

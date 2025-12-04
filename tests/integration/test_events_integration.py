@@ -108,7 +108,7 @@ async def test_create_event():
             print(f"  Entity type: {event.entityType}")
             print(f"  Score: {event.score}")
             print(f"  Has company: {event.has_company}")
-            print(f"  Computed fields work correctly")
+            print("  Computed fields work correctly")
 
         finally:
             # Clean up
@@ -182,7 +182,7 @@ async def test_event_with_nested_objects():
             assert hasattr(event.client, "name")
             assert isinstance(event.client.name, str)
 
-            print(f"[OK] Nested PartialCompany validated:")
+            print("[OK] Nested PartialCompany validated:")
             print(f"  Company ID: {event.client.id}")
             print(f"  Company name: {event.client.name}")
 
@@ -193,7 +193,7 @@ async def test_event_with_nested_objects():
             assert hasattr(event, "activity")
             assert hasattr(event, "appointment")
 
-            print(f"[OK] All nested object fields present in model")
+            print("[OK] All nested object fields present in model")
 
         finally:
             await upsales.events.delete(event.id)
@@ -265,7 +265,7 @@ async def test_event_types():
             assert manual_event.is_marketing is False
             assert manual_event.is_news is False
 
-            print(f"[OK] Manual event computed fields correct")
+            print("[OK] Manual event computed fields correct")
 
         finally:
             await upsales.events.delete(manual_event.id)

@@ -122,9 +122,7 @@ class TestEngageCreditTransactionsResource:
         assert transaction.description == "Updated description"
 
     @pytest.mark.asyncio
-    async def test_delete_transaction(
-        self, client: Upsales, httpx_mock: HTTPXMock
-    ):
+    async def test_delete_transaction(self, client: Upsales, httpx_mock: HTTPXMock):
         """Test deleting a transaction."""
         httpx_mock.add_response(
             url="https://power.upsales.com/api/v2/engage/creditTransaction/1",

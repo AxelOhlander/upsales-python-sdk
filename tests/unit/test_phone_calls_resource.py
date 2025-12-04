@@ -111,9 +111,7 @@ class TestPhoneCallsResource:
         assert isinstance(results[0], PhoneCall)
         assert results[0].id == 1
 
-        mock_http.get.assert_called_once_with(
-            "/phoneCall", limit=10, offset=0
-        )
+        mock_http.get.assert_called_once_with("/phoneCall", limit=10, offset=0)
 
     @pytest.mark.asyncio
     async def test_update_phone_call(self, resource, mock_http, sample_phone_call_data):
@@ -128,9 +126,7 @@ class TestPhoneCallsResource:
         assert result.status == 2
         assert result.durationInS == 300
 
-        mock_http.put.assert_called_once_with(
-            "/phoneCall/1", status=2, durationInS=300
-        )
+        mock_http.put.assert_called_once_with("/phoneCall/1", status=2, durationInS=300)
 
     @pytest.mark.asyncio
     async def test_delete_phone_call(self, resource, mock_http):

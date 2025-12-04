@@ -83,9 +83,7 @@ class TestActivityQuotaResource:
         assert len(result) == 1
         assert isinstance(result[0], ActivityQuota)
         assert result[0].id == 1
-        http_client.get.assert_called_once_with(
-            "/activityQuota", limit=10, offset=0
-        )
+        http_client.get.assert_called_once_with("/activityQuota", limit=10, offset=0)
 
     @pytest.mark.asyncio
     async def test_create(self, resource, http_client, sample_quota_data):
@@ -127,9 +125,7 @@ class TestActivityQuotaResource:
         assert result.id == 1
         assert result.performed == 20
         assert result.created == 15
-        http_client.put.assert_called_once_with(
-            "/activityQuota/1", performed=20, created=15
-        )
+        http_client.put.assert_called_once_with("/activityQuota/1", performed=20, created=15)
 
     @pytest.mark.asyncio
     async def test_delete(self, resource, http_client):
@@ -153,14 +149,10 @@ class TestActivityQuotaResource:
         assert isinstance(result, list)
         assert len(result) == 1
         assert result[0].user.id == 123
-        http_client.get.assert_called_once_with(
-            "/activityQuota", user__id=123, limit=100, offset=0
-        )
+        http_client.get.assert_called_once_with("/activityQuota", user__id=123, limit=100, offset=0)
 
     @pytest.mark.asyncio
-    async def test_get_by_user_with_year_month(
-        self, resource, http_client, sample_quota_data
-    ):
+    async def test_get_by_user_with_year_month(self, resource, http_client, sample_quota_data):
         """Test getting quotas by user with year and month filters."""
         http_client.get.return_value = {
             "data": [sample_quota_data],
@@ -187,9 +179,7 @@ class TestActivityQuotaResource:
             await resource.get_by_user(123, month=0)
 
     @pytest.mark.asyncio
-    async def test_get_by_activity_type(
-        self, resource, http_client, sample_quota_data
-    ):
+    async def test_get_by_activity_type(self, resource, http_client, sample_quota_data):
         """Test getting quotas by activity type ID."""
         http_client.get.return_value = {
             "data": [sample_quota_data],

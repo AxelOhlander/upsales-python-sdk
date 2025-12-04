@@ -69,9 +69,7 @@ class SuggestionsResource(BaseResource[Suggestion, PartialSuggestion]):
             [...]
         """
         response = await self._http.get(f"{self._endpoint}/{boxid}")
-        return self._model_class(
-            **response["data"], _client=self._http._upsales_client
-        )
+        return self._model_class(**response["data"], _client=self._http._upsales_client)
 
     async def update(self, boxid: int, **data: Any) -> Suggestion:  # type: ignore[override]
         """
@@ -96,9 +94,7 @@ class SuggestionsResource(BaseResource[Suggestion, PartialSuggestion]):
             ... )
         """
         response = await self._http.post(f"{self._endpoint}/{boxid}", data=data)
-        return self._model_class(
-            **response["data"], _client=self._http._upsales_client
-        )
+        return self._model_class(**response["data"], _client=self._http._upsales_client)
 
     async def create(self, boxid: int, **data: Any) -> Suggestion:  # type: ignore[override]
         """
