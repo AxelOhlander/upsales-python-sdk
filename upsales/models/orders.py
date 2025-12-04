@@ -248,56 +248,77 @@ class Order(BaseModel):
     description: str = Field(default="", description="Order description/title")
     date: str = Field(default="", description="Order date (ISO 8601)")
     probability: Percentage = Field(default=0, description="Win probability percentage (0-100)")
-    value: int = Field(default=0, description="Order value in local currency")
-    currency: str = Field(default="SEK", description="Currency code (ISO 4217)")
+    value: int | float = Field(
+        default=0, description="Order value in local currency (API may return float)"
+    )
+    currency: str | None = Field(default="SEK", description="Currency code (ISO 4217)")
     currencyRate: int = Field(default=1, description="Exchange rate to master currency")
 
-    # Monetary values
-    oneOffValue: int = Field(default=0, description="One-time value in local currency")
+    # Monetary values (API may return floats for currency conversions/calculations)
+    oneOffValue: int | float = Field(
+        default=0, description="One-time value in local currency (API may return float)"
+    )
     monthlyValue: int | float = Field(
         default=0, description="Monthly recurring value in local currency (API may return float)"
     )
-    annualValue: int = Field(default=0, description="Annual recurring value in local currency")
-    purchaseCost: int = Field(default=0, description="Purchase cost in local currency")
-    contributionMargin: int = Field(default=0, description="Contribution margin in local currency")
-    contributionMarginLocalCurrency: int = Field(
-        default=0, description="Contribution margin (local)"
+    annualValue: int | float = Field(
+        default=0, description="Annual recurring value in local currency (API may return float)"
+    )
+    purchaseCost: int | float = Field(
+        default=0, description="Purchase cost in local currency (API may return float)"
+    )
+    contributionMargin: int | float = Field(
+        default=0, description="Contribution margin in local currency (API may return float)"
+    )
+    contributionMarginLocalCurrency: int | float = Field(
+        default=0, description="Contribution margin local (API may return float)"
     )
 
-    # Master currency values (calculated by API)
-    valueInMasterCurrency: int = Field(default=0, description="Order value in master currency")
-    oneOffValueInMasterCurrency: int = Field(
-        default=0, description="One-time value in master currency"
+    # Master currency values (calculated by API, may be floats)
+    valueInMasterCurrency: int | float = Field(
+        default=0, description="Order value in master currency (API may return float)"
+    )
+    oneOffValueInMasterCurrency: int | float = Field(
+        default=0, description="One-time value in master currency (API may return float)"
     )
     monthlyValueInMasterCurrency: int | float = Field(
         default=0, description="Monthly value in master currency (API may return float)"
     )
-    annualValueInMasterCurrency: int = Field(
-        default=0, description="Annual value in master currency"
+    annualValueInMasterCurrency: int | float = Field(
+        default=0, description="Annual value in master currency (API may return float)"
     )
 
     # Weighted values (calculated by API based on probability)
-    weightedValue: int = Field(default=0, description="Weighted value (value * probability / 100)")
-    weightedOneOffValue: int = Field(default=0, description="Weighted one-time value")
+    # Note: API may return floats due to probability calculations
+    weightedValue: int | float = Field(
+        default=0, description="Weighted value (value * probability / 100, API may return float)"
+    )
+    weightedOneOffValue: int | float = Field(
+        default=0, description="Weighted one-time value (API may return float)"
+    )
     weightedMonthlyValue: int | float = Field(
         default=0, description="Weighted monthly value (API may return float)"
     )
-    weightedAnnualValue: int = Field(default=0, description="Weighted annual value")
-    weightedContributionMargin: int = Field(default=0, description="Weighted contribution margin")
-    weightedContributionMarginLocalCurrency: int = Field(
-        default=0, description="Weighted contribution margin (local)"
+    weightedAnnualValue: int | float = Field(
+        default=0, description="Weighted annual value (API may return float)"
     )
-    weightedValueInMasterCurrency: int = Field(
-        default=0, description="Weighted value in master currency"
+    weightedContributionMargin: int | float = Field(
+        default=0, description="Weighted contribution margin (API may return float)"
     )
-    weightedOneOffValueInMasterCurrency: int = Field(
-        default=0, description="Weighted one-time value in master currency"
+    weightedContributionMarginLocalCurrency: int | float = Field(
+        default=0, description="Weighted contribution margin local (API may return float)"
+    )
+    weightedValueInMasterCurrency: int | float = Field(
+        default=0, description="Weighted value in master currency (API may return float)"
+    )
+    weightedOneOffValueInMasterCurrency: int | float = Field(
+        default=0, description="Weighted one-time value in master currency (API may return float)"
     )
     weightedMonthlyValueInMasterCurrency: int | float = Field(
         default=0, description="Weighted monthly value in master currency (API may return float)"
     )
-    weightedAnnualValueInMasterCurrency: int = Field(
-        default=0, description="Weighted annual value in master currency"
+    weightedAnnualValueInMasterCurrency: int | float = Field(
+        default=0, description="Weighted annual value in master currency (API may return float)"
     )
 
     # Relationships (nested objects - use dict for complex/varying structures)
@@ -309,8 +330,9 @@ class Order(BaseModel):
 
     # Configuration
     priceListId: PositiveInt = Field(default=0, description="Associated price list ID")
-    recurringInterval: PositiveInt = Field(
-        default=0, description="Recurring interval (0=one-time, 1=monthly, 12=annual)"
+    recurringInterval: int | float = Field(
+        default=0,
+        description="Recurring interval (0=one-time, 1=monthly, 12=annual, API may return float)",
     )
     locked: BinaryFlag = Field(default=0, description="Lock status (0=unlocked, 1=locked)")
     invoiceRelatedClient: bool = Field(default=False, description="Invoice related to client")

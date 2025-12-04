@@ -17,7 +17,7 @@ from typing import Any, TypedDict, Unpack
 from pydantic import Field, computed_field
 
 from upsales.models.base import BaseModel, PartialModel
-from upsales.validators import NonEmptyStr
+from upsales.validators import BinaryFlag, NonEmptyStr
 
 
 class ActivityTypeUpdateFields(TypedDict, total=False):
@@ -32,7 +32,7 @@ class ActivityTypeUpdateFields(TypedDict, total=False):
 
     name: str
     roles: list[Any]
-    hasOutcome: bool
+    hasOutcome: int  # 0 or 1, not bool
 
 
 class ActivityType(BaseModel):
@@ -57,7 +57,9 @@ class ActivityType(BaseModel):
 
     # Optional fields
     roles: list[Any] = Field(default=[], description="Associated roles")
-    hasOutcome: bool = Field(default=False, description="Whether activity has outcome tracking")
+    hasOutcome: BinaryFlag = Field(
+        default=0, description="Whether activity has outcome tracking (0 or 1)"
+    )
 
     @computed_field
     @property
@@ -72,7 +74,7 @@ class ActivityType(BaseModel):
             >>> activity_type.has_outcome
             True
         """
-        return self.hasOutcome
+        return self.hasOutcome == 1
 
     async def edit(self, **kwargs: Unpack[ActivityTypeUpdateFields]) -> "ActivityType":
         """

@@ -10,7 +10,7 @@ from typing import Any, TypedDict, Unpack
 from pydantic import Field
 
 from upsales.models.base import BaseModel, PartialModel
-from upsales.validators import NonEmptyStr, PositiveInt
+from upsales.validators import NonEmptyStr, PositiveInt  # noqa: TC001
 
 
 class TicketStatusUpdateFields(TypedDict, total=False):
@@ -56,8 +56,12 @@ class TicketStatus(BaseModel):
     )
     regDate: str | None = Field(None, frozen=True, description="Registration date")
     modDate: str | None = Field(None, frozen=True, description="Last modification date")
-    regBy: dict[str, Any] | None = Field(None, frozen=True, description="Created by user")
-    modBy: dict[str, Any] | None = Field(None, frozen=True, description="Last modified by user")
+    regBy: dict[str, Any] | int | None = Field(
+        None, frozen=True, description="Created by user (dict or 0 if not set)"
+    )
+    modBy: dict[str, Any] | int | None = Field(
+        None, frozen=True, description="Last modified by user (dict or 0 if not set)"
+    )
 
     # Updatable fields
     name: NonEmptyStr = Field(description="Status name (max 128 characters)", max_length=128)

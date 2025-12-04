@@ -5,14 +5,11 @@ This module provides models for managing marketing automation flows.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypedDict, Unpack
+from typing import Any, TypedDict, Unpack
 
 from pydantic import Field
 
 from upsales.models.base import BaseModel, PartialModel
-
-if TYPE_CHECKING:
-    from upsales.validators import PositiveInt
 
 
 class FlowUpdateFields(TypedDict, total=False):
@@ -78,10 +75,12 @@ class Flow(BaseModel):
     """
 
     # Read-only fields
-    id: PositiveInt = Field(frozen=True, strict=True, description="Unique identifier for the flow")
-    regBy: dict[str, Any] | None = Field(None, frozen=True, description="Created by user")
+    id: int = Field(frozen=True, strict=True, ge=1, description="Unique identifier for the flow")
+    regBy: dict[str, Any] | int | None = Field(None, frozen=True, description="Created by user")
     regDate: str | None = Field(None, frozen=True, description="Registration date")
-    modBy: dict[str, Any] | None = Field(None, frozen=True, description="Last modified by user")
+    modBy: dict[str, Any] | int | None = Field(
+        None, frozen=True, description="Last modified by user"
+    )
     sourceTemplate: str | None = Field(
         None, frozen=True, description="Source template (create-only)"
     )
@@ -192,7 +191,7 @@ class PartialFlow(PartialModel):
         >>> full_flow = await partial_flow.fetch_full()
     """
 
-    id: PositiveInt = Field(description="Unique identifier")
+    id: int = Field(ge=1, description="Unique identifier")
     name: str | None = Field(None, description="Flow name")
     status: str = Field(default="draft", description="Flow status")
 

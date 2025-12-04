@@ -123,8 +123,8 @@ class Event(BaseModel):
 
     # Related entities
     client: PartialCompany | None = Field(None, description="Linked company/client")
-    contacts: list[PartialContact] = Field(default=[], description="Linked contacts")
-    users: list[PartialUser] = Field(default=[], description="Related users")
+    contacts: list[PartialContact] | None = Field(None, description="Linked contacts")
+    users: list[PartialUser] | None = Field(None, description="Related users")
 
     # Optional nested objects
     form: dict[str, Any] | None = Field(None, description="Linked form data")
@@ -134,7 +134,7 @@ class Event(BaseModel):
     appointment: dict[str, Any] | None = Field(None, description="Linked appointment data")
     agreement: dict[str, Any] | None = Field(None, description="Linked agreement data")
     mail: dict[str, Any] | None = Field(None, description="Linked mail data")
-    mails: list[dict[str, Any]] = Field(default=[], description="Multiple linked mails")
+    mails: list[dict[str, Any]] | None = Field(None, description="Multiple linked mails")
     order: PartialOrder | None = Field(None, description="Linked order")
     visit: dict[str, Any] | None = Field(None, description="Linked visit data")
     esign: dict[str, Any] | None = Field(None, description="Linked e-signature data")
@@ -244,7 +244,7 @@ class Event(BaseModel):
             >>> len(event.contacts)
             2
         """
-        return len(self.contacts) > 0
+        return bool(self.contacts and len(self.contacts) > 0)
 
     async def edit(self, **kwargs: Unpack[EventUpdateFields]) -> "Event":
         """

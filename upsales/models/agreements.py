@@ -82,22 +82,26 @@ class Agreement(BaseModel):
     regBy: PartialUser | None = Field(None, frozen=True, description="User who created this")
     userRemovable: bool = Field(frozen=True, description="Whether user can delete this")
     userEditable: bool = Field(frozen=True, description="Whether user can edit this")
-    value: int = Field(frozen=True, description="Agreement value in agreement currency")
-    orderValue: int = Field(default=0, frozen=True, description="Deprecated: use value instead")
-    contributionMargin: int = Field(frozen=True, description="Contribution margin")
-    contributionMarginInAgreementCurrency: int = Field(
+    value: int | float = Field(frozen=True, description="Agreement value in agreement currency")
+    orderValue: int | float = Field(
+        default=0, frozen=True, description="Deprecated: use value instead"
+    )
+    contributionMargin: int | float = Field(frozen=True, description="Contribution margin")
+    contributionMarginInAgreementCurrency: int | float = Field(
         frozen=True, description="Contribution margin in agreement currency"
     )
-    valueInMasterCurrency: int = Field(frozen=True, description="Value in master currency")
-    yearlyValue: int = Field(frozen=True, description="Yearly value")
-    yearlyValueInMasterCurrency: int = Field(
+    valueInMasterCurrency: int | float = Field(frozen=True, description="Value in master currency")
+    yearlyValue: int | float = Field(frozen=True, description="Yearly value")
+    yearlyValueInMasterCurrency: int | float = Field(
         frozen=True, description="Yearly value in master currency"
     )
-    yearlyContributionMargin: int = Field(frozen=True, description="Yearly contribution margin")
-    yearlyContributionMarginInAgreementCurrency: int = Field(
+    yearlyContributionMargin: int | float = Field(
+        frozen=True, description="Yearly contribution margin"
+    )
+    yearlyContributionMarginInAgreementCurrency: int | float = Field(
         frozen=True, description="Yearly contribution margin in agreement currency"
     )
-    purchaseCost: int = Field(frozen=True, description="Purchase cost")
+    purchaseCost: int | float = Field(frozen=True, description="Purchase cost")
     isParent: bool = Field(frozen=True, description="Whether this is a parent agreement")
     children: list[Any] = Field(default=[], frozen=True, description="Child agreements")
     parentId: Any | None = Field(None, frozen=True, description="Parent agreement ID")
