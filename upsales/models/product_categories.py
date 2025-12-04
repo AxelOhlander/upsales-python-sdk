@@ -5,14 +5,12 @@ This module provides models for managing product categories with hierarchical st
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypedDict, Unpack
+from typing import Any, TypedDict, Unpack
 
 from pydantic import Field
 
 from upsales.models.base import BaseModel, PartialModel
-
-if TYPE_CHECKING:
-    from upsales.validators import BinaryFlag, PositiveInt
+from upsales.validators import BinaryFlag, PositiveInt
 
 
 class ProductCategoryUpdateFields(TypedDict, total=False):

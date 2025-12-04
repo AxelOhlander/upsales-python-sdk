@@ -26,7 +26,6 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 - [x] `currencies` - Currency configuration
 - [x] `files` - File management
 - [x] `forms` - Form definitions
-- [x] `journey_steps` - Marketing journeys
 - [x] `metadata` - System metadata
 - [x] `opportunity_ai` - AI features
 - [x] `order_stages` - Order pipeline stages
@@ -43,7 +42,6 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 - [x] `standard_integrations` - Integration configs
 - [x] `tickets` - Support tickets
 - [x] `todo_views` - Todo list views
-- [x] `trigger_attributes` - Automation triggers
 - [x] `triggers` - Automation triggers
 - [x] `users` - User management
 
@@ -68,8 +66,10 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 - [x] `activity_types` - Activity type definitions
 - [x] `ticket_statuses` - Ticket status definitions
 - [x] `ticket_types` - Ticket type definitions ⚠️ Endpoint returns 404 in test environment
-- [ ] `product_categories` - Product categorization
-- [ ] `project_plan_types` - Project type definitions
+- [x] `journey_steps` - Marketing journeys
+- [x] `trigger_attributes` - Automation trigger attributes
+- [x] `product_categories` - Product categorization
+- [x] `project_plan_types` - Project type definitions
 
 ## P2 - Medium Priority
 
@@ -103,7 +103,6 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 - [ ] `ad_campaigns` - Ad campaigns
 - [ ] `ad_creatives` - Ad creatives
 - [ ] `banner_groups` - Banner management
-- [ ] `bulk` - Bulk operations (POST-only)
 - [ ] `client_ip_info` - IP lookup (POST-only)
 - [ ] `client_ips` - IP whitelist
 - [ ] `data_source` - Data source functions
@@ -153,6 +152,12 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 5. Check for sensitive data (should be REDACTED)
 6. If model validation fails, fix the model (usually making fields optional)
 7. Mark as completed in this list
+
+## Skipped (Requires Manual Testing)
+
+- [ ] `bulk` - Bulk operations (POST-only). Complex endpoint that performs batch create/update/delete operations. Requires extensive manual testing and code inspection before implementing VCR tests due to potential side effects and data mutation.
+
+---
 
 ## Notes
 

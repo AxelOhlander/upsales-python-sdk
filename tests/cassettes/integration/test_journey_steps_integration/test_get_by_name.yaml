@@ -1,0 +1,269 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/journeySteps
+  response:
+    body:
+      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
+        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 12:03:15 GMT
+      ETag:
+      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '70'
+      content-type:
+      - application/json
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/session/
+  response:
+    body:
+      string: '{"data":{"token":"3e425d4108191d35cec96c2e6091be50bbf6fb88562da701beecf64c4f7866ce3646ac9d468fd6450d6c2d3449530239","isTwoFactorAuth":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 12:03:16 GMT
+      ETag:
+      - W/"8d-Y0ZP7F3diooYKPsoFElyEgjyHls"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=3e425d4108191d35cec96c2e6091be50bbf6fb88562da701beecf64c4f7866ce3646ac9d468fd6450d6c2d3449530239;
+        Max-Age=1764853396; Path=/; Expires=Fri, 07 Nov 2081 01:06:32 GMT; HttpOnly;
+        Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '40'
+      X-RateLimit-Remaining:
+      - '37'
+      X-RateLimit-Reset:
+      - '8'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/journeySteps
+  response:
+    body:
+      string: "{\"data\":[{\"name\":\"Lead\",\"value\":\"lead\",\"priority\":1,\"color\":\"#B254E0\",\"colorName\":\"bright-purple\"},{\"name\":\"Marketing
+        Qualified Lead (MQL)\",\"value\":\"mql\",\"priority\":2,\"color\":\"#721A94\",\"colorName\":\"purple\"},{\"name\":\"Tilldelad\",\"value\":\"assigned\",\"priority\":3,\"color\":\"#4A90E2\",\"colorName\":\"bright-blue\"},{\"name\":\"Sales
+        Qualified Lead (SQL)\",\"value\":\"sql\",\"priority\":4,\"color\":\"#3367C0\",\"colorName\":\"medium-blue\"},{\"name\":\"Pipeline\",\"value\":\"pipeline\",\"priority\":5,\"color\":\"#002F65\",\"colorName\":\"blue\"},{\"name\":\"F\xF6rlorad
+        aff\xE4rsm\xF6jlighet\",\"value\":\"lost_opportunity\",\"priority\":6,\"color\":\"#6B7C93\",\"colorName\":\"grey-10\"},{\"name\":\"Kund\",\"value\":\"customer\",\"priority\":7,\"color\":\"#5CB85C\",\"colorName\":\"bright-green\"},{\"name\":\"Diskvalificerad\",\"value\":\"disqualified\",\"priority\":8,\"color\":\"#D33F42\",\"colorName\":\"red\"},{\"name\":\"F\xF6rlorad
+        kund\",\"value\":\"lost_customer\",\"priority\":9,\"color\":\"#6B7C93\",\"colorName\":\"grey-10\"}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '917'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 12:03:16 GMT
+      ETag:
+      - W/"395-bD33EO9Ux4/GDBpe1E7qFJo5LAw"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=3e425d4108191d35cec96c2e6091be50bbf6fb88562da701beecf64c4f7866ce3646ac9d468fd6450d6c2d3449530239;
+        Max-Age=3600; Path=/; Expires=Thu, 04 Dec 2025 13:03:16 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/journeySteps
+  response:
+    body:
+      string: "{\"data\":[{\"name\":\"Lead\",\"value\":\"lead\",\"priority\":1,\"color\":\"#B254E0\",\"colorName\":\"bright-purple\"},{\"name\":\"Marketing
+        Qualified Lead (MQL)\",\"value\":\"mql\",\"priority\":2,\"color\":\"#721A94\",\"colorName\":\"purple\"},{\"name\":\"Tilldelad\",\"value\":\"assigned\",\"priority\":3,\"color\":\"#4A90E2\",\"colorName\":\"bright-blue\"},{\"name\":\"Sales
+        Qualified Lead (SQL)\",\"value\":\"sql\",\"priority\":4,\"color\":\"#3367C0\",\"colorName\":\"medium-blue\"},{\"name\":\"Pipeline\",\"value\":\"pipeline\",\"priority\":5,\"color\":\"#002F65\",\"colorName\":\"blue\"},{\"name\":\"F\xF6rlorad
+        aff\xE4rsm\xF6jlighet\",\"value\":\"lost_opportunity\",\"priority\":6,\"color\":\"#6B7C93\",\"colorName\":\"grey-10\"},{\"name\":\"Kund\",\"value\":\"customer\",\"priority\":7,\"color\":\"#5CB85C\",\"colorName\":\"bright-green\"},{\"name\":\"Diskvalificerad\",\"value\":\"disqualified\",\"priority\":8,\"color\":\"#D33F42\",\"colorName\":\"red\"},{\"name\":\"F\xF6rlorad
+        kund\",\"value\":\"lost_customer\",\"priority\":9,\"color\":\"#6B7C93\",\"colorName\":\"grey-10\"}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '917'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 12:03:16 GMT
+      ETag:
+      - W/"395-bD33EO9Ux4/GDBpe1E7qFJo5LAw"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=3e425d4108191d35cec96c2e6091be50bbf6fb88562da701beecf64c4f7866ce3646ac9d468fd6450d6c2d3449530239;
+        Max-Age=3600; Path=/; Expires=Thu, 04 Dec 2025 13:03:16 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,22 +1,39 @@
 """
 Integration tests for TriggerAttributesResource using VCR.py.
 
-These tests make real API calls on first run and record responses to cassettes.
-Subsequent runs replay from cassettes (fast, no API calls).
+Uses VCR.py to record API responses on first run, then replay them.
+Validates that our Pydantic v2 models correctly parse real API data.
 
-Tests cover:
-- get() - Get all trigger attributes
-- get_entity_attributes() - Get attributes for specific entity
-- get_criteria_attributes() - Get only criteria attributes
-- get_attribute_by_id() - Get attribute by ID
+To record cassettes:
+    uv run pytest tests/integration/test_trigger_attributes_integration.py -v
+
+To re-record (delete cassette first):
+    rm tests/cassettes/integration/test_trigger_attributes_integration/*.yaml
+    uv run pytest tests/integration/test_trigger_attributes_integration.py -v
 """
 
 import pytest
+import vcr
 
 from upsales import Upsales
 
+# Configure VCR for these tests
+my_vcr = vcr.VCR(
+    cassette_library_dir="tests/cassettes/integration",
+    record_mode="once",
+    match_on=["method", "scheme", "host", "port", "path"],
+    filter_headers=[
+        ("cookie", "REDACTED"),
+        ("authorization", "REDACTED"),
+    ],
+    filter_post_data_parameters=[
+        ("password", "REDACTED"),
+    ],
+)
+
 
 @pytest.mark.asyncio
+@my_vcr.use_cassette("test_trigger_attributes_integration/test_get_trigger_attributes.yaml")
 async def test_get_trigger_attributes():
     """Test getting all trigger attributes."""
     async with Upsales.from_env() as upsales:
@@ -36,8 +53,13 @@ async def test_get_trigger_attributes():
         # Verify computed fields
         assert attrs.entity_types == sorted(attrs.entity_types)  # Should be sorted
 
+        print(
+            f"[OK] Got trigger attributes: {attrs.total_attributes} attributes across {len(attrs.entity_types)} entity types"
+        )
+
 
 @pytest.mark.asyncio
+@my_vcr.use_cassette("test_trigger_attributes_integration/test_get_entity_attributes.yaml")
 async def test_get_entity_attributes():
     """Test getting attributes for specific entity type."""
     async with Upsales.from_env() as upsales:
@@ -68,8 +90,11 @@ async def test_get_entity_attributes():
         assert name_attr.entity_type == "Client"
         assert name_attr.field_name == "Name"
 
+        print(f"[OK] Got {len(client_attrs)} Client attributes")
+
 
 @pytest.mark.asyncio
+@my_vcr.use_cassette("test_trigger_attributes_integration/test_get_criteria_attributes.yaml")
 async def test_get_criteria_attributes():
     """Test getting only criteria attributes."""
     async with Upsales.from_env() as upsales:
@@ -82,8 +107,11 @@ async def test_get_criteria_attributes():
         assert all(attr.can_be_criteria for attr in criteria)
         assert all(attr.asCriteria for attr in criteria)
 
+        print(f"[OK] Got {len(criteria)} Contact criteria attributes")
+
 
 @pytest.mark.asyncio
+@my_vcr.use_cassette("test_trigger_attributes_integration/test_get_attribute_by_id.yaml")
 async def test_get_attribute_by_id():
     """Test getting single attribute by ID."""
     async with Upsales.from_env() as upsales:
@@ -101,3 +129,5 @@ async def test_get_attribute_by_id():
         # Test non-existent attribute
         not_found = await upsales.trigger_attributes.get_attribute_by_id("NonExistent.Field")
         assert not_found is None
+
+        print("[OK] Got attribute by ID: Client.Name")
