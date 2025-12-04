@@ -73,11 +73,11 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 
 ## P2 - Medium Priority
 
-- [ ] `activity_list` - Activity list view (read-only)
-- [ ] `activity_quota` - Activity quotas
-- [ ] `client_categories` (clientcategories) - Company categories
-- [ ] `client_category_types` - Category type definitions
-- [ ] `client_relations` - Company relationships
+- [x] `activity_list` - Activity list view (read-only)
+- [x] `activity_quota` - Activity quotas
+- [x] `client_categories` (clientcategories) - Company categories
+- [x] `client_category_types` - Category type definitions
+- [x] `client_relations` - Company relationships ⚠️ Endpoint returns 500 error in test environment
 - [ ] `contact_relations` - Contact relationships
 - [ ] `contract_accepted` - Contract acceptance tracking
 - [ ] `custom_fields` - Custom field definitions
@@ -99,7 +99,7 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 
 ## P3 - Low Priority (Admin/Rare)
 
-- [ ] `ad_accounts` - Advertising accounts
+- [x] `ad_accounts` - Advertising accounts ⚠️ Special endpoint: requires customer_id for ALL operations, uses `/api/v2/:customerId/engage/account` URL pattern
 - [ ] `ad_campaigns` - Ad campaigns
 - [ ] `ad_creatives` - Ad creatives
 - [ ] `banner_groups` - Banner management

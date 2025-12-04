@@ -1,0 +1,124 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/clientcategories?limit=100&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":4,"limit":100,"offset":0},"data":[{"id":5,"name":"Enterprise","categoryType":0,"roles":[]},{"id":6,"name":"VIP","categoryType":0,"roles":[]},{"id":7,"name":"SMB","categoryType":0,"roles":[]},{"id":8,"name":"Hot
+        Leads","categoryType":0,"roles":[]}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '282'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 15:56:37 GMT
+      ETag:
+      - W/"11a-FjbHQIm2BNEihrzrMW8DN7S1urs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/clientcategories?limit=100&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":4,"limit":100,"offset":0},"data":[{"id":5,"name":"Enterprise","categoryType":0,"roles":[]},{"id":6,"name":"VIP","categoryType":0,"roles":[]},{"id":7,"name":"SMB","categoryType":0,"roles":[]},{"id":8,"name":"Hot
+        Leads","categoryType":0,"roles":[]}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '282'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 15:56:37 GMT
+      ETag:
+      - W/"11a-FjbHQIm2BNEihrzrMW8DN7S1urs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

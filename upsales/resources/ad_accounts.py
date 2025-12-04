@@ -73,10 +73,10 @@ class AdAccountsResource(BaseResource[AdAccount, PartialAdAccount]):
             >>> print(account.cpmAmount)
             300.0
         """
-        endpoint = f"/api/v2/{customer_id}/engage/account"
+        endpoint = f"/{customer_id}/engage/account"
         response = await self._http.get(endpoint)
         account = self._model_class.model_validate(response["data"])
-        account._client = self._http._client  # type: ignore[attr-defined]
+        account._client = self._http._upsales_client  # type: ignore[attr-defined]
         return account
 
     async def create(self, customer_id: int, **data: object) -> AdAccount:  # type: ignore[override]
@@ -102,10 +102,10 @@ class AdAccountsResource(BaseResource[AdAccount, PartialAdAccount]):
             >>> print(account.cpmAmount)
             350.0
         """
-        endpoint = f"/api/v2/{customer_id}/engage/account"
+        endpoint = f"/{customer_id}/engage/account"
         response = await self._http.post(endpoint, data=data)
         account = self._model_class.model_validate(response["data"])
-        account._client = self._http._client  # type: ignore[attr-defined]
+        account._client = self._http._upsales_client  # type: ignore[attr-defined]
         return account
 
     async def update(self, customer_id: int, **data: object) -> AdAccount:  # type: ignore[override]
@@ -131,10 +131,10 @@ class AdAccountsResource(BaseResource[AdAccount, PartialAdAccount]):
             >>> print(account.cpmAmount)
             400.0
         """
-        endpoint = f"/api/v2/{customer_id}/engage/account"
+        endpoint = f"/{customer_id}/engage/account"
         response = await self._http.put(endpoint, data=data)
         account = self._model_class.model_validate(response["data"])
-        account._client = self._http._client  # type: ignore[attr-defined]
+        account._client = self._http._upsales_client  # type: ignore[attr-defined]
         return account
 
     async def delete(self, customer_id: int) -> dict[str, object]:  # type: ignore[override]
@@ -150,5 +150,5 @@ class AdAccountsResource(BaseResource[AdAccount, PartialAdAccount]):
         Example:
             >>> await client.ad_accounts.delete(customer_id=123)
         """
-        endpoint = f"/api/v2/{customer_id}/engage/account"
+        endpoint = f"/{customer_id}/engage/account"
         return await self._http.delete(endpoint)

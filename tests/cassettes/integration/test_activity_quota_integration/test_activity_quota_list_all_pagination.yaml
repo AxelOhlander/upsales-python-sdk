@@ -1,0 +1,74 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/activityQuota?limit=100&offset=0
+  response:
+    body:
+      string: '{"error":null,"metadata":{"total":12,"limit":100,"offset":0},"data":[{"id":1,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":30,"performed":0,"activityType":{"id":9,"name":"Email"},"month":2,"year":2021},{"id":3,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":7,"year":2021},{"id":3,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":9,"year":2021},{"id":1,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":1,"year":2021},{"id":4,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":11,"year":2021},{"id":2,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":6,"year":2021},{"id":2,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":4,"year":2021},{"id":1,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":3,"year":2021},{"id":4,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":12,"year":2021},{"id":4,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":10,"year":2021},{"id":2,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":5,"year":2021},{"id":3,"user":{"role":{"name":"Nordic
+        Sales","id":1},"name":"Gustav Pettersson","id":1,"email":"demo_se@upsales.com"},"created":20,"performed":0,"activityType":{"id":9,"name":"Email"},"month":8,"year":2021}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2569'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 15:56:31 GMT
+      ETag:
+      - W/"a09-mGPj7EWXVJwRMPyV14SDBPfjfE0"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

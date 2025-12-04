@@ -107,7 +107,7 @@ class ActivityListItem(PydanticBase):
 
     # Common fields (present in all activity types)
     id: int = Field(description="Unique activity ID")
-    date: str = Field(description="Activity date")
+    date: str | None = Field(None, description="Activity date")
     modDate: str | None = Field(None, description="Last modification date")
     users: list[PartialUser] = Field(default_factory=list, description="Assigned users")
     contacts: list[PartialContact] = Field(default_factory=list, description="Associated contacts")

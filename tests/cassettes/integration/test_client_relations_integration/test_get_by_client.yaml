@@ -1,0 +1,63 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/clientrelations?limit=1&offset=0
+  response:
+    body:
+      string: '{"error":{"key":"ServerError","code":500,"errorCode":3,"msg":"Server
+        error"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 04 Dec 2025 15:56:15 GMT
+      ETag:
+      - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 500
+      message: Internal Server Error
+version: 1
