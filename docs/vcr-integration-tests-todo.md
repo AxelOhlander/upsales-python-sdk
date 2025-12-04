@@ -54,20 +54,20 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 - [x] `activities` - Activity tracking (calls, emails, meetings)
 - [x] `appointments` - Calendar appointments
 - [x] `opportunities` - Sales opportunities/deals
-- [ ] `orders` - Sales orders
-- [ ] `leads` - Lead management
+- [x] `orders` - Sales orders
+- [x] `leads` - Lead management
 
 ## P1 - High Priority
 
-- [ ] `events` - Event tracking
-- [ ] `flows` - Automation flows
-- [ ] `mail` - Email sending
-- [ ] `mail_campaigns` - Email campaigns
-- [ ] `phone_calls` - Phone call logs
-- [ ] `agreements` - Customer agreements
-- [ ] `activity_types` - Activity type definitions
-- [ ] `ticket_statuses` - Ticket status definitions
-- [ ] `ticket_types` - Ticket type definitions
+- [x] `events` - Event tracking ⚠️ Limited endpoint: only CREATE/DELETE work, LIST requires filters that don't work in test environment
+- [x] `flows` - Automation flows
+- [x] `mail` - Email sending
+- [x] `mail_campaigns` - Email campaigns
+- [x] `phone_calls` - Phone call logs
+- [x] `agreements` - Customer agreements
+- [x] `activity_types` - Activity type definitions
+- [x] `ticket_statuses` - Ticket status definitions
+- [x] `ticket_types` - Ticket type definitions ⚠️ Endpoint returns 404 in test environment
 - [ ] `product_categories` - Product categorization
 - [ ] `project_plan_types` - Project type definitions
 
