@@ -1,0 +1,126 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/orders?limit=20&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+        rurXWuZDrih/LCBXQO7/P+R+fvovHVgQnMrbAAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 14:48:18 GMT
+      ETag:
+      - W/"dbca-R3RBVjmdvekvQeqlmzkOlvUQX8k"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,160 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/mail?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":3371,\"limit\":1,\"offset\":0},\"data\":[{\"id\":6000,\"subject\":\"N\xE5gra
+        fr\xE5gor vi kan hj\xE4lpa till med?\",\"body\":\"<p><span style=\\\"font-family:Arial,
+        Helvetica, sans-serif;\\\">Hej Jan,<br /><br />Nu var det ett tag sedan vi
+        h&ouml;rdes, s&aring; jag t&auml;nkte kolla om det &auml;r n&aring;got ni
+        undrar &ouml;ver?<br />Skickar med n&aring;gra bra l&auml;nkar med info:<br
+        /><br /><a href=\\\"https://www.upsales.com/events\\\">Anv\xE4ndarutbildningar
+        & Webinars</a><br /><a href=\\\"https://www.upsales.com/support\\\">Supportforum</a><br
+        /><br /><br />Tveka inte att h&ouml;ra av dig om du har n&aring;gra fler fr&aring;gor!
+        &nbsp;</span> &nbsp;</p><p><span style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Mvh<br
+        />Gustav Pettersson<br />______________________</span></p><p><span style=\\\"font-family:Arial,
+        Helvetica, sans-serif;font-size:16px;\\\"><strong>Demobolaget</strong></span><br
+        /><br /><span style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Demobolaget
+        AB<br />Sveav&auml;gen 21&nbsp;<br />111 34 Stockholm<br />Tel: 08-505 806
+        00<br /><a href=\\\"mailto:demo@upsales.com\\\">demo@upsales.com</a><br /><a
+        href=\\\"https://www.upsales.com/\\\">www.demobolaget.com</a></span></p><p>&nbsp;</p>\",\"to\":\"jan.eriksson@outokumpustainless.com\",\"cc\":[],\"bcc\":[],\"date\":\"2025-11-06T02:22:25.000Z\",\"from\":\"demo@upsales.com\",\"recipients\":{\"to\":[{\"email\":\"jan.eriksson@outokumpustainless.com\",\"id\":568,\"type\":\"contact\"}],\"cc\":[],\"bcc\":[]},\"fromName\":\"Gustav
+        Pettersson\",\"modDate\":\"2016-06-01T01:22:25Z\",\"template\":{\"name\":\"N\xE5gra
+        fr\xE5gor vi kan hj\xE4lpa till med?\",\"id\":8},\"mailBodySnapshotId\":6000,\"lastReadDate\":\"2025-11-13T02:22:25.000Z\",\"lastClickDate\":\"2025-11-13T02:22:25.000Z\",\"lastEventDate\":\"2025-11-13T02:22:25.000Z\",\"groupMailId\":0,\"errorCause\":null,\"jobId\":0,\"threadId\":null,\"mailThreadId\":0,\"externalMailId\":null,\"internetMessageId\":null,\"isMap\":1,\"project\":null,\"users\":[{\"name\":\"Gustav
+        Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"}],\"contact\":{\"journeyStep\":\"pipeline\",\"name\":\"Victoria
+        Christensen\",\"active\":true,\"id\":568},\"client\":{\"operationalAccount\":null,\"journeyStep\":\"customer\",\"name\":\"Outokumpu
+        Stainless AB\",\"id\":91},\"type\":\"out\",\"tags\":[],\"attachments\":[],\"events\":[{\"id\":1,\"type\":\"send\",\"value\":\"\",\"date\":\"2025-09-24T01:22:25.000Z\"},{\"id\":2,\"type\":\"open\",\"value\":\"\",\"date\":\"2025-09-24T01:22:25.000Z\"},{\"id\":3,\"type\":\"click\",\"value\":\"http://www.demobolaget.se/events\",\"date\":\"2025-09-24T01:22:25.000Z\"}],\"userRemovable\":true,\"userEditable\":true,\"thread\":{},\"appointment\":null,\"activity\":null,\"opportunity\":null}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2589'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:01:51 GMT
+      ETag:
+      - W/"a1d-qHrCc6uqJwdtgWlzKEXap4BEz6I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/mail/6000
+  response:
+    body:
+      string: "{\"error\":null,\"data\":{\"id\":6000,\"subject\":\"N\xE5gra fr\xE5gor
+        vi kan hj\xE4lpa till med?\",\"body\":\"<p><span style=\\\"font-family:Arial,
+        Helvetica, sans-serif;\\\">Hej Jan,<br /><br />Nu var det ett tag sedan vi
+        h&ouml;rdes, s&aring; jag t&auml;nkte kolla om det &auml;r n&aring;got ni
+        undrar &ouml;ver?<br />Skickar med n&aring;gra bra l&auml;nkar med info:<br
+        /><br /><a href=\\\"https://www.upsales.com/events\\\">Anv\xE4ndarutbildningar
+        & Webinars</a><br /><a href=\\\"https://www.upsales.com/support\\\">Supportforum</a><br
+        /><br /><br />Tveka inte att h&ouml;ra av dig om du har n&aring;gra fler fr&aring;gor!
+        &nbsp;</span> &nbsp;</p><p><span style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Mvh<br
+        />Gustav Pettersson<br />______________________</span></p><p><span style=\\\"font-family:Arial,
+        Helvetica, sans-serif;font-size:16px;\\\"><strong>Demobolaget</strong></span><br
+        /><br /><span style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Demobolaget
+        AB<br />Sveav&auml;gen 21&nbsp;<br />111 34 Stockholm<br />Tel: 08-505 806
+        00<br /><a href=\\\"mailto:demo@upsales.com\\\">demo@upsales.com</a><br /><a
+        href=\\\"https://www.upsales.com/\\\">www.demobolaget.com</a></span></p><p>&nbsp;</p>\",\"to\":\"jan.eriksson@outokumpustainless.com\",\"cc\":[],\"bcc\":[],\"date\":\"2025-11-06T02:22:25.000Z\",\"from\":\"demo@upsales.com\",\"recipients\":{\"to\":[{\"email\":\"jan.eriksson@outokumpustainless.com\",\"id\":568,\"type\":\"contact\"}],\"cc\":[],\"bcc\":[]},\"fromName\":\"Gustav
+        Pettersson\",\"modDate\":\"2016-06-01T01:22:25Z\",\"template\":{\"name\":\"N\xE5gra
+        fr\xE5gor vi kan hj\xE4lpa till med?\",\"id\":8},\"mailBodySnapshotId\":6000,\"lastReadDate\":\"2025-11-13T02:22:25.000Z\",\"lastClickDate\":\"2025-11-13T02:22:25.000Z\",\"lastEventDate\":\"2025-11-13T02:22:25.000Z\",\"groupMailId\":0,\"errorCause\":null,\"jobId\":0,\"threadId\":null,\"mailThreadId\":0,\"externalMailId\":null,\"internetMessageId\":null,\"isMap\":1,\"project\":null,\"users\":[{\"name\":\"Gustav
+        Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"}],\"contact\":{\"journeyStep\":\"pipeline\",\"name\":\"Victoria
+        Christensen\",\"active\":true,\"id\":568},\"client\":{\"operationalAccount\":null,\"journeyStep\":\"customer\",\"name\":\"Outokumpu
+        Stainless AB\",\"id\":91},\"type\":\"out\",\"tags\":[],\"attachments\":[],\"events\":[{\"id\":1,\"type\":\"send\",\"value\":\"\",\"date\":\"2025-09-24T01:22:25.000Z\"},{\"id\":2,\"type\":\"open\",\"value\":\"\",\"date\":\"2025-09-24T01:22:25.000Z\"},{\"id\":3,\"type\":\"click\",\"value\":\"http://www.demobolaget.se/events\",\"date\":\"2025-09-24T01:22:25.000Z\"}],\"userRemovable\":true,\"userEditable\":true,\"thread\":{},\"appointment\":null,\"activity\":null,\"opportunity\":null}}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2540'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:01:52 GMT
+      ETag:
+      - W/"9ec-o/u9ZdJqq6RIiyMM1W4epQkwX6c"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

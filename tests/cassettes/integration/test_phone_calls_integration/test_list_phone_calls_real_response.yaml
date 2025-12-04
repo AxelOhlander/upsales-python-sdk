@@ -1,0 +1,94 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/phoneCall?limit=10&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":148},\"data\":[{\"id\":1,\"durationInS\":312,\"user\":{\"id\":3,\"name\":\"Martina
+        Johansson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":705,\"name\":\"Erik
+        Peters\"},\"date\":\"2024-05-06T14:27:13.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":3,\"type\":\"Activity\",\"name\":\"Ring
+        och kolla intresse\"}],\"client\":{\"id\":110,\"name\":\"Telia Company AB\"},\"externalId\":\"3\"},{\"id\":2,\"durationInS\":62,\"user\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":647,\"name\":\"Eino
+        Polon\"},\"date\":\"2024-05-06T15:40:43.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":5,\"type\":\"Activity\",\"name\":null}],\"client\":{\"id\":102,\"name\":\"Nobina
+        Sverige AB\"},\"externalId\":\"5\"},{\"id\":3,\"durationInS\":429,\"user\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":690,\"name\":\"Jana
+        Hoffmann\"},\"date\":\"2024-05-06T16:30:31.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":25,\"type\":\"Activity\",\"name\":\"Ring
+        och kolla l\xE4get\"}],\"client\":{\"id\":108,\"name\":\"Aktiebolaget Svensk
+        Bilprovning\"},\"externalId\":\"25\"},{\"id\":4,\"durationInS\":500,\"user\":{\"id\":3,\"name\":\"Martina
+        Johansson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":895,\"name\":\"Fabienne
+        Fiedler\"},\"date\":\"2024-05-18T15:15:32.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":90,\"type\":\"Activity\",\"name\":\"Skicka
+        offert\"}],\"client\":{\"id\":143,\"name\":\"Volvo AB - Hytt\"},\"externalId\":\"90\"},{\"id\":5,\"durationInS\":434,\"user\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":580,\"name\":\"L\xE6rke
+        Johansen\"},\"date\":\"2024-06-27T16:23:49.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":92,\"type\":\"Activity\",\"name\":\"Uppf\xF6ljning\"}],\"client\":{\"id\":92,\"name\":\"Siemens
+        Aktiebolag\"},\"externalId\":\"92\"},{\"id\":6,\"durationInS\":628,\"user\":{\"id\":1,\"name\":\"Gustav
+        Pettersson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":705,\"name\":\"Erik
+        Peters\"},\"date\":\"2025-02-23T16:57:15.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":204,\"type\":\"Activity\",\"name\":\"Presentera
+        l\xF6sning\"}],\"client\":{\"id\":110,\"name\":\"Telia Company AB\"},\"externalId\":\"204\"},{\"id\":7,\"durationInS\":358,\"user\":{\"id\":3,\"name\":\"Martina
+        Johansson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":608,\"name\":\"Christopher
+        Banks\"},\"date\":\"2025-05-16T12:22:23.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":207,\"type\":\"Activity\",\"name\":\"Presentera
+        produkt\"}],\"client\":{\"id\":96,\"name\":\"Axstores AB\"},\"externalId\":\"207\"},{\"id\":8,\"durationInS\":566,\"user\":{\"id\":2,\"name\":\"Pernilla
+        Hansson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":586,\"name\":\"Jonas
+        Schuster\"},\"date\":\"2025-05-16T16:42:47.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":209,\"type\":\"Activity\",\"name\":\"Presentera
+        l\xF6sning\"}],\"client\":{\"id\":93,\"name\":\"Xylem Water Solutions Manufacturing
+        AB\"},\"externalId\":\"209\"},{\"id\":9,\"durationInS\":358,\"user\":{\"id\":3,\"name\":\"Martina
+        Johansson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":901,\"name\":\"Sofie
+        Mann\"},\"date\":\"2025-06-23T12:19:24.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":208,\"type\":\"Activity\",\"name\":\"Presentera
+        l\xF6sning\"}],\"client\":{\"id\":140,\"name\":\"Svenska Dagbladets Aktiebolag\"},\"externalId\":\"208\"},{\"id\":10,\"durationInS\":295,\"user\":{\"id\":2,\"name\":\"Pernilla
+        Hansson\"},\"type\":\"31\",\"conversationUrl\":null,\"contact\":{\"id\":716,\"name\":\"Eduard
+        Bayer\"},\"date\":\"2025-07-15T12:16:58.000Z\",\"status\":1,\"phoneNumber\":\"0701234567\",\"related\":[{\"id\":206,\"type\":\"Activity\",\"name\":\"Presentera
+        l\xF6sning\"}],\"client\":{\"id\":112,\"name\":\"Apoteket AB\"},\"externalId\":\"206\"}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3605'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:01:32 GMT
+      ETag:
+      - W/"e15-nxmX6tgdozPLhSsKna8d82v0I00"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

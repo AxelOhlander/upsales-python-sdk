@@ -1,0 +1,63 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/ticketStatus?limit=20&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":4,\"limit\":20,\"offset\":0},\"data\":[{\"id\":1,\"name\":\"\xD6ppen\",\"closed\":false,\"regDate\":\"2023-11-13T15:19:54.000Z\",\"modDate\":\"2023-11-13T15:19:54.000Z\",\"regBy\":0,\"modBy\":0},{\"id\":2,\"name\":\"St\xE4ngd\",\"closed\":true,\"regDate\":\"2023-11-13T15:19:59.000Z\",\"modDate\":\"2023-11-13T15:19:59.000Z\",\"regBy\":0,\"modBy\":0},{\"id\":3,\"name\":\"V\xE4ntar\",\"closed\":false,\"regDate\":\"2024-12-11T19:52:49.000Z\",\"modDate\":\"2024-12-11T19:52:49.000Z\",\"regBy\":0,\"modBy\":0},{\"id\":4,\"name\":\"On
+        hold\",\"closed\":false,\"regDate\":\"2024-12-11T19:52:49.000Z\",\"modDate\":\"2024-12-11T19:52:49.000Z\",\"regBy\":0,\"modBy\":0}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '606'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:02:40 GMT
+      ETag:
+      - W/"25e-5sM15fU3GMMTif8GVNRdhqrwWfI"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

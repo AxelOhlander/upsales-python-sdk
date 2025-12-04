@@ -1,0 +1,103 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/tickets?limit=10&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+        hNpf7/8PiQZ0ya40AAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:02:59 GMT
+      ETag:
+      - W/"34ae-5CDoW28S5J7DA+ZMOa//nzdoPnY"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

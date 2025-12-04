@@ -1,0 +1,158 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/mailCampaigns?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":16,\"limit\":1,\"offset\":0},\"data\":[{\"id\":15,\"template\":{\"name\":\"Personlig
+        inbjudan frukostseminarie (text-baserad)\",\"id\":6,\"version\":1},\"user\":{\"name\":\"Gustav
+        Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"},\"body\":\"<p><span
+        style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Hej {{Contact.FirstName}},<br
+        />\\n<br />\\nNu p\xE5 torsdag har vi ett frukostseminarie d\xE4r vi g\xE5r
+        genom anv\xE4ndarscenarion och har workshops, de brukar vara mycket uppskattade
+        och det vore roligt om du och kanske n\xE5gon till fr\xE5n f\xF6retaget ville
+        komma f\xF6rbi. Givetvis \xE4r de kostnadsfria och vi bjuder p\xE5 frukost.<br
+        />\\n<br />\\n<a href=\\\"https://www.upsales.com/\\\">Klicka h\xE4r f\xF6r
+        mer info!</a></span><br />\\n\_</p>\\n\\n<p><span style=\\\"font-family:Arial,
+        Helvetica, sans-serif;\\\">Mvh<br />\\nGustav Pettersson<br />\\n______________________</span></p>\\n\\n<p><span
+        style=\\\"font-family:Arial, Helvetica, sans-serif;font-size:16px;\\\"><strong>Demobolaget</strong></span><br
+        />\\n<br />\\n<span style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Demobolaget
+        AB<br />\\nSveav\xE4gen 21\_<br />\\n111 34 Stockholm<br />\\nTel: 08-505
+        806 00<br />\\n<a href=\\\"mailto:demo@upsales.com\\\">demo@upsales.com</a><br
+        />\\n<a href=\\\"https://www.upsales.com/\\\">www.demobolaget.com</a></span></p>\\n\\n<p><a
+        href=\\\"{{UNSUB}}\\\">Avregistrera fr\xE5n fler utskick</a></p>\\n\",\"bodyJson\":\"\",\"sendDate\":\"2025-06-11T13:29:01Z\",\"modDate\":null,\"mailClicked\":43,\"mailRead\":135,\"mailPending\":0,\"mailSent\":233,\"mailError\":0,\"mailUnsub\":13,\"from\":\"_demo@upsales.com\",\"fromName\":\"Gustav
+        Pettersson\",\"subject\":\"Inbjudan till frukostseminarie\",\"name\":\"\",\"status\":\"SENT\",\"project\":{\"name\":\"Gustavs
+        kontakter\",\"id\":15},\"flowId\":null,\"jobId\":593587482,\"attachments\":[],\"isArchived\":0,\"filter\":null,\"filterConfig\":null,\"segment\":null,\"segments\":[],\"socialEventId\":null,\"socialEventSendToStatus\":null,\"category\":null,\"externalId\":null,\"labels\":[],\"version\":1}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1962'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:01:36 GMT
+      ETag:
+      - W/"7aa-cNKl2trgAzmkceX7OPqTggISJuo"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/mailCampaigns/15
+  response:
+    body:
+      string: "{\"error\":null,\"data\":{\"id\":15,\"template\":{\"name\":\"Personlig
+        inbjudan frukostseminarie (text-baserad)\",\"id\":6,\"version\":1},\"user\":{\"name\":\"Gustav
+        Pettersson\",\"id\":1,\"role\":{\"name\":\"Nordic Sales\",\"id\":1},\"email\":\"demo_se@upsales.com\"},\"body\":\"<p><span
+        style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Hej {{Contact.FirstName}},<br
+        />\\n<br />\\nNu p\xE5 torsdag har vi ett frukostseminarie d\xE4r vi g\xE5r
+        genom anv\xE4ndarscenarion och har workshops, de brukar vara mycket uppskattade
+        och det vore roligt om du och kanske n\xE5gon till fr\xE5n f\xF6retaget ville
+        komma f\xF6rbi. Givetvis \xE4r de kostnadsfria och vi bjuder p\xE5 frukost.<br
+        />\\n<br />\\n<a href=\\\"https://www.upsales.com/\\\">Klicka h\xE4r f\xF6r
+        mer info!</a></span><br />\\n\_</p>\\n\\n<p><span style=\\\"font-family:Arial,
+        Helvetica, sans-serif;\\\">Mvh<br />\\nGustav Pettersson<br />\\n______________________</span></p>\\n\\n<p><span
+        style=\\\"font-family:Arial, Helvetica, sans-serif;font-size:16px;\\\"><strong>Demobolaget</strong></span><br
+        />\\n<br />\\n<span style=\\\"font-family:Arial, Helvetica, sans-serif;\\\">Demobolaget
+        AB<br />\\nSveav\xE4gen 21\_<br />\\n111 34 Stockholm<br />\\nTel: 08-505
+        806 00<br />\\n<a href=\\\"mailto:demo@upsales.com\\\">demo@upsales.com</a><br
+        />\\n<a href=\\\"https://www.upsales.com/\\\">www.demobolaget.com</a></span></p>\\n\\n<p><a
+        href=\\\"{{UNSUB}}\\\">Avregistrera fr\xE5n fler utskick</a></p>\\n\",\"bodyJson\":\"\",\"sendDate\":\"2025-06-11T13:29:01Z\",\"modDate\":null,\"mailClicked\":43,\"mailRead\":135,\"mailPending\":0,\"mailSent\":233,\"mailError\":0,\"mailUnsub\":13,\"from\":\"_demo@upsales.com\",\"fromName\":\"Gustav
+        Pettersson\",\"subject\":\"Inbjudan till frukostseminarie\",\"name\":\"\",\"status\":\"SENT\",\"project\":{\"name\":\"Gustavs
+        kontakter\",\"id\":15},\"flowId\":null,\"jobId\":593587482,\"attachments\":[],\"isArchived\":0,\"filter\":null,\"filterConfig\":null,\"segment\":null,\"segments\":[],\"socialEventId\":null,\"socialEventSendToStatus\":null,\"category\":null,\"externalId\":null,\"previewUrl\":\"https://power.upsales.com/api/external/mailWebView/b529519328302f644f28f08bb897aab3:ffc62266a29aec534f8763dabd6518c4?isMailCampaign=true\",\"labels\":[],\"version\":1}}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2067'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:01:36 GMT
+      ETag:
+      - W/"813-UZBPIvzei0WqmTDNSi0b1ZSRvh8"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

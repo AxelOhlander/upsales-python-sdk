@@ -1,0 +1,242 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/accounts?limit=1&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:07:27 GMT
+      ETag:
+      - W/"1e1e-tamtZp6VmM0xjLu5wvPaAhjuLeE"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"entityType": "manual", "score": 5, "client": {"id": 102}, "value": "Manual
+      event test"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '81'
+      content-type:
+      - application/json
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/events
+  response:
+    body:
+      string: '{"error":null,"data":{"id":22432,"entityType":"manual","subType":"","entityId":0,"client":{"id":102,"name":"Nobina
+        Sverige AB","country":"SE","city":"Solna","isExternal":0,"dunsNo":"354080293","prospectingId":"SE.1.5560570128","hasActivity":null,"hadActivity":"2025-11-30T14:33:14.000Z","hasAppointment":null,"hadAppointment":"2025-11-08T11:00:00.000Z","hasOpportunity":"2025-10-11T00:00:00.000Z","hadOpportunity":null,"hasOrder":"2025-12-01T00:00:00.000Z","hadOrder":"2018-01-13T00:00:00.000Z","hasMail":true,"hasForm":true,"hasVisit":true},"contacts":null,"users":[{"name":"Upsales
+        ZEN","id":13,"email":"EbheweQz-G@api.upsales.com"}],"date":"2025-12-02T15:07:28.000Z","value":"Manual
+        event test","score":5}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '709'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:07:28 GMT
+      ETag:
+      - W/"2c5-P1LwhiqXgZg+z5Cg5fDXghzJFqk"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: DELETE
+    uri: https://power.upsales.com/api/v2/events/22432
+  response:
+    body:
+      string: '{"error":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '14'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 02 Dec 2025 15:07:28 GMT
+      ETag:
+      - W/"e-hDOZGZ11/MTPwZq/A8sGFlQzkPc"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
