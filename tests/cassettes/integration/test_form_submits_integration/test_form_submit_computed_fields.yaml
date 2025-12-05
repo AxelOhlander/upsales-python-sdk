@@ -1,0 +1,225 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/formSubmits?limit=5&offset=0
+  response:
+    body:
+      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
+        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:07:22 GMT
+      ETag:
+      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '70'
+      content-type:
+      - application/json
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/session/
+  response:
+    body:
+      string: '{"data":{"token":"f7d0aadffa976439a296d97c98f66e27a1d035f71ea0c49ce7c6f68025dba67cba620d1ac5b42859c6829f1dedc46e37","isTwoFactorAuth":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:07:23 GMT
+      ETag:
+      - W/"8d-FjCxNLWHpE/9uoh/tmDmnv0NfjI"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=f7d0aadffa976439a296d97c98f66e27a1d035f71ea0c49ce7c6f68025dba67cba620d1ac5b42859c6829f1dedc46e37;
+        Max-Age=1764925643; Path=/; Expires=Sat, 08 Nov 2081 17:14:46 GMT; HttpOnly;
+        Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '40'
+      X-RateLimit-Remaining:
+      - '37'
+      X-RateLimit-Reset:
+      - '8'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/formSubmits?limit=5&offset=0
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA9WYXXLbNhCAr6Lhs8QBwB+RfJJsp3Ha2PHUmjw44+nAJCQhJgkOADlxPL5GT9Be
+        wRfwxbog9UP9mJZUt7Fn9CAAy11gsftxl3cWk1JIK8onadq2MqZpQjW1ojtLC01TKyKe07ZSnnFt
+        RV7bEsOhYvAX3betSvLLncUTK8J+2xoKmX2A/93qr9HCq6HmOmVWZB0//pVp2mIHQlxbbSunmZn9
+        SJOEtnIm5wspzROej87oCGaS22p/YDIWuaaxNpq/ionM2e25ZgWoKHjBUp6zhdJ+OpQsaZ3H45zx
+        hElYMZvxQjgFyyiHs1m0lLHVTKbHvtOsSJkdi8wy5lLO8u2sKS3pBctZTFv9A5inSvFRzhLzsGSj
+        I6qNGEHE62DcwcEAOxEOIg9dgPBEwf6MoDBeupspPRUy4XHrnKZMTbeP7+cm30+UpjetM6Y1k0qJ
+        fCayOF/CMvGHYr1JoYyO6lj3lVjoVnZVeYWzm+CKto5ZLvl1TSNc4MrOjvqHx0v7IvcrVsmy0cvK
+        2O+wdEOvjC4tJ6yafJdwXZ9LJrk6FaDI8ZzQw8RzwUghhSpYrCEqTIhZ5+9sbHuejzDuugEBiTFV
+        fVi/4fp27mnSIXiAvQgh+NkIld4e02SDIPIHGEUuXEmwEFT9ohA811kZBlWSmMc3zapPMCv1JC/1
+        zmWXZsEado01TAblnpa2pT5JE6i1Z6ux2aNTho2z6amT0u2V72D4S5l68+FnrkzuDmmqWOnGmCnF
+        koNbc51wANjX4LYoY3jmlGkc+Tgsk5w1u1PzMiSwX03XwnkajQ3xSo1JZsLahKWKhTQD1F5NGRR0
+        CJw9jFAQueTCqh2kWWzIWZp8pumELcX5YcURuwrZtnVjJGBeiSGnNsTibSdOKTO77FGT2j/K1N49
+        lm8q71c3eiUBax+qLJ56p/vKqHlK85y2PlKp2Cz7fUQWuZ2bdTst1/en5eOfYwkzI9U6kzxm3+AK
+        5ViA/w6FKCA4VhH65XLKLG8Dsxo4uB1PG2m5N7gC0g39JnCR0O+6aBVcC8asIAqFHRIOMDGIcsKX
+        QFT9bbSOlXVwBR3kdQhqANcCpt2NGldxthGCFc6mvGrm2bPMKB2GcEScRmYsi+3IDJMM9pWA5Bv1
+        Hh+mgV0sx3VcxfXL8yP4qfyIIfVEVtZWU6XnTI64aJ2P6bc5PsJFiqly2VawvC091m30v8OMZE9T
+        wn9DlPCCADVRwkEgsEaJRaI5A+I8X94gk2vPsWPxkkcDjNeVrssaHjimbFrjwXalULcshfytiLJJ
+        qkYUQyeorLy9C6Rq3Fgf1RwwbSaIX6+QfLiOsrRHkVPfQr0e6rafrrV3qYbcAdQ4Dlx9t5Fsy2I7
+        ki2jEgLS1mOWpr3Hv8cpy/8DhIWvDGF9KkXeOqbjeQFkett5y2hW7TGs7g+w385O3m/bJUIoYUjb
+        hi5xYy/2XD/X1KvNGsTgDTSILiJQROEmgrqO6/re1nXW/9UKLmSfbPqqigtvrLi2b/oaUQJvBhQa
+        RpCwqUhaF9sRJQkd2dePD2kK8aTl40PWuy6y0YvDhKBX1k8d0Rwc1erncKe1loo4tWwoRWw6Fdkf
+        K7+e7PbpKfxpn57Ct1KguchxiRc04sUjGDnb4wV3SNfcwB5t3OIO8QB19ym6VqGz0Bg+U151p19/
+        /k151VzUhB1EDHeJB6+8p4uaNbEdSRSzmKec2iy+ZvJKZL2v2cth6PL+HyaK3ZdSFwAA
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:07:23 GMT
+      ETag:
+      - W/"1752-epiqWeXLEFWOyFj6UQUoZ/UYPQs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=f7d0aadffa976439a296d97c98f66e27a1d035f71ea0c49ce7c6f68025dba67cba620d1ac5b42859c6829f1dedc46e37;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:07:23 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

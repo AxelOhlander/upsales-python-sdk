@@ -1,0 +1,199 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=10&offset=0
+  response:
+    body:
+      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
+        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:05:52 GMT
+      ETag:
+      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '70'
+      content-type:
+      - application/json
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/session/
+  response:
+    body:
+      string: '{"data":{"token":"40e530e65c3f203bc160a1a9cecaa1a124e4ebcf8eabce52aa49ac35b0c1e162e6ab5643a8daad6590eeb6ada133cbba","isTwoFactorAuth":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:05:53 GMT
+      ETag:
+      - W/"8d-gQtl9oaLH2ezp4wZHHa2dspyVJA"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=40e530e65c3f203bc160a1a9cecaa1a124e4ebcf8eabce52aa49ac35b0c1e162e6ab5643a8daad6590eeb6ada133cbba;
+        Max-Age=1764925553; Path=/; Expires=Sat, 08 Nov 2081 17:11:46 GMT; HttpOnly;
+        Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '40'
+      X-RateLimit-Remaining:
+      - '26'
+      X-RateLimit-Reset:
+      - '4'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=10&offset=0
+  response:
+    body:
+      string: '{"error":{"key":"ServerError","code":500,"errorCode":3,"msg":"Server
+        error"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:05:55 GMT
+      ETag:
+      - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=40e530e65c3f203bc160a1a9cecaa1a124e4ebcf8eabce52aa49ac35b0c1e162e6ab5643a8daad6590eeb6ada133cbba;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:54 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 500
+      message: Internal Server Error
+version: 1

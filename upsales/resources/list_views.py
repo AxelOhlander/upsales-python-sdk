@@ -58,7 +58,11 @@ class ListViewsResource:
             'Active Accounts'
         """
         response = await self.http.get(f"/listViews/{entity}/{view_id}")
-        return ListView.model_validate(response, context={"client": self.http._client})
+        data = response["data"]
+        # Inject listType since API doesn't return it
+        if "listType" not in data:
+            data["listType"] = entity
+        return ListView.model_validate(data, context={"client": self.http._upsales_client})
 
     async def list(
         self, entity: str, limit: int = 100, offset: int = 0, **params: Any
@@ -84,9 +88,13 @@ class ListViewsResource:
         """
         all_params = {"limit": limit, "offset": offset} | params
         response = await self.http.get(f"/listViews/{entity}", params=all_params)
-        data_list = response if isinstance(response, list) else [response]
+        data_list = response["data"] if isinstance(response["data"], list) else [response["data"]]
+        # Inject listType since API doesn't return it
+        for item in data_list:
+            if "listType" not in item:
+                item["listType"] = entity
         return [
-            ListView.model_validate(item, context={"client": self.http._client})
+            ListView.model_validate(item, context={"client": self.http._upsales_client})
             for item in data_list
         ]
 
@@ -155,7 +163,11 @@ class ListViewsResource:
             123
         """
         response = await self.http.post(f"/listViews/{entity}", json=data)
-        return ListView.model_validate(response, context={"client": self.http._client})
+        result_data = response["data"]
+        # Inject listType since API doesn't return it
+        if "listType" not in result_data:
+            result_data["listType"] = entity
+        return ListView.model_validate(result_data, context={"client": self.http._upsales_client})
 
     async def update(self, entity: str, view_id: int, **data: Any) -> ListView:
         """Update an existing list view.
@@ -185,7 +197,11 @@ class ListViewsResource:
             'Updated Title'
         """
         response = await self.http.put(f"/listViews/{entity}/{view_id}", json=data)
-        return ListView.model_validate(response, context={"client": self.http._client})
+        result_data = response["data"]
+        # Inject listType since API doesn't return it
+        if "listType" not in result_data:
+            result_data["listType"] = entity
+        return ListView.model_validate(result_data, context={"client": self.http._upsales_client})
 
     async def delete(self, entity: str, view_id: int) -> None:
         """Delete a list view.

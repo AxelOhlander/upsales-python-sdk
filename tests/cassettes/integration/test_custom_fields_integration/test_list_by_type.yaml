@@ -1,0 +1,263 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/customFields/account
+  response:
+    body:
+      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
+        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:06:11 GMT
+      ETag:
+      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '70'
+      content-type:
+      - application/json
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/session/
+  response:
+    body:
+      string: '{"data":{"token":"d3c11cd384506e16bc1eb5d4ac65f99c53a9ab6ab3d8af3aa9aa79a0a43a845ef5fe4608ec4ed3a2080ca23cf9837989","isTwoFactorAuth":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:06:12 GMT
+      ETag:
+      - W/"8d-tedfRna4zgd/t8+KfqiaFUH4A3o"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=d3c11cd384506e16bc1eb5d4ac65f99c53a9ab6ab3d8af3aa9aa79a0a43a845ef5fe4608ec4ed3a2080ca23cf9837989;
+        Max-Age=1764925572; Path=/; Expires=Sat, 08 Nov 2081 17:12:24 GMT; HttpOnly;
+        Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '40'
+      X-RateLimit-Remaining:
+      - '35'
+      X-RateLimit-Reset:
+      - '8'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/customFields/account
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":2,\"limit\":1000,\"offset\":0},\"data\":[{\"id\":11,\"name\":\"F\xF6retagsalias\",\"dropdownDefault\":[\"\"],\"datatype\":\"String\",\"default\":\"\",\"lookupField\":0,\"sortId\":7,\"visible\":1,\"editable\":1,\"locked\":0,\"query\":null,\"obligatoryField\":0,\"searchable\":1,\"maxLength\":1024,\"alias\":null,\"viewonly\":0,\"formGroup\":null,\"roles\":[],\"tooltip\":null,\"integrationDependency\":null},{\"id\":12,\"name\":\"Scrape
+        Contacts from webpage\",\"dropdownDefault\":null,\"datatype\":\"Boolean\",\"default\":\"\",\"lookupField\":0,\"sortId\":0,\"visible\":1,\"editable\":1,\"locked\":0,\"query\":null,\"obligatoryField\":0,\"searchable\":0,\"maxLength\":1024,\"alias\":\"SCRAPE_CONTACT_WORKFLOW_ACTIVATE\",\"viewonly\":0,\"formGroup\":null,\"roles\":[],\"tooltip\":null,\"integrationDependency\":null}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '747'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:06:12 GMT
+      ETag:
+      - W/"2eb-Z9ZyLWvzg9DWwCDcS/RCrUzVQig"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=d3c11cd384506e16bc1eb5d4ac65f99c53a9ab6ab3d8af3aa9aa79a0a43a845ef5fe4608ec4ed3a2080ca23cf9837989;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:06:12 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/customFields/account
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":2,\"limit\":1000,\"offset\":0},\"data\":[{\"id\":11,\"name\":\"F\xF6retagsalias\",\"dropdownDefault\":[\"\"],\"datatype\":\"String\",\"default\":\"\",\"lookupField\":0,\"sortId\":7,\"visible\":1,\"editable\":1,\"locked\":0,\"query\":null,\"obligatoryField\":0,\"searchable\":1,\"maxLength\":1024,\"alias\":null,\"viewonly\":0,\"formGroup\":null,\"roles\":[],\"tooltip\":null,\"integrationDependency\":null},{\"id\":12,\"name\":\"Scrape
+        Contacts from webpage\",\"dropdownDefault\":null,\"datatype\":\"Boolean\",\"default\":\"\",\"lookupField\":0,\"sortId\":0,\"visible\":1,\"editable\":1,\"locked\":0,\"query\":null,\"obligatoryField\":0,\"searchable\":0,\"maxLength\":1024,\"alias\":\"SCRAPE_CONTACT_WORKFLOW_ACTIVATE\",\"viewonly\":0,\"formGroup\":null,\"roles\":[],\"tooltip\":null,\"integrationDependency\":null}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '747'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:06:12 GMT
+      ETag:
+      - W/"2eb-Z9ZyLWvzg9DWwCDcS/RCrUzVQig"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=d3c11cd384506e16bc1eb5d4ac65f99c53a9ab6ab3d8af3aa9aa79a0a43a845ef5fe4608ec4ed3a2080ca23cf9837989;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:06:12 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -76,18 +76,18 @@ This document tracks which endpoints need VCR integration tests recorded to vali
 - [x] `activity_list` - Activity list view (read-only)
 - [x] `activity_quota` - Activity quotas
 - [x] `client_categories` (clientcategories) - Company categories
-- [x] `client_category_types` - Category type definitions
+- [x] `client_category_types` - Category type definitions ⚠️ No data in test environment
 - [x] `client_relations` - Company relationships ⚠️ Endpoint returns 500 error in test environment
-- [ ] `contact_relations` - Contact relationships
-- [ ] `contract_accepted` - Contract acceptance tracking
-- [ ] `custom_fields` - Custom field definitions
-- [ ] `esigns` - E-signature documents
-- [ ] `form_submits` - Form submission data
-- [ ] `group_mail_categories` - Email grouping
-- [ ] `list_views` - Saved list views
-- [ ] `mail_templates` - Email templates
-- [ ] `mail_domains` - Email domain config
-- [ ] `market_rejectlist` - Marketing opt-outs
+- [x] `contact_relations` - Contact relationships ⚠️ Endpoint returns 500 error in test environment
+- [x] `contract_accepted` - Contract acceptance tracking ⚠️ Endpoint returns 500 error in test environment
+- [x] `custom_fields` - Custom field definitions (entity-based: account, contact, order, product)
+- [x] `esigns` - E-signature documents ⚠️ Requires esign module to be enabled
+- [x] `form_submits` - Form submission data ⚠️ Requires admin or mailAdmin permission
+- [x] `group_mail_categories` - Email grouping
+- [x] `list_views` - Saved list views (entity-based: account, contact, order)
+- [x] `mail_templates` - Email templates
+- [x] `mail_domains` - Email domain config ⚠️ Uses domain name as ID, GET by name returns 404
+- [x] `market_rejectlist` - Marketing opt-outs ⚠️ Endpoint returns 500 error in test environment
 - [ ] `notifications` - User notifications
 - [ ] `notification_settings` - Notification preferences
 - [ ] `pages` - Landing pages

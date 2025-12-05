@@ -1,0 +1,291 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/listViews/account?params=%7B%27limit%27%3A+10%2C+%27offset%27%3A+0%7D
+  response:
+    body:
+      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
+        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:09:48 GMT
+      ETag:
+      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '70'
+      content-type:
+      - application/json
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/session/
+  response:
+    body:
+      string: '{"data":{"token":"7a7a6e58a7dddbdd43cbc2dd9ad97595e2bea0ce758887dae1e669ecfa8f474e21d56cbea0354c286678c39b62330bd1","isTwoFactorAuth":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:09:48 GMT
+      ETag:
+      - W/"8d-0IiU7siJ9/HiveseDxLBgfUrZ5w"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=7a7a6e58a7dddbdd43cbc2dd9ad97595e2bea0ce758887dae1e669ecfa8f474e21d56cbea0354c286678c39b62330bd1;
+        Max-Age=1764925788; Path=/; Expires=Sat, 08 Nov 2081 17:19:37 GMT; HttpOnly;
+        Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '40'
+      X-RateLimit-Remaining:
+      - '39'
+      X-RateLimit-Reset:
+      - '-2'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/listViews/account?params=%7B%27limit%27%3A+10%2C+%27offset%27%3A+0%7D
+  response:
+    body:
+      string: !!binary |
+        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
+        AAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:09:49 GMT
+      ETag:
+      - W/"1da2-OwoF/n/5q/ZQY2eCB+lHguniuQY"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=7a7a6e58a7dddbdd43cbc2dd9ad97595e2bea0ce758887dae1e669ecfa8f474e21d56cbea0354c286678c39b62330bd1;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:09:49 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/listViews/account/11
+  response:
+    body:
+      string: '{"error":null,"metadata":null,"data":{"id":11,"uuid":null,"description":"","type":"account","title":"monitorList.name","regDate":"2025-07-15T10:33:07.000Z","modDate":"2025-07-15T10:33:07.000Z","regBy":0,"limit":50,"builtFilters":{"q":[{"group":{"not":false,"q":[[{"a":"order.probability","c":"eq","v":100},{"a":"order.date","c":"eq","v":"{\"start\":null,\"end\":null,\"preset\":\"prev12Month\"}"}]]}},{"a":"active","c":"eq","v":true},{"a":"companyForm","c":"eq","v":["limited_company"]}]},"usedForProspectingMonitor":true,"filters":[{"id":48,"value":true,"comparisonType":null,"filterName":"Active","dataType":null,"field":null,"title":null,"filterType":null,"inputType":null,"inactive":false,"custom":false,"listViewId":11,"ListView":[]},{"id":49,"value":{"hasOrder":true,"OrderRowProduct":{"value":[],"comparisonType":"eq"},"OrderRowProductCategory":{"value":[]},"Value":{"value":{"start":null,"end":null}},"Date":{"value":{"start":null,"end":null,"preset":"prev12Month"}},"Campaign":{"value":[]},"User":{"value":[]},"Stage":{"value":[]},"Currency":{"value":null},"Custom":{"value":[]}},"comparisonType":null,"filterName":"HasOrder","dataType":null,"field":null,"title":"default.order","filterType":null,"inputType":null,"inactive":false,"custom":false,"listViewId":11,"ListView":[]},{"id":50,"value":["limited_company"],"comparisonType":"Equals","filterName":"CompanyForm","dataType":null,"field":"companyForm","title":null,"filterType":null,"inputType":null,"inactive":false,"custom":false,"listViewId":11,"ListView":[]}],"columns":["name","phone","Address_Visit_city","users","status","prospectingCreditRating"],"sorting":[{"attribute":"name","ascending":true}],"users":[],"roles":[],"editable":true,"shared":true,"private":false,"default":false,"hidden":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1767'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:09:49 GMT
+      ETag:
+      - W/"6e7-nz58iBg+3wGOdOiUM9JRVNWcjao"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=7a7a6e58a7dddbdd43cbc2dd9ad97595e2bea0ce758887dae1e669ecfa8f474e21d56cbea0354c286678c39b62330bd1;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:09:49 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

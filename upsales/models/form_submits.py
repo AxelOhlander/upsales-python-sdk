@@ -15,7 +15,6 @@ from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 from pydantic import Field, computed_field
 
 from upsales.models.base import BaseModel, PartialModel
-from upsales.validators import BinaryFlag
 
 if TYPE_CHECKING:
     from upsales.models.company import PartialCompany
@@ -61,8 +60,8 @@ class FormSubmit(BaseModel):
         processedDate: Date when the submission was processed
         fieldValues: List of field value dictionaries
         visit: Associated visit tracking data (optional)
-        userRemovable: Whether user can delete this submission (read-only)
-        userEditable: Whether user can edit this submission (read-only)
+        userRemovable: Whether user can delete this submission (read-only, boolean from API)
+        userEditable: Whether user can edit this submission (read-only, boolean from API)
         brandId: Brand identifier (read-only)
 
     Example:
@@ -74,11 +73,11 @@ class FormSubmit(BaseModel):
 
     # Read-only fields
     id: int = Field(frozen=True, strict=True, description="Unique form submission ID")
-    userRemovable: BinaryFlag = Field(
-        frozen=True, description="Whether user can delete this submission"
+    userRemovable: bool = Field(
+        frozen=True, description="Whether user can delete this submission (boolean from API)"
     )
-    userEditable: BinaryFlag = Field(
-        frozen=True, description="Whether user can edit this submission"
+    userEditable: bool = Field(
+        frozen=True, description="Whether user can edit this submission (boolean from API)"
     )
     brandId: int = Field(frozen=True, description="Brand identifier")
     regDate: str = Field(frozen=True, description="Registration date (when submitted)")
@@ -101,13 +100,13 @@ class FormSubmit(BaseModel):
     @property
     def is_removable(self) -> bool:
         """Check if user can delete this submission."""
-        return self.userRemovable == 1
+        return self.userRemovable
 
     @computed_field
     @property
     def is_editable(self) -> bool:
         """Check if user can edit this submission."""
-        return self.userEditable == 1
+        return self.userEditable
 
     async def edit(self, **kwargs: Unpack[FormSubmitUpdateFields]) -> "FormSubmit":
         """

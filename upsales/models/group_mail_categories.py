@@ -5,7 +5,7 @@ Generated from /api/v2/groupMailCategories endpoint.
 Analysis based on 4 samples and API specification.
 """
 
-from typing import TypedDict, Unpack
+from typing import Any, TypedDict, Unpack
 
 from pydantic import Field, computed_field
 
@@ -23,7 +23,7 @@ class GroupMailCategoryUpdateFields(TypedDict, total=False):
     active: int
     title: str
     description: str
-    languages: list[str]
+    languages: list[dict[str, str]]
 
 
 class GroupMailCategory(BaseModel):
@@ -37,8 +37,8 @@ class GroupMailCategory(BaseModel):
         title: Category title/name.
         description: Optional description of the category.
         active: Binary flag indicating if category is active (0 or 1).
-        languages: List of supported languages.
-        relatedMailCampaigns: List of related mail campaign IDs.
+        languages: List of language configurations with translations.
+        relatedMailCampaigns: List of related campaigns (MailCampaign or Flow entities).
 
     Example:
         >>> async with Upsales(token="...") as upsales:
@@ -49,15 +49,17 @@ class GroupMailCategory(BaseModel):
 
     # Read-only fields
     id: int = Field(frozen=True, strict=True, description="Unique category ID")
-    relatedMailCampaigns: list[int] = Field(
-        default=[], frozen=True, description="Related mail campaign IDs"
+    relatedMailCampaigns: list[dict[str, Any]] = Field(
+        default=[], frozen=True, description="Related campaigns (MailCampaign or Flow entities)"
     )
 
     # Updatable fields
     title: str = Field(description="Category title")
     description: str = Field(default="", description="Category description")
     active: BinaryFlag = Field(default=1, description="Active status (0 or 1)")
-    languages: list[str] = Field(default=[], description="Supported languages")
+    languages: list[dict[str, str]] = Field(
+        default=[], description="Language configurations with translations"
+    )
 
     @computed_field
     @property

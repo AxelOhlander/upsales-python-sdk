@@ -78,18 +78,22 @@ class ListView(BaseModel):
     """
 
     # Read-only fields
-    id: int = Field(frozen=True, strict=True, description="Unique identifier")
-    listType: str = Field(frozen=True, description="Type of list (entity name)")
-    type: str = Field(frozen=True, description="View type")
+    id: int | str = Field(frozen=True, description="Unique identifier")
+    listType: str | None = Field(None, frozen=True, description="Type of list (entity name)")
+    type: str | None = Field(None, frozen=True, description="View type")
     regDate: str | None = Field(None, frozen=True, description="Registration date")
     modDate: str | None = Field(None, frozen=True, description="Modification date")
-    regBy: dict[str, Any] | None = Field(None, frozen=True, description="Created by user")
+    regBy: dict[str, Any] | int | None = Field(
+        None, frozen=True, description="Created by user (dict or int)"
+    )
 
     # Updatable fields
     title: str = Field(description="View title")
     description: str | None = Field(None, description="View description")
     grouping: str | None = Field(None, description="Grouping configuration")
-    columns: list[dict[str, Any]] | None = Field(None, description="Column configuration")
+    columns: list[str] | list[dict[str, Any]] | None = Field(
+        None, description="Column configuration (list of strings or dicts)"
+    )
     sorting: list[dict[str, Any]] | None = Field(None, description="Sort configuration")
     filters: list[dict[str, Any]] | None = Field(None, description="Filter configuration")
     limit: int | None = Field(None, description="Result limit")

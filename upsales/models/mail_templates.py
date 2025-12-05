@@ -80,12 +80,16 @@ class MailTemplate(BaseModel):
     # Required fields
     from_address: str = Field(description="Sender email address", alias="from")
     from_name: str = Field(description="Sender display name", alias="fromName")
-    body_json: str = Field(description="Email body JSON structure", alias="bodyJson")
     user_editable: bool = Field(
         description="Whether template is editable by users", alias="userEditable"
     )
     user_removable: bool = Field(
         description="Whether template can be removed by users", alias="userRemovable"
+    )
+
+    # Optional fields (can be None in API response)
+    body_json: str | None = Field(
+        default=None, description="Email body JSON structure", alias="bodyJson"
     )
 
     # Optional/list fields

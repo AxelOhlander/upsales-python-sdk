@@ -1,0 +1,200 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/mail/domains?limit=100&offset=0
+  response:
+    body:
+      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
+        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:05:39 GMT
+      ETag:
+      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 401
+      message: Unauthorized
+- request:
+    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '70'
+      content-type:
+      - application/json
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://power.upsales.com/api/v2/session/
+  response:
+    body:
+      string: '{"data":{"token":"795b0402b4ad55eb8a35737a65d75a698fa325b00c925ab855aabf79fd33224ffa52f6a30ab9e6d125c6ea4691534b2c","isTwoFactorAuth":false}}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:05:40 GMT
+      ETag:
+      - W/"8d-epaAw8M71MrQbaO5CtLZz9W/V9c"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=795b0402b4ad55eb8a35737a65d75a698fa325b00c925ab855aabf79fd33224ffa52f6a30ab9e6d125c6ea4691534b2c;
+        Max-Age=1764925540; Path=/; Expires=Sat, 08 Nov 2081 17:11:20 GMT; HttpOnly;
+        Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '40'
+      X-RateLimit-Remaining:
+      - '32'
+      X-RateLimit-Reset:
+      - '6'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      cookie:
+      - REDACTED
+      host:
+      - power.upsales.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://power.upsales.com/api/v2/mail/domains?limit=100&offset=0
+  response:
+    body:
+      string: '{"error":null,"data":[{"id":1006547,"domain":"upsales.com","valid":true,"dns":{"record1":{"type":"TXT","host":"upsalesmailer._domainkey.upsales.com","data":"v=DKIM1;
+        k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlnlZnBhATQx92WqcoW3v55lq4O2bW70GECjIbMRjgFGUuoKFqh7w80gSCF6b3FKSnSj1486qVFguqLDDpw3AEAtAMJWay1m9cjvqVZRb6NTy3v30ac+FzTX5OfvoVMGOZQg//uEUQ7hQS4/qXj/JBabsAAHluN4y/BmjCNGrnMYudunP/q29LXzVZr74WnlO+xZocyNb53pvKTKseWUjDxqQ1gREyY2xRUyBpoevJn7XSf+svX4daTBnIRMjeMittH4yje8iurvzhKjZmNDHyfmdvMs2noCRjBLn8qDXClBZ6pGgF7q5C3mexwAqMFpF6gdp6ZuU7OCHGSSQa6iVdQIDAQAB"},"record2":{"type":"TXT","host":"upsalesmailer.upsales.com","data":"v=spf1
+        include:spf.upsales.com ~all"},"record3":{"type":"MX","host":"upsalesmailer.upsales.com","data":"bounce.upsales.com"},"record4":{"type":"TXT","host":"upsales.com","data":"upsales-customer-domain-verification=dc66e0d8a90da5235258a382f619b73e"}}}]}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '890'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Dec 2025 08:05:40 GMT
+      ETag:
+      - W/"37a-mrjkHDoUvnynk2tuJsanfXCOx6k"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - token=795b0402b4ad55eb8a35737a65d75a698fa325b00c925ab855aabf79fd33224ffa52f6a30ab9e6d125c6ea4691534b2c;
+        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:40 GMT; HttpOnly; Secure
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

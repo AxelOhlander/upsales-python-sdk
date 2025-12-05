@@ -10,12 +10,11 @@ Example:
     ...     print(f"Domain {domain.domain} is verified")
 """
 
-from typing import TypedDict, Unpack
+from typing import Any, TypedDict, Unpack
 
 from pydantic import Field, computed_field
 
 from upsales.models.base import BaseModel, PartialModel
-from upsales.validators import BinaryFlag
 
 
 class MailDomainUpdateFields(TypedDict, total=False):
@@ -28,14 +27,14 @@ class MailDomainUpdateFields(TypedDict, total=False):
 
     Attributes:
         domain: Domain name (lowercase)
-        dns: DNS configuration status
-        valid: Validation status (0=invalid, 1=valid)
+        dns: DNS configuration status (dict of DNS records)
+        valid: Validation status (boolean)
         msg: Validation message
     """
 
     domain: str
-    dns: str
-    valid: int
+    dns: dict[str, Any]
+    valid: bool
     msg: str
 
 
@@ -48,8 +47,8 @@ class MailDomain(BaseModel):
 
     Attributes:
         domain: Domain name (e.g., "example.com")
-        dns: DNS configuration status
-        valid: Whether domain is verified (0=no, 1=yes)
+        dns: DNS records configuration (dict with record details)
+        valid: Whether domain is verified (boolean)
         msg: Validation status message
 
     Example:
@@ -64,13 +63,11 @@ class MailDomain(BaseModel):
     id: int = Field(
         default=0,
         frozen=True,
-        description="Placeholder numeric ID for compatibility with base models",
+        description="Numeric ID (may be 0 or actual ID; domain name is the primary identifier)",
     )
     domain: str = Field(description="Domain name (lowercase)")
-    dns: str = Field(description="DNS configuration status")
-    valid: BinaryFlag = Field(
-        default=0, description="Domain validation status (0=invalid, 1=valid)"
-    )
+    dns: dict[str, Any] = Field(default_factory=dict, description="DNS records configuration")
+    valid: bool = Field(default=False, description="Domain validation status (boolean)")
     msg: str | None = Field(None, description="Validation message or error details")
 
     @computed_field
@@ -86,7 +83,7 @@ class MailDomain(BaseModel):
             >>> if domain.is_valid:
             ...     print("Domain is verified")
         """
-        return self.valid == 1
+        return self.valid
 
     async def edit(self, **kwargs: Unpack[MailDomainUpdateFields]) -> "MailDomain":
         """
@@ -135,7 +132,7 @@ class PartialMailDomain(PartialModel):
     """
 
     domain: str = Field(description="Domain name")
-    valid: BinaryFlag = Field(default=0, description="Domain validation status")
+    valid: bool = Field(default=False, description="Domain validation status (boolean)")
 
     async def fetch_full(self) -> MailDomain:
         """
