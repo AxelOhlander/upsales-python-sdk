@@ -200,6 +200,8 @@ non-subscriptable = "ignore"
 invalid-type-arguments = "ignore"
 # Optional client patterns (context manager lifecycle)
 possibly-missing-attribute = "ignore"
+# Type narrowing not always recognized
+invalid-return-type = "ignore"
 # Operators on dynamic types from API responses
 unsupported-operator = "ignore"
 # Module resolution issues with circular imports

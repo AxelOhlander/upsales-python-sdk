@@ -58,7 +58,8 @@ class ListViewsResource:
             'Active Accounts'
         """
         response = await self.http.get(f"/listViews/{entity}/{view_id}")
-        data = response["data"]
+        # Handle both wrapped {"data": ...} and direct response formats
+        data = response["data"] if isinstance(response, dict) and "data" in response else response
         # Inject listType since API doesn't return it
         if "listType" not in data:
             data["listType"] = entity
@@ -88,7 +89,13 @@ class ListViewsResource:
         """
         all_params = {"limit": limit, "offset": offset} | params
         response = await self.http.get(f"/listViews/{entity}", params=all_params)
-        data_list = response["data"] if isinstance(response["data"], list) else [response["data"]]
+        # Handle both wrapped {"data": ...} and direct response formats
+        if isinstance(response, dict) and "data" in response:
+            data_list = (
+                response["data"] if isinstance(response["data"], list) else [response["data"]]
+            )
+        else:
+            data_list = response if isinstance(response, list) else [response]
         # Inject listType since API doesn't return it
         for item in data_list:
             if "listType" not in item:
@@ -163,7 +170,10 @@ class ListViewsResource:
             123
         """
         response = await self.http.post(f"/listViews/{entity}", json=data)
-        result_data = response["data"]
+        # Handle both wrapped {"data": ...} and direct response formats
+        result_data = (
+            response["data"] if isinstance(response, dict) and "data" in response else response
+        )
         # Inject listType since API doesn't return it
         if "listType" not in result_data:
             result_data["listType"] = entity
@@ -197,7 +207,10 @@ class ListViewsResource:
             'Updated Title'
         """
         response = await self.http.put(f"/listViews/{entity}/{view_id}", json=data)
-        result_data = response["data"]
+        # Handle both wrapped {"data": ...} and direct response formats
+        result_data = (
+            response["data"] if isinstance(response, dict) and "data" in response else response
+        )
         # Inject listType since API doesn't return it
         if "listType" not in result_data:
             result_data["listType"] = entity

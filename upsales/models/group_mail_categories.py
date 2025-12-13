@@ -49,16 +49,18 @@ class GroupMailCategory(BaseModel):
 
     # Read-only fields
     id: int = Field(frozen=True, strict=True, description="Unique category ID")
-    relatedMailCampaigns: list[dict[str, Any]] = Field(
-        default=[], frozen=True, description="Related campaigns (MailCampaign or Flow entities)"
+    relatedMailCampaigns: list[int | dict[str, Any]] = Field(
+        default=[],
+        frozen=True,
+        description="Related campaigns (IDs or MailCampaign/Flow entities)",
     )
 
     # Updatable fields
     title: str = Field(description="Category title")
     description: str = Field(default="", description="Category description")
     active: BinaryFlag = Field(default=1, description="Active status (0 or 1)")
-    languages: list[dict[str, str]] = Field(
-        default=[], description="Language configurations with translations"
+    languages: list[str | dict[str, str]] = Field(
+        default=[], description="Language codes or configurations with translations"
     )
 
     @computed_field

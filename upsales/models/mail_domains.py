@@ -66,8 +66,10 @@ class MailDomain(BaseModel):
         description="Numeric ID (may be 0 or actual ID; domain name is the primary identifier)",
     )
     domain: str = Field(description="Domain name (lowercase)")
-    dns: dict[str, Any] = Field(default_factory=dict, description="DNS records configuration")
-    valid: bool = Field(default=False, description="Domain validation status (boolean)")
+    dns: str | dict[str, Any] = Field(
+        default_factory=dict, description="DNS status string or records configuration dict"
+    )
+    valid: int | bool = Field(default=0, description="Domain validation status (0/1 or boolean)")
     msg: str | None = Field(None, description="Validation message or error details")
 
     @computed_field
@@ -83,7 +85,7 @@ class MailDomain(BaseModel):
             >>> if domain.is_valid:
             ...     print("Domain is verified")
         """
-        return self.valid
+        return bool(self.valid)
 
     async def edit(self, **kwargs: Unpack[MailDomainUpdateFields]) -> "MailDomain":
         """
