@@ -85,6 +85,7 @@ ignore = [
 "upsales/models/*.py" = ["N815", "SIM102"]  # Allow camelCase field names, nested ifs (readability for complex validation)
 "upsales/cli.py" = ["B904", "SIM102", "F841"]  # Allow raise without from, nested ifs (readability), unused vars
 "upsales/resources/*.py" = ["N803"]  # Allow camelCase params to match API field names
+"upsales/http.py" = ["SIM105"]  # Allow try-except-pass for clearer error handling
 
 [tool.mypy]
 python_version = "3.13"
