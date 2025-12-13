@@ -40,6 +40,9 @@ class RateLimitError(UpsalesError):
     per API key. This exception is automatically retried with exponential
     backoff by the HTTP client.
 
+    Attributes:
+        retry_after: Seconds to wait before retrying (from Retry-After header).
+
     Note:
         With Python 3.13 free-threaded mode, you can maximize throughput
         by running concurrent requests up to the rate limit without GIL
@@ -48,9 +51,35 @@ class RateLimitError(UpsalesError):
     Example:
         >>> try:
         ...     results = await client.products.bulk_update(ids, data)
-        ... except RateLimitError:
+        ... except RateLimitError as e:
         ...     # Rate limit exceeded even after retries
-        ...     print("Too many requests, try again later")
+        ...     print(f"Too many requests, retry after {e.retry_after}s")
+    """
+
+    def __init__(self, message: str, retry_after: float | None = None) -> None:
+        """
+        Initialize RateLimitError.
+
+        Args:
+            message: Error message.
+            retry_after: Seconds to wait before retrying (from Retry-After header).
+        """
+        super().__init__(message)
+        self.retry_after = retry_after
+
+
+class TransientError(UpsalesError):
+    """
+    Raised for transient network/transport errors that may succeed on retry.
+
+    This includes connection timeouts, network failures, and other transport
+    errors that are not permanent failures.
+
+    Example:
+        >>> try:
+        ...     user = await client.users.get(1)
+        ... except TransientError:
+        ...     print("Network error, will retry automatically")
     """
 
     pass

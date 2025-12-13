@@ -14,6 +14,7 @@ from upsales.exceptions import (
     NotFoundError,
     RateLimitError,
     ServerError,
+    TransientError,
     ValidationError,
 )
 from upsales.http import HTTPClient
@@ -103,78 +104,108 @@ class TestHTTPErrorPaths:
 
     @pytest.mark.asyncio
     async def test_500_server_error(self, httpx_mock: HTTPXMock):
-        """Test 500 raises ServerError."""
-        httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/users/1",
-            status_code=500,
-            json={"error": "Internal server error", "data": None},
-        )
+        """Test 500 raises ServerError after retries."""
+        # Add 5 responses for retries (default is 5 attempts)
+        for _ in range(5):
+            httpx_mock.add_response(
+                url="https://power.upsales.com/api/v2/users/1",
+                status_code=500,
+                json={"error": "Internal server error", "data": None},
+            )
 
         async with HTTPClient(token="test_token") as http:
-            with pytest.raises(ServerError, match="500"):
+            # Should raise ServerError after 5 attempts
+            with pytest.raises(ServerError):
                 await http.get("/users/1")
+
+        requests = httpx_mock.get_requests()
+        assert len(requests) == 5
 
     @pytest.mark.asyncio
     async def test_502_bad_gateway_error(self, httpx_mock: HTTPXMock):
-        """Test 502 raises ServerError."""
-        httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/users/1",
-            status_code=502,
-            text="Bad Gateway",
-        )
+        """Test 502 raises ServerError after retries."""
+        for _ in range(5):
+            httpx_mock.add_response(
+                url="https://power.upsales.com/api/v2/users/1",
+                status_code=502,
+                text="Bad Gateway",
+            )
 
         async with HTTPClient(token="test_token") as http:
-            with pytest.raises(ServerError, match="502"):
+            with pytest.raises(ServerError):
                 await http.get("/users/1")
+
+        requests = httpx_mock.get_requests()
+        assert len(requests) == 5
 
     @pytest.mark.asyncio
     async def test_503_service_unavailable_error(self, httpx_mock: HTTPXMock):
-        """Test 503 raises ServerError."""
-        httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/users/1",
-            status_code=503,
-            text="Service Unavailable",
-        )
+        """Test 503 raises ServerError after retries."""
+        for _ in range(5):
+            httpx_mock.add_response(
+                url="https://power.upsales.com/api/v2/users/1",
+                status_code=503,
+                text="Service Unavailable",
+            )
 
         async with HTTPClient(token="test_token") as http:
-            with pytest.raises(ServerError, match="503"):
+            with pytest.raises(ServerError):
                 await http.get("/users/1")
+
+        requests = httpx_mock.get_requests()
+        assert len(requests) == 5
 
     @pytest.mark.asyncio
     async def test_connection_error(self, httpx_mock: HTTPXMock):
-        """Test connection errors are handled properly."""
-        httpx_mock.add_exception(
-            httpx.ConnectError("Connection failed"),
-            url="https://power.upsales.com/api/v2/users/1",
-        )
+        """Test connection errors are wrapped in TransientError and retried."""
+        # Add 5 exceptions for retries (default is 5 attempts)
+        for _ in range(5):
+            httpx_mock.add_exception(
+                httpx.ConnectError("Connection failed"),
+                url="https://power.upsales.com/api/v2/users/1",
+            )
 
         async with HTTPClient(token="test_token") as http:
-            with pytest.raises(httpx.ConnectError):
+            with pytest.raises(TransientError) as exc_info:
                 await http.get("/users/1")
+            assert isinstance(exc_info.value.__cause__, httpx.ConnectError)
+
+        requests = httpx_mock.get_requests()
+        assert len(requests) == 5
 
     @pytest.mark.asyncio
     async def test_timeout_error(self, httpx_mock: HTTPXMock):
-        """Test timeout errors are handled properly."""
-        httpx_mock.add_exception(
-            httpx.TimeoutException("Request timeout"),
-            url="https://power.upsales.com/api/v2/users/1",
-        )
+        """Test timeout errors are wrapped in TransientError and retried."""
+        for _ in range(5):
+            httpx_mock.add_exception(
+                httpx.TimeoutException("Request timeout"),
+                url="https://power.upsales.com/api/v2/users/1",
+            )
 
         async with HTTPClient(token="test_token") as http:
-            with pytest.raises(httpx.TimeoutException):
+            with pytest.raises(TransientError) as exc_info:
                 await http.get("/users/1")
+            assert isinstance(exc_info.value.__cause__, httpx.TimeoutException)
+
+        requests = httpx_mock.get_requests()
+        assert len(requests) == 5
 
     @pytest.mark.asyncio
     async def test_network_error(self, httpx_mock: HTTPXMock):
-        """Test network errors are handled properly."""
-        httpx_mock.add_exception(
-            httpx.NetworkError("Network unreachable"),
-            url="https://power.upsales.com/api/v2/users/1",
-        )
+        """Test network errors are wrapped in TransientError and retried."""
+        for _ in range(5):
+            httpx_mock.add_exception(
+                httpx.NetworkError("Network unreachable"),
+                url="https://power.upsales.com/api/v2/users/1",
+            )
 
         async with HTTPClient(token="test_token") as http:
-            with pytest.raises(httpx.NetworkError):
+            with pytest.raises(TransientError) as exc_info:
                 await http.get("/users/1")
+            assert isinstance(exc_info.value.__cause__, httpx.NetworkError)
+
+        requests = httpx_mock.get_requests()
+        assert len(requests) == 5
 
 
 class TestHTTPRequestMethods:

@@ -17,14 +17,15 @@ Note:
     the API rate limits (200 requests per 10 seconds).
 """
 
+import random
 from typing import TYPE_CHECKING, Any, Literal
 
 import httpx
 from tenacity import (
+    RetryCallState,
     retry,
     retry_if_exception_type,
     stop_after_attempt,
-    wait_exponential,
 )
 
 from upsales.exceptions import (
@@ -32,6 +33,7 @@ from upsales.exceptions import (
     NotFoundError,
     RateLimitError,
     ServerError,
+    TransientError,
     ValidationError,
 )
 
@@ -40,6 +42,33 @@ if TYPE_CHECKING:
 
 # Type alias for supported response types
 ResponseType = Literal["json", "bytes", "text", "response"]
+
+
+def _wait_with_retry_after(retry_state: RetryCallState) -> float:
+    """
+    Custom wait strategy that respects Retry-After header.
+
+    If the exception has a retry_after attribute (from RateLimitError),
+    use that value. Otherwise, use exponential backoff with jitter.
+
+    Args:
+        retry_state: Current retry state from tenacity.
+
+    Returns:
+        Number of seconds to wait before retrying.
+    """
+    exception = retry_state.outcome.exception() if retry_state.outcome else None
+
+    # Check for Retry-After from RateLimitError
+    if hasattr(exception, "retry_after") and exception.retry_after is not None:
+        return exception.retry_after
+
+    # Exponential backoff with jitter: base * 2^attempt + random jitter
+    # This helps avoid thundering herd problem
+    attempt = retry_state.attempt_number
+    base_wait = min(60.0, 1.0 * (2**attempt))  # Cap at 60 seconds
+    jitter = random.uniform(0, 0.5 * base_wait)  # Add up to 50% jitter
+    return base_wait + jitter
 
 
 class HTTPClient:
@@ -158,9 +187,10 @@ class HTTPClient:
             )
 
     @retry(
-        retry=retry_if_exception_type(RateLimitError),
+        retry=retry_if_exception_type((RateLimitError, ServerError, TransientError)),
         stop=stop_after_attempt(5),
-        wait=wait_exponential(multiplier=1, min=1, max=60),
+        wait=_wait_with_retry_after,
+        reraise=True,
     )
     async def request(
         self,
@@ -198,10 +228,11 @@ class HTTPClient:
 
         Raises:
             RateLimitError: When rate limit exceeded (retries automatically).
+            TransientError: When transport/timeout errors occur (retries automatically).
+            ServerError: When server error occurs (HTTP 500+, retries automatically).
             AuthenticationError: When authentication fails (HTTP 401/403).
             NotFoundError: When resource not found (HTTP 404).
             ValidationError: When request validation fails (HTTP 400).
-            ServerError: When server error occurs (HTTP 500+).
             RuntimeError: If client not initialized with async context.
 
         Example:
@@ -239,7 +270,14 @@ class HTTPClient:
         try:
             # Normalize path once at entry to fix retry path inconsistency
             path = endpoint if endpoint.startswith("/") else f"/{endpoint}"
-            response = await self._client.request(method, path, **kwargs)
+
+            # Wrap transport errors in TransientError for automatic retry
+            try:
+                response = await self._client.request(method, path, **kwargs)
+            except httpx.TimeoutException as e:
+                raise TransientError(f"Request timed out: {e}") from e
+            except httpx.TransportError as e:
+                raise TransientError(f"Transport error: {e}") from e
 
             # Pattern matching for clean error handling (Python 3.10+)
             match response.status_code:
@@ -285,7 +323,17 @@ class HTTPClient:
                 case 404:
                     raise NotFoundError(f"Resource not found: {endpoint}")
                 case 429:
-                    raise RateLimitError("Rate limit exceeded (200 req/10 sec)")
+                    # Parse Retry-After header if present
+                    retry_after = None
+                    if retry_after_header := response.headers.get("Retry-After"):
+                        try:
+                            retry_after = float(retry_after_header)
+                        except ValueError:
+                            pass  # Ignore invalid Retry-After values
+                    raise RateLimitError(
+                        "Rate limit exceeded (200 req/10 sec)",
+                        retry_after=retry_after,
+                    )
                 case code if code >= 500:
                     raise ServerError(f"Server error {code}: {response.text}")
                 case _:
