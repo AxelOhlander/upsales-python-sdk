@@ -107,8 +107,8 @@ class MailMultiResource:
             ```
 
         Note:
-            With Python 3.13 free-threaded mode, batch operations can achieve
-            better performance. Enable with: python -X gil=0 script.py
+            This is a single batch request to the API. For truly parallel
+            processing of multiple batches, use asyncio.gather().
         """
         if not emails:
             raise ValueError("Cannot send empty batch of emails")

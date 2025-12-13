@@ -290,15 +290,81 @@ EmailStr = Annotated[
     BeforeValidator(validate_email),
 ]
 """
-Type alias for email with validation and normalization.
+Type alias for optional email with validation and normalization.
 
 Validates basic email format and normalizes to lowercase.
-Empty strings are converted to None.
+Empty strings are converted to None. Use for optional email fields.
 
 Example:
     >>> from pydantic import BaseModel
     >>> class User(BaseModel):
-    ...     email: EmailStr | None = None
+    ...     secondary_email: EmailStr = None  # Optional, can be None
+"""
+
+
+def validate_required_email(v: Any) -> str:
+    """
+    Validate and normalize required email address.
+
+    Similar to validate_email but raises an error if email is empty/None.
+    Use for required email fields that must have a valid value.
+
+    Args:
+        v: Email string to validate.
+
+    Returns:
+        Normalized email (lowercase, stripped).
+
+    Raises:
+        ValueError: If email is empty, None, or has invalid format.
+
+    Example:
+        >>> validate_required_email("user@example.com")
+        'user@example.com'
+        >>> validate_required_email("  User@Example.COM  ")
+        'user@example.com'
+        >>> validate_required_email("")
+        Traceback (most recent call last):
+        ...
+        ValueError: Email is required and cannot be empty
+        >>> validate_required_email(None)
+        Traceback (most recent call last):
+        ...
+        ValueError: Email is required and cannot be None
+        >>> validate_required_email("invalid-email")
+        Traceback (most recent call last):
+        ...
+        ValueError: Email must contain '@': invalid-email
+    """
+    if v is None:
+        raise ValueError("Email is required and cannot be None")
+    if not isinstance(v, str):
+        raise ValueError(f"Email must be string, got {type(v)}")
+
+    stripped = v.strip()
+    if not stripped:
+        raise ValueError("Email is required and cannot be empty")
+
+    if "@" not in stripped:
+        raise ValueError(f"Email must contain '@': {stripped}")
+
+    return stripped.lower()
+
+
+RequiredEmailStr = Annotated[
+    str,
+    BeforeValidator(validate_required_email),
+]
+"""
+Type alias for required email with validation and normalization.
+
+Validates basic email format and normalizes to lowercase.
+Raises error if email is empty or None. Use for required email fields.
+
+Example:
+    >>> from pydantic import BaseModel
+    >>> class User(BaseModel):
+    ...     email: RequiredEmailStr  # Required, cannot be None or empty
 """
 
 PositiveInt = Annotated[

@@ -111,7 +111,7 @@ class ProductsResource(BaseResource[Product, PartialProduct]):
             True
 
         Note:
-            With Python 3.13 free-threaded mode, these updates can run in
-            true parallel without GIL contention. Enable with: python -X gil=0
+            Uses asyncio for efficient concurrent execution. The bottleneck is
+            typically network I/O and API rate limits, not the GIL.
         """
         return await self.bulk_update(ids, {"active": 0}, max_concurrent=max_concurrent)

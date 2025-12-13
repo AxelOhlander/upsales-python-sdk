@@ -6,7 +6,7 @@ Uses Python 3.13 features:
 - Native type hints (no typing imports)
 - Exception groups for bulk operations (Python 3.11+)
 - Dictionary merge operator | (Python 3.9+)
-- Free-threaded mode benefits for true parallelism
+- Asyncio for efficient concurrent I/O operations
 
 This is the TEMPLATE file that Claude should replicate when creating
 new resource managers for API endpoints.
@@ -84,9 +84,9 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         ...         )
 
     Note:
-        With Python 3.13 free-threaded mode, bulk operations can achieve
-        true parallelism without GIL contention, maximizing throughput
-        within the Upsales API rate limits (200 req/10 sec).
+        Bulk operations use asyncio for efficient concurrent execution,
+        maximizing throughput within the Upsales API rate limits
+        (200 req/10 sec). The bottleneck is typically network I/O, not the GIL.
     """
 
     def __init__(
@@ -335,11 +335,12 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             ... )
 
         Note:
-            With Python 3.13 free-threaded mode, pagination requests
-            can be fetched in parallel for better performance.
-
             Field selection reduces bandwidth and improves query speed.
             Sorting maintains order across all paginated requests.
+
+            This method fetches pages sequentially to maintain order. For
+            truly parallel fetching, consider using asyncio.gather() with
+            multiple list() calls at different offsets.
         """
         collected: list[T] = []
         offset = 0
@@ -572,12 +573,14 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         ids: list[int],
         data: dict[str, Any],
         max_concurrent: int | None = None,
+        chunk_size: int | None = None,
     ) -> list[T]:
         """
         Bulk update multiple resources with rate limiting.
 
-        Leverages Python 3.13 free-threaded mode for true parallelism,
-        allowing concurrent requests to run without GIL contention.
+        Uses asyncio for efficient concurrent execution. Free-threaded mode
+        (python -X gil=0) benefits CPU-bound callbacks or hybrid workloads,
+        but provides limited gains for pure I/O operations like HTTP requests.
 
         Uses a semaphore to limit concurrent requests and respect the
         Upsales API rate limit (200 req/10 sec).
@@ -586,6 +589,8 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             ids: List of resource IDs to update.
             data: Fields to update (applied to all resources).
             max_concurrent: Maximum concurrent requests (default: from client).
+            chunk_size: Process IDs in chunks of this size to reduce memory usage
+                       for very large lists. If None, processes all IDs at once.
 
         Returns:
             List of updated resource objects.
@@ -607,15 +612,22 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             ...     data={"price": 99.99},
             ...     max_concurrent=10,
             ... )
+            >>>
+            >>> # For very large lists, use chunking to reduce memory usage
+            >>> products = await client.products.bulk_update(
+            ...     ids=list(range(1, 100001)),  # 100k IDs
+            ...     data={"active": 0},
+            ...     chunk_size=1000,  # Process 1000 at a time
+            ... )
 
         Note:
-            With Python 3.13's free-threaded mode, these requests can truly
-            run in parallel without GIL contention. This maximizes throughput
-            within the 200 req/10 sec rate limit, especially for I/O-bound
-            operations like API requests.
+            For very large ID lists (10k+), use chunk_size to process IDs
+            in batches. This reduces memory overhead since tasks are created
+            per chunk rather than all at once.
 
-            To enable free-threaded mode:
-                python -X gil=0 your_script.py
+            The main bottleneck for bulk operations is typically network I/O
+            and API rate limits (200 req/10 sec), not the GIL. Asyncio already
+            provides efficient concurrency for I/O-bound operations.
         """
         max_concurrent = max_concurrent or self._http.max_concurrent
         semaphore = asyncio.Semaphore(max_concurrent)
@@ -625,7 +637,28 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             async with semaphore:
                 return await self.update(item_id, **data)
 
-        # Gather all results, including exceptions
+        # If chunk_size is specified, process in chunks for memory efficiency
+        if chunk_size and len(ids) > chunk_size:
+            all_successes: list[T] = []
+            all_errors: list[Exception] = []
+
+            for i in range(0, len(ids), chunk_size):
+                chunk = ids[i : i + chunk_size]
+                results = await asyncio.gather(
+                    *[update_one(item_id) for item_id in chunk],
+                    return_exceptions=True,
+                )
+                all_successes.extend([r for r in results if not isinstance(r, Exception)])
+                all_errors.extend([r for r in results if isinstance(r, Exception)])
+
+            if all_errors:
+                raise ExceptionGroup(
+                    f"Failed to update {len(all_errors)}/{len(ids)} items",
+                    all_errors,
+                )
+            return all_successes
+
+        # Standard processing for smaller lists
         results = await asyncio.gather(
             *[update_one(item_id) for item_id in ids],
             return_exceptions=True,
@@ -648,6 +681,7 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         self,
         ids: list[int],
         max_concurrent: int | None = None,
+        chunk_size: int | None = None,
     ) -> list[dict[str, Any]]:
         """
         Bulk delete multiple resources with rate limiting.
@@ -655,6 +689,8 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         Args:
             ids: List of resource IDs to delete.
             max_concurrent: Maximum concurrent requests (default: from client).
+            chunk_size: Process IDs in chunks of this size to reduce memory usage
+                       for very large lists. If None, processes all IDs at once.
 
         Returns:
             List of response dicts from API.
@@ -664,10 +700,20 @@ class BaseResource[T: BaseModel, P: PartialModel]:
 
         Example:
             >>> await client.users.bulk_delete([1, 2, 3])
+            >>>
+            >>> # For very large lists, use chunking to reduce memory usage
+            >>> await client.products.bulk_delete(
+            ...     ids=list(range(1, 100001)),  # 100k IDs
+            ...     chunk_size=1000,  # Process 1000 at a time
+            ... )
 
         Note:
-            With Python 3.13 free-threaded mode, delete operations can
-            run in true parallel without GIL contention.
+            For very large ID lists (10k+), use chunk_size to process IDs
+            in batches. This reduces memory overhead since tasks are created
+            per chunk rather than all at once.
+
+            Uses asyncio for efficient concurrent execution. The bottleneck is
+            typically network I/O and API rate limits, not the GIL.
         """
         max_concurrent = max_concurrent or self._http.max_concurrent
         semaphore = asyncio.Semaphore(max_concurrent)
@@ -677,7 +723,28 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             async with semaphore:
                 return await self.delete(item_id)
 
-        # Gather all results, including exceptions
+        # If chunk_size is specified, process in chunks for memory efficiency
+        if chunk_size and len(ids) > chunk_size:
+            all_successes: list[dict[str, Any]] = []
+            all_errors: list[Exception] = []
+
+            for i in range(0, len(ids), chunk_size):
+                chunk = ids[i : i + chunk_size]
+                results = await asyncio.gather(
+                    *[delete_one(item_id) for item_id in chunk],
+                    return_exceptions=True,
+                )
+                all_successes.extend([r for r in results if not isinstance(r, Exception)])
+                all_errors.extend([r for r in results if isinstance(r, Exception)])
+
+            if all_errors:
+                raise ExceptionGroup(
+                    f"Failed to delete {len(all_errors)}/{len(ids)} items",
+                    all_errors,
+                )
+            return all_successes
+
+        # Standard processing for smaller lists
         results = await asyncio.gather(
             *[delete_one(item_id) for item_id in ids],
             return_exceptions=True,

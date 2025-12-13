@@ -7,7 +7,7 @@ leveraging Python 3.13+ features including:
 - Type parameter syntax for clean generics
 - Pattern matching for error handling
 - Exception groups for bulk operations
-- Free-threaded mode support for true parallelism
+- Asyncio for efficient concurrent I/O
 
 Example:
     >>> import asyncio
@@ -27,9 +27,9 @@ Requirements:
     - tenacity
 
 Note:
-    With Python 3.13 free-threaded mode enabled, concurrent operations
-    can achieve true parallelism without GIL contention, maximizing
-    throughput within the Upsales API rate limits (200 req/10 sec).
+    Uses asyncio for efficient concurrent operations, maximizing throughput
+    within the Upsales API rate limits (200 req/10 sec). The bottleneck for
+    bulk operations is typically network I/O and API rate limits, not the GIL.
 """
 
 from upsales.client import Upsales

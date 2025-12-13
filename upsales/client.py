@@ -22,8 +22,8 @@ Example:
     >>> asyncio.run(main())
 
 Note:
-    Built for Python 3.13+ with free-threaded mode support for optimal
-    concurrent request performance. Enable with: python -X gil=0 script.py
+    Built for Python 3.13+ with modern async patterns for efficient
+    concurrent request handling.
 """
 
 from typing import Any
@@ -145,14 +145,12 @@ class Upsales:
         ...     )
 
     Note:
-        With Python 3.13 free-threaded mode enabled, concurrent operations
-        across all resource managers can achieve true parallelism without
-        GIL contention:
-
-            python -X gil=0 your_script.py
-
-        This maximizes throughput within the Upsales API rate limits
+        Uses asyncio for efficient concurrent operations across all resource
+        managers, maximizing throughput within the Upsales API rate limits
         (200 requests per 10 seconds per API key).
+
+        The bottleneck for bulk operations is typically network I/O and
+        API rate limits, not CPU or the GIL.
     """
 
     def __init__(

@@ -2931,11 +2931,11 @@ async def send(
 | Operation | Status | Notes |
 |-----------|--------|-------|
 | POST (settings) | ✅ Implemented | Get integration settings |
-| GET (download) | ⚠️ TODO | Download signed PDF (requires HTTPClient enhancement) |
+| GET (download) | ✅ Implemented | Download signed PDF as bytes |
 
 **Custom Methods**:
-- `get_settings(integration_id, **kwargs)` - ✅ Implemented
-- `download(document_id)` - ⚠️ TODO (requires raw binary response support)
+- `get_settings(integration_id, **kwargs)` - ✅ Implemented - Get integration settings
+- `download(document_id)` - ✅ Implemented - Download signed PDF document
 
 **Field Requirements**:
 - All fields optional (settings structure varies by integration)
@@ -2945,7 +2945,7 @@ async def send(
 **Notes**:
 - Special function endpoint, not CRUD
 - Uses Pydantic BaseModel directly (not custom BaseModel)
-- Download method requires HTTPClient to support binary responses
+- Download method uses HTTPClient's binary response support (`get_bytes()` method)
 
 **Unit Tests**: ✅ 4 tests passing
 - ✅ test_get_settings_success - Basic settings retrieval
@@ -2959,7 +2959,7 @@ async def send(
 - ✅ Mypy strict mode passed
 - ✅ Interrogate 100% docstring coverage (6/6)
 
-**Implementation Status**: ✅ Complete - All tests passing, all quality checks passed, download method documented as TODO
+**Implementation Status**: ✅ Complete - All tests passing, all quality checks passed, both methods fully implemented
 
 **Resource Coverage**: 100% (get_settings fully tested)
 **Model Coverage**: 100% (all scenarios tested)

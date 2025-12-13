@@ -226,15 +226,15 @@ def _generate_field_line(
 
     # Special handling for 'custom' field - always optional with default
     if field_name == "custom":
-        return f"    {field_name}: list[dict] = []", comment
+        return f"    {field_name}: list[dict] = Field(default_factory=list)", comment
 
     # Required fields - present and non-null in all objects
     if is_required:
-        # Lists and dicts with defaults even when required
+        # Lists and dicts with default_factory (clearer than mutable defaults)
         if python_type.startswith("list"):
-            return f"    {field_name}: {python_type} = []", comment
+            return f"    {field_name}: {python_type} = Field(default_factory=list)", comment
         if python_type.startswith("dict"):
-            return f"    {field_name}: {python_type} = {{}}", comment
+            return f"    {field_name}: {python_type} = Field(default_factory=dict)", comment
         return f"    {field_name}: {python_type}", comment
 
     # Optional fields - missing or null in some objects
@@ -242,11 +242,11 @@ def _generate_field_line(
         if python_type == "Any":
             return f"    {field_name}: Any | None = None", comment
 
-        # Lists and dicts - optional with default
+        # Lists and dicts - optional with default_factory
         if python_type.startswith("list"):
-            return f"    {field_name}: {python_type} | None = []", comment
+            return f"    {field_name}: {python_type} = Field(default_factory=list)", comment
         if python_type.startswith("dict"):
-            return f"    {field_name}: {python_type} | None = {{}}", comment
+            return f"    {field_name}: {python_type} = Field(default_factory=dict)", comment
 
         # Regular optional field
         return f"    {field_name}: {python_type} | None = None", comment
@@ -292,12 +292,11 @@ def _generate_model_code(
         if field_name in ("id", "_client"):  # Skip read-only and internal fields
             continue
         sample_value = field_info["sample_value"]
-        python_type, extra_comment = _python_type_from_value(sample_value, field_name)
+        python_type, _ = _python_type_from_value(sample_value, field_name)
         # TypedDicts always use dict[str, Any] for entity references (input data)
         # So if we got a Partial model type, convert back to dict for TypedDict
         if "Partial" in python_type:
             python_type = "dict[str, Any]" if "list" not in python_type else "list[dict[str, Any]]"
-            extra_comment = ""  # Remove TODO for TypedDict
         typeddict_fields.append(f"    {field_name}: {python_type}")
 
     typeddict_code = f'''class {typeddict_name}(TypedDict, total=False):

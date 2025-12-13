@@ -354,18 +354,19 @@ def to_api_dict(self, **overrides: Any) -> dict[str, Any]:
 | Validation | 1.0x | 5-10x | ⬆️ 5-10x |
 | Model creation | 1.0x | 2-5x | ⬆️ 2-5x |
 
-### Free-Threaded Mode
+### Free-Threaded Mode (Optional)
 
-With Python 3.13 free-threaded mode:
+Python 3.13 supports running without the GIL:
 
 ```bash
 python -X gil=0 your_script.py
 ```
 
-Bulk operations can achieve true parallelism:
+**When it helps**: CPU-bound callbacks or hybrid workloads mixing threads with asyncio. For pure async I/O operations, asyncio already provides efficient concurrency.
 
 ```python
-# All updates run in parallel without GIL contention
+# Efficient with or without free-threaded mode
+# (network I/O is the bottleneck, not the GIL)
 results = await upsales.users.bulk_update(
     ids=[1, 2, 3, 4, 5],
     data={"active": 1},
@@ -378,7 +379,7 @@ results = await upsales.users.bulk_update(
 ✅ **5-50x Faster** - Pydantic v2 Rust core
 ✅ **Automatic** - Frozen fields excluded
 ✅ **Alias Support** - Uses field aliases
-✅ **Free-Threaded Ready** - True parallelism
+✅ **Efficient Concurrency** - Asyncio handles I/O well
 
 ---
 

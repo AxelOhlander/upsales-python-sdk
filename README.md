@@ -1,6 +1,6 @@
 # Upsales Python SDK
 
-Modern, async Python wrapper for the Upsales CRM API, built for **Python 3.13+** with free-threaded mode support.
+Modern, async Python wrapper for the Upsales CRM API, built for **Python 3.13+**.
 
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![Type Checked](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](https://mypy-lang.org/)
@@ -8,7 +8,7 @@ Modern, async Python wrapper for the Upsales CRM API, built for **Python 3.13+**
 
 ## Why This SDK?
 
-- ✅ **Python 3.13+** - Leverages free-threaded mode for true parallelism
+- ✅ **Python 3.13+** - Modern syntax with native type hints and pattern matching
 - ✅ **Modern Syntax** - Native type hints, type parameters, pattern matching
 - ✅ **Async-First** - Built on httpx for high-performance async operations
 - ✅ **Type-Safe** - Full type coverage with Pydantic v2
@@ -46,7 +46,7 @@ async def main():
         # Update a user
         updated = await user.edit(name="New Name")
 
-        # Bulk operations (leverages Python 3.13 free-threaded mode)
+        # Bulk operations with concurrency control
         products = await upsales.products.bulk_update(
             ids=list(range(1, 101)),
             data={"active": 0}
@@ -109,22 +109,24 @@ match response.status_code:
         raise NotFoundError()
 ```
 
-### 4. Free-Threaded Mode (The Big One!)
+### 4. Free-Threaded Mode (Python 3.13)
+
+Python 3.13 supports running without the GIL:
 
 ```bash
-# Enable true parallelism without GIL
 python -X gil=0 your_script.py
 ```
 
-With free-threaded mode, bulk operations run in **true parallel**:
+**When it helps**: CPU-bound callbacks, thread pools, or hybrid workloads mixing threads with asyncio.
+
+**Limited benefit for pure async I/O**: For HTTP requests like this SDK's bulk operations, asyncio already provides efficient concurrency. The bottleneck is network I/O and API rate limits, not the GIL.
 
 ```python
-# These 100 updates run in TRUE parallel (no GIL!)
-# Maximizes throughput within the 200 req/10s rate limit
+# Bulk operations are efficient with or without free-threaded mode
 products = await upsales.products.bulk_update(
     ids=list(range(1, 101)),
     data={"active": 0},
-    max_concurrent=50  # True parallelism!
+    max_concurrent=50
 )
 ```
 

@@ -102,15 +102,16 @@ print(f"{user.name = }, {user.id = }")
 # Output: user.name = 'John', user.id = 1
 ```
 
-#### 7. Free-Threaded Mode (3.13+)
+#### 7. Asyncio Concurrency
 ```python
-# ✅ Good - Document parallel benefits
+# ✅ Good - Accurate about asyncio benefits
 """
-With Python 3.13 free-threaded mode, these operations
-can truly run in parallel without GIL contention,
-maximizing throughput within rate limits.
+Uses asyncio for efficient concurrent execution. The bottleneck
+for bulk operations is typically network I/O and API rate limits,
+not the GIL.
 
-Enable with: python -X gil=0 script.py
+Free-threaded mode (python -X gil=0) benefits CPU-bound callbacks
+or hybrid workloads, but provides limited gains for pure I/O.
 """
 ```
 
@@ -389,7 +390,7 @@ Before submitting, ensure:
 - [ ] Exception groups for bulk operations
 - [ ] Comprehensive docstrings (90%+ coverage)
 - [ ] Examples in docstrings
-- [ ] Comments explaining free-threaded mode benefits (for bulk operations)
+- [ ] Accurate notes about asyncio concurrency (avoid overstating free-threaded benefits)
 - [ ] All tests passing
 
 ### Step 5: Run Validation

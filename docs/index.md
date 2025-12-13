@@ -4,14 +4,15 @@ Modern, async Python wrapper for the Upsales CRM API, built for Python 3.13+.
 
 ## Features
 
-- ✅ **Python 3.13+** with free-threaded mode support for true parallelism
+- ✅ **Python 3.13+** with modern syntax (native type hints, pattern matching)
 - ✅ **Async-first** design using httpx
 - ✅ **Type-safe** with Pydantic v2, TypedDict, and native type hints
 - ✅ **IDE autocomplete** for all update operations (excludes read-only fields)
 - ✅ **Auto-retry** with exponential backoff for rate limits
 - ✅ **Rate limiting** respects 200 req/10s limit
-- ✅ **Bulk operations** with true parallel execution
+- ✅ **Bulk operations** with efficient concurrent execution
 - ✅ **Custom fields** support with dict-like access
+- ✅ **Binary downloads** support for PDFs, audio files, and other non-JSON responses
 
 ## Terminology Note
 
@@ -56,7 +57,7 @@ async def main():
         # List with pagination
         users = await upsales.users.list(limit=50, offset=0)
 
-        # Bulk operations (leverages Python 3.13 free-threaded mode)
+        # Bulk operations with concurrency control
         products = await upsales.products.bulk_update(
             ids=list(range(1, 101)),
             data={"active": 0}
@@ -92,12 +93,13 @@ match status_code:
         raise NotFoundError()
 ```
 
-### Free-Threaded Mode
+### Free-Threaded Mode (Optional)
 ```python
-# Enable true parallelism without GIL
+# Python 3.13 supports running without GIL
 # python -X gil=0 script.py
 
-# Now bulk operations run in TRUE parallel!
+# Benefits: CPU-bound callbacks, thread pools, hybrid workloads
+# Limited benefit for pure async I/O (network is the bottleneck)
 await upsales.products.bulk_update(ids, data)
 ```
 

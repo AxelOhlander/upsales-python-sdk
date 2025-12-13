@@ -345,8 +345,6 @@ class Contact(BaseModel):
         Edit this contact.
 
         Uses Pydantic v2's optimized serialization via to_api_dict().
-        With Python 3.13 free-threaded mode, multiple edits can run
-        in true parallel without GIL contention.
 
         Args:
             **kwargs: Fields to update (full IDE autocomplete support).

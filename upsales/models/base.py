@@ -169,8 +169,7 @@ class BaseModel(PydanticBase):
 
         Note:
             This method uses Pydantic v2's optimized serialization which is
-            5-50x faster than v1. With Python 3.13 free-threaded mode, bulk
-            operations using this method can achieve true parallelism.
+            5-50x faster than v1 due to its Rust core.
 
             For backward compatibility, to_update_dict() remains available.
         """

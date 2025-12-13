@@ -176,8 +176,9 @@ async def bulk_activate(self, ids: list[int]) -> list[Product]:
         >>> products = await upsales.products.bulk_activate([1, 2, 3])
 
     Note:
-        With Python 3.13 free-threaded mode, activations run in
-        true parallel without GIL contention.
+        Bulk operations use asyncio for efficient concurrent execution.
+        Free-threaded mode (python -X gil=0) helps with CPU-bound callbacks,
+        but provides limited benefit for pure I/O operations.
     """
     return await self.bulk_update(ids, {"active": 1})
 
@@ -307,8 +308,9 @@ class ProductsResource(BaseResource[Product, PartialProduct]):
         ...     await upsales.products.bulk_update_price([4, 5], 99.99)
 
     Note:
-        With Python 3.13 free-threaded mode, bulk operations achieve
-        true parallelism. Enable with: python -X gil=0 script.py
+        Bulk operations use asyncio for efficient concurrent requests.
+        Free-threaded mode benefits CPU-bound callbacks but provides
+        limited gains for pure I/O operations like HTTP requests
     """
 
     def __init__(self, http: HTTPClient) -> None:
@@ -374,8 +376,8 @@ class ProductsResource(BaseResource[Product, PartialProduct]):
             >>> await upsales.products.bulk_deactivate(range(100, 200))
 
         Note:
-            With Python 3.13 free-threaded mode, these 100 deactivations
-            can run in true parallel, completing much faster.
+            Uses asyncio for efficient concurrent execution. The bottleneck
+            is typically network I/O and API rate limits, not the GIL.
         """
         return await self.bulk_update(ids, {"active": 0})
 
@@ -474,7 +476,7 @@ Before submitting resources:
 - [ ] All custom methods have comprehensive docstrings
 - [ ] Examples in all docstrings
 - [ ] Uses pattern matching where appropriate
-- [ ] Comments about free-threaded mode benefits for bulk operations
+- [ ] Accurate notes about asyncio concurrency (avoid overstating free-threaded benefits)
 - [ ] Type hints use native syntax (no typing imports)
 - [ ] Passes mypy strict mode
 - [ ] Passes ruff linting

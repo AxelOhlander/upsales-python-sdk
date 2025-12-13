@@ -197,7 +197,7 @@ updated = await user.edit(
 ### Bulk Operations
 
 ```python
-# Bulk update (runs in parallel with Python 3.13 free-threaded mode)
+# Bulk update with concurrency control
 products = await upsales.products.bulk_update(
     ids=[1, 2, 3, 4, 5],
     data={"active": 0},
@@ -287,27 +287,31 @@ products = await upsales.products.bulk_update(
 )
 ```
 
-## Python 3.13 Free-Threaded Mode
+## Python 3.13 Free-Threaded Mode (Optional)
 
-For maximum performance, enable free-threaded mode to remove the GIL:
+Python 3.13 supports running without the GIL:
 
 ```bash
-# Enable free-threaded mode
 python -X gil=0 your_script.py
 ```
 
-This allows true parallel execution of concurrent requests, maximizing throughput within rate limits.
+### When It Helps
 
-### Performance Comparison
+Free-threaded mode benefits:
+- **CPU-bound callbacks**: Processing responses with heavy computation
+- **Thread pools**: Mixing asyncio with ThreadPoolExecutor
+- **Hybrid workloads**: CPU tasks alongside I/O operations
+
+### Limited Benefit for Pure Async I/O
+
+For pure HTTP requests (like bulk operations in this SDK):
+- Asyncio already handles I/O concurrency efficiently
+- The bottleneck is network I/O and API rate limits, not the GIL
+- Free-threaded mode provides minimal performance gain
 
 ```python
-# Without free-threaded mode:
-# 100 requests @ 50 concurrent = limited by GIL
-
-# With free-threaded mode (python -X gil=0):
-# 100 requests @ 50 concurrent = TRUE parallelism
-# Much faster for bulk operations!
-
+# Bulk operations are efficient with or without free-threaded mode
+# The real bottleneck is network latency and the 200 req/10s rate limit
 products = await upsales.products.bulk_update(
     ids=list(range(1, 101)),
     data={"active": 0},

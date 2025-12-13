@@ -170,8 +170,8 @@ def test_generate_field_line_custom_field():
 
     field_line, comment = _generate_field_line("custom", field_info)
 
-    # Custom field always gets default []
-    assert field_line == "    custom: list[dict] = []"
+    # Custom field always gets default_factory
+    assert field_line == "    custom: list[dict] = Field(default_factory=list)"
 
 
 def test_generate_field_line_list_required():
@@ -186,7 +186,7 @@ def test_generate_field_line_list_required():
 
     field_line, comment = _generate_field_line("tags", field_info)
 
-    assert field_line == "    tags: list[str] = []"
+    assert field_line == "    tags: list[str] = Field(default_factory=list)"
 
 
 def test_generate_field_line_dict_optional():

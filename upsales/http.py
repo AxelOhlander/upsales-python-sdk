@@ -4,7 +4,7 @@ HTTP client with rate limiting and retry logic.
 Leverages Python 3.13 features:
 - Native type hints (no typing imports needed)
 - Pattern matching for clean error handling
-- Free-threaded mode benefits for parallel requests
+- Asyncio for efficient concurrent I/O
 
 Example:
     >>> async with HTTPClient("YOUR_TOKEN") as client:
@@ -12,9 +12,8 @@ Example:
     ...     print(data)
 
 Note:
-    With Python 3.13 free-threaded mode, concurrent requests can truly
-    run in parallel without GIL contention, maximizing throughput within
-    the API rate limits (200 requests per 10 seconds).
+    Uses asyncio for efficient concurrent requests, maximizing throughput
+    within the API rate limits (200 requests per 10 seconds).
 """
 
 import random
@@ -101,9 +100,9 @@ class HTTPClient:
         ...     await client.delete("/users/1")
 
     Note:
-        With Python 3.13 free-threaded mode, concurrent requests made through
-        this client can achieve true parallelism without GIL contention, allowing
-        you to maximize throughput within the 200 req/10 sec rate limit.
+        Uses asyncio for efficient concurrent requests, maximizing throughput
+        within the 200 req/10 sec rate limit. The bottleneck is typically
+        network I/O and API rate limits, not CPU or the GIL.
     """
 
     def __init__(

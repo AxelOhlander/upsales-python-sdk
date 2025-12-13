@@ -44,9 +44,8 @@ class RateLimitError(UpsalesError):
         retry_after: Seconds to wait before retrying (from Retry-After header).
 
     Note:
-        With Python 3.13 free-threaded mode, you can maximize throughput
-        by running concurrent requests up to the rate limit without GIL
-        contention.
+        Use asyncio concurrency to maximize throughput up to the rate limit.
+        The bottleneck is the API rate limit, not the GIL.
 
     Example:
         >>> try:

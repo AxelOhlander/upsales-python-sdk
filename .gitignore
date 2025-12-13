@@ -62,8 +62,8 @@ dmypy.json
 *~
 .DS_Store
 
-# Playground (personal test file)
-playground.py
+# Playground (personal test file - moved to ai_temp_files/)
+ai_temp_files/playground.py
 
 # Change review notes (local workflow artifacts)
 change-review/

@@ -107,8 +107,10 @@ See `docs/terminology.md` for complete rationale.
 /apiKeys          → api_keys.py      → ApiKey
 ```
 
-**Acronyms**: Treat as words - `ApiKey` not `APIKey`, `HttpClient` not `HTTPClient`
-(Exception: `URL`, `ID` alone are acceptable)
+**Acronyms**: Follow existing code patterns for consistency:
+- Core classes: `HTTPClient`, `AuthenticationManager` (full caps for acronyms)
+- Models: `ApiKey` (lowercase per PEP 8 - treat multi-word acronyms as single word)
+- Standalone: `URL`, `ID` are acceptable
 
 ### Standardization Script
 
@@ -786,19 +788,19 @@ Field schemas available at: `/api/v2/customFields/{object_type}`
 ## Quality Standards
 
 ### Docstring Requirements
-- **90% minimum coverage** (enforced by interrogate)
+- **90% minimum coverage** (checked via `uv run interrogate upsales`)
 - All public classes, methods, functions, properties must have docstrings
 - Include Google-style Args, Returns, Raises, Example sections
 - Examples must be executable doctest-style
 
 ### Type Checking
-- **mypy strict mode** must pass
+- **mypy strict mode** must pass (`uv run mypy upsales`)
 - All functions require type hints
 - Use native types only (`list`, `dict`, `str | None`)
 
 ### Code Style
 - Line length: 100 characters
-- Ruff for formatting and linting
+- Ruff for formatting and linting (enforced by CI)
 - No typing imports except `Any` and `TYPE_CHECKING`
 
 ### Testing
@@ -806,6 +808,11 @@ Field schemas available at: `/api/v2/customFields/{object_type}`
 - Use pytest-asyncio for async tests
 - Mock HTTP calls with pytest-httpx
 - Integration tests use VCR.py for cassettes
+
+### Continuous Integration
+- CI runs automatically on push to main and pull requests
+- Enforces: ruff linting, ruff formatting, unit tests
+- See `.github/workflows/ci.yml` for full configuration
 
 ## Free-Threaded Mode
 
@@ -815,18 +822,24 @@ Python 3.13 supports running without GIL for true parallelism:
 python -X gil=0 your_script.py
 ```
 
-**Benefits for this SDK**:
-- Bulk operations (`bulk_update`, `bulk_delete`) run in true parallel
-- I/O-bound HTTP requests don't block each other
-- Can maximize throughput within 200 req/10s rate limit
+**When it helps**:
+- **CPU-bound callbacks**: Processing response data with heavy computation
+- **Thread pools**: Mixing asyncio with ThreadPoolExecutor for blocking operations
+- **Hybrid workloads**: CPU-intensive tasks alongside I/O operations
 
-**Document this** in bulk operation docstrings with note like:
+**Limited benefits for pure asyncio I/O**:
+- Asyncio already handles I/O concurrency efficiently without threads
+- For pure HTTP requests (like this SDK's bulk operations), gains are minimal
+- The real bottleneck is network I/O and API rate limits, not the GIL
+
+**Document this** in bulk operation docstrings with nuanced note like:
 ```python
 """
 Note:
-    With Python 3.13 free-threaded mode, these requests can truly
-    run in parallel without GIL contention. Enable with:
-    python -X gil=0 script.py
+    With Python 3.13 free-threaded mode, CPU-bound callbacks or mixed
+    thread/asyncio workloads can benefit from true parallelism. For pure
+    I/O-bound operations like HTTP requests, asyncio already provides
+    efficient concurrency. Enable with: python -X gil=0 script.py
 """
 ```
 
@@ -836,16 +849,18 @@ Note:
 - `upsales/client.py` - Main Upsales
 - `upsales/http.py` - HTTP client with retry logic
 - `upsales/exceptions.py` - Exception hierarchy
-- `upsales/cli.py` - CLI tool (skeleton)
+- `upsales/cli.py` - CLI tool with model generation, validation, and resource initialization
+- `upsales/auth.py` - Authentication manager with token refresh support
 
 **Templates** (replicate these patterns):
 - `upsales/models/base.py` - BaseModel & PartialModel
 - `upsales/models/custom_fields.py` - CustomFields helper
 - `upsales/resources/base.py` - BaseResource with generics
 
-**Placeholders** (TODO: implement):
-- `upsales/models/{account,product,user}.py` - Model definitions
-- `upsales/resources/{accounts,products,users}.py` - Resource managers
+**Implemented Models & Resources**:
+- 100+ models implemented in `upsales/models/` (companies, users, products, contacts, activities, orders, etc.)
+- 100+ resource managers in `upsales/resources/` with full CRUD operations
+- See `upsales/models/__init__.py` and `upsales/resources/__init__.py` for complete lists
 
 **Documentation**:
 - `docs/patterns/creating-models.md` - Model creation guide
@@ -859,7 +874,7 @@ Note:
 1. **Don't create temp files in wrong locations**: ALL temporary files (test scripts, analysis docs, debug outputs) must go in `ai_temp_files\`. Delete temp scripts after use.
 2. **Don't import from typing**: Use `list`, `dict`, `str | None` directly (except `Unpack`, `TypedDict`, `TYPE_CHECKING`)
 3. **Don't use old generic syntax**: Use `class Foo[T, P]:` not `Generic[T, P]`
-4. **Don't skip docstrings**: 90% coverage required, will fail CI
+4. **Don't skip docstrings**: 90% coverage required (enforced by interrogate, CI runs linting and tests)
 
 ### Naming & Terminology
 5. **Don't use API naming in user code**: Use `Company` (not `Account`), `upsales.companies` (not `client.accounts`)
