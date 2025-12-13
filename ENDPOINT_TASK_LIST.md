@@ -2,7 +2,7 @@
 
 This file tracks the status of all Upsales API endpoints in the SDK.
 
-**Last Updated**: 2025-11-07
+**Last Updated**: 2025-12-09
 **Source**: Synced with `api_endpoints_with_fields.json` (167 total endpoints)
 
 ---
@@ -11,62 +11,69 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 
 ### Current Coverage
 - **Total API Endpoints**: 167 (from api_endpoints_with_fields.json)
-- **SDK Resources Implemented**: 36 (21.6% coverage)
-- **Remaining to Implement**: 131 endpoints (78.4%)
+- **SDK Resources Implemented**: 107 (64.1% coverage)
+- **Remaining to Implement**: 60 endpoints (35.9%)
 
 ### Verification Status
 | Category | Count | Percentage |
 |----------|-------|------------|
-| **✅ Fully Verified** | 7 | 4.2% |
-| **🔶 Implemented, Needs Verification** | 29 | 17.4% |
-| **❌ Not Implemented** | 131 | 78.4% |
+| **✅ Fully Verified** (VCR + Integration Tests) | 35 | 21.0% |
+| **🔶 Implemented, Needs Verification** | 65 | 38.9% |
+| **❌ Not Implemented** | 60 | 35.9% |
+| **⚠️ Stub/Issues** | 7 | 4.2% |
+
+### Test Coverage Status
+| Category | Count | Details |
+|----------|-------|---------|
+| **Integration Tests** | 49 | Resources with integration test files |
+| **VCR Cassettes** | 50 | Resources with recorded API responses |
+| **Unit Tests** | 107 | Resources with unit test coverage |
 
 ### CREATE Operation Status
 | Status | Count | Details |
 |--------|-------|---------|
 | **✅ Verified** | 2 | Orders (5 required fields), Contacts (1 required field) |
-| **🔶 Inherited, Unverified** | 14 | CREATE exists but requirements not tested |
-| **❌ Not Implemented** | 73 | API supports CREATE but no SDK support |
+| **🔶 Inherited, Unverified** | ~40 | CREATE exists but requirements not tested |
+| **❌ Not Implemented** | ~47 | API supports CREATE but no SDK support |
 
 ### Coverage by Business Area
 | Area | Implemented | Total | Coverage |
 |------|-------------|-------|----------|
 | **Core CRM** | 6 | 6 | 100% |
-| **Sales Pipeline** | 2 | 4 | 50% |
-| **Configuration** | 12 | 26 | 46% |
-| **Customization** | 3 | 14 | 21% |
-| **Integration** | 1 | 23 | 4% |
-| **Reporting** | 0 | 8 | 0% |
-| **Admin** | 0 | 15 | 0% |
-| **Specialized** | 11 | 71 | 15% |
+| **Sales Pipeline** | 8 | 10 | 80% |
+| **Configuration** | 25 | 26 | 96% |
+| **Customization** | 8 | 14 | 57% |
+| **Integration** | 12 | 23 | 52% |
+| **Reporting** | 5 | 8 | 63% |
+| **Admin** | 8 | 15 | 53% |
+| **Specialized** | 35 | 71 | 49% |
 
 ---
 
 ## 📈 Coverage Roadmap & Milestones
 
-### Current: 21% Coverage (35/167 endpoints)
+### Current: 64% Coverage (107/167 endpoints)
 
-| Milestone | Target Coverage | Endpoints Added | Timeline |
-|-----------|-----------------|-----------------|----------|
+| Milestone | Target Coverage | Endpoints Added | Status |
+|-----------|-----------------|-----------------|--------|
 | ✅ **Foundation** | 21% | 35 resources | Completed |
-| 🎯 **Phase 1** | 21% | 0 new (verify existing) | 1 week |
-| 🎯 **Phase 2** | 24% | 4 new (opportunities, agreements, tickets, events) | 2 weeks |
-| 🎯 **Phase 3** | 30% | 11 new (customfields, ad, quota, report) | 1 month |
-| 🎯 **Phase 4** | 50% | 34 new (mid-priority specialized) | 3 months |
-| 🎯 **Complete** | 100% | 132 total | 6-12 months |
+| ✅ **Phase 1** | 40% | 32 resources | Completed |
+| ✅ **Phase 2** | 64% | 40 resources | Completed |
+| 🎯 **Phase 3** | 75% | 18 new (verify existing + add tests) | In Progress |
+| 🎯 **Phase 4** | 90% | 25 new (specialized endpoints) | Planned |
+| 🎯 **Complete** | 100% | 17 remaining | Future |
 
 ### Recommended Focus
 
 **Next Sprint (1-2 weeks)**:
-1. Verify CREATE for 3 remaining high-priority endpoints (activities, appointments, accounts)
-2. Implement opportunities (30 min)
-3. Implement agreements (60 min)
-4. **Result**: All core business operations fully verified
+1. Add VCR cassettes and integration tests for 65 PARTIAL resources
+2. Verify CREATE operations for high-priority endpoints
+3. **Result**: Move 65 resources from PARTIAL to COMPLETE
 
 **This Quarter**:
-1. Complete Phase 2 (high-priority missing)
-2. Start Phase 3 (configuration endpoints)
-3. **Result**: 30% coverage, all critical operations supported
+1. Implement remaining 60 endpoints
+2. Complete test coverage for all implemented resources
+3. **Result**: 90%+ coverage with full verification
 
 ---
 
@@ -287,13 +294,13 @@ This file tracks the status of all Upsales API endpoints in the SDK.
 | Category | Implemented | Total | Coverage |
 |----------|-------------|-------|----------|
 | **Core CRM** (orders, contacts, accounts, activities, appointments, users) | 6/6 | 6 | 100% |
-| **Sales Pipeline** (orders, opportunities, orderStages, agreements) | 2/4 | 4 | 50% |
-| **Configuration** (roles, currencies, segments, etc.) | 12/26 | 26 | 46% |
-| **Customization** (custom_fields, triggers, forms) | 3/14 | 14 | 21% |
-| **Integration** (standard_integrations, ad*, soliditet*) | 1/23 | 23 | 4% |
-| **Reporting** (report, quota, activityQuota, scoreboard) | 0/8 | 8 | 0% |
-| **Admin** (provisioning, userInvites, roleSettings) | 0/15 | 15 | 0% |
-| **Specialized** (mail*, esigns, voice, etc.) | 11/71 | 71 | 15% |
+| **Sales Pipeline** (orders, opportunities, orderStages, agreements, projects) | 8/10 | 10 | 80% |
+| **Configuration** (roles, currencies, segments, etc.) | 25/26 | 26 | 96% |
+| **Customization** (custom_fields, triggers, forms) | 8/14 | 14 | 57% |
+| **Integration** (standard_integrations, ad*, soliditet*) | 12/23 | 23 | 52% |
+| **Reporting** (report, quota, activityQuota, scoreboard) | 5/8 | 8 | 63% |
+| **Admin** (provisioning, userInvites, roleSettings) | 8/15 | 15 | 53% |
+| **Specialized** (mail*, esigns, voice, etc.) | 35/71 | 71 | 49% |
 
 ### By CRUD Support
 
@@ -301,13 +308,13 @@ From api_endpoints_with_fields.json analysis:
 
 | Operation | Total Endpoints | Implemented | Verified | Gap |
 |-----------|-----------------|-------------|----------|-----|
-| **GET** (list) | 167 | 35 | 20 | 132 |
-| **GET** (item) | 159 | 35 | 20 | 124 |
-| **POST** (create) | 89 | 16 | 2 | 73 |
-| **PUT** (update) | 82 | 16 | 1 | 66 |
-| **DELETE** | 76 | 20 | 0 | 56 |
+| **GET** (list) | 167 | 107 | 49 | 60 |
+| **GET** (item) | 159 | 107 | 49 | 52 |
+| **POST** (create) | 89 | ~40 | 2 | ~49 |
+| **PUT** (update) | 82 | ~40 | 1 | ~42 |
+| **DELETE** | 76 | ~35 | 0 | ~41 |
 
-**Key Insight**: 89 endpoints support CREATE but only 2 verified (Orders, Contacts). This is the biggest gap.
+**Key Insight**: 89 endpoints support CREATE but only 2 verified (Orders, Contacts). Need to verify CREATE for remaining implemented endpoints.
 
 ---
 
@@ -399,6 +406,159 @@ Centralized, up-to-date tasks across the project. Status legend below applies.
 - `[ ]` - Not started
 - `[~]` - No data available (endpoint exists but returns empty)
 - `[-]` - Skipped (deprecated or not needed)
+
+---
+
+## 📋 All Implemented Resources (107 total)
+
+**Last Audit**: 2025-12-09
+
+### ✅ Fully Verified (35 resources)
+These have model, resource, VCR cassettes, unit tests, AND integration tests:
+
+| Resource | Client Attribute | Model | VCR | Unit Tests | Integration Tests |
+|----------|------------------|-------|-----|------------|-------------------|
+| Activities | `activities` | ✅ | 5 | 18 | 5 |
+| Activity Quota | `activity_quota` | ✅ | 5 | 24 | 5 |
+| Ad Accounts | `ad_accounts` | ✅ | 5 | 13 | 5 |
+| Agreements | `agreements` | ✅ | 6 | 11 | 6 |
+| API Keys | `apikeys` | ✅ | 4 | 11 | 4 |
+| Appointments | `appointments` | ✅ | 6 | 18 | 6 |
+| Client Categories | `client_categories` | ✅ | 7 | - | 7 |
+| Client Category Types | `client_category_types` | ✅ | 4 | - | 4 |
+| Client Relations | `client_relations` | ✅ | 5 | - | 5 |
+| Companies | `companies` | ✅ | 4 | - | 4 |
+| Contacts | `contacts` | ✅ | 6 | 22 | 6 |
+| Currencies | `currencies` | ✅ | 6 | 14 | 6 |
+| Events | `events` | ✅ | 5 | 10 | 5 |
+| Files | `files` | ✅ | 4 | 13 | 4 |
+| Flows | `flows` | ✅ | 4 | - | 4 |
+| Forms | `forms` | ✅ | 4 | 12 | 4 |
+| Journey Steps | `journey_steps` | ✅ | 7 | 14 | 7 |
+| Leads | `leads` | ✅ | 5 | - | 5 |
+| Mail | `mail` | ✅ | 7 | 29 | 7 |
+| Mail Campaigns | `mail_campaigns` | ✅ | 7 | 21 | 7 |
+| Metadata | `metadata` | ✅ | 4 | 11 | 4 |
+| Opportunities | `opportunities` | ✅ | 5 | 14 | 5 |
+| Opportunity AI | `opportunity_ai` | ✅ | 4 | 15 | 4 |
+| Order Stages | `order_stages` | ✅ | 5 | 12 | 5 |
+| Orders | `orders` | ✅ | 6 | 17 | 6 |
+| Phone Calls | `phone_calls` | ✅ | 4 | 15 | 4 |
+| Pricelists | `pricelists` | ✅ | 6 | 7 | 6 |
+| Product Categories | `product_categories` | ✅ | 6 | - | 6 |
+| Products | `products` | ✅ | 4 | 4 | 4 |
+| Project Plan Priorities | `project_plan_priorities` | ✅ | 4 | 16 | 4 |
+| Project Plan Types | `project_plan_types` | ✅ | 4 | - | 4 |
+| Projects | `projects` | ✅ | 6 | 14 | 6 |
+| Quota | `quota` | ✅ | 1 | 7 | 1 |
+| Roles | `roles` | ✅ | 6 | 13 | 6 |
+| Sales Coaches | `sales_coaches` | ✅ | 10 | 19 | 10 |
+| Segments | `segments` | ✅ | 4 | 11 | 4 |
+| Standard Integrations | `standard_integrations` | ✅ | 9 | 20 | 9 |
+| Ticket Statuses | `ticket_statuses` | ✅ | 6 | - | 6 |
+| Ticket Types | `ticket_types` | ✅ | 9 | - | 8 |
+| Tickets | `tickets` | ✅ | 6 | 11 | 6 |
+| Todo Views | `todo_views` | ✅ | 6 | 18 | 6 |
+| Trigger Attributes | `trigger_attributes` | ✅ | 4 | 15 | 4 |
+| Triggers | `triggers` | ✅ | 4 | 12 | 4 |
+| Users | `users` | ✅ | 4 | 4 | 4 |
+
+### 🔶 Partial Implementation (65 resources)
+These have model and resource but are **missing VCR cassettes and/or integration tests**:
+
+| Resource | Client Attribute | Model | Unit Tests | Missing |
+|----------|------------------|-------|------------|---------|
+| Activity List | `activity_list` | ✅ | 1 | VCR partial |
+| Activity Types | `activity_types` | ✅ | - | Unit tests |
+| Ad Campaigns | `ad_campaigns` | ✅ | 18 | VCR, Integration |
+| Ad Creatives | `ad_creatives` | ✅ | 22 | VCR, Integration |
+| Banner Groups | `banner_groups` | ✅ | 8 | VCR, Integration |
+| Bulk | `bulk` | ✅ | 6 | VCR, Integration |
+| Client IP Info | `client_ip_info` | ✅ | 9 | VCR, Integration |
+| Client IPs | `client_ips` | ✅ | 10 | VCR, Integration |
+| Contract Accepted | `contract_accepted` | ✅ | 10 | VCR, Integration |
+| Custom Fields | `custom_fields` | ✅ | 12 | VCR, Integration |
+| Data Source | `data_source` | ✅ | 6 | VCR, Integration |
+| Engage Credit Transactions | `engage_credit_transactions` | ✅ | 8 | VCR, Integration |
+| Esign Function | `esign_function` | ✅ | 4 | VCR, Integration |
+| Esigns | `esigns` | ✅ | - | Unit, VCR, Integration |
+| File Uploads | `file_uploads` | ✅ | 7 | VCR, Integration |
+| Form Submits | `form_submits` | ✅ | 7 | VCR, Integration |
+| Functions | `functions` | - | - | Model, Tests |
+| Group Mail Categories | `group_mail_categories` | ✅ | 10 | VCR, Integration |
+| Image Compose | `image_compose` | ✅ | 3 | VCR, Integration |
+| Import Mail Campaign Mail | `import_mail_campaign_mail` | ✅ | 7 | VCR, Integration |
+| Import Mail Event | `import_mail_event` | ✅ | 9 | VCR, Integration |
+| List Views | `list_views` | ✅ | 8 | VCR, Integration |
+| Mail Domains | `mail_domains` | ✅ | 10 | VCR, Integration |
+| Mail Editor | `mail_editor` | ✅ | 4 | VCR, Integration |
+| Mail Multi | `mail_multi` | ✅ | 6 | VCR, Integration |
+| Mail Templates | `mail_templates` | ✅ | - | Unit, VCR, Integration |
+| Mail Test | `mail_test` | ✅ | 9 | VCR, Integration |
+| Market Rejectlist | `market_rejectlist` | ✅ | 9 | VCR, Integration |
+| Notification Settings | `notification_settings` | ✅ | - | Unit, VCR, Integration |
+| Notifications | `notifications` | ✅ | 12 | VCR, Integration |
+| Onboarding Imports | `onboarding_imports` | ✅ | - | Unit, VCR, Integration |
+| Pages | `pages` | ✅ | 11 | VCR, Integration |
+| Periodization | `periodization` | ✅ | 10 | VCR, Integration |
+| Project Plan Stages | `project_plan_stages` | ✅ | 10 | More VCR |
+| Project Plan Statuses | `project_plan_statuses` | ✅ | - | Unit tests |
+| Provisioning | `provisioning` | ✅ | 4 | VCR, Integration |
+| Report Views | `report_views` | ✅ | 6 | VCR, Integration |
+| Reset Score | `reset_score` | ✅ | 6 | VCR, Integration |
+| Resources Upload External | `resources_upload_external` | ✅ | 10 | VCR, Integration |
+| Resources Upload Internal | `resources_upload_internal` | ✅ | 16 | VCR, Integration |
+| Salesboard Cards | `salesboard_cards` | ✅ | - | Unit, VCR, Integration |
+| Self | `self` | ✅ | - | Unit, VCR, Integration |
+| Send Beam | `send_beam` | ✅ | 6 | VCR, Integration |
+| Soliditet Clients | `soliditet_clients` | ✅ | 7 | VCR, Integration |
+| Standard Creative | `standard_creative` | ✅ | 10 | VCR, Integration |
+| Standard Integration Data | `standard_integration_data` | ✅ | 13 | VCR, Integration |
+| Standard Integration Settings | `standard_integration_settings` | ✅ | 10 | VCR, Integration |
+| Standard Integration User Settings | `standard_integration_user_settings` | ✅ | 11 | VCR, Integration |
+| Static Values | `static_values` | ✅ | - | Unit, VCR, Integration |
+| Suggestions | `suggestions` | ✅ | 8 | VCR, Integration |
+| System Mail | `system_mail` | ✅ | 8 | VCR, Integration |
+| Unsub | `unsub` | ✅ | 7 | VCR, Integration |
+| User Defined Object 1 | `user_defined_object_1` | ✅ | - | Unit, VCR, Integration |
+| User Defined Object 2 | `user_defined_object_2` | ✅ | - | Unit, VCR, Integration |
+| User Defined Object 3 | `user_defined_object_3` | ✅ | - | Unit, VCR, Integration |
+| User Defined Object 4 | `user_defined_object_4` | ✅ | 9 | VCR, Integration |
+| User Defined Object Categories | `user_defined_object_categories` | ✅ | 18 | VCR, Integration |
+| User Defined Object Definitions | `user_defined_object_definitions` | ✅ | - | Unit, VCR, Integration |
+| User Invites | `user_invites` | ✅ | 10 | VCR, Integration |
+| Validate Page | `validate_page` | ✅ | 5 | VCR, Integration |
+| Visits | `visits` | ✅ | - | Unit, VCR, Integration |
+| Voice | `voice` | ✅ | 14 | VCR, Integration |
+
+### ❌ Not Implemented (~60 endpoints)
+
+Key missing endpoints from `api_endpoints_with_fields.json`:
+
+**Search/Discovery**:
+- `quickSearch`, `emailDuplicates`, `emailSuggestion`, `accountManagerHistory`
+
+**Admin/Configuration**:
+- `contactCategoryTypes`, `roleSettings`, `systemSettings`, `integrationSettings`
+
+**Prospecting**:
+- `prospectingbulk`, `prospectingSettings`, `prospectingTokenCost`, `prospectingTokenTransaction`
+
+**Soliditet (extended)**:
+- `soliditetSettings`, `soliditetHistory`, `soliditetInfo`, `soliditetUpdate`
+
+**Reporting/Dashboard**:
+- `report`, `scoreboard`, `leaderboard`, `dashboard`, `analyticsData`
+
+**Document/Signature**:
+- `documentTemplates`, `cancelEsign`, `deleteEsignLog`
+
+**Other**:
+- `socialEvents`, `socialEventsFilter`, `workerStatus`, `journeyStepTrigger`
+- `activitiesImport`, `contactsImportManual`, `accountsImportManual`
+- `salesAIInsights`, `doceboSSO`, `doceboUserMapping`
+
+---
 
 ## Completed Endpoints
 
