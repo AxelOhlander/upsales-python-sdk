@@ -38,18 +38,26 @@ from upsales.exceptions import (
     NotFoundError,
     RateLimitError,
     ServerError,
+    TransientError,
     UpsalesError,
     ValidationError,
 )
 from upsales.settings import UpsalesSettings, load_settings
 
-__version__ = "0.1.0"
+# Dynamic version from package metadata (fallback for development installs)
+try:
+    from importlib.metadata import version as _get_version
+
+    __version__ = _get_version("upsales")
+except Exception:
+    __version__ = "0.1.0"  # Fallback for development
 __all__ = [
     "Upsales",
     "UpsalesSettings",
     "load_settings",
     "UpsalesError",
     "RateLimitError",
+    "TransientError",
     "AuthenticationError",
     "NotFoundError",
     "ValidationError",
