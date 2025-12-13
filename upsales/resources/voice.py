@@ -70,13 +70,14 @@ class VoiceResource:
         """Get voice recording.
 
         Retrieves a voice recording from the specified integration.
+        Returns raw audio bytes that can be saved to a file.
 
         Args:
             integration_id: Voice integration provider ID.
             recording_id: Unique recording identifier.
 
         Returns:
-            VoiceRecording: Recording metadata and content.
+            VoiceRecording: Recording metadata and content bytes.
 
         Raises:
             NotFoundError: If recording doesn't exist.
@@ -88,42 +89,22 @@ class VoiceResource:
             ...     integration_id="123",
             ...     recording_id="456"
             ... )
-            >>> print(recording.content_type)
-            audio/wav
+            >>> if recording.content:
+            ...     with open("recording.wav", "wb") as f:
+            ...         f.write(recording.content)
         """
-        params = {
-            "type": "recording",
-            "integrationId": integration_id,
-            "id": recording_id,
-        }
-
-        response = await self._http.request(
-            "GET",
+        # Use binary response type for audio file downloads
+        content = await self._http.get_bytes(
             f"{self._endpoint}/recording",
-            params=params,
+            type="recording",
+            integrationId=integration_id,
+            id=recording_id,
         )
 
-        # For binary responses, response may be bytes
-        if isinstance(response, bytes):
-            return VoiceRecording(
-                integration_id=integration_id,
-                recording_id=recording_id,
-                content=response,
-            )
-
-        # If API returns structured data
-        if isinstance(response, dict):
-            return VoiceRecording(
-                integration_id=integration_id,
-                recording_id=recording_id,
-                content_type=response.get("contentType"),
-                content=response.get("content"),
-            )
-
-        # Fallback
         return VoiceRecording(
             integration_id=integration_id,
             recording_id=recording_id,
+            content=content,
         )
 
     async def _call_operation(

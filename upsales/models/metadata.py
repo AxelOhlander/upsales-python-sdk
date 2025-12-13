@@ -16,7 +16,7 @@ from pydantic import ConfigDict, Field, computed_field
 if TYPE_CHECKING:
     from upsales.client import Upsales
 
-from upsales.models.role import PartialRole
+from upsales.models.roles import PartialRole
 from upsales.validators import NonEmptyStr, PositiveInt
 
 

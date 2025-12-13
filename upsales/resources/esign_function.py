@@ -102,13 +102,28 @@ class EsignFunctionResource:
         settings._client = getattr(self._http, "_client", None)
         return settings
 
-    # TODO: Implement download method when HTTPClient supports raw binary responses
-    # async def download(self, document_id: int) -> bytes:
-    #     """
-    #     Download a signed document as PDF.
-    #
-    #     Note: This requires HTTPClient to support binary response handling.
-    #     The endpoint is: GET /function/esign/download/:id
-    #     Returns: PDF file stream (not JSON)
-    #     """
-    #     pass
+    async def download(self, document_id: int) -> bytes:
+        """
+        Download a signed document as PDF.
+
+        Retrieves the signed PDF document from the e-signature provider.
+
+        Args:
+            document_id: The document identifier to download.
+
+        Returns:
+            bytes: Raw PDF file content.
+
+        Raises:
+            AuthenticationError: If authentication fails (401/403).
+            NotFoundError: If the document is not found (404).
+            ServerError: If the server encounters an error (500+).
+
+        Example:
+            >>> pdf_bytes = await upsales.esign_function.download(
+            ...     document_id=456
+            ... )
+            >>> with open("signed.pdf", "wb") as f:
+            ...     f.write(pdf_bytes)
+        """
+        return await self._http.get_bytes(f"{self._endpoint}/download/{document_id}")

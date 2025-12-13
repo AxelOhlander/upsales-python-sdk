@@ -13,6 +13,7 @@ def mock_http():
     """Create mock HTTP client."""
     http = MagicMock()
     http.request = AsyncMock()
+    http.get_bytes = AsyncMock()
     return http
 
 
@@ -33,7 +34,7 @@ class TestVoiceResource:
     async def test_get_recording_bytes_response(self, voice_resource, mock_http):
         """Test get_recording with binary response."""
         # Arrange
-        mock_http.request.return_value = b"audio_data"
+        mock_http.get_bytes.return_value = b"audio_data"
 
         # Act
         result = await voice_resource.get_recording(integration_id="123", recording_id="456")
@@ -44,17 +45,18 @@ class TestVoiceResource:
         assert result.recording_id == "456"
         assert result.content == b"audio_data"
 
-        mock_http.request.assert_called_once_with(
-            "GET",
+        mock_http.get_bytes.assert_called_once_with(
             "/function/voice/recording",
-            params={"type": "recording", "integrationId": "123", "id": "456"},
+            type="recording",
+            integrationId="123",
+            id="456",
         )
 
     @pytest.mark.asyncio
-    async def test_get_recording_dict_response(self, voice_resource, mock_http):
-        """Test get_recording with dict response."""
-        # Arrange
-        mock_http.request.return_value = {"contentType": "audio/wav", "content": b"audio_data"}
+    async def test_get_recording_wav_response(self, voice_resource, mock_http):
+        """Test get_recording returns proper VoiceRecording with wav content."""
+        # Arrange - get_bytes now returns raw bytes
+        mock_http.get_bytes.return_value = b"\x00\x01\x02\x03audio_content"
 
         # Act
         result = await voice_resource.get_recording(integration_id="123", recording_id="456")
@@ -63,8 +65,7 @@ class TestVoiceResource:
         assert isinstance(result, VoiceRecording)
         assert result.integration_id == "123"
         assert result.recording_id == "456"
-        assert result.content_type == "audio/wav"
-        assert result.content == b"audio_data"
+        assert result.content == b"\x00\x01\x02\x03audio_content"
 
     @pytest.mark.asyncio
     async def test_initiate_call(self, voice_resource, mock_http):

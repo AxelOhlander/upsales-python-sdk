@@ -17,7 +17,7 @@ Note:
     the API rate limits (200 requests per 10 seconds).
 """
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 import httpx
 from tenacity import (
@@ -37,6 +37,9 @@ from upsales.exceptions import (
 
 if TYPE_CHECKING:
     from upsales.auth import AuthenticationManager
+
+# Type alias for supported response types
+ResponseType = Literal["json", "bytes", "text", "response"]
 
 
 class HTTPClient:
@@ -98,7 +101,6 @@ class HTTPClient:
         self.auth_manager = auth_manager
         self._upsales_client = upsales_client  # Parent Upsales instance
         self._client: httpx.AsyncClient | None = None
-        self._auth_refresh_attempted = False
         # Marker used by resources to know when temporary sessions are allowed.
         self._auto_allow_uninitialized = True
 
@@ -109,10 +111,16 @@ class HTTPClient:
         Returns:
             Self for context manager usage.
         """
+        # Align connection pool limits with max_concurrent for optimal performance
+        limits = httpx.Limits(
+            max_connections=self.max_concurrent,
+            max_keepalive_connections=self.max_concurrent,
+        )
         self._client = httpx.AsyncClient(
             base_url=self.base_url,
             headers={"Cookie": f"token={self.token}"},
             timeout=30.0,
+            limits=limits,
         )
         return self
 
@@ -138,10 +146,15 @@ class HTTPClient:
         self.token = new_token
         if self._client:
             await self._client.aclose()
+            limits = httpx.Limits(
+                max_connections=self.max_concurrent,
+                max_keepalive_connections=self.max_concurrent,
+            )
             self._client = httpx.AsyncClient(
                 base_url=self.base_url,
                 headers={"Cookie": f"token={new_token}"},
                 timeout=30.0,
+                limits=limits,
             )
 
     @retry(
@@ -153,8 +166,9 @@ class HTTPClient:
         self,
         method: str,
         endpoint: str,
+        response_type: ResponseType = "json",
         **kwargs: Any,
-    ) -> dict[str, Any]:
+    ) -> dict[str, Any] | bytes | str | httpx.Response:
         """
         Make HTTP request with automatic retry on rate limits and token refresh.
 
@@ -168,10 +182,19 @@ class HTTPClient:
         Args:
             method: HTTP method (GET, POST, PUT, DELETE).
             endpoint: API endpoint path (without base URL).
+            response_type: How to parse the response:
+                - "json" (default): Parse as JSON and return dict
+                - "bytes": Return raw bytes (for binary files like PDFs, audio)
+                - "text": Return response as string
+                - "response": Return raw httpx.Response object
             **kwargs: Additional arguments passed to httpx.
 
         Returns:
-            Parsed response data from the API.
+            Response data in the requested format:
+                - dict[str, Any] for "json"
+                - bytes for "bytes"
+                - str for "text"
+                - httpx.Response for "response"
 
         Raises:
             RateLimitError: When rate limit exceeded (retries automatically).
@@ -182,11 +205,19 @@ class HTTPClient:
             RuntimeError: If client not initialized with async context.
 
         Example:
+            >>> # JSON response (default)
             >>> data = await client.request("GET", "/users/1")
-            >>> updated = await client.request(
-            ...     "PUT",
-            ...     "/users/1",
-            ...     json={"name": "New Name"}
+            >>>
+            >>> # Binary response (for file downloads)
+            >>> pdf = await client.request(
+            ...     "GET", "/function/esign/download/123",
+            ...     response_type="bytes"
+            ... )
+            >>>
+            >>> # Raw response object
+            >>> resp = await client.request(
+            ...     "GET", "/users/1",
+            ...     response_type="response"
             ... )
 
         Note:
@@ -196,6 +227,9 @@ class HTTPClient:
         """
         created_temp_client = False
         allow_temp = kwargs.pop("_allow_uninitialized", False)
+        # Track refresh attempt per-request to avoid race conditions
+        auth_refresh_attempted = False
+
         if not self._client:
             if not allow_temp:
                 raise RuntimeError("HTTP client not initialized. Use 'async with' context.")
@@ -203,12 +237,13 @@ class HTTPClient:
             created_temp_client = True
 
         try:
+            # Normalize path once at entry to fix retry path inconsistency
             path = endpoint if endpoint.startswith("/") else f"/{endpoint}"
             response = await self._client.request(method, path, **kwargs)
 
             # Pattern matching for clean error handling (Python 3.10+)
             match response.status_code:
-                case 200 | 201:
+                case 200 | 201 | 204:
                     pass  # Success - continue to parse response
                 case 400:
                     raise ValidationError(f"Validation failed: {response.text}")
@@ -217,10 +252,10 @@ class HTTPClient:
                     if (
                         self.auth_manager
                         and self.auth_manager.should_retry_with_refresh()
-                        and not self._auth_refresh_attempted
+                        and not auth_refresh_attempted
                     ):
-                        # Mark that we're attempting refresh to avoid infinite loops
-                        self._auth_refresh_attempted = True
+                        # Mark that we're attempting refresh (per-request flag)
+                        auth_refresh_attempted = True
 
                         try:
                             # Refresh token
@@ -229,22 +264,16 @@ class HTTPClient:
                             # Update client with new token
                             await self._update_token(new_token)
 
-                            # Retry the request with new token
-                            response = await self._client.request(method, endpoint, **kwargs)
-
-                            # Reset flag on success
-                            self._auth_refresh_attempted = False
+                            # Retry the request with normalized path
+                            response = await self._client.request(method, path, **kwargs)
 
                             # Check if retry succeeded
-                            if response.status_code not in (200, 201):
+                            if response.status_code not in (200, 201, 204):
                                 raise AuthenticationError(
                                     f"Authentication failed even after token refresh: {response.text}"
                                 )
 
                         except Exception as e:
-                            # Reset flag
-                            self._auth_refresh_attempted = False
-
                             # Re-raise if it's already an AuthenticationError
                             if isinstance(e, AuthenticationError):
                                 raise
@@ -263,12 +292,25 @@ class HTTPClient:
                     # Fallback for any other status codes
                     response.raise_for_status()
 
-            # Parse Upsales API response wrapper
-            data: dict[str, Any] = response.json()
-            if data.get("error"):
-                raise ValidationError(f"API error: {data['error']}")
+            # Return response based on requested type
+            match response_type:
+                case "bytes":
+                    return response.content
+                case "text":
+                    return response.text
+                case "response":
+                    return response
+                case "json" | _:
+                    # Handle empty responses (204 No Content or empty body)
+                    if response.status_code == 204 or not response.content:
+                        return {}
 
-            return data
+                    # Parse Upsales API response wrapper
+                    data: dict[str, Any] = response.json()
+                    if data.get("error"):
+                        raise ValidationError(f"API error: {data['error']}")
+
+                    return data
         finally:
             if created_temp_client:
                 await self.__aexit__(None, None, None)
@@ -373,3 +415,37 @@ class HTTPClient:
             endpoint,
             _allow_uninitialized=_allow_uninitialized,
         )
+
+    async def get_bytes(
+        self,
+        endpoint: str,
+        _allow_uninitialized: bool = False,
+        **params: Any,
+    ) -> bytes:
+        """
+        Make GET request and return raw bytes.
+
+        Use this for downloading binary files like PDFs, images, or audio.
+
+        Args:
+            endpoint: API endpoint path.
+            **params: Query parameters.
+
+        Returns:
+            Raw bytes from the response.
+
+        Example:
+            >>> pdf = await client.get_bytes("/function/esign/download/123")
+            >>> with open("document.pdf", "wb") as f:
+            ...     f.write(pdf)
+        """
+        result = await self.request(
+            "GET",
+            endpoint,
+            response_type="bytes",
+            _allow_uninitialized=_allow_uninitialized,
+            params=params,
+        )
+        # Type assertion - request with response_type="bytes" always returns bytes
+        assert isinstance(result, bytes)
+        return result

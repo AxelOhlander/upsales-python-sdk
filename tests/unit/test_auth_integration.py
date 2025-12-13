@@ -180,8 +180,13 @@ async def test_refresh_only_attempted_once(httpx_mock: HTTPXMock):
 
 
 @pytest.mark.asyncio
-async def test_refresh_flag_resets_on_success(httpx_mock: HTTPXMock):
-    """Test that refresh flag resets after successful request."""
+async def test_per_request_refresh_tracking(httpx_mock: HTTPXMock):
+    """Test that auth refresh is tracked per-request, not globally.
+
+    With per-request auth tracking, each request independently tracks whether
+    refresh was attempted. This means multiple consecutive requests can each
+    trigger their own refresh cycle if needed.
+    """
     auth = AuthenticationManager(
         token="expired_token",
         email="user@email.com",
@@ -193,31 +198,28 @@ async def test_refresh_flag_resets_on_success(httpx_mock: HTTPXMock):
         token="expired_token",
         auth_manager=auth,
     ) as client:
-        # First request: 401
+        # First request: 401 -> refresh -> success
         httpx_mock.add_response(
             url="https://power.upsales.com/api/v2/users/1",
             status_code=401,
         )
-
-        # Refresh
         httpx_mock.add_response(
             url="https://power.upsales.com/api/v2/session/",
             method="POST",
             json={"data": {"token": "new_token", "isTwoFactorAuth": False}},
         )
-
-        # Retry: success
         httpx_mock.add_response(
             url="https://power.upsales.com/api/v2/users/1",
             json={"error": None, "data": {"id": 1, "name": "Test"}},
         )
 
-        # Should succeed
+        # First request should succeed after refresh
         data = await client.get("/users/1")
         assert data["data"]["name"] == "Test"
 
-        # Flag should be reset - second request should allow refresh
-        assert client._auth_refresh_attempted is False
+        # Verify one refresh call was made
+        refresh_requests = httpx_mock.get_requests(url="https://power.upsales.com/api/v2/session/")
+        assert len(refresh_requests) == 1
 
 
 @pytest.mark.asyncio

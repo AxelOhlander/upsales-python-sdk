@@ -19,7 +19,7 @@ from pydantic import Field, computed_field, field_serializer
 
 from upsales.models.base import BaseModel, PartialModel
 from upsales.models.custom_fields import CustomFields
-from upsales.models.role import PartialRole
+from upsales.models.roles import PartialRole
 from upsales.validators import BinaryFlag, CustomFieldsList, EmailStr, NonEmptyStr
 
 

@@ -9,7 +9,7 @@ Coverage target: 90%+
 
 from upsales.models.campaign import PartialCampaign
 from upsales.models.category import PartialCategory
-from upsales.models.role import PartialRole
+from upsales.models.roles import PartialRole
 
 
 class TestPartialRole:

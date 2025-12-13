@@ -65,6 +65,9 @@ dmypy.json
 # Playground (personal test file)
 playground.py
 
+# Change review notes (local workflow artifacts)
+change-review/
+
 # Claude Code local settings (personal preferences, not project config)
 .claude/settings.local.json
 

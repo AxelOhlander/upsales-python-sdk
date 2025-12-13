@@ -18,6 +18,7 @@ def mock_http():
     http.put = AsyncMock()
     http.delete = AsyncMock()
     http._client = None  # Required for BaseResource
+    http._upsales_client = None  # Required for model._client assignment
     return http
 
 
@@ -57,7 +58,7 @@ class TestAdAccountsResource:
         assert isinstance(account, AdAccount)
         assert account.cpmAmount == 350.0
         assert account.active is True
-        mock_http.get.assert_called_once_with("/api/v2/123/engage/account")
+        mock_http.get.assert_called_once_with("/123/engage/account")
 
     @pytest.mark.asyncio
     async def test_create_account(self, ad_accounts_resource, mock_http, sample_account_data):
@@ -71,7 +72,7 @@ class TestAdAccountsResource:
         assert account.active is True
         mock_http.post.assert_called_once()
         call_args = mock_http.post.call_args
-        assert call_args[0][0] == "/api/v2/123/engage/account"
+        assert call_args[0][0] == "/123/engage/account"
 
     @pytest.mark.asyncio
     async def test_update_account(self, ad_accounts_resource, mock_http, sample_account_data):
@@ -86,7 +87,7 @@ class TestAdAccountsResource:
         assert account.cpmAmount == 400.0
         mock_http.put.assert_called_once()
         call_args = mock_http.put.call_args
-        assert call_args[0][0] == "/api/v2/123/engage/account"
+        assert call_args[0][0] == "/123/engage/account"
 
     @pytest.mark.asyncio
     async def test_delete_account(self, ad_accounts_resource, mock_http):
@@ -95,7 +96,7 @@ class TestAdAccountsResource:
 
         await ad_accounts_resource.delete(customer_id=123)
 
-        mock_http.delete.assert_called_once_with("/api/v2/123/engage/account")
+        mock_http.delete.assert_called_once_with("/123/engage/account")
 
 
 class TestAdAccountModel:

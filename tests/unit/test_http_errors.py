@@ -236,9 +236,9 @@ class TestHTTPEdgeCases:
         )
 
         async with HTTPClient(token="test_token") as http:
-            # Should handle gracefully or raise appropriate error
-            with pytest.raises(Exception):  # JSON decode error expected
-                await http.get("/users/1")
+            # Empty responses now return empty dict instead of raising
+            result = await http.get("/users/1")
+            assert result == {}
 
     @pytest.mark.asyncio
     async def test_malformed_json_response(self, httpx_mock: HTTPXMock):
