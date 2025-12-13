@@ -362,25 +362,25 @@ uv run pre-commit install
 
 ### Testing
 ```bash
-# Run all unit tests with coverage
-uv run pytest tests/unit/
+# Run all unit tests (default: parallel)
+uv run pytest -n auto tests/unit/
 
 # Run specific test file
-uv run pytest tests/unit/test_custom_fields.py
+uv run pytest -n auto tests/unit/test_custom_fields.py
 
 # Run single test
-uv run pytest tests/unit/test_custom_fields.py::test_get_by_id
+uv run pytest -n auto tests/unit/test_custom_fields.py::test_get_by_id
 
 # With coverage report
-uv run pytest --cov=upsales --cov-report=html
+uv run pytest -n auto --cov=upsales --cov-report=html
 
 # Integration tests with VCR.py (requires .env configuration)
-uv run pytest tests/integration/ -v  # First run records real API responses
+uv run pytest -n 0 tests/integration/ -v  # First run records real API responses
 # Subsequent runs replay from cassettes (no API calls, fast!)
 
 # Re-record cassettes (delete old ones first)
 rm -r tests/cassettes/integration/*
-uv run pytest tests/integration/ -v
+uv run pytest -n 0 tests/integration/ -v
 ```
 
 **VCR.py Integration Testing**:
@@ -389,6 +389,10 @@ uv run pytest tests/integration/ -v
 - Validates models work with actual API structure
 - Automatically filters sensitive data (tokens, passwords)
 - See `docs/patterns/vcr-testing.md` for complete guide
+
+**Pytest-xdist**:
+- Default test command uses `-n auto` for parallel execution (requires `pytest-xdist` installed).
+- Use `-n 0` for VCR cassette recording to avoid concurrent writes to `tests/cassettes/`.
 
 ### Code Quality
 ```bash
