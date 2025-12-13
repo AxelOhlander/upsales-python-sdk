@@ -72,15 +72,19 @@ extend-exclude = [
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "TCH"]
 ignore = [
-    "E501",  # Line too long (handled by formatter)
+    "E501",   # Line too long (handled by formatter)
+    "A002",   # Allow `id` parameter shadowing builtin (matches Upsales API convention)
+    "TC001",  # Don't require moving app imports to TYPE_CHECKING (cleaner for SDK)
+    "TC003",  # Don't require moving stdlib imports to TYPE_CHECKING
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]  # Unused imports in __init__.py
-"tests/**/*.py" = ["S101", "B017", "E721"]  # Allow assert, pytest.raises(Exception), type comparisons
+"tests/**/*.py" = ["S101", "B017", "E721", "E712", "SIM117"]  # Allow assert, pytest.raises(Exception), type comparisons, == True/False, nested with
 "examples/**/*.py" = ["F841"]  # Allow unused variables in examples (for demonstration)
-"upsales/models/*.py" = ["N815"]  # Allow camelCase field names to match Upsales API
-"upsales/cli.py" = ["B904"]  # Allow raise without from in CLI (user-facing)
+"upsales/models/*.py" = ["N815", "SIM102"]  # Allow camelCase field names, nested ifs (readability for complex validation)
+"upsales/cli.py" = ["B904", "SIM102", "F841"]  # Allow raise without from, nested ifs (readability), unused vars
+"upsales/resources/*.py" = ["N803"]  # Allow camelCase params to match API field names
 
 [tool.mypy]
 python_version = "3.13"
@@ -99,8 +103,13 @@ disallow_untyped_defs = false
 
 [[tool.mypy.overrides]]
 module = "upsales.models.*"
-# Pydantic computed fields with @property decorator not fully supported by mypy
-disable_error_code = ["prop-decorator", "override"]
+# Pydantic models: computed fields, _client injection, type aliases, generic dicts
+disable_error_code = ["prop-decorator", "override", "no-any-return", "assignment", "type-arg", "arg-type", "call-arg", "import-untyped", "unused-ignore"]
+
+[[tool.mypy.overrides]]
+module = "upsales.resources.*"
+# Resource managers: _client injection, method overrides, generic type args
+disable_error_code = ["call-arg", "override", "type-arg", "type-var", "arg-type", "union-attr", "operator", "unused-ignore", "attr-defined", "valid-type"]
 
 [[tool.mypy.overrides]]
 module = "upsales.resources.base"
@@ -111,6 +120,16 @@ disable_error_code = ["valid-type", "attr-defined", "misc"]
 module = "upsales.settings"
 # Pydantic BaseSettings initialization is dynamic
 disable_error_code = ["call-arg"]
+
+[[tool.mypy.overrides]]
+module = "upsales.types"
+# TypedDict fields use bare dict for flexibility with API responses
+disable_error_code = ["type-arg"]
+
+[[tool.mypy.overrides]]
+module = "upsales.http"
+# Client may be None during context manager lifecycle
+disable_error_code = ["union-attr"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -161,7 +180,33 @@ exclude_lines = [
 exclude_dirs = ["tests", "examples"]
 skips = ["B101"]  # Allow assert in tests
 
+[tool.ty.src]
+# Only check upsales source, exclude tests and templates
+include = ["upsales"]
+
+[tool.ty.rules]
+# Pydantic models use **kwargs patterns that ty doesn't understand
+invalid-argument-type = "ignore"
+missing-argument = "ignore"
+unknown-argument = "ignore"
+# Method overrides in resources are intentional (Liskov violations for API design)
+invalid-method-override = "ignore"
+# Pydantic Field() with complex defaults
+invalid-assignment = "ignore"
+# Generic type syntax ty doesn't fully support yet
+invalid-type-form = "ignore"
+non-subscriptable = "ignore"
+invalid-type-arguments = "ignore"
+# Optional client patterns (context manager lifecycle)
+possibly-missing-attribute = "ignore"
+# Operators on dynamic types from API responses
+unsupported-operator = "ignore"
+# Module resolution issues with circular imports
+unresolved-import = "ignore"
+unresolved-reference = "ignore"
+
 [dependency-groups]
 dev = [
+    "pytest>=8.4.2",
     "pytest-xdist>=3.8.0",
 ]

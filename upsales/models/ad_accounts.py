@@ -105,7 +105,7 @@ class AdAccount(PydanticBaseModel):
         if not self._client:
             raise RuntimeError("No client available")
         # Type ignore needed for dynamic client attribute
-        return await self._client.ad_accounts.update(  # type: ignore[union-attr, return-value]
+        return await self._client.ad_accounts.update(  # type: ignore[union-attr, return-value, attr-defined]
             customer_id=customer_id, **self.to_api_dict(**kwargs)
         )
 
