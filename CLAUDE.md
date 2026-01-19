@@ -349,7 +349,7 @@ class User(BaseModel):
 
 ### Complete Model Pattern
 
-See `ai_temp_files/users_enhanced.py` for a complete reference implementation showing all patterns together.
+See `upsales/models/users.py` for a production reference implementation showing all patterns together.
 
 ## Development Commands
 
@@ -364,17 +364,17 @@ uv run pre-commit install
 
 ### Testing
 ```bash
-# Run all unit tests (default: parallel)
+# Run all unit tests (coverage auto-enabled via pyproject.toml)
+uv run pytest tests/unit/
+
+# Run tests in parallel (faster)
 uv run pytest -n auto tests/unit/
 
 # Run specific test file
-uv run pytest -n auto tests/unit/test_custom_fields.py
+uv run pytest tests/unit/test_custom_fields.py
 
 # Run single test
-uv run pytest -n auto tests/unit/test_custom_fields.py::test_get_by_id
-
-# With coverage report
-uv run pytest -n auto --cov=upsales --cov-report=html
+uv run pytest tests/unit/test_custom_fields.py::test_get_by_id
 
 # Integration tests with VCR.py (requires .env configuration)
 uv run pytest -n 0 tests/integration/ -v  # First run records real API responses
@@ -385,6 +385,13 @@ rm -r tests/cassettes/integration/*
 uv run pytest -n 0 tests/integration/ -v
 ```
 
+**Key Test Fixtures** (from `tests/conftest.py`):
+- `client` - Async Upsales client with mock token
+- `mock_http_client` - MagicMock for HTTP testing
+- `sample_user_response` - Mocked API response structure
+- `mock_custom_fields` - Sample custom fields data
+- `vcr_config` - VCR.py configuration for cassette recording
+
 **VCR.py Integration Testing**:
 - Records real API responses on first run
 - Replays from cassettes on subsequent runs (offline, fast)
@@ -392,9 +399,10 @@ uv run pytest -n 0 tests/integration/ -v
 - Automatically filters sensitive data (tokens, passwords)
 - See `docs/patterns/vcr-testing.md` for complete guide
 
-**Pytest-xdist**:
-- Default test command uses `-n auto` for parallel execution (requires `pytest-xdist` installed).
-- Use `-n 0` for VCR cassette recording to avoid concurrent writes to `tests/cassettes/`.
+**Pytest Notes**:
+- Coverage is auto-enabled via `pyproject.toml` (`--cov=upsales`)
+- Use `-n auto` for parallel execution with pytest-xdist
+- Use `-n 0` for VCR cassette recording to avoid concurrent writes
 
 ### Code Quality
 ```bash
@@ -548,7 +556,14 @@ data: dict[str, Any] = {}
 from typing import List, Dict, Optional, Union
 ```
 
-**Exception**: Only import `Any` and `TYPE_CHECKING` from typing when needed.
+**Allowed typing imports** (these have no native equivalent):
+- `Any` - For dynamic types
+- `TYPE_CHECKING` - For import cycle prevention
+- `TypedDict` - For typed dictionaries
+- `Unpack` - For TypedDict kwargs expansion
+- `ClassVar` - For class variables
+- `Literal` - For literal types
+- `Self` - For returning self type
 
 ### Type Parameter Syntax (3.12+)
 
@@ -901,4 +916,3 @@ Note:
 20. **Don't forget _client reference**: Models need optional `_client` for instance methods
 21. **Don't forget exception groups**: Bulk operations must use `ExceptionGroup` for errors
 22. **Don't forget pattern matching**: Use for HTTP status codes and complex conditionals
-23. **Don't forget `from __future__ import annotations`**: Required in files using type parameter syntax with subscripting (e.g., `BaseResource[T, P]`)
