@@ -34,5 +34,11 @@ jobs:
       - name: Run type checking
         run: uv run mypy upsales
 
+      - name: Run security scan
+        run: uv run bandit -c pyproject.toml -r upsales
+
+      - name: Check docstring coverage
+        run: uv run interrogate upsales
+
       - name: Run unit tests
         run: uv run pytest tests/unit/ -v
