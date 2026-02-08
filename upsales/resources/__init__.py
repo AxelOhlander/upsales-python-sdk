@@ -77,6 +77,7 @@ from upsales.resources.market_rejectlist import MarketRejectlistsResource
 from upsales.resources.metadata import MetadataResource
 from upsales.resources.notification_settings import NotificationSettingsResource
 from upsales.resources.notifications import NotificationsResource
+from upsales.resources.notify import NotifyResource
 from upsales.resources.onboarding_imports import OnboardingImportsResource
 from upsales.resources.opportunities import OpportunitiesResource
 from upsales.resources.opportunity_ai import OpportunityAIResource
@@ -244,6 +245,7 @@ __all__ = [
     "SystemMailResource",
     "MailTestResource",
     "MailMultiResource",
+    "NotifyResource",
     "PagesResource",
     "UnsubsResource",
 ]

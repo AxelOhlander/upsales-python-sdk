@@ -47,6 +47,11 @@ from upsales.models.ad_creatives import (
 from upsales.models.address import Address, PartialAddress
 from upsales.models.address_list import AddressList
 from upsales.models.address_types import VALID_ADDRESS_TYPES, AddressType
+from upsales.models.agreement_groups import (
+    AgreementGroup,
+    AgreementGroupUpdateFields,
+    PartialAgreementGroup,
+)
 from upsales.models.agreements import Agreement, AgreementUpdateFields, PartialAgreement
 from upsales.models.api_keys import ApiKey, ApiKeyUpdateFields, PartialApiKey
 from upsales.models.appointments import Appointment, AppointmentUpdateFields, PartialAppointment
@@ -159,6 +164,8 @@ from upsales.models.import_mail_event import (
     SkippedEvent,
 )
 from upsales.models.journey_step import JourneyStep, JourneyStepUpdateFields, PartialJourneyStep
+from upsales.models.lead_channels import LeadChannel, PartialLeadChannel
+from upsales.models.lead_sources import LeadSource, PartialLeadSource
 from upsales.models.leads import Lead, LeadUpdateFields, PartialLead
 from upsales.models.list_views import ListView, ListViewUpdateFields, PartialListView
 from upsales.models.mail import Mail, MailUpdateFields, PartialMail
@@ -188,6 +195,7 @@ from upsales.models.notifications import (
     Notification,
     PartialNotification,
 )
+from upsales.models.notify import NotifyRequest
 from upsales.models.onboarding_imports import OnboardingImport, PartialOnboardingImport
 from upsales.models.opportunity_ai import OpportunityAI, PartialOpportunityAI
 from upsales.models.order_stages import OrderStage, OrderStageUpdateFields, PartialOrderStage
@@ -395,6 +403,9 @@ __all__ = [
     "Agreement",
     "AgreementUpdateFields",
     "PartialAgreement",
+    "AgreementGroup",
+    "AgreementGroupUpdateFields",
+    "PartialAgreementGroup",
     "Activity",
     "ActivityUpdateFields",
     "PartialActivity",
@@ -500,6 +511,10 @@ __all__ = [
     "JourneyStep",
     "JourneyStepUpdateFields",
     "PartialJourneyStep",
+    "LeadChannel",
+    "PartialLeadChannel",
+    "LeadSource",
+    "PartialLeadSource",
     "Lead",
     "LeadUpdateFields",
     "PartialLead",
@@ -528,6 +543,7 @@ __all__ = [
     "PartialMarketRejectlist",
     "Metadata",
     "Notification",
+    "NotifyRequest",
     "MetadataCurrency",
     "MetadataUser",
     "SystemParams",

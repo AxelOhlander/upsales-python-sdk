@@ -48,6 +48,7 @@ class Upsales:
         http: HTTP client for making API requests.
         activities: Activities resource manager for /activities endpoint.
         activity_list: Activity list resource manager for /search/activitylist endpoint (read-only).
+        agreement_groups: Agreement groups resource manager for /agreementGroups endpoint.
         activity_types: Activity types resource manager for /activitytypes/activity endpoint.
         ad_accounts: Ad accounts resource manager for /:customerId/engage/account endpoint.
         ad_campaigns: Ad campaigns resource manager for /api/v2/:customerId/engage/campaign endpoint.
@@ -206,6 +207,7 @@ class Upsales:
         from upsales.resources.ad_accounts import AdAccountsResource
         from upsales.resources.ad_campaigns import AdCampaignsResource
         from upsales.resources.ad_creatives import AdCreativesResource
+        from upsales.resources.agreement_groups import AgreementGroupsResource
         from upsales.resources.agreements import AgreementsResource
         from upsales.resources.api_keys import ApikeysResource
         from upsales.resources.appointments import AppointmentsResource
@@ -238,6 +240,8 @@ class Upsales:
         from upsales.resources.import_mail_campaign_mail import ImportMailCampaignMailResource
         from upsales.resources.import_mail_event import ImportMailEventResource
         from upsales.resources.journey_steps import JourneyStepsResource
+        from upsales.resources.lead_channels import LeadChannelsResource
+        from upsales.resources.lead_sources import LeadSourcesResource
         from upsales.resources.leads import LeadsResource
         from upsales.resources.list_views import ListViewsResource
         from upsales.resources.mail import MailResource
@@ -251,6 +255,7 @@ class Upsales:
         from upsales.resources.metadata import MetadataResource
         from upsales.resources.notification_settings import NotificationSettingsResource
         from upsales.resources.notifications import NotificationsResource
+        from upsales.resources.notify import NotifyResource
         from upsales.resources.onboarding_imports import OnboardingImportsResource
         from upsales.resources.opportunities import OpportunitiesResource
         from upsales.resources.opportunity_ai import OpportunityAIResource
@@ -324,6 +329,7 @@ class Upsales:
         self.ad_accounts = AdAccountsResource(self.http)
         self.ad_campaigns = AdCampaignsResource(self.http)
         self.ad_creatives = AdCreativesResource(self.http)
+        self.agreement_groups = AgreementGroupsResource(self.http)
         self.agreements = AgreementsResource(self.http)
         self.apikeys = ApikeysResource(self.http)
         self.appointments = AppointmentsResource(self.http)
@@ -369,6 +375,8 @@ class Upsales:
         self.import_mail_event = ImportMailEventResource(self.http)
         self.list_views = ListViewsResource(self.http)
         self.journey_steps = JourneyStepsResource(self.http)
+        self.lead_channels = LeadChannelsResource(self.http)
+        self.lead_sources = LeadSourcesResource(self.http)
         self.leads = LeadsResource(self.http)
         self.mail = MailResource(self.http)
         self.mail_multi = MailMultiResource(self.http)
@@ -382,6 +390,7 @@ class Upsales:
         self.opportunities = OpportunitiesResource(self.http)
         self.opportunity_ai = OpportunityAIResource(self.http)
         self.notifications = NotificationsResource(self.http)
+        self.notify = NotifyResource(self.http)
         self.orders = OrdersResource(self.http)
         self.pages = PagesResource(self.http)
         self.periodization = PeriodizationsResource(self.http)

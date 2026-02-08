@@ -12,7 +12,7 @@ Unblock everything else by fixing known issues in the current codebase.
 
 - [x] **Fix failing unit tests in `test_contacts_resource.py`** — 4 tests fixed: updated httpx mock URLs to match actual query parameters
 - [x] **Fix mypy errors across 3 files** — Fixed 11 errors in `http.py`, `resources/mail_editor.py`, `resources/base.py`, plus 1 pre-existing import typo in `models/form_submits.py`. Now 0 errors across 246 files
-- [ ] **Commit staged work** — `agreement_groups`, `lead_channels`, `lead_sources` models and resources are staged but uncommitted
+- [x] **Commit staged work** — Committed as `95ffa4d`; Phase 0 fixes committed as `b8728e7`
 - [x] **Remove duplicate `ImageComposeResource` in `resources/__init__.py` `__all__`**
 - [x] **Add missing exports to `resources/__init__.py` `__all__`** — Added `PagesResource` and `UnsubsResource`
 - [x] **Update `pyproject.toml` author email** — Updated to `will@upsales.com`
@@ -24,11 +24,11 @@ Unblock everything else by fixing known issues in the current codebase.
 
 Endpoints and features needed by **nk-premeeting-summary** and **nn-bio-import**.
 
-- [ ] **Verify file upload resource works end-to-end** — nk-premeeting-summary uses file uploads; add VCR integration test
-- [ ] **Add `/notify/users` endpoint** — not in SDK or API reference; investigate if this is a sub-route of an existing endpoint or a standalone resource
-- [ ] **Verify UDO 1–4 CRUD works** — models and resources exist for `user_defined_object_{1,2,3,4}`; add integration tests for nn-bio-import use cases
-- [ ] **Verify UDO custom field management** — ensure custom fields can be read, set, and searched on UDO objects
-- [ ] **Add custom field shorthand search syntax** — support `custom=wc:fieldId:value` pattern in `search()` for custom field filtering
+- [x] **Verify file upload resource works end-to-end** — Validated: model has all fields (id, userId, extension, type, filename, mimetype, private, size, entity, entityId, uploadDate), endpoint is `/file/upload`, private sent as string "true"/"false". Unit tests pass.
+- [x] **Add `/notify/users` endpoint** — Implemented: 3 POST endpoints (`/notify/users`, `/notify/admins`, `/notify/all`) as `NotifyResource` with `send_to_users()`, `send_to_admins()`, `send_to_all()`. Fields: message, from, type (info/error), userIds, entityId. Registered on client as `upsales.notify`.
+- [x] **Verify UDO 1–4 CRUD works** — Validated: all 4 UDO resources have correct endpoint paths (`/userDefinedObjects/:nr`), full CRUD (GET/POST/PUT/DELETE), all fields match detective findings (notes, notes1-4, clientId, contactId, projectId, userId, roleId, custom, categories). Read-only fields are frozen.
+- [x] **Verify UDO custom field management** — Validated: custom fields work via standard `custom` array format, `custom_fields` computed property works, custom field search with `custom=eq:fieldId:value` syntax works.
+- [x] **Add custom field shorthand search syntax** — Already implemented in `search()` method. Supports both natural (`=11:Technology`) and API (`eq:11:Technology`) syntax. Also supports `wc`, `ne`, `gt`, `gte`, `lt`, `lte` operators.
 
 ---
 
