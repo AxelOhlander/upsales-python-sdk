@@ -85,3 +85,135 @@ class TicketsResource(BaseResource[Ticket, PartialTicket]):
             **data,
         )
         return self._model_class(**response["data"], _client=self._http._upsales_client)
+
+    async def add_comment(
+        self,
+        ticket_id: int,
+        description: str,
+        comment_type: str = "public",
+        status_id: int | None = None,
+    ) -> dict[str, Any]:
+        """
+        Add a comment to a ticket.
+
+        Comments can be public (sent to customer), internal (support team only),
+        or external (sent via external contact).
+
+        Args:
+            ticket_id: ID of the ticket to comment on.
+            description: The comment text/message.
+            comment_type: Comment type - "public", "internal", or "external".
+                         Default is "public" which sends email to customer.
+            status_id: Optionally update ticket status with the comment.
+
+        Returns:
+            API response containing the created comment data.
+
+        Example:
+            >>> # Public reply to customer
+            >>> await upsales.tickets.add_comment(
+            ...     ticket_id=123,
+            ...     description="Thank you for contacting us!",
+            ...     comment_type="public"
+            ... )
+            >>>
+            >>> # Internal note
+            >>> await upsales.tickets.add_comment(
+            ...     ticket_id=123,
+            ...     description="Escalated to engineering",
+            ...     comment_type="internal"
+            ... )
+            >>>
+            >>> # Reply and close ticket
+            >>> await upsales.tickets.add_comment(
+            ...     ticket_id=123,
+            ...     description="Issue resolved!",
+            ...     comment_type="public",
+            ...     status_id=2  # Closed status ID
+            ... )
+        """
+        data: dict[str, Any] = {
+            "description": description,
+            "type": comment_type,
+        }
+        if status_id is not None:
+            data["statusId"] = status_id
+
+        request_kwargs = self._prepare_http_kwargs()
+        return await self._http.post(
+            f"{self._endpoint}/{ticket_id}/comment",
+            **request_kwargs,
+            **data,
+        )
+
+    async def add_internal_note(
+        self,
+        ticket_id: int,
+        description: str,
+    ) -> dict[str, Any]:
+        """
+        Add an internal note to a ticket (not visible to customer).
+
+        Convenience method for adding internal-only comments.
+
+        Args:
+            ticket_id: ID of the ticket.
+            description: The note text.
+
+        Returns:
+            API response containing the created comment data.
+
+        Example:
+            >>> await upsales.tickets.add_internal_note(
+            ...     ticket_id=123,
+            ...     description="Customer called - waiting for callback"
+            ... )
+        """
+        return await self.add_comment(
+            ticket_id=ticket_id,
+            description=description,
+            comment_type="internal",
+        )
+
+    async def get_open(self) -> list[Ticket]:
+        """
+        Get all open tickets.
+
+        Returns:
+            List of tickets with open status.
+
+        Example:
+            >>> open_tickets = await upsales.tickets.get_open()
+        """
+        # Status ID 1 is typically "Open" in Upsales
+        return await self.list_all(**{"status.closed": 0})
+
+    async def get_by_client(self, client_id: int) -> list[Ticket]:
+        """
+        Get all tickets for a specific client/company.
+
+        Args:
+            client_id: Client/company ID.
+
+        Returns:
+            List of tickets for the client.
+
+        Example:
+            >>> tickets = await upsales.tickets.get_by_client(456)
+        """
+        return await self.list_all(**{"client.id": client_id})
+
+    async def get_by_contact(self, contact_id: int) -> list[Ticket]:
+        """
+        Get all tickets for a specific contact.
+
+        Args:
+            contact_id: Contact ID.
+
+        Returns:
+            List of tickets for the contact.
+
+        Example:
+            >>> tickets = await upsales.tickets.get_by_contact(789)
+        """
+        return await self.list_all(**{"contact.id": contact_id})

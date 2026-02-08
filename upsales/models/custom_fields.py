@@ -181,6 +181,43 @@ class CustomFields:
         except KeyError:
             return default
 
+    def get_bool(self, key: int | str) -> int:
+        """
+        Get boolean field value, returning 0 (false) if absent.
+
+        In the Upsales API, when a boolean custom field is false or unset,
+        it is typically absent from the custom array entirely. This method
+        handles that case by returning 0 (false) for absent fields.
+
+        Args:
+            key: Field ID (int) or alias (str).
+
+        Returns:
+            1 if the field is truthy, 0 if absent or falsy.
+
+        Example:
+            >>> custom = CustomFields([{"fieldId": 11, "value": 1}])
+            >>> custom.get_bool(11)  # Present and truthy
+            1
+            >>> custom.get_bool(999)  # Absent field returns 0
+            0
+            >>> custom2 = CustomFields([{"fieldId": 11, "value": 0}])
+            >>> custom2.get_bool(11)  # Present but falsy
+            0
+
+        Note:
+            This method is specifically designed for boolean custom fields.
+            For other field types, use get() with an appropriate default.
+        """
+        try:
+            value = self[key]
+            # Handle various truthy/falsy representations
+            if value in (1, "1", True):
+                return 1
+            return 0
+        except KeyError:
+            return 0
+
     def _resolve_key(self, key: int | str) -> int:
         """
         Resolve field alias to field ID.

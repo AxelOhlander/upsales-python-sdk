@@ -51,26 +51,32 @@ class ContactsResource(BaseResource[Contact, PartialContact]):
         """
         Get contact by email address.
 
+        Uses API-level filtering for efficient lookup.
+
         Args:
             email: Email address to search for.
 
         Returns:
             Contact if found, None otherwise.
 
+        Note:
+            The same email can exist for contacts in multiple companies.
+            This returns the first match. Use list_all(email=email) to
+            get all contacts with that email address.
+
         Example:
             >>> contact = await upsales.contacts.get_by_email("john@example.com")
             >>> if contact:
             ...     print(contact.name)
         """
-        all_contacts: list[Contact] = await self.list_all()
-        for contact in all_contacts:
-            if contact.email.lower() == email.lower():
-                return contact
-        return None
+        contacts = await self.list(limit=1, email=email)
+        return contacts[0] if contacts else None
 
     async def get_by_company(self, company_id: int) -> list[Contact]:
         """
         Get all contacts for a specific company.
+
+        Uses API-level filtering for efficient lookup.
 
         Args:
             company_id: Company ID to filter by.
@@ -83,13 +89,8 @@ class ContactsResource(BaseResource[Contact, PartialContact]):
             >>> len(contacts)
             5
         """
-        # Note: Uses 'client' as the API field name for company filter
-        all_contacts: list[Contact] = await self.list_all()
-        return [
-            contact
-            for contact in all_contacts
-            if contact.client and contact.client.id == company_id
-        ]
+        # API uses 'client.id' for company filtering
+        return await self.list_all(**{"client.id": company_id})
 
     async def get_active(self) -> list[Contact]:
         """
@@ -109,13 +110,14 @@ class ContactsResource(BaseResource[Contact, PartialContact]):
         """
         Get all priority contacts.
 
+        Uses API-level filtering for efficient lookup.
+
         Returns:
-            List of contacts with isPriority=True.
+            List of contacts with isPriority=1.
 
         Example:
             >>> priority = await upsales.contacts.get_priority()
             >>> all(c.isPriority for c in priority)
             True
         """
-        all_contacts: list[Contact] = await self.list_all()
-        return [contact for contact in all_contacts if contact.isPriority]
+        return await self.list_all(isPriority=1)

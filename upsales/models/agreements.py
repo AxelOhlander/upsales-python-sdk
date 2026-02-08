@@ -21,6 +21,17 @@ class AgreementUpdateFields(TypedDict, total=False):
     Available fields for updating an Agreement.
 
     All fields are optional. Only include fields you want to update.
+
+    WARNING - Parent Agreements with Children:
+        When updating a parent agreement (one that has children), you MUST
+        include the full `children` array. Omitting children or sending
+        `children: []` will corrupt the agreement structure or delete all
+        child periods.
+
+    Args:
+        createDiffOrder: Set to True to create a diff order for mid-period
+            changes. Set to False to suppress diff order creation.
+        notify: Set to False to suppress notifications when updating.
     """
 
     description: str
@@ -39,6 +50,9 @@ class AgreementUpdateFields(TypedDict, total=False):
     priceListId: int
     invoiceRelatedClient: bool
     agreementGroupId: int
+    children: list[dict[str, Any]]
+    createDiffOrder: bool
+    notify: bool
 
 
 class Agreement(BaseModel):
@@ -103,7 +117,10 @@ class Agreement(BaseModel):
     )
     purchaseCost: int | float = Field(frozen=True, description="Purchase cost")
     isParent: bool = Field(frozen=True, description="Whether this is a parent agreement")
-    children: list[Any] = Field(default=[], frozen=True, description="Child agreements")
+    children: list[dict[str, Any]] = Field(
+        default=[],
+        description="Child agreements. WARNING: Must be included when updating parent agreements!",
+    )
     parentId: Any | None = Field(None, frozen=True, description="Parent agreement ID")
 
     # Updatable fields
@@ -178,10 +195,32 @@ class Agreement(BaseModel):
         Raises:
             RuntimeError: If no client available.
 
+        Warning:
+            When updating a parent agreement (isParent=True), you MUST include
+            the full `children` array. Omitting it will corrupt the agreement
+            structure. Send `children=self.children` to preserve existing children.
+
+            Use `createDiffOrder=False` to suppress diff order creation for
+            manual price increases. Use `notify=False` to suppress notifications.
+
         Examples:
+            >>> # Simple update (non-parent agreement)
             >>> await agreement.edit(
             ...     description="Updated Description",
             ...     metadata={"agreementEnddate": "2026-12-31"}
+            ... )
+            >>>
+            >>> # Safe update for parent agreement - ALWAYS include children!
+            >>> await agreement.edit(
+            ...     description="Updated",
+            ...     children=agreement.children,  # Preserve children!
+            ... )
+            >>>
+            >>> # Manual price increase without diff order
+            >>> await agreement.edit(
+            ...     orderRow=new_order_rows,
+            ...     createDiffOrder=False,
+            ...     notify=False,
             ... )
         """
         if not self._client:

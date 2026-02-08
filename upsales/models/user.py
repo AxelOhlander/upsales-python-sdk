@@ -50,6 +50,7 @@ class UserUpdateFields(TypedDict, total=False):
     userState: str
     userZipCode: str
     userTitle: str
+    language: str
     custom: list[dict[str, Any]]
     role: dict[str, Any]  # API accepts dict data
 
@@ -109,6 +110,10 @@ class User(BaseModel):
     userState: str | None = Field(default=None, description="User's state")
     userTitle: str | None = Field(default=None, description="User's title")
     userZipCode: str | None = Field(default=None, description="User's ZIP code")
+    language: str | None = Field(
+        default=None,
+        description="User's language code (e.g., 'en-US', 'sv-SE', 'da-DK')",
+    )
 
     @computed_field
     @property

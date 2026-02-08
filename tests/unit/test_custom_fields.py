@@ -97,3 +97,65 @@ def test_get_with_default():
     cf = CustomFields([])
     assert cf.get(11, "default") == "default"
     assert cf.get(11) is None
+
+
+def test_get_bool_absent_field():
+    """Test get_bool returns 0 for absent fields.
+
+    In Upsales API, boolean custom fields that are false or unset
+    are typically absent from the custom array entirely.
+    """
+    cf = CustomFields([{"fieldId": 11, "value": "some_value"}])
+    # Field 999 doesn't exist, should return 0
+    assert cf.get_bool(999) == 0
+
+
+def test_get_bool_truthy_values():
+    """Test get_bool returns 1 for truthy values."""
+    # Test integer 1
+    cf = CustomFields([{"fieldId": 11, "value": 1}])
+    assert cf.get_bool(11) == 1
+
+    # Test string "1"
+    cf = CustomFields([{"fieldId": 11, "value": "1"}])
+    assert cf.get_bool(11) == 1
+
+    # Test boolean True
+    cf = CustomFields([{"fieldId": 11, "value": True}])
+    assert cf.get_bool(11) == 1
+
+
+def test_get_bool_falsy_values():
+    """Test get_bool returns 0 for falsy values."""
+    # Test integer 0
+    cf = CustomFields([{"fieldId": 11, "value": 0}])
+    assert cf.get_bool(11) == 0
+
+    # Test string "0"
+    cf = CustomFields([{"fieldId": 11, "value": "0"}])
+    assert cf.get_bool(11) == 0
+
+    # Test boolean False
+    cf = CustomFields([{"fieldId": 11, "value": False}])
+    assert cf.get_bool(11) == 0
+
+    # Test None
+    cf = CustomFields([{"fieldId": 11, "value": None}])
+    assert cf.get_bool(11) == 0
+
+    # Test empty string
+    cf = CustomFields([{"fieldId": 11, "value": ""}])
+    assert cf.get_bool(11) == 0
+
+
+def test_get_bool_with_alias(field_schema):
+    """Test get_bool works with field aliases."""
+    cf = CustomFields(
+        [{"fieldId": 11, "value": 1}],
+        field_schema=field_schema,
+    )
+    assert cf.get_bool("CUSTOM_FIELD_1") == 1
+
+    # Absent field via alias
+    cf2 = CustomFields([], field_schema=field_schema)
+    assert cf2.get_bool("CUSTOM_FIELD_1") == 0
