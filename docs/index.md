@@ -115,7 +115,7 @@ await upsales.products.bulk_update(ids, data)
 - [Getting Started Guide](getting-started.md)
 - [API Reference](api-reference/client.md)
 - [Patterns for Adding Endpoints](patterns/adding-resources.md)
-- [Examples](examples/basic-usage.md)
+- [Examples](examples/advanced-patterns.md)
 
 ## Requirements
 
@@ -125,5 +125,4 @@ await upsales.products.bulk_update(ids, data)
 
 ## Support
 
-- [GitHub Issues](https://github.com/yourusername/upsales-python/issues)
-- [Documentation](https://yourdomain.com/upsales-python)
+- [GitHub Issues](https://github.com/AxelOhlander/upsales-python-sdk/issues)

@@ -25,8 +25,8 @@ uv pip install upsales
 ### From source
 
 ```bash
-git clone https://github.com/yourusername/upsales-python
-cd upsales-python
+git clone https://github.com/AxelOhlander/upsales-python-sdk.git
+cd upsales-python-sdk
 uv sync
 ```
 
@@ -341,10 +341,10 @@ upsales = Upsales(
 
 ## Next Steps
 
-- [Examples](examples/basic-usage.md) - More code examples
+- [Advanced Patterns](examples/advanced-patterns.md) - More code examples
 - [Patterns](patterns/adding-resources.md) - Learn to add new endpoints
 - [API Reference](api-reference/client.md) - Full API documentation
-- [Pydantic v2 Features](patterns/pydantic-v2-features.md) - Advanced features guide
+- [Creating Models](patterns/creating-models.md) - Model creation guide
 
 ## Generating Models from API
 

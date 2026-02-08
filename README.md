@@ -369,8 +369,8 @@ The `generate-model` command:
 
 ```bash
 # Clone repository
-git clone <repo-url>
-cd upsales-python
+git clone https://github.com/AxelOhlander/upsales-python-sdk.git
+cd upsales-python-sdk
 
 # Install dependencies
 uv sync --all-extras
@@ -425,8 +425,7 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 ## Support
 
-- [GitHub Issues](https://github.com/yourusername/upsales-python/issues)
-- [Documentation](https://yourdomain.com/upsales-python)
+- [GitHub Issues](https://github.com/AxelOhlander/upsales-python-sdk/issues)
 
 ## Credits
 

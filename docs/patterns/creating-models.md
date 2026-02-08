@@ -175,8 +175,6 @@ class User(BaseModel):
 - ✅ **Field Descriptions**: `description=` on all fields
 - ✅ **Optimized Serialization**: `to_api_dict()` method (5-50x faster)
 
-See `docs/patterns/pydantic-v2-features.md` for detailed guide on all features.
-
 ### Partial Model (with Pydantic v2 Features)
 
 ```python
@@ -519,6 +517,71 @@ class PartialProduct(PartialModel):
             raise RuntimeError("No client available")
         return await self._client.products.update(self.id, **kwargs)
 ```
+
+## Type-Safe Updates
+
+The SDK uses **TypedDict with Unpack** to provide full IDE autocomplete and type checking for model updates. This pattern was chosen after evaluating multiple approaches for the best developer experience.
+
+### Why TypedDict + Unpack?
+
+**The Problem** with `**kwargs: Any`:
+- No IDE autocomplete
+- No type checking
+- User must read docs to discover available fields
+
+**The Solution**:
+```python
+from typing import Unpack, TypedDict
+
+class UserUpdateFields(TypedDict, total=False):
+    """Available fields for updating a User."""
+    name: str
+    email: str
+    administrator: int
+
+class User(BaseModel):
+    async def edit(self, **kwargs: Unpack[UserUpdateFields]) -> "User":
+        """Edit with full IDE autocomplete."""
+        ...
+```
+
+### Comparison of Approaches
+
+| Approach | IDE Autocomplete | Type Checking | Flexibility | Maintenance |
+|----------|-----------------|---------------|-------------|-------------|
+| **TypedDict + Unpack** ✅ | Perfect | Full | High | Medium |
+| Explicit Parameters | Perfect | Full | Limited | High |
+| Hybrid (overload) | Good | Good | High | Medium |
+| **kwargs: Any | None | None | High | Low |
+
+**TypedDict + Unpack** provides the best balance of developer experience and maintainability for our template-driven architecture.
+
+### Testing Type Safety
+
+Verify TypedDict correctness in tests:
+
+```python
+from upsales.models.user import User, UserUpdateFields
+
+def test_typeddict_structure():
+    """Verify TypedDict has correct fields."""
+    expected_fields = {"name", "email", "administrator", "active", "custom"}
+    actual_fields = set(UserUpdateFields.__annotations__.keys())
+    assert actual_fields == expected_fields
+
+def test_typeddict_types():
+    """Verify TypedDict has correct types."""
+    assert UserUpdateFields.__annotations__["name"] == str
+    assert UserUpdateFields.__annotations__["administrator"] == int
+```
+
+### Key Guidelines
+
+1. **Define TypedDict** for every model with updatable fields
+2. **Use `total=False`** to make all fields optional
+3. **Exclude frozen fields** (id, timestamps) from TypedDict
+4. **Document fields** in TypedDict docstring
+5. **Use `Unpack`** in `edit()` signature for autocomplete
 
 ## Checklist
 

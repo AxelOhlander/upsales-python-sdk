@@ -582,74 +582,11 @@ Mark endpoint as verified with complete CRUD status:
 - Special validation: probability must be 1-99
 ```
 
-**B. Update `ENDPOINT_TASK_LIST.md`**:
+**B. Update `docs/endpoint-map.md`**:
 
-Move endpoint from "🔶 Implemented, Needs Verification" to "✅ Fully Verified" section:
+Update the endpoint's entry to show verified status with CRUD details.
 
-```markdown
-### [✓] {endpoint}
-**Status**: COMPLETE
-**Endpoint**: `/api/v2/{endpoint}`
-**Priority**: {CRITICAL/HIGH/MEDIUM/LOW}
-**Verification Date**: YYYY-MM-DD
-
-**Files**:
-- Model: `upsales/models/{endpoint}.py`
-- Resource: `upsales/resources/{endpoint}.py`
-- Unit tests: `tests/unit/test_{endpoint}_resource.py`
-- Integration tests: `tests/integration/test_{endpoint}_integration.py`
-
-**CREATE Operation (Verified YYYY-MM-DD)**:
-- **Required fields**: field1, field2, field3 (with nested structures)
-- **Optional fields**: field4, field5, field6
-
-**UPDATE Operation (Verified YYYY-MM-DD)**:
-- **Editable**: field1, field2, field3
-- **Read-only**: id, date, calculatedField
-
-**SEARCH Operation (Verified YYYY-MM-DD)**:
-- **Searchable**: field1, field2
-- **Not searchable**: field3, field4
-
-**DELETE Operation (Verified YYYY-MM-DD)**:
-- Can delete: Yes/No
-
-**Quality Checks**:
-- ✅ Ruff format: PASS
-- ✅ Ruff lint: PASS
-- ✅ Mypy type check: PASS
-- ✅ Interrogate (docstrings): 100%
-- ✅ Unit tests: X/X PASS (100% resource coverage)
-- ✅ Integration tests: X/X PASS
-- ✅ CRUD validation: ALL OPERATIONS VERIFIED
-
-**Completed**: YYYY-MM-DD
-```
-
-**C. Update Dashboard Statistics** (in ENDPOINT_TASK_LIST.md):
-
-Update the coverage numbers at the top:
-```markdown
-### Current Coverage
-- **Total API Endpoints**: 167
-- **SDK Resources Implemented**: 36 (was 35) ← INCREMENT
-- **Remaining to Implement**: 131 (was 132) ← DECREMENT
-
-### Verification Status
-| Category | Count | Percentage |
-|----------|-------|------------|
-| **✅ Fully Verified** | 7 (was 6) ← INCREMENT | 4.2% (was 3.6%) |
-| **🔶 Implemented, Needs Verification** | 29 (no change) | 17.4% |
-| **❌ Not Implemented** | 131 (was 132) ← DECREMENT | 78.4% |
-```
-
-**Why This Matters**:
-- ✅ Team knows what's been verified vs just implemented
-- ✅ Discrepancies from API file are documented for future reference
-- ✅ Required fields are recorded (saves others from rediscovering them)
-- ✅ Progress is visible at a glance
-
-**Time**: 5 minutes (but provides value for months)
+**Time**: 5 minutes
 
 **D. Update API Reference (docs coverage)**:
 
@@ -769,9 +706,7 @@ Before marking complete:
 - [ ] Exports updated
 - [ ] Integration tests passing
 - [ ] **STEP 22: Documentation updated** ⭐ REQUIRED
-  - [ ] docs/endpoint-map.md updated with ✅ Verified status
-  - [ ] ENDPOINT_TASK_LIST.md updated with verification details
-  - [ ] Dashboard statistics incremented
+  - [ ] docs/endpoint-map.md updated with verified status
   - [ ] CRUD operation results documented
   - [ ] Discrepancies from API file noted
 

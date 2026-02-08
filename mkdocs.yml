@@ -1,10 +1,9 @@
 site_name: Upsales Python SDK
 site_description: Async Python wrapper for the Upsales CRM API
-site_author: Your Name
-site_url: https://yourdomain.com/upsales-python
+site_url: https://github.com/AxelOhlander/upsales-python-sdk
 
-repo_name: yourusername/upsales-python
-repo_url: https://github.com/yourusername/upsales-python
+repo_name: AxelOhlander/upsales-python-sdk
+repo_url: https://github.com/AxelOhlander/upsales-python-sdk
 
 theme:
   name: material
@@ -72,20 +71,21 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
-  - Guides:
-      - Adding Endpoints: guides/adding-endpoints.md
   - Authentication: authentication.md
   - Terminology: terminology.md
+  - Guides:
+      - API File Reference: guides/api-file-reference.md
+      - Adding Endpoints (AI): guides/adding-endpoints-ai.md
+      - Model Validation: guides/model-validation.md
+      - Claude Code Hooks: guides/claude-code-hooks.md
   - Patterns:
       - Creating Models: patterns/creating-models.md
       - Adding Resources: patterns/adding-resources.md
       - Custom Fields: patterns/custom-fields.md
-      - Field Types (CRUD): patterns/field-types.md
-      - Type-Safe Updates: patterns/type-safe-updates.md
-      - Pydantic v2 Features: patterns/pydantic-v2-features.md
+      - Nested Required Fields: patterns/nested-required-fields.md
       - VCR Testing: patterns/vcr-testing.md
+      - Automation Tools: patterns/automation-tools-reference.md
   - Examples:
-      - Basic Usage: examples/basic-usage.md
       - Advanced Patterns: examples/advanced-patterns.md
   - API Reference:
       - Client: api-reference/client.md
@@ -94,11 +94,12 @@ nav:
       - Models: api-reference/models.md
       - Resources: api-reference/resources.md
       - Exceptions: api-reference/exceptions.md
-  - Tool Recommendations: tool-recommendations.md
+  - Research:
+      - Advanced Query Syntax: research/advanced-query-syntax.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/upsales-python
+      link: https://github.com/AxelOhlander/upsales-python-sdk
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/upsales/

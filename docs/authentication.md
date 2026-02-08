@@ -319,5 +319,5 @@ if __name__ == "__main__":
 ## Next Steps
 
 - [Getting Started](getting-started.md) - Basic SDK usage
-- [Basic Usage Examples](examples/basic-usage.md) - SDK usage examples
-- [Pydantic Settings](patterns/pydantic-v2-features.md#pydantic-settings-configuration) - Type-safe configuration
+- [Advanced Patterns](examples/advanced-patterns.md) - SDK usage examples
+- [Settings Reference](api-reference/settings.md) - Type-safe configuration

@@ -1,4 +1,4 @@
-# api_endpoints_with_fields.json - Quick Reference
+# API Endpoints File Reference
 
 **File**: `api_endpoints_with_fields.json` (root directory)
 **Endpoints**: 167 total
@@ -6,7 +6,20 @@
 
 ---
 
-## 🚀 Quick Commands
+## Overview
+
+The `api_endpoints_with_fields.json` file documents all 167 Upsales API endpoints with complete field information for GET, POST, PUT, and DELETE operations. This file serves as a starting point for discovering:
+
+- Required fields for CREATE operations
+- Optional fields for CREATE operations
+- Updatable fields for PUT operations
+- Read-only fields that cannot be modified
+- Field types, formats, and constraints
+- Nested object structures
+
+---
+
+## Quick Commands
 
 ### List All Endpoints
 ```bash
@@ -45,7 +58,7 @@ cat api_endpoints_with_fields.json | jq '.endpoints.endpoint_name.methods.GET_li
 
 ---
 
-## 📖 Common Queries
+## Common Queries
 
 ### Find Endpoints with CREATE Support
 ```bash
@@ -71,12 +84,7 @@ cat api_endpoints_with_fields.json | jq '.endpoints | to_entries[] |
   select(.value.methods.POST.required[]?.type == "object") | .key'
 ```
 
----
-
-## 🎯 Before Implementing Any Endpoint
-
-Run this checklist:
-
+### Before Implementation Checklist
 ```bash
 ENDPOINT="endpoint_name"
 
@@ -100,7 +108,7 @@ cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.GET_list.r
 
 ---
 
-## 📝 Common Patterns
+## Common Patterns
 
 ### Pattern 1: Minimal Nested Structure
 ```json
@@ -111,6 +119,7 @@ cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.GET_list.r
 }
 ```
 **Interpretation**: Required nested object with just ID
+
 **SDK Implementation**: `client: dict[str, int]` in CreateFields TypedDict
 
 ### Pattern 2: Array with Nested Objects
@@ -122,6 +131,7 @@ cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.GET_list.r
 }
 ```
 **Interpretation**: Array of objects, each with nested product.id
+
 **SDK Implementation**: `orderRow: list[dict[str, Any]]` in CreateFields
 
 ### Pattern 3: Date Format
@@ -133,6 +143,7 @@ cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.GET_list.r
 }
 ```
 **Interpretation**: Date string in ISO format
+
 **SDK Implementation**: `date: str  # Required: 'YYYY-MM-DD'`
 
 ### Pattern 4: Conditional Requirements
@@ -143,13 +154,14 @@ cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.GET_list.r
 }
 ```
 **Interpretation**: Field may be optional under certain conditions
+
 **SDK Implementation**: Document in docstring with conditions
 
 ---
 
-## 🔍 Real Examples
+## Real Examples
 
-### Example 1: Orders (Verified Accurate)
+### Example 1: Orders
 ```bash
 cat api_endpoints_with_fields.json | jq '.endpoints.orders.methods.POST.required'
 ```
@@ -165,9 +177,9 @@ cat api_endpoints_with_fields.json | jq '.endpoints.orders.methods.POST.required
 ]
 ```
 
-**Verification**: ✅ 100% accurate (manually tested)
+**Interpretation**: Complex CREATE operation requiring nested objects and arrays
 
-### Example 2: Contacts (To Be Verified)
+### Example 2: Contacts
 ```bash
 cat api_endpoints_with_fields.json | jq '.endpoints.contacts.methods.POST.required'
 ```
@@ -180,9 +192,9 @@ cat api_endpoints_with_fields.json | jq '.endpoints.contacts.methods.POST.requir
 ]
 ```
 
-**Next Step**: Verify with manual testing
+**Interpretation**: Simple CREATE with email and company reference
 
-### Example 3: Accounts (To Be Verified)
+### Example 3: Accounts
 ```bash
 cat api_endpoints_with_fields.json | jq '.endpoints.accounts.methods.POST.required'
 ```
@@ -194,11 +206,11 @@ cat api_endpoints_with_fields.json | jq '.endpoints.accounts.methods.POST.requir
 ]
 ```
 
-**Interpretation**: Only name required! Very simple.
+**Interpretation**: Very simple CREATE, only name required
 
 ---
 
-## ⚡ Quick Reference Table
+## Quick Reference Table
 
 | Endpoint | Required Fields (Count) | Has Nested Objects | Complexity |
 |----------|-------------------------|-------------------|------------|
@@ -208,19 +220,16 @@ cat api_endpoints_with_fields.json | jq '.endpoints.accounts.methods.POST.requir
 | contacts | 2 | Yes (1 nested) | Low |
 | accounts | 1 | No | Very Low |
 | activities | 4 | Yes (1-2 nested) | Medium |
-| appointments | ? | Likely yes | Medium |
 | tickets | 5 | Yes | Medium |
 | events | 3 | Yes | Low |
-| products | ? | Likely no | Low |
-| users | N/A | N/A | N/A (admin only) |
 
 ---
 
-## 🛠️ Workflow Integration
+## Workflow Integration
 
-### Step 0: Before Implementation
+### Step 0: Consult API File
 ```bash
-# Quick check
+# Quick check before implementation
 ENDPOINT="contacts"
 cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.POST.required"
 ```
@@ -230,9 +239,9 @@ cat api_endpoints_with_fields.json | jq ".endpoints.$ENDPOINT.methods.POST.requi
 uv run upsales generate-model $ENDPOINT --partial
 ```
 
-### Step 2: Record VCR
+### Step 2: Record VCR Cassette
 ```bash
-# Create test, run to record
+# Create test, run to record real API responses
 uv run pytest tests/integration/test_${ENDPOINT}_integration.py -v
 ```
 
@@ -242,47 +251,95 @@ uv run pytest tests/integration/test_${ENDPOINT}_integration.py -v
 new_item = await upsales.endpoint.create(**api_file_required_fields)
 ```
 
-### Step 4: Document
+### Step 4: Document Findings
+Update `docs/endpoint-map.md` with verification status:
 ```markdown
-# Update endpoint-map.md
-- ✅ CREATE Verified
+- CREATE Verified
 - Required fields: [list from API file]
-- Verification date: 2025-11-07
+- Notes: [any discrepancies found]
 ```
 
----
+### Time Savings
 
-## ⚠️ Important Reminders
+**Old Workflow** (trial-and-error):
+1. Generate model
+2. Trial-and-error test CREATE
+3. Discover required fields through failures
+4. Repeat until success
 
-1. **API file is a guide, not gospel** - Always verify with VCR testing
-2. **Nested objects need minimal structure** - `{"id": 10}` for CREATE
-3. **Date formats matter** - "YYYY-MM-DD" is strict
-4. **Optional != always optional** - Some have conditional requirements
-5. **Read-only fields won't be in POST** - Use PUT.readOnly for frozen fields
+**New Workflow** (with API file):
+1. Consult API file for requirements
+2. Test with expected fields
+3. Verify (usually succeeds first try)
 
----
-
-## 📊 Statistics Tracking
-
-As you verify endpoints, track in endpoint-map.md:
-
-```bash
-# Check current verification status
-grep "✅ Verified" docs/endpoint-map.md | grep "CREATE" | wc -l
-
-# Check coverage percentage
-# (Implemented / 167) * 100
-```
-
-Current:
-- CREATE Verified: 1/89 (1.1%)
-- Overall Implemented: 35/167 (21%)
-
-Target after Week 1:
-- CREATE Verified: 6/89 (6.7%)
-- Overall Implemented: 36/167 (21.6%)
+**Estimated savings**: 30 minutes per endpoint with CREATE operations
 
 ---
 
-**Last Updated**: 2025-11-07
-**Maintained By**: Keep updated as verifications complete
+## Important Caveats
+
+### 1. Use as Guide, Not Gospel
+The API file is a starting point, not final authority. Always verify with VCR testing and real API responses before trusting field designations.
+
+### 2. Known Limitations
+- Optional field defaults may differ from API file
+- Conditional requirements may not be fully documented
+- Field constraints may be incomplete
+- Edge cases may not be covered
+
+### 3. Nested Objects Pattern
+For CREATE operations, nested objects typically need minimal structure:
+- Correct: `{"id": 10}`
+- Incorrect: `{"id": 10, "name": "...", "email": "..."}`
+
+### 4. Date Formats Matter
+Date formats are strict:
+- Required format: "YYYY-MM-DD"
+- Example: "2025-11-07"
+
+### 5. Read-Only Fields
+Read-only fields won't appear in POST requirements. Use `PUT.readOnly` to identify fields to mark with `Field(frozen=True)` in models.
+
+---
+
+## Strategic Insights
+
+### The Nested Required Fields Pattern
+From API file analysis:
+- Orders: 5 required fields, 4 are nested objects
+- Agreements: 9 required fields, 3 are nested objects
+- Contacts: 2 required fields, 1 is nested object
+- Activities: 4 required fields, 1-2 are nested objects
+
+**Pattern**: `{"id": number}` is the standard minimal structure for nested references
+
+### Most Endpoints Are Simple
+- accounts: Only 1 required field (name)
+- Many configuration endpoints: 1-2 required fields
+- Complex endpoints (orders, agreements) are the minority
+
+**Implication**: After implementing complex endpoints, most others are quick
+
+### CREATE Operations Are Priority
+With BaseResource providing GET/UPDATE/DELETE automatically:
+- GET: Works by default
+- UPDATE: Can be tested incrementally
+- DELETE: Low risk (just needs ID)
+- CREATE: High risk (missing required fields = failure)
+
+**Focus**: Verify CREATE first, others follow naturally
+
+---
+
+## Maintenance
+
+### Keeping Current
+- Source: Upsales GitHub codebase
+- Refresh frequency: Quarterly or when major API changes announced
+- Track discrepancies in endpoint-map.md
+
+### Tracking Accuracy
+When verification finds API file inaccuracies:
+1. Document in endpoint-map.md with actual requirements
+2. Note common patterns of discrepancies
+3. Use VCR cassette as source of truth

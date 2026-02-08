@@ -66,6 +66,6 @@ async with Upsales(
 
 ## See Also
 
-- [Pydantic Settings Pattern](../patterns/pydantic-v2-features.md#pydantic-settings-configuration)
+- [Creating Models](../patterns/creating-models.md)
 - [Getting Started](../getting-started.md)
 - [Authentication](../authentication.md)

@@ -258,7 +258,6 @@ python scripts/test_field_editability_bulk.py endpoint_name
 
 ## See Also
 
-- `docs/guides/testing-field-capabilities.md` - Complete testing guide
-- `docs/guides/adding-endpoints.md` - Endpoint addition workflow
 - `docs/patterns/nested-required-fields.md` - Nested required fields pattern
+- `docs/guides/api-file-reference.md` - API endpoints file reference
 - `api_endpoints_with_fields.json` - Expected field specifications (167 endpoints)

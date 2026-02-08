@@ -86,4 +86,4 @@ python -X gil=0 your_script.py
 
 **When it helps**: CPU-bound callbacks, thread pools, or hybrid workloads. For pure async I/O operations like HTTP requests, asyncio already provides efficient concurrency, and free-threaded mode offers minimal benefit.
 
-See [Pydantic v2 Features](../patterns/pydantic-v2-features.md) for more advanced patterns.
+See [Creating Models](../patterns/creating-models.md) for more advanced patterns.

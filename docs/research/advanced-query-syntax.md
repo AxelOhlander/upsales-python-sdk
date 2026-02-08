@@ -456,7 +456,7 @@ companies = await upsales.companies.list(
 
 ## 🎯 Future Enhancement Roadmap
 
-This roadmap is now tracked centrally. See Master Task List in `ENDPOINT_TASK_LIST.md` under “Query Enhancements”.
+This roadmap is tracked in `docs/endpoint-map.md`.
 
 ---
 

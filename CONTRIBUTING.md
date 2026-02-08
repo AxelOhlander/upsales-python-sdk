@@ -257,7 +257,7 @@ class User(BaseModel):
             raise RuntimeError("No client available")
         return await self._client.users.update(
             self.id,
-            **self.to_update_dict(**kwargs)
+            **self.to_api_dict(**kwargs)
         )
 
 
@@ -426,8 +426,8 @@ uv run pre-commit run --all-files
 
 ```bash
 # Clone repository
-git clone <repo-url>
-cd upsales-python
+git clone https://github.com/AxelOhlander/upsales-python-sdk.git
+cd upsales-python-sdk
 
 # Install dependencies
 uv sync --all-extras
@@ -459,31 +459,24 @@ uv run mkdocs serve
 uv run mkdocs build
 ```
 
-## Free-Threaded Mode Benefits
+## Free-Threaded Mode
 
-Python 3.13 introduces true parallelism without the Global Interpreter Lock (GIL). This is especially beneficial for I/O-bound operations like API requests.
-
-### Enabling Free-Threaded Mode
+Python 3.13 supports running without the GIL:
 
 ```bash
 python -X gil=0 your_script.py
 ```
 
-### Where It Helps
+**When it helps**: CPU-bound callbacks, thread pools, or hybrid workloads mixing threads with asyncio.
 
-1. **Bulk Operations**: Multiple API requests run truly in parallel
-2. **Concurrent Resource Access**: Multiple resources accessed simultaneously
-3. **Pagination**: Multiple pages fetched concurrently
-
-### Example
+**Limited benefit for pure async I/O**: For HTTP requests like this SDK's bulk operations, asyncio already provides efficient concurrency. The bottleneck is network I/O and API rate limits, not the GIL.
 
 ```python
-# With free-threaded mode, these 100 requests can run in true parallel
-# maximizing throughput within the 200 req/10 sec rate limit
+# Bulk operations are efficient with or without free-threaded mode
 products = await upsales.products.bulk_update(
     ids=list(range(1, 101)),
     data={"active": 0},
-    max_concurrent=50,  # True parallelism!
+    max_concurrent=50,
 )
 ```
 
