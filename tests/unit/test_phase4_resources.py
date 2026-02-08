@@ -28,9 +28,7 @@ class TestMailBounceResource:
             json=_wrap({}),
         )
         async with Upsales(token="test") as upsales:
-            result = await upsales.mail_bounce.delete(
-                mail_base64="dGVzdEBleGFtcGxlLmNvbQ=="
-            )
+            result = await upsales.mail_bounce.delete(mail_base64="dGVzdEBleGFtcGxlLmNvbQ==")
         assert result["error"] is None
 
     def test_registered(self) -> None:
@@ -94,9 +92,7 @@ class TestUserDefinedObjectCategoryTypesResource:
             json=_wrap({}),
         )
         async with Upsales(token="test") as upsales:
-            result = await upsales.user_defined_object_category_types.delete(
-                category_type_id=5
-            )
+            result = await upsales.user_defined_object_category_types.delete(category_type_id=5)
         assert result["error"] is None
 
     def test_registered(self) -> None:

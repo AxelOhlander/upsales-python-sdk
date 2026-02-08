@@ -153,10 +153,10 @@ These exist in `api_endpoints_with_fields.json` but have no HTTP methods documen
 
 ## Phase 6: Test Coverage Expansion
 
-- [ ] **Add VCR integration tests for all implemented endpoints** — many of the 96 implemented resources lack integration tests
-- [ ] **Add coverage threshold enforcement in CI** — set minimum coverage percentage in `pyproject.toml` and enforce in CI
-- [ ] **Add bandit security scanning to CI** — `bandit` is already a dev dependency but not in CI pipeline
-- [ ] **Add interrogate docstring check to CI** — enforce 90% docstring coverage
+- [x] **Add VCR integration tests for all implemented endpoints** — added 26 VCR integration tests for all BaseResource-backed resources that were missing them (ad_campaigns, ad_creatives, agreement_groups, banner_groups, client_ips, file_uploads, lead_channels, lead_sources, notification_settings, onboarding_imports, pages, periodization, report_views, salesboard_cards, soliditet_clients, standard_creative, suggestions, unsub, UDO 1-4, user_invites, visits, client_ip_info, provisioning). Cassettes record on first run with `uv run pytest -n 0 tests/integration/ -v`
+- [x] **Add coverage threshold enforcement in CI** — set `--cov-fail-under=75` in `pyproject.toml` pytest addopts (current: 79.40%)
+- [x] **Add bandit security scanning to CI** — added `uv run bandit -c pyproject.toml -r upsales` step; configured skips for expected low-severity findings
+- [x] **Add interrogate docstring check to CI** — added `uv run interrogate upsales` step (current: 100.0%)
 
 ---
 

@@ -625,9 +625,7 @@ class TestFlowContactsResource:
             json=_wrap([]),
         )
         async with Upsales(token="test") as upsales:
-            result = await upsales.flow_contacts.list(
-                flow_id=1, step_id=2, stats_type="waiting"
-            )
+            result = await upsales.flow_contacts.list(flow_id=1, step_id=2, stats_type="waiting")
         assert result["error"] is None
 
 

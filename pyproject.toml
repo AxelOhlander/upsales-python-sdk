@@ -135,7 +135,7 @@ disable_error_code = ["union-attr"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "--cov=upsales --cov-report=html --cov-report=term --cov-report=term-missing"
+addopts = "--cov=upsales --cov-report=html --cov-report=term --cov-report=term-missing --cov-fail-under=75"
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
@@ -179,7 +179,7 @@ exclude_lines = [
 
 [tool.bandit]
 exclude_dirs = ["tests", "examples"]
-skips = ["B101"]  # Allow assert in tests
+skips = ["B101", "B110", "B311", "B404", "B603", "B607"]  # Allow assert, try-except-pass, random for jitter, subprocess in CLI
 
 [tool.ty.src]
 # Only check upsales source, exclude tests and templates

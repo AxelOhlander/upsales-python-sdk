@@ -381,12 +381,15 @@ class HTTPClient:
         Example:
             >>> users = await client.get("/users", limit=100, offset=0)
         """
-        return cast(dict[str, Any], await self.request(
-            "GET",
-            endpoint,
-            _allow_uninitialized=_allow_uninitialized,
-            params=params,
-        ))
+        return cast(
+            "dict[str, Any]",
+            await self.request(
+                "GET",
+                endpoint,
+                _allow_uninitialized=_allow_uninitialized,
+                params=params,
+            ),
+        )
 
     async def post(
         self,
@@ -407,12 +410,15 @@ class HTTPClient:
         Example:
             >>> user = await client.post("/users", name="John", email="john@example.com")
         """
-        return cast(dict[str, Any], await self.request(
-            "POST",
-            endpoint,
-            _allow_uninitialized=_allow_uninitialized,
-            json=data,
-        ))
+        return cast(
+            "dict[str, Any]",
+            await self.request(
+                "POST",
+                endpoint,
+                _allow_uninitialized=_allow_uninitialized,
+                json=data,
+            ),
+        )
 
     async def put(
         self,
@@ -433,12 +439,15 @@ class HTTPClient:
         Example:
             >>> user = await client.put("/users/1", name="Jane")
         """
-        return cast(dict[str, Any], await self.request(
-            "PUT",
-            endpoint,
-            _allow_uninitialized=_allow_uninitialized,
-            json=data,
-        ))
+        return cast(
+            "dict[str, Any]",
+            await self.request(
+                "PUT",
+                endpoint,
+                _allow_uninitialized=_allow_uninitialized,
+                json=data,
+            ),
+        )
 
     async def delete(
         self,
@@ -457,11 +466,14 @@ class HTTPClient:
         Example:
             >>> await client.delete("/users/1")
         """
-        return cast(dict[str, Any], await self.request(
-            "DELETE",
-            endpoint,
-            _allow_uninitialized=_allow_uninitialized,
-        ))
+        return cast(
+            "dict[str, Any]",
+            await self.request(
+                "DELETE",
+                endpoint,
+                _allow_uninitialized=_allow_uninitialized,
+            ),
+        )
 
     async def get_bytes(
         self,

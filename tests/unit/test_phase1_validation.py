@@ -13,7 +13,6 @@ from pytest_httpx import HTTPXMock
 
 from upsales.http import HTTPClient
 
-
 # =============================================================================
 # 1. Notify endpoints validation
 # =============================================================================
