@@ -57,75 +57,74 @@ Endpoints with POST or PUT support that are not yet implemented. Each needs a mo
 GET-only endpoints. Can be batch-implemented since they follow the same pattern. Grouped by domain.
 
 ### Search & Lookup
-- [ ] `quickSearch` — cross-entity search
-- [ ] `lookup` — entity lookup
-- [ ] `findProspect` — prospect finder
-- [ ] `emailDuplicates` — duplicate email detection
-- [ ] `emailSuggest` — email suggestions
-- [ ] `emailSuggestion` — email suggestion (alternate)
+- [x] `quickSearch` — `QuickSearchResource` at `/quicksearch`
+- [x] `lookup` — `LookupResource` at `/lookup`
+- [x] `findProspect` — `FindProspectResource` at `/findProspect`
+- [x] `emailDuplicates` — `EmailDuplicatesResource` at `/function/email-duplicates`
+- [x] `emailSuggest` — `EmailSuggestResource` at `/function/email-suggest`
+- [x] `emailSuggestion` — `EmailSuggestionResource` at `/emailSuggestion`
 
 ### Reporting
-- [ ] `report` — report data
-- [ ] `reportWidget` — report widget data
-- [ ] `reportWidgetMetadata` — report widget metadata
-- [ ] `reportClientCompanyType` — company type report
-- [ ] `scoreboard` — scoreboard data
+- [x] `report` — `ReportResource` at `/report/api/:entity`
+- [x] `reportWidget` — `ReportWidgetResource` at `/report/widget`
+- [x] `reportWidgetMetadata` — `ReportWidgetMetadataResource` at `/report/metadata/widget`
+- [x] `reportClientCompanyType` — `ReportClientCompanyTypeResource` at `/report/clientCompanyType`
+- [x] `scoreboard` — `ScoreboardResource` at `/scoreboard`
 
 ### Mail
-- [ ] `mailByThread` — mail grouped by thread
-- [ ] `mailCampaignInfo` — campaign info
-- [ ] `mailCampaignInfoPreview` — campaign preview
-- [ ] `mailTemplatesRecentlyUsed` — recently used templates
-- [ ] `mailTemplatesUsedIn` — template usage info
+- [x] `mailByThread` — `MailByThreadResource` at `/mail/byThread`
+- [x] `mailCampaignInfo` — `MailCampaignInfoResource` at `/mailCampaignInfo` (includes `preview()`)
+- [x] `mailTemplatesRecentlyUsed` — `MailTemplatesRecentlyUsedResource` at `/mail/templates/recentlyUsed`
+- [x] `mailTemplatesUsedIn` — `MailTemplatesUsedInResource` at `/mail/templates/usedIn`
 
 ### Leads
-- [ ] `leads2` — leads v2 endpoint
-- [ ] `leadSources2` — lead sources v2 endpoint
+- [x] `leads2` — `Leads2Resource` at `/leads2`
+- [x] `leadSources2` — `LeadSources2Resource` at `/leadsources2`
 
 ### Integrations & SSO
-- [ ] `lookerSSO` — Looker SSO
-- [ ] `lookerExplores` — Looker explores
-- [ ] `lookerLooks` — Looker looks
-- [ ] `doceboSSO` — Docebo SSO
-- [ ] `standardIntegrationUser` — integration user info
+- [x] `lookerSSO` — `LookerSSOResource` at `/function/externalSSO/looker/:type/:id`
+- [x] `lookerExplores` — `LookerExploresResource` at `/looker/explores`
+- [x] `lookerLooks` — `LookerLooksResource` at `/looker/looks`
+- [x] `doceboSSO` — `DoceboSSOResource` at `/function/externalSSO/docebo`
+- [x] `standardIntegrationUser` — `StandardIntegrationUserResource` at `/standardIntegrationUser`
 
 ### Notifications & Signals
-- [ ] `unreadNotifications` — unread notification count
-- [ ] `signalsFeed` — signals feed
+- [x] `unreadNotifications` — `UnreadNotificationsResource` at `/notificationsUnread/:id`
+- [x] `signalsFeed` — `SignalsFeedResource` at `/prospecting/signals`
 
 ### Ads
-- [ ] `adCredits` — ad credits
-- [ ] `adLocations` — ad locations
+- [x] `adCredits` — `AdCreditsResource` at `/engage/credit`
+- [x] `adLocations` — `AdLocationsResource` at `/engage/location`
 
 ### Files & Resources
-- [ ] `file_download` — file download
-- [ ] `resourcesDownloadAdgear` — adgear resource download
-- [ ] `resourcesDownloadInternal` — internal resource download
+- [x] `file_download` — `FileDownloadResource` at `/file/download`
+- [x] `resourcesDownloadAdgear` — `ResourcesDownloadAdgearResource` at `/resources/download/adgear`
+- [x] `resourcesDownloadInternal` — `ResourcesDownloadInternalResource` at `/resources/download/internal`
 
 ### Forms & Pages
-- [ ] `clientForm` — client-facing forms
-- [ ] `formsExternalLeadSource` — external lead source forms
-- [ ] `landingPageTemplate` — landing page templates
-- [ ] `engageSiteTemplate` — engage site templates
+- [x] `clientForm` — `ClientFormResource` at `/clientform`
+- [x] `formsExternalLeadSource` — `FormsExternalLeadSourceResource` at `/forms/external-lead-source`
+- [x] `landingPageTemplate` — `LandingPageTemplateResource` at `/landingPageTemplate`
+- [x] `engageSiteTemplate` — `EngageSiteTemplateResource` at `/engage/siteTemplate`
 
 ### Flows & Journeys
-- [ ] `flowContacts` — contacts in a flow
-- [ ] `journeyStepHistory` — journey step history
+- [x] `flowContacts` — `FlowContactsResource` at `/flows/:flowId/:stepId/contacts/:statsType`
+- [x] `journeyStepHistory` — `JourneyStepHistoryResource` at `/journeyStepHistory`
 
 ### Soliditet
-- [ ] `soliditetMatcherSearch` — Soliditet matcher search
-- [ ] `soliditetSearch` — Soliditet search
+- [x] `soliditetMatcherSearch` — already in `SoliditetMatcherResource.search()` at `/soliditet/matcher/search`
+- [x] `soliditetSearch` — `SoliditetSearchResource` at `/soliditet/search`
 
 ### Other
-- [ ] `deleteLog` — deletion audit log
-- [ ] `eventsPrior` — prior events
-- [ ] `groupStructure` — group structure
-- [ ] `industries` — industry list
-- [ ] `links` — link tracking
-- [ ] `placeholder` — placeholder data
-- [ ] `roleSettings` — role settings
-- [ ] `whatIsMyIp` — IP lookup utility
-- [ ] `workerStatus` — background worker status
+- [x] `deleteLog` — `DeleteLogResource` at `/deleteLog`
+- [x] `eventsPrior` — `EventsPriorResource` at `/events/prior`
+- [x] `groupStructure` — `GroupStructureResource` at `/prospectinggroupstructure`
+- [x] `industries` — `IndustriesResource` at `/industries`
+- [x] `links` — `LinksResource` at `/links`
+- [x] `placeholder` — `PlaceholderResource` at `/placeholder/:feature`
+- [x] `roleSettings` — `RoleSettingsResource` at `/roleSettings`
+- [x] `whatIsMyIp` — `WhatIsMyIpResource` at `/function/whatismyip`
+- [x] `workerStatus` — `WorkerStatusResource` at `/worker/status`
 
 ---
 

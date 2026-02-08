@@ -210,6 +210,8 @@ class Upsales:
         from upsales.resources.ad_accounts import AdAccountsResource
         from upsales.resources.ad_campaigns import AdCampaignsResource
         from upsales.resources.ad_creatives import AdCreativesResource
+        from upsales.resources.ad_credits import AdCreditsResource
+        from upsales.resources.ad_locations import AdLocationsResource
         from upsales.resources.agreement_groups import AgreementGroupsResource
         from upsales.resources.agreements import AgreementsResource
         from upsales.resources.api_keys import ApikeysResource
@@ -219,6 +221,7 @@ class Upsales:
         from upsales.resources.bulk import BulkResource
         from upsales.resources.cancel_esign import CancelEsignResource
         from upsales.resources.client_category_types import ClientCategoryTypesResource
+        from upsales.resources.client_form import ClientFormResource
         from upsales.resources.client_ip_info import ClientIpInfoResource
         from upsales.resources.client_ips import ClientIpsResource
         from upsales.resources.client_relations import ClientRelationsResource
@@ -232,34 +235,60 @@ class Upsales:
         from upsales.resources.custom_fields import CustomFieldsResource
         from upsales.resources.customfields_accounts import CustomfieldsAccountsResource
         from upsales.resources.data_source import DataSourceResource
+        from upsales.resources.delete_log import DeleteLogResource
+        from upsales.resources.docebo_sso import DoceboSSOResource
+        from upsales.resources.email_duplicates import EmailDuplicatesResource
+        from upsales.resources.email_suggest import EmailSuggestResource
+        from upsales.resources.email_suggestion import EmailSuggestionResource
         from upsales.resources.engage_credit_transaction import EngageCreditTransactionsResource
+        from upsales.resources.engage_site_template import EngageSiteTemplateResource
         from upsales.resources.esign_function import EsignFunctionResource
         from upsales.resources.esigns import EsignsResource
         from upsales.resources.events import EventsResource
+        from upsales.resources.events_prior import EventsPriorResource
         from upsales.resources.export import ExportResource
+        from upsales.resources.file_download import FileDownloadResource
         from upsales.resources.file_upload import FileUploadsResource
         from upsales.resources.files import FilesResource
+        from upsales.resources.find_prospect import FindProspectResource
+        from upsales.resources.flow_contacts import FlowContactsResource
         from upsales.resources.flows import FlowsResource
         from upsales.resources.form_submits import FormSubmitsResource
         from upsales.resources.forms import FormsResource
+        from upsales.resources.forms_external_lead_source import FormsExternalLeadSourceResource
         from upsales.resources.functions import FunctionsResource
         from upsales.resources.group_mail_categories import GroupMailCategoriesResource
+        from upsales.resources.group_structure import GroupStructureResource
         from upsales.resources.image_compose import ImageComposeResource
         from upsales.resources.import_mail_campaign import ImportMailCampaignResource
         from upsales.resources.import_mail_campaign_mail import ImportMailCampaignMailResource
         from upsales.resources.import_mail_event import ImportMailEventResource
+        from upsales.resources.industries import IndustriesResource
         from upsales.resources.integration_log import IntegrationLogResource
+        from upsales.resources.journey_step_history import JourneyStepHistoryResource
         from upsales.resources.journey_steps import JourneyStepsResource
+        from upsales.resources.landing_page_template import LandingPageTemplateResource
         from upsales.resources.lead_channels import LeadChannelsResource
         from upsales.resources.lead_sources import LeadSourcesResource
+        from upsales.resources.lead_sources2 import LeadSources2Resource
         from upsales.resources.leads import LeadsResource
+        from upsales.resources.leads2 import Leads2Resource
+        from upsales.resources.links import LinksResource
         from upsales.resources.list_views import ListViewsResource
+        from upsales.resources.looker_explores import LookerExploresResource
+        from upsales.resources.looker_looks import LookerLooksResource
+        from upsales.resources.looker_sso import LookerSSOResource
+        from upsales.resources.lookup import LookupResource
         from upsales.resources.mail import MailResource
+        from upsales.resources.mail_by_thread import MailByThreadResource
+        from upsales.resources.mail_campaign_info import MailCampaignInfoResource
         from upsales.resources.mail_campaigns import MailCampaignsResource
         from upsales.resources.mail_domains import MailDomainsResource
         from upsales.resources.mail_editor import MailEditorResource
         from upsales.resources.mail_multi import MailMultiResource
         from upsales.resources.mail_templates import MailTemplatesResource
+        from upsales.resources.mail_templates_recently_used import MailTemplatesRecentlyUsedResource
+        from upsales.resources.mail_templates_used_in import MailTemplatesUsedInResource
         from upsales.resources.mail_test import MailTestResource
         from upsales.resources.market_rejectlist import MarketRejectlistsResource
         from upsales.resources.metadata import MetadataResource
@@ -274,6 +303,7 @@ class Upsales:
         from upsales.resources.pages import PagesResource
         from upsales.resources.periodization import PeriodizationsResource
         from upsales.resources.phone_calls import PhoneCallsResource
+        from upsales.resources.placeholder import PlaceholderResource
         from upsales.resources.pricelists import PricelistsResource
         from upsales.resources.product_categories import ProductCategoriesResource
         from upsales.resources.products import ProductsResource
@@ -283,20 +313,31 @@ class Upsales:
         from upsales.resources.project_plan_types import ProjectPlanTypesResource
         from upsales.resources.projects import ProjectsResource
         from upsales.resources.provisioning import ProvisioningResource
+        from upsales.resources.quick_search import QuickSearchResource
         from upsales.resources.quota import QuotasResource
+        from upsales.resources.report import ReportResource
+        from upsales.resources.report_client_company_type import ReportClientCompanyTypeResource
         from upsales.resources.report_view import ReportViewsResource
+        from upsales.resources.report_widget import ReportWidgetResource
+        from upsales.resources.report_widget_metadata import ReportWidgetMetadataResource
         from upsales.resources.reset_score import ResetScoreResource
+        from upsales.resources.resources_download_adgear import ResourcesDownloadAdgearResource
+        from upsales.resources.resources_download_internal import ResourcesDownloadInternalResource
         from upsales.resources.resources_upload_external import ResourcesUploadExternalResource
         from upsales.resources.resources_upload_internal import ResourcesUploadInternalResource
+        from upsales.resources.role_settings import RoleSettingsResource
         from upsales.resources.roles import RolesResource
         from upsales.resources.sales_coaches import SalesCoachesResource
         from upsales.resources.salesboard_cards import SalesboardCardsResource
+        from upsales.resources.scoreboard import ScoreboardResource
         from upsales.resources.segments import SegmentsResource
         from upsales.resources.self import SelfResource
         from upsales.resources.send_beam import SendBeamResource
         from upsales.resources.send_esign_reminder import SendEsignReminderResource
+        from upsales.resources.signals_feed import SignalsFeedResource
         from upsales.resources.soliditet_clients import SoliditetClientsResource
         from upsales.resources.soliditet_matcher import SoliditetMatcherResource
+        from upsales.resources.soliditet_search import SoliditetSearchResource
         from upsales.resources.soliditet_search_buy import SoliditetSearchBuyResource
         from upsales.resources.standard_creative import StandardCreativeResource
         from upsales.resources.standard_field import StandardFieldsResource
@@ -306,6 +347,7 @@ class Upsales:
         from upsales.resources.standard_integration_settings import (
             StandardIntegrationSettingsResource,
         )
+        from upsales.resources.standard_integration_user import StandardIntegrationUserResource
         from upsales.resources.standard_integration_user_settings import (
             StandardIntegrationUserSettingsResource,
         )
@@ -320,6 +362,7 @@ class Upsales:
         from upsales.resources.translate_tags import TranslateTagsResource
         from upsales.resources.trigger_attributes import TriggerAttributesResource
         from upsales.resources.triggers import TriggersResource
+        from upsales.resources.unread_notifications import UnreadNotificationsResource
         from upsales.resources.unsub import UnsubsResource
         from upsales.resources.user_defined_object_1 import UserDefinedObject1Resource
         from upsales.resources.user_defined_object_2 import UserDefinedObject2Resource
@@ -336,6 +379,8 @@ class Upsales:
         from upsales.resources.validate_page import ValidatePageResource
         from upsales.resources.visits import VisitsResource
         from upsales.resources.voice import VoiceResource
+        from upsales.resources.what_is_my_ip import WhatIsMyIpResource
+        from upsales.resources.worker_status import WorkerStatusResource
 
         self.activities = ActivitiesResource(self.http)
         self.activity_list = ActivityListResource(self.http)
@@ -461,6 +506,51 @@ class Upsales:
         self.soliditet_search_buy = SoliditetSearchBuyResource(self.http)
         self.standard_fields = StandardFieldsResource(self.http)
         self.translate_tags = TranslateTagsResource(self.http)
+        self.quick_search = QuickSearchResource(self.http)
+        self.lookup = LookupResource(self.http)
+        self.find_prospect = FindProspectResource(self.http)
+        self.email_duplicates = EmailDuplicatesResource(self.http)
+        self.email_suggest = EmailSuggestResource(self.http)
+        self.email_suggestion = EmailSuggestionResource(self.http)
+        self.report = ReportResource(self.http)
+        self.report_widget = ReportWidgetResource(self.http)
+        self.report_widget_metadata = ReportWidgetMetadataResource(self.http)
+        self.report_client_company_type = ReportClientCompanyTypeResource(self.http)
+        self.scoreboard = ScoreboardResource(self.http)
+        self.mail_by_thread = MailByThreadResource(self.http)
+        self.mail_campaign_info = MailCampaignInfoResource(self.http)
+        self.mail_templates_recently_used = MailTemplatesRecentlyUsedResource(self.http)
+        self.mail_templates_used_in = MailTemplatesUsedInResource(self.http)
+        self.leads2 = Leads2Resource(self.http)
+        self.lead_sources2 = LeadSources2Resource(self.http)
+        self.looker_sso = LookerSSOResource(self.http)
+        self.looker_explores = LookerExploresResource(self.http)
+        self.looker_looks = LookerLooksResource(self.http)
+        self.docebo_sso = DoceboSSOResource(self.http)
+        self.standard_integration_user = StandardIntegrationUserResource(self.http)
+        self.unread_notifications = UnreadNotificationsResource(self.http)
+        self.signals_feed = SignalsFeedResource(self.http)
+        self.ad_credits = AdCreditsResource(self.http)
+        self.ad_locations = AdLocationsResource(self.http)
+        self.file_download = FileDownloadResource(self.http)
+        self.resources_download_adgear = ResourcesDownloadAdgearResource(self.http)
+        self.resources_download_internal = ResourcesDownloadInternalResource(self.http)
+        self.client_form = ClientFormResource(self.http)
+        self.forms_external_lead_source = FormsExternalLeadSourceResource(self.http)
+        self.landing_page_templates = LandingPageTemplateResource(self.http)
+        self.engage_site_templates = EngageSiteTemplateResource(self.http)
+        self.flow_contacts = FlowContactsResource(self.http)
+        self.journey_step_history = JourneyStepHistoryResource(self.http)
+        self.soliditet_search = SoliditetSearchResource(self.http)
+        self.delete_log = DeleteLogResource(self.http)
+        self.events_prior = EventsPriorResource(self.http)
+        self.group_structure = GroupStructureResource(self.http)
+        self.industries = IndustriesResource(self.http)
+        self.links = LinksResource(self.http)
+        self.placeholder = PlaceholderResource(self.http)
+        self.role_settings = RoleSettingsResource(self.http)
+        self.what_is_my_ip = WhatIsMyIpResource(self.http)
+        self.worker_status = WorkerStatusResource(self.http)
 
     @classmethod
     def from_env(cls, env_file: str = ".env") -> "Upsales":
