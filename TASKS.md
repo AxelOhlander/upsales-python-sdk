@@ -36,20 +36,19 @@ Endpoints and features needed by **nk-premeeting-summary** and **nn-bio-import**
 
 Endpoints with POST or PUT support that are not yet implemented. Each needs a model, resource, client registration, and tests.
 
-- [ ] `assign` — GET, PUT, DELETE
-- [ ] `accountManagerHistory` — PUT
-- [ ] `accountManagerHistorySpecific` — PUT
-- [ ] `cancelEsign` — PUT
-- [ ] `contract` — GET, PUT
-- [ ] `customfields_accounts` — full CRUD (GET, POST, PUT, DELETE)
-- [ ] `export` — POST
-- [ ] `importMailCampaign` — POST
-- [ ] `integrationLog` — GET, PUT
-- [ ] `sendEsignReminder` — PUT
-- [ ] `soliditetMatcher` — GET, PUT
-- [ ] `soliditetSearchBuy` — POST
-- [ ] `standardField` — GET, PUT
-- [ ] `translateTags` — POST
+- [x] `assign` — GET, PUT, DELETE → `AssignResource` with `get()`, `assign_user()`, `remove()` at `/function/assign/:id`
+- [x] `accountManagerHistory` — PUT → `AccountManagerHistoryResource` with `set_history()` and `set_specific()` at `/function/accountManagerHistory`
+- [x] `cancelEsign` — PUT → `CancelEsignResource` with `cancel()` at `/function/cancelEsign/:id`
+- [x] `contract` — GET, PUT → `ContractsResource` with `list()`, `get()`, `update()` at `/contract`
+- [x] `customfields_accounts` — full CRUD → `CustomfieldsAccountsResource` at `/customfields/account`
+- [x] `export` — POST → `ExportResource` with `trigger()` at `/function/export`
+- [x] `importMailCampaign` — POST → `ImportMailCampaignResource` with `create()` at `/import/mailcampaign`
+- [x] `integrationLog` — full CRUD → `IntegrationLogResource` at `/integrationLog` (has GET/POST/PUT/DELETE)
+- [x] `sendEsignReminder` — PUT → `SendEsignReminderResource` with `send()` at `/function/sendEsignReminder/:id`
+- [x] `soliditetMatcher` — GET, PUT, search → `SoliditetMatcherResource` at `/soliditet/matcher`
+- [x] `soliditetSearchBuy` — POST → `SoliditetSearchBuyResource` with `buy()` at `/soliditet/search/buy`
+- [x] `standardField` — GET, PUT → `StandardFieldsResource` at `/standardField`
+- [x] `translateTags` — POST → `TranslateTagsResource` with `translate()` at `/function/translate`
 
 ---
 

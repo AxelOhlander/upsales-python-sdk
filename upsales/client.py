@@ -200,6 +200,9 @@ class Upsales:
         self.http = HTTPClient(token, base_url, max_concurrent, auth_manager, upsales_client=self)
 
         # Initialize resource managers
+        from upsales.resources.account_manager_history import (
+            AccountManagerHistoryResource,
+        )
         from upsales.resources.activities import ActivitiesResource
         from upsales.resources.activity_list import ActivityListResource
         from upsales.resources.activity_quota import ActivityQuotaResource
@@ -211,8 +214,10 @@ class Upsales:
         from upsales.resources.agreements import AgreementsResource
         from upsales.resources.api_keys import ApikeysResource
         from upsales.resources.appointments import AppointmentsResource
+        from upsales.resources.assign import AssignResource
         from upsales.resources.banner_groups import BannerGroupsResource
         from upsales.resources.bulk import BulkResource
+        from upsales.resources.cancel_esign import CancelEsignResource
         from upsales.resources.client_category_types import ClientCategoryTypesResource
         from upsales.resources.client_ip_info import ClientIpInfoResource
         from upsales.resources.client_ips import ClientIpsResource
@@ -221,14 +226,17 @@ class Upsales:
         from upsales.resources.companies import CompaniesResource
         from upsales.resources.contact_relations import ContactRelationsResource
         from upsales.resources.contacts import ContactsResource
+        from upsales.resources.contract import ContractsResource
         from upsales.resources.contract_accepted import ContractAcceptedResource
         from upsales.resources.currencies import CurrenciesResource
         from upsales.resources.custom_fields import CustomFieldsResource
+        from upsales.resources.customfields_accounts import CustomfieldsAccountsResource
         from upsales.resources.data_source import DataSourceResource
         from upsales.resources.engage_credit_transaction import EngageCreditTransactionsResource
         from upsales.resources.esign_function import EsignFunctionResource
         from upsales.resources.esigns import EsignsResource
         from upsales.resources.events import EventsResource
+        from upsales.resources.export import ExportResource
         from upsales.resources.file_upload import FileUploadsResource
         from upsales.resources.files import FilesResource
         from upsales.resources.flows import FlowsResource
@@ -237,8 +245,10 @@ class Upsales:
         from upsales.resources.functions import FunctionsResource
         from upsales.resources.group_mail_categories import GroupMailCategoriesResource
         from upsales.resources.image_compose import ImageComposeResource
+        from upsales.resources.import_mail_campaign import ImportMailCampaignResource
         from upsales.resources.import_mail_campaign_mail import ImportMailCampaignMailResource
         from upsales.resources.import_mail_event import ImportMailEventResource
+        from upsales.resources.integration_log import IntegrationLogResource
         from upsales.resources.journey_steps import JourneyStepsResource
         from upsales.resources.lead_channels import LeadChannelsResource
         from upsales.resources.lead_sources import LeadSourcesResource
@@ -284,8 +294,12 @@ class Upsales:
         from upsales.resources.segments import SegmentsResource
         from upsales.resources.self import SelfResource
         from upsales.resources.send_beam import SendBeamResource
+        from upsales.resources.send_esign_reminder import SendEsignReminderResource
         from upsales.resources.soliditet_clients import SoliditetClientsResource
+        from upsales.resources.soliditet_matcher import SoliditetMatcherResource
+        from upsales.resources.soliditet_search_buy import SoliditetSearchBuyResource
         from upsales.resources.standard_creative import StandardCreativeResource
+        from upsales.resources.standard_field import StandardFieldsResource
         from upsales.resources.standard_integration_data import (
             StandardIntegrationDataResource,
         )
@@ -303,6 +317,7 @@ class Upsales:
         from upsales.resources.ticket_types import TicketTypesResource
         from upsales.resources.tickets import TicketsResource
         from upsales.resources.todo_views import TodoViewsResource
+        from upsales.resources.translate_tags import TranslateTagsResource
         from upsales.resources.trigger_attributes import TriggerAttributesResource
         from upsales.resources.triggers import TriggersResource
         from upsales.resources.unsub import UnsubsResource
@@ -433,6 +448,19 @@ class Upsales:
         self.voice = VoiceResource(self.http)
         self.validate_page = ValidatePageResource(self.http)
         self.system_mail = SystemMailResource(self.http)
+        self.assign = AssignResource(self.http)
+        self.account_manager_history = AccountManagerHistoryResource(self.http)
+        self.cancel_esign = CancelEsignResource(self.http)
+        self.send_esign_reminder = SendEsignReminderResource(self.http)
+        self.contracts = ContractsResource(self.http)
+        self.customfields_accounts = CustomfieldsAccountsResource(self.http)
+        self.export = ExportResource(self.http)
+        self.import_mail_campaign = ImportMailCampaignResource(self.http)
+        self.integration_log = IntegrationLogResource(self.http)
+        self.soliditet_matcher = SoliditetMatcherResource(self.http)
+        self.soliditet_search_buy = SoliditetSearchBuyResource(self.http)
+        self.standard_fields = StandardFieldsResource(self.http)
+        self.translate_tags = TranslateTagsResource(self.http)
 
     @classmethod
     def from_env(cls, env_file: str = ".env") -> "Upsales":

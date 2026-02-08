@@ -22,6 +22,7 @@ Example:
     >>> company = await companies.get(1)
 """
 
+from upsales.resources.account_manager_history import AccountManagerHistoryResource
 from upsales.resources.activities import ActivitiesResource
 from upsales.resources.activity_list import ActivityListResource
 from upsales.resources.activity_quota import ActivityQuotaResource
@@ -33,9 +34,11 @@ from upsales.resources.agreement_groups import AgreementGroupsResource
 from upsales.resources.agreements import AgreementsResource
 from upsales.resources.api_keys import ApikeysResource
 from upsales.resources.appointments import AppointmentsResource
+from upsales.resources.assign import AssignResource
 from upsales.resources.banner_groups import BannerGroupsResource
 from upsales.resources.base import BaseResource
 from upsales.resources.bulk import BulkResource
+from upsales.resources.cancel_esign import CancelEsignResource
 from upsales.resources.client_category_types import ClientCategoryTypesResource
 from upsales.resources.client_ip_info import ClientIpInfoResource
 from upsales.resources.client_ips import ClientIpsResource
@@ -44,13 +47,16 @@ from upsales.resources.clientcategories import ClientCategoriesResource
 from upsales.resources.companies import CompaniesResource
 from upsales.resources.contact_relations import ContactRelationsResource
 from upsales.resources.contacts import ContactsResource
+from upsales.resources.contract import ContractsResource
 from upsales.resources.contract_accepted import ContractAcceptedResource
 from upsales.resources.currencies import CurrenciesResource
+from upsales.resources.customfields_accounts import CustomfieldsAccountsResource
 from upsales.resources.data_source import DataSourceResource
 from upsales.resources.engage_credit_transaction import EngageCreditTransactionsResource
 from upsales.resources.esign_function import EsignFunctionResource
 from upsales.resources.esigns import EsignsResource
 from upsales.resources.events import EventsResource
+from upsales.resources.export import ExportResource
 from upsales.resources.file_upload import FileUploadsResource
 from upsales.resources.files import FilesResource
 from upsales.resources.flows import FlowsResource
@@ -59,8 +65,10 @@ from upsales.resources.forms import FormsResource
 from upsales.resources.functions import FunctionsResource
 from upsales.resources.group_mail_categories import GroupMailCategoriesResource
 from upsales.resources.image_compose import ImageComposeResource
+from upsales.resources.import_mail_campaign import ImportMailCampaignResource
 from upsales.resources.import_mail_campaign_mail import ImportMailCampaignMailResource
 from upsales.resources.import_mail_event import ImportMailEventResource
+from upsales.resources.integration_log import IntegrationLogResource
 from upsales.resources.journey_steps import JourneyStepsResource
 from upsales.resources.lead_channels import LeadChannelsResource
 from upsales.resources.lead_sources import LeadSourcesResource
@@ -106,8 +114,12 @@ from upsales.resources.salesboard_cards import SalesboardCardsResource
 from upsales.resources.segments import SegmentsResource
 from upsales.resources.self import SelfResource
 from upsales.resources.send_beam import SendBeamResource
+from upsales.resources.send_esign_reminder import SendEsignReminderResource
 from upsales.resources.soliditet_clients import SoliditetClientsResource
+from upsales.resources.soliditet_matcher import SoliditetMatcherResource
+from upsales.resources.soliditet_search_buy import SoliditetSearchBuyResource
 from upsales.resources.standard_creative import StandardCreativeResource
+from upsales.resources.standard_field import StandardFieldsResource
 from upsales.resources.standard_integration_data import StandardIntegrationDataResource
 from upsales.resources.standard_integration_settings import StandardIntegrationSettingsResource
 from upsales.resources.standard_integration_user_settings import (
@@ -121,6 +133,7 @@ from upsales.resources.ticket_statuses import TicketStatusesResource
 from upsales.resources.ticket_types import TicketTypesResource
 from upsales.resources.tickets import TicketsResource
 from upsales.resources.todo_views import TodoViewsResource
+from upsales.resources.translate_tags import TranslateTagsResource
 from upsales.resources.trigger_attributes import TriggerAttributesResource
 from upsales.resources.triggers import TriggersResource
 from upsales.resources.unsub import UnsubsResource
@@ -248,4 +261,17 @@ __all__ = [
     "NotifyResource",
     "PagesResource",
     "UnsubsResource",
+    "AccountManagerHistoryResource",
+    "AssignResource",
+    "CancelEsignResource",
+    "ContractsResource",
+    "CustomfieldsAccountsResource",
+    "ExportResource",
+    "ImportMailCampaignResource",
+    "IntegrationLogResource",
+    "SendEsignReminderResource",
+    "SoliditetMatcherResource",
+    "SoliditetSearchBuyResource",
+    "StandardFieldsResource",
+    "TranslateTagsResource",
 ]
