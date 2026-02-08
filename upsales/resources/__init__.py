@@ -48,6 +48,8 @@ from upsales.resources.client_ips import ClientIpsResource
 from upsales.resources.client_relations import ClientRelationsResource
 from upsales.resources.clientcategories import ClientCategoriesResource
 from upsales.resources.companies import CompaniesResource
+from upsales.resources.contact_categories import ContactCategoriesResource
+from upsales.resources.contact_category_types import ContactCategoryTypesResource
 from upsales.resources.contact_relations import ContactRelationsResource
 from upsales.resources.contacts import ContactsResource
 from upsales.resources.contract import ContractsResource
@@ -374,4 +376,6 @@ __all__ = [
     "MailBounceResource",
     "SocialEventsDefaultTemplatesResource",
     "UserDefinedObjectCategoryTypesResource",
+    "ContactCategoriesResource",
+    "ContactCategoryTypesResource",
 ]

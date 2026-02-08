@@ -140,14 +140,14 @@ GET-only endpoints. Can be batch-implemented since they follow the same pattern.
 
 These exist in `api_endpoints_with_fields.json` but have no HTTP methods documented. Investigate whether they are active or deprecated.
 
-- [ ] `contactCategoryTypes`
-- [ ] `contactcategories`
-- [ ] `customfields_activities`
-- [ ] `customfields_appointments`
-- [ ] `customfields_contacts`
-- [ ] `customfields_orderrows`
-- [ ] `customfields_orders`
-- [ ] `customfields_products`
+- [x] `contactCategoryTypes` — `ContactCategoryTypesResource` at `/contactCategoryTypes`
+- [x] `contactcategories` — `ContactCategoriesResource` at `/contactcategories`
+- [x] `customfields_activities` — already covered by `CustomFieldsResource.list_for_entity("activity")`
+- [x] `customfields_appointments` — already covered by `CustomFieldsResource.list_for_entity("appointment")`
+- [x] `customfields_contacts` — already covered by `CustomFieldsResource.list_for_entity("contact")`
+- [x] `customfields_orderrows` — already covered by `CustomFieldsResource.list_for_entity("orderrow")`
+- [x] `customfields_orders` — already covered by `CustomFieldsResource.list_for_entity("order")`
+- [x] `customfields_products` — already covered by `CustomFieldsResource.list_for_entity("product")`
 
 ---
 

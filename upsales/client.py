@@ -562,6 +562,11 @@ class Upsales:
         self.mail_bounce = MailBounceResource(self.http)
         self.social_events_default_templates = SocialEventsDefaultTemplatesResource(self.http)
         self.user_defined_object_category_types = UserDefinedObjectCategoryTypesResource(self.http)
+        from upsales.resources.contact_categories import ContactCategoriesResource
+        from upsales.resources.contact_category_types import ContactCategoryTypesResource
+
+        self.contact_categories = ContactCategoriesResource(self.http)
+        self.contact_category_types = ContactCategoryTypesResource(self.http)
 
     @classmethod
     def from_env(cls, env_file: str = ".env") -> "Upsales":
