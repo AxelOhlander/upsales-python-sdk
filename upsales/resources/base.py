@@ -220,6 +220,41 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         ]
         return items, metadata
 
+    async def count(self, **params: Any) -> int:
+        """
+        Get total count of resources matching criteria without fetching data.
+
+        Uses limit=0 to request only metadata, returning the total count
+        efficiently without transferring actual records.
+
+        Args:
+            **params: Optional filter parameters to count matching resources.
+
+        Returns:
+            Total count of resources matching the criteria.
+
+        Example:
+            >>> # Count all users
+            >>> total_users = await client.users.count()
+            >>> print(f"Total users: {total_users}")
+            >>>
+            >>> # Count active users only
+            >>> active_count = await client.users.count(active=1)
+            >>> print(f"Active users: {active_count}")
+            >>>
+            >>> # Count companies with specific criteria
+            >>> tech_companies = await client.companies.count(
+            ...     name="*Tech"  # Contains "Tech"
+            ... )
+
+        Note:
+            This is much faster than list_all() when you only need the count,
+            as it doesn't transfer any actual record data.
+        """
+        _, metadata = await self._list_with_metadata(limit=0, **params)
+        total: int = metadata.get("total", 0)
+        return total
+
     async def list(
         self,
         limit: int = 100,
@@ -380,6 +415,7 @@ class BaseResource[T: BaseModel, P: PartialModel]:
         self,
         fields: list[str] | None = None,
         sort: str | list[str] | None = None,
+        or_filters: list[dict[str, Any]] | None = None,
         **filters: Any,
     ) -> list[T]:
         """
@@ -409,15 +445,23 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             field="src:value"        # Substring search
             custom="eq:fieldId:val"  # Custom field filtering
 
+        OR Filters:
+            Use or_filters to search with OR logic between filter groups.
+            Each dict in the list is a group of AND conditions; groups are OR'd.
+
         Args:
             fields: Optional list of field names to return (optimization).
                    Only specified fields will be included in response.
             sort: Optional sort field(s). Use "-field" for descending.
                  Example: sort="name" or sort="-regDate" or sort=["name", "-id"]
+            or_filters: Optional list of filter dicts for OR logic. Each dict
+                       contains field-value pairs that are AND'd together, and
+                       the dicts are OR'd with each other.
             **filters: Field-value pairs with optional comparison operators.
+                      These are AND'd together and combined with or_filters.
 
         Returns:
-            List of resources matching ALL filter criteria (AND logic).
+            List of resources matching filter criteria.
 
         Example:
             >>> # Simple equality
@@ -427,6 +471,23 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             >>> recent_users = await client.users.search(
             ...     active=1,
             ...     regDate=">=2024-01-01"  # Natural syntax
+            ... )
+            >>>
+            >>> # OR filters - find contacts named John OR email contains john
+            >>> contacts = await client.contacts.search(
+            ...     or_filters=[
+            ...         {"name": "*John"},      # Name contains John
+            ...         {"email": "*john"},     # OR email contains john
+            ...     ]
+            ... )
+            >>>
+            >>> # OR with AND - active users who are admin OR support
+            >>> users = await client.users.search(
+            ...     active=1,  # AND active
+            ...     or_filters=[
+            ...         {"administrator": 1},  # admin
+            ...         {"support": 1},        # OR support
+            ...     ]
             ... )
             >>>
             >>> # API syntax (also works)
@@ -493,6 +554,10 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             Not all fields support all operators. Binary flags (0/1) typically
             only support eq/=, ne/!=. Date and numeric fields support full range.
             Substring search (*) works on string fields.
+
+            OR filters construct a JSON query using the Upsales q[] syntax with
+            or: {q: [...]} structure. The kwargs filters are always applied as
+            AND conditions in addition to any OR filters.
         """
         # Transform natural operators to Upsales API syntax
         # Operator mapping: Natural Python → Upsales API
@@ -507,23 +572,44 @@ class BaseResource[T: BaseModel, P: PartialModel]:
             "*": "src:",  # Substring search (wildcard)
         }
 
-        transformed_filters: dict[str, Any] = {}
-        for field, value in filters.items():
+        def transform_value(value: Any) -> Any:
+            """Transform natural operators to API syntax."""
             if isinstance(value, str):
-                # Check if value starts with a natural operator
                 for natural_op, api_op in operator_map.items():
                     if value.startswith(natural_op):
-                        # Transform: ">=100" → "gte:100"
-                        transformed_value = api_op + value[len(natural_op) :]
-                        transformed_filters[field] = transformed_value
-                        break
-                else:
-                    # No natural operator found - pass through unchanged
-                    # This maintains backward compatibility with "gte:", "gt:", etc.
-                    transformed_filters[field] = value
-            else:
-                # Non-string values pass through unchanged (e.g., active=1)
-                transformed_filters[field] = value
+                        return api_op + value[len(natural_op) :]
+            return value
+
+        transformed_filters: dict[str, Any] = {}
+        for field, value in filters.items():
+            transformed_filters[field] = transform_value(value)
+
+        # Handle OR filters by constructing q[] parameter with or structure
+        if or_filters:
+            import json
+
+            # Build the OR query structure
+            # Each filter dict becomes a group of AND conditions
+            # Groups are OR'd together
+            or_groups: list[list[dict[str, Any]]] = []
+            for filter_group in or_filters:
+                conditions: list[dict[str, Any]] = []
+                for field, value in filter_group.items():
+                    transformed_val = transform_value(value)
+                    # Parse the value to extract comparator and actual value
+                    if isinstance(transformed_val, str) and ":" in transformed_val:
+                        comparator, actual_value = transformed_val.split(":", 1)
+                    else:
+                        comparator = "eq"
+                        actual_value = transformed_val
+                    conditions.append({"a": field, "c": comparator, "v": actual_value})
+                if conditions:
+                    or_groups.append(conditions)
+
+            if or_groups:
+                # Add the OR structure as a JSON-encoded q parameter
+                or_query = {"or": {"q": or_groups}}
+                transformed_filters["q"] = json.dumps(or_query)
 
         return await self.list_all(fields=fields, sort=sort, **transformed_filters)
 
@@ -638,12 +724,14 @@ class BaseResource[T: BaseModel, P: PartialModel]:
                 return await self.update(item_id, **data)
 
         # If chunk_size is specified, process in chunks for memory efficiency
-        if chunk_size and len(ids) > chunk_size:
+        if chunk_size is not None and len(ids) > chunk_size:
+            _ids: list[int] = ids
+            _chunk_size: int = chunk_size
             all_successes: list[T] = []
             all_errors: list[Exception] = []
 
-            for i in range(0, len(ids), chunk_size):
-                chunk = ids[i : i + chunk_size]
+            for i in range(0, len(_ids), _chunk_size):
+                chunk = _ids[i : i + _chunk_size]
                 results = await asyncio.gather(
                     *[update_one(item_id) for item_id in chunk],
                     return_exceptions=True,
@@ -724,12 +812,14 @@ class BaseResource[T: BaseModel, P: PartialModel]:
                 return await self.delete(item_id)
 
         # If chunk_size is specified, process in chunks for memory efficiency
-        if chunk_size and len(ids) > chunk_size:
+        if chunk_size is not None and len(ids) > chunk_size:
+            _ids: list[int] = ids
+            _chunk_size: int = chunk_size
             all_successes: list[dict[str, Any]] = []
             all_errors: list[Exception] = []
 
-            for i in range(0, len(ids), chunk_size):
-                chunk = ids[i : i + chunk_size]
+            for i in range(0, len(_ids), _chunk_size):
+                chunk = _ids[i : i + _chunk_size]
                 results = await asyncio.gather(
                     *[delete_one(item_id) for item_id in chunk],
                     return_exceptions=True,

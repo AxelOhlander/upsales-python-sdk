@@ -6,7 +6,7 @@ requires-python = ">=3.13"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Will", email = "will@example.com"}
+    {name = "Will", email = "will@upsales.com"}
 ]
 keywords = ["upsales", "crm", "api", "async", "wrapper"]
 classifiers = [

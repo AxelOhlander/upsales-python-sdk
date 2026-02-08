@@ -29,6 +29,7 @@ from upsales.resources.activity_types import ActivityTypesResource
 from upsales.resources.ad_accounts import AdAccountsResource
 from upsales.resources.ad_campaigns import AdCampaignsResource
 from upsales.resources.ad_creatives import AdCreativesResource
+from upsales.resources.agreement_groups import AgreementGroupsResource
 from upsales.resources.agreements import AgreementsResource
 from upsales.resources.api_keys import ApikeysResource
 from upsales.resources.appointments import AppointmentsResource
@@ -61,6 +62,8 @@ from upsales.resources.image_compose import ImageComposeResource
 from upsales.resources.import_mail_campaign_mail import ImportMailCampaignMailResource
 from upsales.resources.import_mail_event import ImportMailEventResource
 from upsales.resources.journey_steps import JourneyStepsResource
+from upsales.resources.lead_channels import LeadChannelsResource
+from upsales.resources.lead_sources import LeadSourcesResource
 from upsales.resources.leads import LeadsResource
 from upsales.resources.list_views import ListViewsResource
 from upsales.resources.mail import MailResource
@@ -176,6 +179,8 @@ __all__ = [
     "FormSubmitsResource",
     "FunctionsResource",
     "JourneyStepsResource",
+    "LeadChannelsResource",
+    "LeadSourcesResource",
     "LeadsResource",
     "ListViewsResource",
     "MailResource",
@@ -220,6 +225,7 @@ __all__ = [
     "ImportMailEventResource",
     "ImportMailCampaignMailResource",
     "AgreementsResource",
+    "AgreementGroupsResource",
     "EventsResource",
     "TicketsResource",
     "ProvisioningResource",
@@ -231,7 +237,6 @@ __all__ = [
     "SoliditetClientsResource",
     "MarketRejectlistsResource",
     "SuggestionsResource",
-    "ImageComposeResource",
     "ValidatePageResource",
     "StandardIntegrationDataResource",
     "SendBeamResource",
@@ -239,4 +244,6 @@ __all__ = [
     "SystemMailResource",
     "MailTestResource",
     "MailMultiResource",
+    "PagesResource",
+    "UnsubsResource",
 ]

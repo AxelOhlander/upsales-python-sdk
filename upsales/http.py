@@ -17,7 +17,7 @@ Note:
 """
 
 import random
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 import httpx
 from tenacity import (
@@ -60,14 +60,14 @@ def _wait_with_retry_after(retry_state: RetryCallState) -> float:
 
     # Check for Retry-After from RateLimitError
     if hasattr(exception, "retry_after") and exception.retry_after is not None:
-        return exception.retry_after
+        return float(exception.retry_after)
 
     # Exponential backoff with jitter: base * 2^attempt + random jitter
     # This helps avoid thundering herd problem
     attempt = retry_state.attempt_number
     base_wait = min(60.0, 1.0 * (2**attempt))  # Cap at 60 seconds
     jitter = random.uniform(0, 0.5 * base_wait)  # Add up to 50% jitter
-    return base_wait + jitter
+    return float(base_wait + jitter)
 
 
 class HTTPClient:
@@ -381,12 +381,12 @@ class HTTPClient:
         Example:
             >>> users = await client.get("/users", limit=100, offset=0)
         """
-        return await self.request(
+        return cast(dict[str, Any], await self.request(
             "GET",
             endpoint,
             _allow_uninitialized=_allow_uninitialized,
             params=params,
-        )
+        ))
 
     async def post(
         self,
@@ -407,12 +407,12 @@ class HTTPClient:
         Example:
             >>> user = await client.post("/users", name="John", email="john@example.com")
         """
-        return await self.request(
+        return cast(dict[str, Any], await self.request(
             "POST",
             endpoint,
             _allow_uninitialized=_allow_uninitialized,
             json=data,
-        )
+        ))
 
     async def put(
         self,
@@ -433,12 +433,12 @@ class HTTPClient:
         Example:
             >>> user = await client.put("/users/1", name="Jane")
         """
-        return await self.request(
+        return cast(dict[str, Any], await self.request(
             "PUT",
             endpoint,
             _allow_uninitialized=_allow_uninitialized,
             json=data,
-        )
+        ))
 
     async def delete(
         self,
@@ -457,11 +457,11 @@ class HTTPClient:
         Example:
             >>> await client.delete("/users/1")
         """
-        return await self.request(
+        return cast(dict[str, Any], await self.request(
             "DELETE",
             endpoint,
             _allow_uninitialized=_allow_uninitialized,
-        )
+        ))
 
     async def get_bytes(
         self,

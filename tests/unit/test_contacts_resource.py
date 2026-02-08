@@ -398,8 +398,8 @@ class TestContactsResourceCustomMethods:
     async def test_get_by_email(self, httpx_mock: HTTPXMock, sample_contacts):
         """Test getting contact by email."""
         httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/contacts?limit=100&offset=0",
-            json={"error": None, "data": sample_contacts},
+            url="https://power.upsales.com/api/v2/contacts?email=john%40example.com&limit=1&offset=0",
+            json={"error": None, "data": [sample_contacts[0]]},
         )
 
         async with HTTPClient(token="test_token", auth_manager=None) as http:
@@ -415,8 +415,8 @@ class TestContactsResourceCustomMethods:
     async def test_get_by_email_not_found(self, httpx_mock: HTTPXMock, sample_contacts):
         """Test getting contact by email when not found."""
         httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/contacts?limit=100&offset=0",
-            json={"error": None, "data": sample_contacts},
+            url="https://power.upsales.com/api/v2/contacts?email=nonexistent%40example.com&limit=1&offset=0",
+            json={"error": None, "data": []},
         )
 
         async with HTTPClient(token="test_token", auth_manager=None) as http:
@@ -429,8 +429,8 @@ class TestContactsResourceCustomMethods:
     async def test_get_by_company(self, httpx_mock: HTTPXMock, sample_contacts):
         """Test getting contacts by company ID."""
         httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/contacts?limit=100&offset=0",
-            json={"error": None, "data": sample_contacts},
+            url="https://power.upsales.com/api/v2/contacts?client.id=5&limit=100&offset=0",
+            json={"error": None, "data": [sample_contacts[0]]},
         )
 
         async with HTTPClient(token="test_token", auth_manager=None) as http:
@@ -460,8 +460,8 @@ class TestContactsResourceCustomMethods:
     async def test_get_priority(self, httpx_mock: HTTPXMock, sample_contacts):
         """Test getting all priority contacts."""
         httpx_mock.add_response(
-            url="https://power.upsales.com/api/v2/contacts?limit=100&offset=0",
-            json={"error": None, "data": sample_contacts},
+            url="https://power.upsales.com/api/v2/contacts?isPriority=1&limit=100&offset=0",
+            json={"error": None, "data": [sample_contacts[0]]},
         )
 
         async with HTTPClient(token="test_token", auth_manager=None) as http:

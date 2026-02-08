@@ -65,5 +65,5 @@ class MailEditorResource:
             headers = {"Authorization": f"Bearer {token.access_token}"}
             ```
         """
-        response = await self._http.request("POST", self._endpoint)
+        response = await self._http.post(self._endpoint)
         return MailEditorToken.model_validate(response["data"])

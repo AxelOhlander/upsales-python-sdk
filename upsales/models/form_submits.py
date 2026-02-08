@@ -18,7 +18,7 @@ from upsales.models.base import BaseModel, PartialModel
 
 if TYPE_CHECKING:
     from upsales.models.company import PartialCompany
-    from upsales.models.contact import PartialContact
+    from upsales.models.contacts import PartialContact
     from upsales.models.forms import PartialForm
 
 
