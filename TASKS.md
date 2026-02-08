@@ -130,9 +130,9 @@ GET-only endpoints. Can be batch-implemented since they follow the same pattern.
 
 ## Phase 4: Missing Action & Hybrid Endpoints (3 Tier-3)
 
-- [ ] `mailBounce` — DELETE only
-- [ ] `socialEventsDefaultTemplates` — GET, DELETE
-- [ ] `userDefinedObjectCategoryTypes` — GET, DELETE
+- [x] `mailBounce` — `MailBounceResource` with `delete()` at `/bounce/:mailAsBase64`
+- [x] `socialEventsDefaultTemplates` — `SocialEventsDefaultTemplatesResource` with `get()`, `delete()` at `/socialEvents/defaultTemplates`
+- [x] `userDefinedObjectCategoryTypes` — `UserDefinedObjectCategoryTypesResource` with `list()`, `delete()` at `/userDefinedObjectCategoryTypes`
 
 ---
 

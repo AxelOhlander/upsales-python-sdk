@@ -100,6 +100,7 @@ from upsales.resources.looker_looks import LookerLooksResource
 from upsales.resources.looker_sso import LookerSSOResource
 from upsales.resources.lookup import LookupResource
 from upsales.resources.mail import MailResource
+from upsales.resources.mail_bounce import MailBounceResource
 from upsales.resources.mail_by_thread import MailByThreadResource
 from upsales.resources.mail_campaign_info import MailCampaignInfoResource
 from upsales.resources.mail_campaigns import MailCampaignsResource
@@ -155,6 +156,9 @@ from upsales.resources.self import SelfResource
 from upsales.resources.send_beam import SendBeamResource
 from upsales.resources.send_esign_reminder import SendEsignReminderResource
 from upsales.resources.signals_feed import SignalsFeedResource
+from upsales.resources.social_events_default_templates import (
+    SocialEventsDefaultTemplatesResource,
+)
 from upsales.resources.soliditet_clients import SoliditetClientsResource
 from upsales.resources.soliditet_matcher import SoliditetMatcherResource
 from upsales.resources.soliditet_search import SoliditetSearchResource
@@ -185,6 +189,9 @@ from upsales.resources.user_defined_object_2 import UserDefinedObject2Resource
 from upsales.resources.user_defined_object_3 import UserDefinedObject3Resource
 from upsales.resources.user_defined_object_4 import UserDefinedObject4Resource
 from upsales.resources.user_defined_object_categories import UserDefinedObjectCategoriesResource
+from upsales.resources.user_defined_object_category_types import (
+    UserDefinedObjectCategoryTypesResource,
+)
 from upsales.resources.user_defined_object_definition import UserDefinedObjectDefinitionsResource
 from upsales.resources.user_invites import UserInvitesResource
 from upsales.resources.users import UsersResource
@@ -364,4 +371,7 @@ __all__ = [
     "RoleSettingsResource",
     "WhatIsMyIpResource",
     "WorkerStatusResource",
+    "MailBounceResource",
+    "SocialEventsDefaultTemplatesResource",
+    "UserDefinedObjectCategoryTypesResource",
 ]

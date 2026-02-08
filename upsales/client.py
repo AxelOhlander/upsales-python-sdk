@@ -551,6 +551,17 @@ class Upsales:
         self.role_settings = RoleSettingsResource(self.http)
         self.what_is_my_ip = WhatIsMyIpResource(self.http)
         self.worker_status = WorkerStatusResource(self.http)
+        from upsales.resources.mail_bounce import MailBounceResource
+        from upsales.resources.social_events_default_templates import (
+            SocialEventsDefaultTemplatesResource,
+        )
+        from upsales.resources.user_defined_object_category_types import (
+            UserDefinedObjectCategoryTypesResource,
+        )
+
+        self.mail_bounce = MailBounceResource(self.http)
+        self.social_events_default_templates = SocialEventsDefaultTemplatesResource(self.http)
+        self.user_defined_object_category_types = UserDefinedObjectCategoryTypesResource(self.http)
 
     @classmethod
     def from_env(cls, env_file: str = ".env") -> "Upsales":
