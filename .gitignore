@@ -68,8 +68,13 @@ ai_temp_files/playground.py
 # Change review notes (local workflow artifacts)
 change-review/
 
-# Claude Code local settings (personal preferences, not project config)
-.claude/settings.local.json
+# Claude Code
+.claude/
+.pre-push-review/
+
+# Working notes
+notes.md
+task_plan.md
 
 # Documentation
 site/
