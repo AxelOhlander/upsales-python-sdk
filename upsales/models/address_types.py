@@ -4,10 +4,10 @@ Address type constants for Upsales addresses.
 Defines valid address type values used in the Address model and AddressList.
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class AddressType(str, Enum):
+class AddressType(StrEnum):
     """
     Valid address type values for Upsales addresses.
 
