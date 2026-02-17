@@ -641,6 +641,28 @@ Solution: API response structure changed.
 2. Re-record with new structure
 3. Update model if fields changed
 
+### Issue: API Returns 500/404 Errors
+
+Some endpoints return server errors or 404s during cassette recording. This typically means:
+- The module isn't enabled for your account (e.g., Engage/Ads features)
+- The endpoint is deprecated or renamed
+- The endpoint requires specific configuration
+
+Solution: Skip the entire test module:
+```python
+import pytest
+
+pytestmark = pytest.mark.skip(reason="API returns 500 Server Error")
+```
+
+See `docs/endpoint-map.md` for the current list of endpoints with API errors.
+
+### Issue: Tests Skip Because No Data Exists
+
+Cassettes are recorded but tests skip with `pytest.skip("No items found")`. This means the sandbox has no test data for that entity type.
+
+Solution: Create test data in the sandbox, delete cassettes, and re-record.
+
 ### Issue: Sensitive Data in Cassettes
 
 Solution: Check VCR filter configuration.

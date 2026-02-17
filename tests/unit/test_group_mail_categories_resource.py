@@ -198,7 +198,7 @@ class TestGroupMailCategoryModel:
             id=1,
             title="Test Category",
         )
-        assert category.description == ""
+        assert category.description is None
         assert category.active == 1
         assert category.languages == []
         assert category.relatedMailCampaigns == []

@@ -2,24 +2,23 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/formSubmits?limit=1&offset=0
   response:
     body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+      string: '{"error":null,"metadata":{"total":0,"limit":1,"offset":0},"data":[]}'
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -32,85 +31,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '168'
+      - '68'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:07:20 GMT
+      - Mon, 09 Feb 2026 08:47:27 GMT
       ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      - W/"44-Elh+HfA4kTjTPj+3rVBunwjQmFE"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"e66cac0d7ffbf3966a4707f72f7078d5caf5749193645b802bb323bc74b665563b97869f27f729c7012be923fece2282","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:07:21 GMT
-      ETag:
-      - W/"8d-olBs9icAmp16HMooAMCGJus1CSw"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=e66cac0d7ffbf3966a4707f72f7078d5caf5749193645b802bb323bc74b665563b97869f27f729c7012be923fece2282;
-        Max-Age=1764925641; Path=/; Expires=Sat, 08 Nov 2081 17:14:42 GMT; HttpOnly;
-        Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -122,148 +55,11 @@ interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-RateLimit-Limit:
-      - '40'
+      - '200'
       X-RateLimit-Remaining:
-      - '38'
+      - '177'
       X-RateLimit-Reset:
-      - '10'
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/formSubmits?limit=1&offset=0
-  response:
-    body:
-      string: "{\"error\":null,\"metadata\":{\"total\":253,\"limit\":1,\"offset\":0},\"data\":[{\"id\":16,\"formId\":7,\"form\":{\"id\":7,\"title\":\"H\xE4mta
-        eBook\",\"name\":\"Ladda ner eBook\",\"landingPageBody\":null},\"contact\":{\"journeyStep\":\"pipeline\",\"name\":\"Alfred
-        Schneider\",\"id\":595,\"email\":\"alfred.schneider@example.com\"},\"client\":{\"journeyStep\":\"pipeline\",\"name\":\"AstraZeneca
-        AB\",\"assigned\":{\"regDate\":\"2025-11-18T13:18:50Z\",\"user\":{\"role\":{\"name\":\"Nordic
-        Sales\",\"id\":1},\"name\":\"Gustav Pettersson\",\"id\":1,\"email\":\"demo_se@upsales.com\"}},\"id\":94,\"users\":[{\"name\":\"Lisa
-        Henriksson\",\"id\":7,\"role\":{\"name\":\"DACH Sales\",\"id\":2},\"email\":\"demo_2@upsales.com\"}],\"userRemovable\":true,\"userEditable\":true,\"dunsNo\":\"353951254\",\"prospectingId\":\"SE.1.5560117482\",\"hasActivity\":\"2025-12-21T15:00:00.000Z\",\"hadActivity\":\"2025-12-06T10:48:58.000Z\",\"hasAppointment\":null,\"hadAppointment\":null,\"hasOpportunity\":null,\"hadOpportunity\":\"2014-12-12T00:00:00.000Z\",\"hasOrder\":null,\"hadOrder\":\"2023-11-13T00:00:00.000Z\",\"hasMail\":true,\"hasForm\":true,\"hasVisit\":false,\"processedBy\":{\"entityType\":\"Activity\",\"id\":1619,\"date\":\"2025-12-21T15:00:00.000Z\",\"time\":\"16:00:00\",\"user\":{\"id\":1,\"name\":\"Gustav
-        Pettersson\",\"active\":1}}},\"score\":10,\"regDate\":\"2025-08-23T09:08:42Z\",\"processedDate\":\"2025-08-23T09:08:42Z\",\"fieldValues\":[{\"name\":\"Contact.email\",\"value\":\"sofia.bley-claesson@astrazeneca.com\"}],\"userRemovable\":true,\"userEditable\":true,\"visit\":null,\"brandId\":1}]}"
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '1403'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:07:21 GMT
-      ETag:
-      - W/"57b-F3PAMRTporx32ndWPqt7RSWzX/A"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=e66cac0d7ffbf3966a4707f72f7078d5caf5749193645b802bb323bc74b665563b97869f27f729c7012be923fece2282;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:07:21 GMT; HttpOnly; Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/formSubmits/16
-  response:
-    body:
-      string: "{\"error\":null,\"data\":{\"id\":16,\"formId\":7,\"form\":{\"id\":7,\"title\":\"H\xE4mta
-        eBook\",\"name\":\"Ladda ner eBook\",\"landingPageBody\":null},\"contact\":{\"journeyStep\":\"pipeline\",\"name\":\"Alfred
-        Schneider\",\"id\":595,\"email\":\"alfred.schneider@example.com\"},\"client\":{\"journeyStep\":\"pipeline\",\"name\":\"AstraZeneca
-        AB\",\"assigned\":{\"regDate\":\"2025-11-18T13:18:50Z\",\"user\":{\"role\":{\"name\":\"Nordic
-        Sales\",\"id\":1},\"name\":\"Gustav Pettersson\",\"id\":1,\"email\":\"demo_se@upsales.com\"}},\"id\":94,\"users\":[{\"name\":\"Lisa
-        Henriksson\",\"id\":7,\"role\":{\"name\":\"DACH Sales\",\"id\":2},\"email\":\"demo_2@upsales.com\"}],\"userRemovable\":true,\"userEditable\":true,\"dunsNo\":\"353951254\",\"prospectingId\":\"SE.1.5560117482\",\"hasActivity\":\"2025-12-21T15:00:00.000Z\",\"hadActivity\":\"2025-12-06T10:48:58.000Z\",\"hasAppointment\":null,\"hadAppointment\":null,\"hasOpportunity\":null,\"hadOpportunity\":\"2014-12-12T00:00:00.000Z\",\"hasOrder\":null,\"hadOrder\":\"2023-11-13T00:00:00.000Z\",\"hasMail\":true,\"hasForm\":true,\"hasVisit\":false},\"score\":10,\"regDate\":\"2025-08-23T09:08:42Z\",\"processedDate\":\"2025-08-23T09:08:42Z\",\"fieldValues\":[{\"name\":\"Contact.email\",\"value\":\"sofia.bley-claesson@astrazeneca.com\"}],\"userRemovable\":true,\"userEditable\":true,\"visit\":null,\"brandId\":1}}"
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '1199'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:07:21 GMT
-      ETag:
-      - W/"4af-teA/SkwfWPr66zuxNOUilO0Llt8"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=e66cac0d7ffbf3966a4707f72f7078d5caf5749193645b802bb323bc74b665563b97869f27f729c7012be923fece2282;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:07:21 GMT; HttpOnly; Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
+      - '7'
       X-XSS-Protection:
       - 1; mode=block
     status:

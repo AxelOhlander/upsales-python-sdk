@@ -58,7 +58,7 @@ async def test_list_group_mail_categories_real_response():
             assert isinstance(category.id, int)
             assert category.id > 0
             assert isinstance(category.title, str)
-            assert isinstance(category.description, str)
+            assert category.description is None or isinstance(category.description, str)
             assert category.active in (0, 1)
             assert isinstance(category.languages, list)
             assert isinstance(category.relatedMailCampaigns, list)
@@ -99,7 +99,7 @@ async def test_get_group_mail_category_real_response():
         assert isinstance(category, GroupMailCategory)
         assert category.id == category_id
         assert isinstance(category.title, str)
-        assert isinstance(category.description, str)
+        assert category.description is None or isinstance(category.description, str)
         assert category.active in (0, 1)
         assert isinstance(category.languages, list)
         assert isinstance(category.relatedMailCampaigns, list)

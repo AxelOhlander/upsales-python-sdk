@@ -359,6 +359,23 @@ class Metadata(PydanticBase):
         iOSInterest: iOS interest channel name
         requiredFields: Required field configuration by entity type
         standardFields: Standard field definitions by entity type
+        activatedFeatures: Activated feature flags (visits, mail, esign, etc.)
+        agentLiveListeners: Active agent live listeners
+        agentUiElements: Agent UI element configurations by entity type
+        credits: Available credits (email, bisnode)
+        esign: E-sign configuration
+        iCalExternalUrlHash: Hash for external iCal URL
+        integrations: Integration configurations and hooks
+        listOnboarding: List onboarding status by entity type
+        mailEditorHash: Hash for mail editor access
+        mainApps: Main application configurations
+        map: Map/tracking feature configuration
+        onboarding: Onboarding steps and progress
+        publicUrlHash: Hash for public URL access
+        showUserSurvey: Whether to show user survey
+        userQuotaPeriods: User quota period configurations
+        userSurveyResult: User survey results
+        validFileExtensions: Comma-separated list of valid file extensions
 
     Example:
         >>> metadata = await upsales.metadata.get()
@@ -406,6 +423,55 @@ class Metadata(PydanticBase):
     )
     standardFields: dict[str, dict[str, FieldDefinition]] = Field(
         default_factory=dict, description="Standard field definitions by entity type"
+    )
+    activatedFeatures: dict[str, Any] = Field(
+        default_factory=dict, description="Activated feature flags (visits, mail, esign, etc.)"
+    )
+    agentLiveListeners: list[Any] = Field(
+        default_factory=list, description="Active agent live listeners"
+    )
+    agentUiElements: dict[str, Any] = Field(
+        default_factory=dict, description="Agent UI element configurations by entity type"
+    )
+    credits: dict[str, int] = Field(
+        default_factory=dict, description="Available credits (email, bisnode)"
+    )
+    esign: dict[str, Any] = Field(
+        default_factory=dict, description="E-sign configuration"
+    )
+    iCalExternalUrlHash: str | None = Field(
+        None, description="Hash for external iCal URL"
+    )
+    integrations: dict[str, Any] = Field(
+        default_factory=dict, description="Integration configurations and hooks"
+    )
+    listOnboarding: dict[str, Any] = Field(
+        default_factory=dict, description="List onboarding status by entity type"
+    )
+    mailEditorHash: str | None = Field(
+        None, description="Hash for mail editor access"
+    )
+    mainApps: list[Any] = Field(
+        default_factory=list, description="Main application configurations"
+    )
+    map: dict[str, Any] = Field(
+        default_factory=dict, description="Map/tracking feature configuration"
+    )
+    onboarding: list[Any] = Field(
+        default_factory=list, description="Onboarding steps and progress"
+    )
+    publicUrlHash: str | None = Field(
+        None, description="Hash for public URL access"
+    )
+    showUserSurvey: bool = Field(False, description="Whether to show user survey")
+    userQuotaPeriods: dict[str, Any] = Field(
+        default_factory=dict, description="User quota period configurations"
+    )
+    userSurveyResult: list[Any] = Field(
+        default_factory=list, description="User survey results"
+    )
+    validFileExtensions: str | None = Field(
+        None, description="Comma-separated list of valid file extensions"
     )
 
     _client: "Upsales | None" = None

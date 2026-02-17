@@ -2,151 +2,18 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=20&offset=0
-  response:
-    body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '168'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:56 GMT
-      ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
+      Host:
       - power.upsales.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"1a8753cfb37b7880518a166b7210cc0d17f4e49f74e55540760a54f814e898d814e7f8b2fa9d28a8efb1924e983aaf1d","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:57 GMT
-      ETag:
-      - W/"8d-uhK5Itu3cJnD7QsjFZ34PP+XKyU"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=1a8753cfb37b7880518a166b7210cc0d17f4e49f74e55540760a54f814e898d814e7f8b2fa9d28a8efb1924e983aaf1d;
-        Max-Age=1764925557; Path=/; Expires=Sat, 08 Nov 2081 17:11:54 GMT; HttpOnly;
-        Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-RateLimit-Limit:
-      - '40'
-      X-RateLimit-Remaining:
-      - '18'
-      X-RateLimit-Reset:
-      - '0'
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/marketRejectlist?limit=20&offset=0
   response:
@@ -169,7 +36,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:05:59 GMT
+      - Mon, 09 Feb 2026 08:50:16 GMT
       ETag:
       - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
       Expires:
@@ -178,9 +45,6 @@ interactions:
       - no-cache
       Server:
       - nginx
-      Set-Cookie:
-      - token=1a8753cfb37b7880518a166b7210cc0d17f4e49f74e55540760a54f814e898d814e7f8b2fa9d28a8efb1924e983aaf1d;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:58 GMT; HttpOnly; Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -191,6 +55,280 @@ interactions:
       - noopen
       X-Frame-Options:
       - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '198'
+      X-RateLimit-Reset:
+      - '10'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=20&offset=0
+  response:
+    body:
+      string: '{"error":{"key":"ServerError","code":500,"errorCode":3,"msg":"Server
+        error"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:50:20 GMT
+      ETag:
+      - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '197'
+      X-RateLimit-Reset:
+      - '6'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=20&offset=0
+  response:
+    body:
+      string: '{"error":{"key":"ServerError","code":500,"errorCode":3,"msg":"Server
+        error"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:50:26 GMT
+      ETag:
+      - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '199'
+      X-RateLimit-Reset:
+      - '-2'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=20&offset=0
+  response:
+    body:
+      string: '{"error":{"key":"ServerError","code":500,"errorCode":3,"msg":"Server
+        error"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:50:39 GMT
+      ETag:
+      - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '198'
+      X-RateLimit-Reset:
+      - '10'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/marketRejectlist?limit=20&offset=0
+  response:
+    body:
+      string: '{"error":{"key":"ServerError","code":500,"errorCode":3,"msg":"Server
+        error"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '93'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:51:01 GMT
+      ETag:
+      - W/"5d-TO3Rk5Vx13SlaCBEN7s1AOtO31I"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '199'
+      X-RateLimit-Reset:
+      - '-2'
       X-XSS-Protection:
       - 1; mode=block
     status:

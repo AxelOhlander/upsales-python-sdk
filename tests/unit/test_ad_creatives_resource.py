@@ -114,7 +114,7 @@ class TestAdCreativesResource:
 
         await ad_creatives_resource.delete(123)
 
-        mock_http_client.delete.assert_called_once_with("/adCreatives/123")
+        mock_http_client.delete.assert_called_once_with("/engage/creative/123")
 
     async def test_get_by_type(
         self, ad_creatives_resource, mock_http_client, sample_ad_creative_data

@@ -18,6 +18,8 @@ import vcr
 from upsales import Upsales
 from upsales.models.report_view import ReportView
 
+pytestmark = pytest.mark.skip(reason="Endpoint returns 404 - may be removed or renamed")
+
 # Configure VCR for these tests
 my_vcr = vcr.VCR(
     cassette_library_dir="tests/cassettes/integration",

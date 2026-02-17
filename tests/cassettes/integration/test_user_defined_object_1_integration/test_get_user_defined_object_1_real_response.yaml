@@ -1,0 +1,183 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/userDefinedObjects/1?limit=1&offset=0
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA22YTW7bSBCFrzLgWgn6j82fXQLPIqsAGa8SeMFI7YBjSQwoykBg+DhzklxsutoR
+        i6+rd+Iz36dysaqrxJcqzPM0V/35ejzuqlNYhsOwDFX/Ui3TMhyr3vlddRxP41L1eldNj4+XED+q
+        1131duO3l2o8VH29q87TEi43UrrQcGXgysKVu13tj2M4L/T9088wD8s4nYfjh/1+upL6xzGcQtVX
+        /zyH8+Vp+OvjOFW7FESjdtX1EuYYxbeHGOF+Oi/DfvX9nKd/A1/SnbfP83QM6+fw425Y6BuMMv6d
+        0u+0vTe2t3Wv3Xul1Nf4dafpkN/k7pXpbdc7e7tpf70s0ynl6Hk4Xunuj9P8+79L/FsSPszz8Cv+
+        /SY/7KrHMRwPnyij7nXHvtq57ub6dF7CD4qdxD/a3XT9Tv/CRlrhyQvoeou22hqBJjFDb6QVnbyA
+        9lu09m0t0CRm6I20opMX0A2ilS6glRboVdqgoxfQLaBr10p0FHM0S4wmL6A7jLp2hahrJ6JepU3U
+        0btFe7VFO1t4jCRm6I20opMX0BoqxHpZfCTmFcISVwh5AW22aFN3Ek1iht5IKzp5AW0B3WmZaxJz
+        NEuMJi+gHVZI6wsV0npRIau0qZDoBXSNCVGqkBClREJWaZOQ6AU0dKNR2kp0FHM0S4wmL6ChG43t
+        ZKOTmKNZYjR5AQ3d6OpadiOJeV2zxHVNXkB3mBBfSoiXCfGFhHhMSAPdqF1bOJ6imFcIS1wh5AU0
+        dKNufaH4opijWWI0eQGN3Wi8zDWJeUJY4oSQF9A2O1Tl8USiPFTF8ZS8gHZYfKrwGKMoik/Jx0he
+        QGM3ulLLONkyrtAyLmuZBmdj1xZGQRTzhLDECSEvoLEbW1PoxijmUbPEUZMX0DgbOycTQqKI2omE
+        JC+gcTaaQtQk5mgjo07eLbqFbqxVI3NNYr49scTbE3kBjbPRm0bOxijms5Elno3kBTR2o+vkGUKi
+        KL5OnCHJC2joRttqOWVIzKNmiaMmL6AdLgtORk2iWBaciDp5AY3d6G3heIpinhCWOCHkBTR2ozaF
+        uo5iXnwscfGRF9DYjaaw85EoDlW58yUvoFts9MJjNPIxmsJjNOIxYjc2Vi5mJOYJYYkTQt4tusPZ
+        2KnCAIuiOEOUHGDkBbTGna8ptEwUxc7XyJYhL6CzbiwtC04uC66wLLhsWehwU62NTAiJYuczIiHJ
+        C2icjcYUEhJFUXxGJoS8gM5mY2EPIVEmREbtsj2kw03V6wI6iqLRtUSTF9DQjXVT+iHdyB/STeGH
+        dJP9kO6gG61xhUM1ivnJxxKffOQFNG6qjS2cIVHME8ISJ4S8W7RW2I5tYX0iUeyTcn1KXmTjrmo7
+        mRISczZLzCYvsrEhtZWTl8Q8JyxxTsiLbNxW27q0Y9dyx64LO3btMzYOyKaRew6JeZmwxGVCXmRD
+        T3rlZNwkZuyNtLKTF9n+NV7vh8iZ5jGk12pv782+hNP0PCTUMl/Dm/j3YVxy7S48judw+Pyd3rwl
+        KL1OPD+Fw/24fwrL26u6h9f/AeWrD5WJFAAA
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:17:36 GMT
+      ETag:
+      - W/"1489-uClW0KIAYlwtvCJxWFja++5FJ9g"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '193'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/userDefinedObjects/1/5
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA22Yz27bOBCHX2Whs1vwvyTfWqSHngq0Oe2iB9VmCzWOVchygCLI4+yT7Isth6k1
+        +nF4i77494UZc8ixn5s4z9Pc7M/X02nXHIdlaPbPzXhs9n7XnKclXm6/yw8angw8WXhyt6fDaYzn
+        hazTrzgPyzidh9O7w2G6Ev2TGB5js2++PMXz5WH46/04Nbu8iFbtmuslzmkV/3x9SbLpvAyHNfdr
+        nn5GfqRX3n6ep1Ncf44/7oaF/oJRJrxR+o2298burd9r91Yp9Xf6c4/TsXyRu1dmb/u9s7cXHa6X
+        ZXpMi3lunobTlV79fpr/+/eSfpfBu3kefqff3/DXXfN9jKfjR6qoe9lxzjvX31Ifz0v8QWsn+Ifd
+        Tddv9C9s0CrPWVD7rdpqa4SaYKHeoFWds6AOW7UOnRdqgoV6g1Z1zoK6RbXSFbXSQr2ijTplQd2B
+        2rtOqhMs1YxYTVlQ97hq7yqr9k6sekWbVafsVh3UVu1s5W0kWKg3aFXnLKg17BAb5OYjWO4QRrxD
+        KAtqs1Ub30s1wUK9Qas6Z0FtQd1rWWuCpZoRqykLaoc7pAuVHdIFsUNWtNkhKQtqjwVRqlIQpURB
+        VrQpSMqCGrrRKG2lOsFSzYjVlAU1dKOxvWx0gqWaEaspC2roRue97EaC5b5mxPuasqDusSChVpAg
+        CxIqBQlYkBa6UbuucjwlWO4QRrxDKAtq6EbdhcrmS7BUM2I1ZUGN3WiCrDXBsiCMuCCUBbUtDlV5
+        PBGUh6o4nnIW1A43n6q8jQmKzafk20hZUGM3ulrLONkyrtIyrmiZFu/GvqtcBQmWBWHEBaEsqLEb
+        O1PpxgTLVTPiVVMW1Hg39k4WhKBYtRMFyVlQ491oKqsmWKqNXHXObtUddKNXraw1wXJ6YsTTE2VB
+        jXdjMK28GxMs70ZGfDdSFtTYja6XZwhBsfl6cYbkLKihG22n5S1DsFw1I141ZUHtcFhwctUExbDg
+        xKpzFtTYjcFWjqcEy4Iw4oJQFtTYjdpU9nWC5eZjxJuPsqDGbjSVmY+gOFTlzJezoO6w0Stvo5Fv
+        o6m8jUa8jdiNrZWDGcGyIIy4IJTdqnu8G3tVucASFGeIkhcYZUGtceZrKy2ToJj5WtkylAV10Y21
+        YcHJYcFVhgVXDAs9TqreyIIQFDOfEQXJWVDj3WhMpSAJis1nZEEoC+ribqzMIQRlQeSqXTGH9Dip
+        Bl1RJygaXUs1ZUEN3ejb2gfpVn6QbisfpNvig3QP3WiNqxyqCZYnHyM++SgLapxUW1s5QxIsC8KI
+        C0LZrVorbMeuMj4RFPOkHJ9yFt04q9peloRg6WbEbsqiGxtSW3nzEixrwohrQll047Ta+dqM7eWM
+        7Ssztg+FGy/ItpVzDsFymzDibUJZdENPBuXkugkW7g1a3TmL7vCSng9D8kzzGPPXaq/fm32Oj9PT
+        kFXLfI2v8MNxXEp2F7+P53j89I2+ecvSXXMazw/xeD8eHuLy+lXdy//MgMHjWhQAAA==
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:17:37 GMT
+      ETag:
+      - W/"145a-6iI43htj9DO2rsfv2NXl+G+eya0"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '192'
+      X-RateLimit-Reset:
+      - '9'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

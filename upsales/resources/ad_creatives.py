@@ -51,7 +51,7 @@ class AdCreativesResource(BaseResource[AdCreative, PartialAdCreative]):
         """
         super().__init__(
             http=http,
-            endpoint="/adCreatives",
+            endpoint="/engage/creative",
             model_class=AdCreative,
             partial_class=PartialAdCreative,
         )

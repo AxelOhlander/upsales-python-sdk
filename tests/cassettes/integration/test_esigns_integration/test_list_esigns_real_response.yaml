@@ -2,151 +2,18 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/esigns?limit=5&offset=0
-  response:
-    body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '168'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:48 GMT
-      ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
+      Host:
       - power.upsales.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"b3ed602b64ad6195aba228a15ab3bcd8cde4db68c218f491d013a664ef6de94dd8c801fd0a1f8c011190521e024b104d","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:49 GMT
-      ETag:
-      - W/"8d-gQk0Zekb3AmI+kkdRKk7tcRn7rw"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=b3ed602b64ad6195aba228a15ab3bcd8cde4db68c218f491d013a664ef6de94dd8c801fd0a1f8c011190521e024b104d;
-        Max-Age=1764925549; Path=/; Expires=Sat, 08 Nov 2081 17:11:38 GMT; HttpOnly;
-        Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-RateLimit-Limit:
-      - '40'
-      X-RateLimit-Remaining:
-      - '34'
-      X-RateLimit-Reset:
-      - '8'
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/esigns?limit=5&offset=0
   response:
@@ -168,7 +35,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:05:50 GMT
+      - Mon, 09 Feb 2026 08:47:26 GMT
       ETag:
       - W/"44-GVoB84C1iyAdgIWVrEbl2ZjgNyc"
       Expires:
@@ -177,9 +44,6 @@ interactions:
       - no-cache
       Server:
       - nginx
-      Set-Cookie:
-      - token=b3ed602b64ad6195aba228a15ab3bcd8cde4db68c218f491d013a664ef6de94dd8c801fd0a1f8c011190521e024b104d;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:50 GMT; HttpOnly; Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -190,6 +54,12 @@ interactions:
       - noopen
       X-Frame-Options:
       - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '184'
+      X-RateLimit-Reset:
+      - '8'
       X-XSS-Protection:
       - 1; mode=block
     status:

@@ -57,7 +57,7 @@ class GroupMailCategory(BaseModel):
 
     # Updatable fields
     title: str = Field(description="Category title")
-    description: str = Field(default="", description="Category description")
+    description: str | None = Field(default=None, description="Category description")
     active: BinaryFlag = Field(default=1, description="Active status (0 or 1)")
     languages: list[str | dict[str, str]] = Field(
         default=[], description="Language codes or configurations with translations"

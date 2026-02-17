@@ -2,24 +2,26 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/listViews/contact?params=%7B%27limit%27%3A+5%2C+%27offset%27%3A+0%7D
   response:
     body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+      string: '{"error":null,"metadata":{"limit":1000,"offset":0,"total":2},"data":[{"id":"standard1","type":"contact","title":"Mina
+        kontakter","default":true,"editable":false,"private":false,"sorting":[{"attribute":"name","ascending":true}],"limit":50,"filters":[{"filterName":"AccountManager","comparisonType":"Equals","field":"client.users.id","filterType":"list","inactive":false,"value":[75],"title":"default.accountManagers","valueText":"ok
+        i promise i will keep track of it this time"},{"filterName":"Active","value":true}],"columns":["name","phone","email"],"supportUserOptions":{"hidden":true}},{"id":"standard2","type":"contact","title":"Alla
+        kontakter","default":false,"editable":false,"private":false,"sorting":[{"attribute":"name","ascending":true}],"limit":50,"filters":[{"filterName":"Active","value":true}],"columns":["name","phone","email"],"supportUserOptions":{"default":true}}]}'
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -32,85 +34,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '168'
+      - '883'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:05:46 GMT
+      - Mon, 09 Feb 2026 08:48:01 GMT
       ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      - W/"373-nlJhCr5qW9CzjiJs9XZWuoO9OVI"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"47afe3497244fc9d33ec118dda7d32bd9cf01934a6261262483a45d820f82bd0ada8edbb85d5e427cc858cd78d4f44c9","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:47 GMT
-      ETag:
-      - W/"8d-EE6msUbDePMOwkGDOQ+uFpl1Byk"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=47afe3497244fc9d33ec118dda7d32bd9cf01934a6261262483a45d820f82bd0ada8edbb85d5e427cc858cd78d4f44c9;
-        Max-Age=1764925547; Path=/; Expires=Sat, 08 Nov 2081 17:11:35 GMT; HttpOnly;
-        Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -122,79 +58,11 @@ interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-RateLimit-Limit:
-      - '40'
+      - '200'
       X-RateLimit-Remaining:
-      - '37'
+      - '180'
       X-RateLimit-Reset:
-      - '10'
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/listViews/contact?params=%7B%27limit%27%3A+5%2C+%27offset%27%3A+0%7D
-  response:
-    body:
-      string: "{\"error\":null,\"metadata\":{\"limit\":1000,\"offset\":0,\"total\":3},\"data\":[{\"id\":\"standard1\",\"type\":\"contact\",\"title\":\"Mina
-        kontakter\",\"default\":true,\"editable\":false,\"private\":false,\"sorting\":[{\"attribute\":\"name\",\"ascending\":true}],\"limit\":50,\"filters\":[{\"filterName\":\"AccountManager\",\"comparisonType\":\"Equals\",\"field\":\"client.users.id\",\"filterType\":\"list\",\"inactive\":false,\"value\":[1],\"title\":\"default.accountManagers\",\"valueText\":\"Gustav
-        Pettersson\"},{\"filterName\":\"Active\",\"value\":true}],\"columns\":[\"name\",\"phone\",\"email\"],\"supportUserOptions\":{\"hidden\":true}},{\"id\":\"standard2\",\"type\":\"contact\",\"title\":\"Alla
-        kontakter\",\"default\":false,\"editable\":false,\"private\":false,\"sorting\":[{\"attribute\":\"name\",\"ascending\":true}],\"limit\":50,\"filters\":[{\"filterName\":\"Active\",\"value\":true}],\"columns\":[\"name\",\"phone\",\"email\"],\"supportUserOptions\":{\"default\":true}},{\"id\":\"standard3\",\"type\":\"contact\",\"title\":\"Mina
-        kontakters \xE4renden\",\"default\":false,\"editable\":false,\"private\":false,\"feature\":\"customerSupport\",\"sorting\":[{\"attribute\":\"name\",\"ascending\":true}],\"limit\":50,\"filters\":[{\"filterName\":\"AccountManager\",\"comparisonType\":\"Equals\",\"field\":\"client.users.id\",\"filterType\":\"list\",\"inactive\":false,\"value\":[1],\"title\":\"default.accountManagers\",\"valueText\":\"Gustav
-        Pettersson\"},{\"filterName\":\"HasSupportTickets\",\"value\":{\"Status\":{\"value\":\"open\"},\"has\":true},\"inactive\":false},{\"filterName\":\"Active\",\"value\":true}],\"columns\":[\"name\",\"phone\",\"email\"],\"supportUserOptions\":{\"hidden\":true}}]}"
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '1481'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:48 GMT
-      ETag:
-      - W/"5c9-pfw+Lz5tH/kvI/AeTpcwT5w/TXU"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=47afe3497244fc9d33ec118dda7d32bd9cf01934a6261262483a45d820f82bd0ada8edbb85d5e427cc858cd78d4f44c9;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:48 GMT; HttpOnly; Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
+      - '9'
       X-XSS-Protection:
       - 1; mode=block
     status:

@@ -56,13 +56,13 @@ class SoliditetClient(BaseModel):
 
     # Override id from BaseModel - this endpoint uses DUNS numbers instead
     id: int | None = Field(None, frozen=True, description="Not used (uses dunsNo)")  # type: ignore[assignment]
-    dunsNo: str | None = Field(None, description="DUNS number identifier")
+    dunsNo: str | int | None = Field(None, description="DUNS number identifier")
     name: str | None = Field(None, description="Company name")
     turnover: float | None = Field(None, description="Company turnover/revenue")
     headquarters: str | None = Field(None, description="Headquarters location")
     city: str | None = Field(None, description="City location")
     country: str | None = Field(None, description="Country location")
-    orgNo: str | None = Field(None, description="Organization number")
+    orgNo: str | int | None = Field(None, description="Organization number")
     sniCode: str | None = Field(None, description="SNI code (industry classification)")
     noOfEmployeesExact: int | None = Field(None, description="Exact number of employees")
 

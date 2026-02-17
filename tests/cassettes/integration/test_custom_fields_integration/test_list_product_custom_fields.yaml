@@ -2,24 +2,23 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/customFields/product
   response:
     body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+      string: '{"error":null,"metadata":{"total":2,"limit":1000,"offset":0},"data":[{"id":1,"name":"Artikelnummer","dropdownDefault":null,"datatype":"String","default":null,"lookupField":0,"sortId":0,"visible":1,"editable":0,"locked":0,"query":null,"obligatoryField":0,"searchable":0,"maxLength":65535,"alias":"FORTNOX_ID","viewonly":0,"roles":[],"categories":[],"tooltip":null,"integrationDependency":null},{"id":2,"name":"Kategori","dropdownDefault":null,"datatype":"Select","default":["hje","bhfej","ger"],"lookupField":0,"sortId":0,"visible":1,"editable":1,"locked":0,"query":null,"obligatoryField":0,"searchable":0,"maxLength":65535,"alias":null,"viewonly":0,"roles":[],"categories":[],"tooltip":null,"integrationDependency":null}]}'
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -32,85 +31,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '168'
+      - '722'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:06:04 GMT
+      - Mon, 09 Feb 2026 08:47:24 GMT
       ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      - W/"2d2-s/dVTG8qO8k0d/j4l3nypYoMlns"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"6833de9669f8aceb0bdba9906e37fc0269a2771357f6e845ce192d9a76fd148335291a13a28b545d8033996317ab2dd7","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:06:04 GMT
-      ETag:
-      - W/"8d-nL2+xAr5iS6QEySrTzTRoQedH4k"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=6833de9669f8aceb0bdba9906e37fc0269a2771357f6e845ce192d9a76fd148335291a13a28b545d8033996317ab2dd7;
-        Max-Age=1764925564; Path=/; Expires=Sat, 08 Nov 2081 17:12:09 GMT; HttpOnly;
-        Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -122,74 +55,11 @@ interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-RateLimit-Limit:
-      - '40'
+      - '200'
       X-RateLimit-Remaining:
-      - '32'
+      - '195'
       X-RateLimit-Reset:
-      - '4'
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/customFields/product
-  response:
-    body:
-      string: '{"error":null,"metadata":{"total":0,"limit":1000,"offset":0},"data":[]}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '71'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:06:05 GMT
-      ETag:
-      - W/"47-/eck/AbTJwmT3UL63LDh1g/xf3A"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=6833de9669f8aceb0bdba9906e37fc0269a2771357f6e845ce192d9a76fd148335291a13a28b545d8033996317ab2dd7;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:06:05 GMT; HttpOnly; Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
+      - '9'
       X-XSS-Protection:
       - 1; mode=block
     status:

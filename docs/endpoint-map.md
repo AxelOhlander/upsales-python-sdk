@@ -1,6 +1,6 @@
 # Upsales SDK Endpoint Map
 
-**Last Updated**: 2025-11-14
+**Last Updated**: 2026-02-09 (field gap analysis complete)
 **Purpose**: Comprehensive map of all documented endpoints, their CRUD operations, and verification status.
 
 ---
@@ -1110,6 +1110,11 @@
 
 **Field Requirements**: N/A (read-only)
 
+**Field Gap Analysis** (2026-02-09):
+- ✅ All 33 API response fields now explicitly defined in Metadata model
+- Added 17 previously missing fields: `activatedFeatures`, `agentLiveListeners`, `agentUiElements`, `credits`, `esign`, `iCalExternalUrlHash`, `integrations`, `listOnboarding`, `mailEditorHash`, `mainApps`, `map`, `onboarding`, `publicUrlHash`, `showUserSurvey`, `userQuotaPeriods`, `userSurveyResult`, `validFileExtensions`
+- Nested models (Currency, MetadataUser, SystemParams, FieldDefinition) validated
+
 **Integration Tests**: 4 cassettes recorded
 
 ---
@@ -1659,40 +1664,122 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 
 ## Summary Statistics
 
+**Last updated**: 2026-02-09
+
 ### Overall Implementation Status
 
-| Category | Count |
-|----------|-------|
-| **Total Endpoints** | 36 |
-| **Full CRUD Verified** | 3 (Users, Products, Order Stages) |
-| **CREATE Verified** | 2 (Orders, Contacts) |
-| **READ-Only Verified** | 1 (Companies - CREATE not verified) |
-| **Full CRUD Inherited** | 16 |
-| **Read-Only** | 6 |
-| **Special/Utility** | 3 |
-| **Integration Test Suites** | 22 endpoints with VCR cassettes |
-| **Total Cassettes** | 108 recorded interactions (102 + 6 new for contacts) |
+| Category | Count | % |
+|----------|------:|--:|
+| **Total resource files** | 174 | 100% |
+| **Registered in client.py** | 174 | 100% |
+| ✅ **Validated** (VCR cassettes recorded) | 61 | 35% |
+| 🔶 **Has test file, cassettes recorded but all tests skip** (no data) | 14 | 8% |
+| ⛔ **API errors** (500/404 — tests skipped) | 8 | 5% |
+| 🔲 **Has test file, no cassettes** | 2 | 1% |
+| ❌ **No integration test** | 89 | 51% |
 
-### Operation Verification Status
+---
 
-| Operation | Verified | Inherited | N/A | Total |
-|-----------|----------|-----------|-----|-------|
-| **Create** | **2** (Orders, Contacts) | 19 | 9 | 29 |
-| **Read (single)** | 20 | 10 | 5 | 35 |
-| **Read (list)** | 20 | 10 | 5 | 35 |
-| **Update** | 1 (Order Stages) | 19 | 9 | 29 |
-| **Delete** | 0 | 20 | 9 | 29 |
-| **Search** | 4 | 21 | 4 | 29 |
+### Quick Reference: All 174 Resources
 
-### Model Completeness
+#### ✅ Validated with VCR Cassettes (61)
 
-| Status | Count | Endpoints |
-|--------|-------|-----------|
-| **✅ Fully Verified** | 3 | Users, Products, Order Stages |
-| **✅ CREATE Verified** | 2 | **Orders (5 required), Contacts (1 required)** |
-| **⚠️ READ-Only Verified** | 1 | Companies (CREATE not verified) |
-| **⚠️ Partial** | 15 | Projects, Roles, Currencies, etc. |
-| **❌ Unverified** | 8 | Activities, Appointments, etc. |
+Tested against real Upsales API responses. Models confirmed to parse actual data.
+
+| Resource | Resource | Resource |
+|----------|----------|----------|
+| activities | flows | orders |
+| activity_list | form_submits | phone_calls |
+| activity_quota | forms | pricelists |
+| activity_types | group_mail_categories | product_categories |
+| ad_accounts | journey_steps | products |
+| agreement_groups | leads | project_plan_priority |
+| agreements | list_views | project_plan_stages |
+| api_keys | mail | project_plan_status |
+| appointments | mail_campaigns | project_plan_types |
+| client_category_types | mail_domains | projects |
+| client_relations | mail_templates | quota |
+| clientcategories | market_rejectlist | roles |
+| companies | metadata | sales_coaches |
+| contact_relations | opportunities | segments |
+| contacts | opportunity_ai | soliditet_clients |
+| contract_accepted | order_stages | standard_integrations |
+| currencies | | ticket_statuses |
+| custom_fields | | ticket_types |
+| esigns | | tickets |
+| events | | todo_views |
+| files | | trigger_attributes |
+| | | triggers |
+| | | user_defined_object_1 |
+| | | users |
+
+#### 🔶 Has Cassettes — All Tests Skip (no matching data in sandbox) (14)
+
+Cassettes recorded but tests skip because the sandbox has no data for these endpoints.
+To populate: create test data in the sandbox, delete cassettes, and re-record.
+
+| Resource | Resource | Resource |
+|----------|----------|----------|
+| banner_groups | lead_sources | user_defined_object_3 |
+| client_ips | notification_settings | user_defined_object_4 |
+| lead_channels | onboarding_imports | user_invites |
+| | pages | visits |
+| | suggestions | |
+| | user_defined_object_2 | |
+
+#### ⛔ API Errors — Tests Skipped (8)
+
+Cassettes recorded but API returns errors. Tests have `pytestmark = pytest.mark.skip()`.
+
+| Resource | Error | Notes |
+|----------|-------|-------|
+| ad_campaigns | 500 Server Error | Engage/ads module may not be enabled |
+| ad_creatives | 500 Server Error | Engage/ads module may not be enabled |
+| salesboard_cards | 500 Server Error | Salesboard module issue |
+| standard_creative | 500 Server Error | Standard creative API error |
+| file_uploads | 404 Not Found | Endpoint may be deprecated or renamed |
+| periodization | 404 Not Found | Endpoint may require specific config |
+| report_views | 404 Not Found | Endpoint may require specific config |
+| unsub | 404 Not Found | Endpoint may be deprecated or renamed |
+
+#### 🔲 Has Test File — No Cassettes Yet (2)
+
+Test file exists but no cassette directory. Needs live API run to record.
+
+| Resource |
+|----------|
+| client_ip_info |
+| provisioning |
+
+#### ❌ No Integration Test (89)
+
+No test file or cassette. Needs both test creation and cassette recording.
+
+**Core CRM gaps:**
+`contact_categories`, `contact_category_types`, `account_manager_history`, `contract`, `delete_log`, `industries`
+
+**Ads/Marketing:**
+`ad_credits`, `ad_locations`, `banner_groups`, `engage_credit_transaction`, `engage_site_template`, `landing_page_template`, `social_events_default_templates`
+
+**Mail:**
+`mail_bounce`, `mail_by_thread`, `mail_campaign_info`, `mail_editor`, `mail_multi`, `mail_templates_recently_used`, `mail_templates_used_in`, `mail_test`, `system_mail`, `import_mail_campaign`, `import_mail_campaign_mail`, `import_mail_event`
+
+**Reports/Looker:**
+`report`, `report_client_company_type`, `report_view`, `report_widget`, `report_widget_metadata`, `looker_explores`, `looker_looks`, `looker_sso`, `scoreboard`
+
+**User Defined Objects:**
+`user_defined_object_categories`, `user_defined_object_category_types`, `user_defined_object_definition`
+
+**Soliditet:**
+`soliditet_matcher`, `soliditet_search`, `soliditet_search_buy`
+
+**Standard Integrations:**
+`standard_integration_data`, `standard_integration_settings`, `standard_integration_user`, `standard_integration_user_settings`, `standard_field`, `standard_creative`
+
+**Utility/Function endpoints:**
+`assign`, `bulk`, `cancel_esign`, `client_form`, `customfields_accounts`, `data_source`, `docebo_sso`, `email_duplicates`, `email_suggest`, `email_suggestion`, `esign_function`, `events_prior`, `export`, `file_download`, `find_prospect`, `flow_contacts`, `forms_external_lead_source`, `functions`, `group_structure`, `image_compose`, `integration_log`, `journey_step_history`, `leads2`, `lead_sources2`, `links`, `lookup`, `notification_settings`, `notifications`, `notify`, `placeholder`, `quick_search`, `reset_score`, `resources_download_adgear`, `resources_download_internal`, `resources_upload_external`, `resources_upload_internal`, `role_settings`, `self`, `send_beam`, `send_esign_reminder`, `signals_feed`, `static_values`, `translate_tags`, `unread_notifications`, `validate_page`, `visits`, `voice`, `what_is_my_ip`, `worker_status`
+
+---
 
 ### Special Patterns Discovered
 
@@ -1706,62 +1793,66 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 
 ---
 
-## Recommendations for Full Verification
+## Recommendations for Verification
 
-### High Priority (User-Facing Endpoints)
-1. **Orders** - Critical sales pipeline endpoint ✅ **CREATE VERIFIED!**
-   - ✅ Create requirements verified (nested required fields)
-   - ✅ OrderCreateFields TypedDict documented
-   - ✅ Nested field pattern documented (see `docs/patterns/nested-required-fields.md`)
-   - ⚠️ Verify update requirements
-   - ⚠️ Add integration tests with VCR
-   - ⚠️ Test edge cases (multiple orderRow items, optional fields)
+### Cassette recording complete (2026-02-09)
 
-2. **Contacts** - Core CRM data ✅ **CREATE VERIFIED!**
-   - ✅ Create requirements verified (only client.id required)
-   - ✅ ContactCreateFields TypedDict documented
-   - ✅ Integration tests added with VCR (6 cassettes)
-   - ✅ API file discrepancy found (email NOT required)
-   - ⚠️ Verify update requirements
+All integration tests with test files have been recorded. Results:
+- **61 endpoints validated** with passing tests
+- **14 endpoints skip** (no test data in sandbox — need data creation)
+- **8 endpoints have API errors** (500/404 — skipped with `pytestmark`)
+- **2 endpoints have no cassettes** (client_ip_info, provisioning)
 
-3. **Activities** - User actions and history (**LIKELY uses nested required fields pattern**)
-   - Verify create requirements (expect minimal nested structure for user, client, contact)
-   - Test date/time field handling
-   - Add integration tests with VCR
-   - Check if follows Orders pattern for relationships
+### Next steps: Populate sandbox data for skipped tests
 
-4. **Appointments** - Calendar integration (**LIKELY uses nested required fields pattern**)
-   - Verify create requirements (expect minimal nested structure for user, client, contact)
-   - Test date/time constraints
-   - Add integration tests with VCR
-   - Check if follows Orders pattern for relationships
+Create test data in the sandbox for these 14 endpoints, then delete cassettes and re-record:
+```bash
+rm -r tests/cassettes/integration/test_{name}_integration/
+uv run pytest -n 0 tests/integration/test_{name}_integration.py -v
+```
 
-### Medium Priority (Configuration Endpoints)
-5. **Pricelists** - Already has integration tests
-   - Verify create/update field requirements
-   - Document pricing structure constraints
+### Field Gap Analysis (2026-02-09)
 
-6. **Roles** - Already has integration tests
-   - Verify permission structure
-   - Document role configuration requirements
+Compared VCR cassette API responses against Pydantic model field definitions for all validated endpoints.
 
-7. **Currencies** - Already has integration tests
-   - Verify rate update requirements
-   - Document currency configuration
+**Results**: 17 endpoints perfect match, 5 with gaps (all resolved):
 
-### Low Priority (Specialized/Utility)
-8. **Mail** - Email sending
-   - Verify email sending requirements
-   - Test attachment handling
-   - Add integration tests
+| Endpoint | API Fields | Model Fields | Status | Action Taken |
+|----------|-----------|-------------|--------|--------------|
+| metadata | 33 | 33 | ✅ Fixed | Added 17 missing fields |
+| soliditet_clients | 18 | 18 | ✅ Fixed | Fixed dunsNo/orgNo types (str→str\|int) |
+| group_mail_categories | 7 | 7 | ✅ Fixed | Fixed description field (str→str\|None) |
+| events | 10 | 26 | ✅ OK | 16 extra fields are valid optional entity links |
+| standards | 35 | 38 | ✅ OK | 3 extra fields are optional integration config |
+| triggers | 7 | 9 | ✅ OK | 2 extra fields are ownership/legacy fields |
+| users | 24 | 25 | ✅ OK | 1 extra field (language) is valid optional pref |
 
-9. **Notifications** - System notifications
-   - Verify notification creation
-   - Test delivery mechanisms
+**Model fixes applied**:
+- `metadata.py`: 17 new fields (activatedFeatures, credits, esign, integrations, etc.)
+- `soliditet_clients.py`: `dunsNo: str | int | None`, `orgNo: str | int | None`
+- `group_mail_categories.py`: `description: str | None` (was `str`)
+- `ad_creatives.py`: endpoint path `/engage/creative` (was wrong)
 
-10. **Custom Fields** - Field definitions
-    - Verify field creation requirements
-    - Test field type constraints
+### High Priority (User-Facing Endpoints without tests)
+
+1. **contact_categories** / **contact_category_types** — Core CRM config
+2. **contract** — Revenue tracking
+3. **industries** — Company classification
+4. **mail_bounce** / **mail_campaign_info** — Email deliverability
+
+### Medium Priority
+
+5. **report** / **report_view** / **report_widget** — Analytics
+6. **user_defined_object_categories** / **_category_types** / **_definition** — Custom objects
+7. **role_settings** — Access control
+8. **notifications** / **notification_settings** — User notifications
+
+### Low Priority (Internal/Utility)
+
+9. Function endpoints (`reset_score`, `validate_page`, `send_beam`, etc.) — Already have unit tests
+10. Soliditet endpoints — Require external service
+11. Looker endpoints — Require external service
+12. Legacy/duplicate endpoints (`leads2`, `lead_sources2`, `email_suggest`/`email_suggestion`)
 
 ---
 
@@ -1769,47 +1860,27 @@ Special-purpose utility functions resource. Does not follow standard CRUD patter
 
 To achieve full verification for any endpoint:
 
-1. **Record VCR Cassettes** (Step 2 in workflow)
-   - `uv run pytest tests/integration/test_{endpoint}_integration.py -v`
+1. **Record VCR Cassettes**
+   - `uv run pytest -n 0 tests/integration/test_{endpoint}_integration.py -v`
 
-2. **Analyze Real API Structure** (Step 3)
+2. **Analyze Real API Structure**
    - Run `uv run python ai_temp_files/find_unmapped_fields.py`
    - Compare cassette data vs model fields
 
-3. **Verify CREATE Requirements** ⭐ **CRITICAL for relationship-heavy endpoints**
+3. **Verify CREATE Requirements** — **CRITICAL for relationship-heavy endpoints**
    - Test with absolutely minimal fields to discover requirements
    - **Check for nested required fields pattern** (like Orders)
-   - Test nested fields specifically: `user: {"id": 10}` not just "user required"
    - Document exact structure in `{Model}CreateFields` TypedDict
-   - Include format requirements (e.g., date: "YYYY-MM-DD")
-   - **If nested fields found**: Reference `docs/patterns/nested-required-fields.md`
 
 4. **Verify UPDATE Requirements**
    - Test field-by-field updates
    - Identify frozen/read-only fields
    - Confirm `to_api_dict()` excludes properly
-   - Document any special update rules
 
-5. **Add Integration Tests**
-   - Test CREATE with minimal required fields (critical!)
-   - Test CREATE with optional fields
-   - Test all CRUD operations
-   - Test computed fields with real data
-   - Test serialization with real API responses
-   - Verify custom methods
-
-6. **Update This Document**
+5. **Update This Document**
    - Mark operations as ✅ Verified
-   - Add field requirement notes (especially for CREATE)
+   - Add field requirement notes
    - Document any special patterns discovered
-   - Update integration test counts
-   - Add to "Special Patterns Discovered" if applicable
-
----
-
-**Last Updated**: 2025-11-06
-**Maintained By**: Auto-generated from codebase analysis
-**Update Frequency**: After each endpoint implementation
 
 ---
 
@@ -2525,12 +2596,16 @@ To achieve full verification for any endpoint:
 - Uses DUNS numbers (strings) as identifiers, not integer IDs
 - Overrides BaseModel id field to be optional
 - Both POST (purchase) and PUT (refresh) operations deduct 1 credit
+- API returns empty `{}` objects interspersed between real records in list responses
+- API does NOT support GET-by-ID (returns 400 "No such attribute: id")
+- `dunsNo` field is `str | int | None` (API returns integer DUNS numbers)
+- `orgNo` field is `str | int | None` (API returns integer org numbers)
 
 **Operations**:
 | Operation | Status | Method |
 |-----------|--------|--------|
-| Get | 🔶 Inherited | BaseResource.get(duns) |
-| List | 🔶 Inherited | BaseResource.list() |
+| Get | ❌ Not Available | API returns 400 (no GET-by-ID support) |
+| List | ✅ Verified | Integration tested with VCR |
 | Create (Purchase) | 🔶 Inherited | BaseResource.create() |
 | Update (Refresh) | ✅ Custom | refresh(duns, options, properties) |
 | Delete | 🔶 Inherited | BaseResource.delete() |
@@ -2548,6 +2623,15 @@ To achieve full verification for any endpoint:
 - ✅ TypedDict complete (SoliditetClientUpdateFields)
 - ✅ No validators needed (all optional fields)
 - ✅ No computed fields needed
+
+**Integration Tests**: ✅ 2 cassettes recorded, 2 tests passing
+- test_list_soliditet_clients_real_response - List with empty object filtering
+- test_soliditet_client_fields - Field type validation from real API data
+
+**Field Gap Analysis** (2026-02-09):
+- ✅ All API response fields mapped
+- Fixed `dunsNo` type: `str | int | None` (API returns integers)
+- Fixed `orgNo` type: `str | int | None` (API returns integers)
 
 **Unit Tests**: ✅ 7 tests passing
 - test_create_purchase - Purchase company data

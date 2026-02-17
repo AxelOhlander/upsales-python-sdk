@@ -2,24 +2,23 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/groupMailCategories?limit=1&offset=0
   response:
     body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+      string: '{"error":null,"metadata":{"total":1},"data":[{"id":2,"title":"Nyhetsbrev","description":null,"active":1}]}'
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -32,85 +31,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '168'
+      - '106'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:05:38 GMT
+      - Mon, 09 Feb 2026 09:00:31 GMT
       ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      - W/"6a-T1XT0hsZG9zFhEdQVwjEFL7ennE"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"462b1a1a40c6d190dff79dcf358007186bf18f1094868ceb2814a6002e81db2dcb91721c29057332f22c33b51e29d529","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:38 GMT
-      ETag:
-      - W/"8d-tHZL0oYPUBgyZrcoC7cnwRSbFAk"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=462b1a1a40c6d190dff79dcf358007186bf18f1094868ceb2814a6002e81db2dcb91721c29057332f22c33b51e29d529;
-        Max-Age=1764925538; Path=/; Expires=Sat, 08 Nov 2081 17:11:17 GMT; HttpOnly;
-        Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -122,11 +55,11 @@ interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-RateLimit-Limit:
-      - '40'
+      - '200'
       X-RateLimit-Remaining:
-      - '35'
+      - '199'
       X-RateLimit-Reset:
-      - '7'
+      - '-2'
       X-XSS-Protection:
       - 1; mode=block
     status:
@@ -135,24 +68,23 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
-    uri: https://power.upsales.com/api/v2/groupMailCategories?limit=1&offset=0
+    uri: https://power.upsales.com/api/v2/groupMailCategories/2
   response:
     body:
-      string: '{"error":null,"metadata":{"total":4},"data":[{"id":1,"title":"Product
-        news","description":"News and updates about Demobolaget","active":1}]}'
+      string: '{"error":null,"data":{"id":2,"title":"Nyhetsbrev","description":null,"languages":[],"active":1,"relatedMailCampaigns":[]}}'
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -165,22 +97,19 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '140'
+      - '122'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:05:39 GMT
+      - Mon, 09 Feb 2026 09:00:31 GMT
       ETag:
-      - W/"8c-OSE1kLh63i/ZSUL48MHAYlYeBNs"
+      - W/"7a-hqeuU9k4X5AyiqW5XmMg5BCUUXE"
       Expires:
       - '0'
       Pragma:
       - no-cache
       Server:
       - nginx
-      Set-Cookie:
-      - token=462b1a1a40c6d190dff79dcf358007186bf18f1094868ceb2814a6002e81db2dcb91721c29057332f22c33b51e29d529;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:39 GMT; HttpOnly; Secure
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       X-Content-Type-Options:
@@ -191,73 +120,12 @@ interactions:
       - noopen
       X-Frame-Options:
       - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/groupMailCategories/1
-  response:
-    body:
-      string: '{"error":null,"data":{"id":1,"title":"Product news","description":"News
-        and updates about Demobolaget","languages":[{"language":"se","title":"Produktnyheter","description":"Nyheter
-        och uppdateringar om Demobolaget"}],"active":1,"relatedMailCampaigns":[{"entity":"MailCampaign","value":{"id":26,"name":"kjn"}},{"entity":"Flow","value":{"id":2,"name":"Onboarding
-        Trial flow","segmentId":2}},{"entity":"Flow","value":{"id":3,"name":"*Nurturing
-        flow","segmentId":3}}]}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '465'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:39 GMT
-      ETag:
-      - W/"1d1-XhJsqhNW0zvX1NxqKqedaBMCYU8"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=462b1a1a40c6d190dff79dcf358007186bf18f1094868ceb2814a6002e81db2dcb91721c29057332f22c33b51e29d529;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:39 GMT; HttpOnly; Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '198'
+      X-RateLimit-Reset:
+      - '10'
       X-XSS-Protection:
       - 1; mode=block
     status:

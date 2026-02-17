@@ -1,0 +1,129 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/agreementGroups?limit=10&offset=0
+  response:
+    body:
+      string: !!binary |
+        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
+        Fvg/YZStrTS6AAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 08:14:18 GMT
+      ETag:
+      - W/"ba34-0WRgB471T4jHmAbmd87l4HrH9fs"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '196'
+      X-RateLimit-Reset:
+      - '10'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

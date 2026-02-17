@@ -2,24 +2,44 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
       cookie:
       - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
     method: GET
     uri: https://power.upsales.com/api/v2/customFields/account
   response:
     body:
-      string: '{"error":{"metadata":{"key":"CustomerAccessDenied","errorCode":1,"code":401,"msg":"Missing
-        customer access"},"error":null,"data":null,"code":401,"isUpsalesError":true}}'
+      string: !!binary |
+        H4sIAAAAAAAAA+Va3XLiNhR+FY+uyRTY3TbNHWvMrhvAjO0kzWQyHgULUJElV5KTMBneJn2FvgAv
+        1mPAiDSZWZeGiRPu9HNs+Xzf0dH5BA+ISCkkOuEZYzWUEI1jrDE6eUBaaMzQSfO4hhhNqEYnjXq9
+        XkNiNFIEevV5Da1srx4QjWG6hjhOCDpB563wqJ8lCZEIbKRIY3HH22SEM6aLpfJH9SzNzQMtKR/n
+        pk9NmBDTLO1QwuDtsLISUrur5i1V9IaR5aIkphoXHSaGU7Ky+TMjcla8S9wwOsZayNnW+wiWw8nq
+        Uegm+L5L+FhPck+bn2sIM4rVyp2o76F8VXInOJstzUdCJt+kyNJiCSkYAfOr6xpgJ5immxnKNRlL
+        rKkAFFLCY8KH6y+b11bgNTfgfQUOGAdA1C1lbCpKYkgYGeptDK9Q3YrxGOfPN7aaXzbNphn9ZJqt
+        TIsxlQKap4JrzPO3DoTSo8XfUk2F1uh6B27q++EmdPxeEHmdaNC67Dn98PVZetiegBU74CkX99ZA
+        koRmCSyYKQj0ZxMWTlM0L/j9tOHXOUoBzA+xMZxey+3ud1983uDWJbdEYv6/d0VHUq2tacZjGF91
+        bhd/SW0xPAYeqxjbbafrnjv+ZVWD+8uGpFOAlb9B5t8TAx3PD/ve75F9FoRez/Ejt73fcP/5Wbir
+        xaMumS1eCPbvi8dEgyurDF6l4L5oXb6H0P5lQ0hPJAqQ3pmKwIF+4FgiuV088thSU6w1UdMZi+l4
+        QnJr5+wHswl8Q8roVNN80zj3KXz6TqTusVIKLwdOVdk8NokKtgPHsVJ68cjArV1ZrRL6theEkQ1F
+        kONXlYBfNwR08FRnErNXSXMD312WfkVBsuwHjn/u2nksOl3HDn2v79pu/9zLxyrEWtvptM664SYT
+        LjdQVHxoRXls1A2RGzvxx5qYd7+TinN/4Hu/QehUlgUjueGsKAd9D4bpc/wrJSxWL9hjmdUwcjsY
+        SpwSy86l7lArayRFYt2RmxTUQClAv8LqBPNtMBGqDJQosP0W5BPb64ctO4wuPP+00/UuIui4cFzv
+        IcM8Adro3pDc76p6945n4ymejbcMTaN4AZNyIdheG1Yw/v4LXv++RszHl26poaTpOlPCgCZJynKX
+        c9u103Ym5QpMqLFPDRgBVBjqRmAZ586v1ptg1aZqKDIOWGmZkRpKMTy9hna+G29GBC+tSypg19h+
+        CPZMYlXZjfVjBpuvzeCLQTTfkVMjx2dE/cTFBzgQ3uOGfHZH/hFiy9wspEQOCS93OA6M7TsPrt1Q
+        Mwpe06Tc6RiuDQ8SLyO4h8UeKIOZvWV8iLg1jb5VG620k6wVy9RkNWB03WxWSOnuH0iTLUmCKSuF
+        o1NYHmTomWOOUT4tBVh3bXiQeBmJyYUmqtyZsBajBwnYlsIsCp1SKnPL+CBxMwpveTlXBrMz9SG0
+        3W54GfWUTgQvV6wNCsuDROx467ZMaWsgqZBUlyvZXio+uuIOBnoAzPJO+TsdT6r0G3DoBGE08F3P
+        d8PLyPbP9vzretNUw9+6/aO3+KPCnm55wZ3K/UhxPf8HNonLEF4oAAA=
     headers:
       Access-Control-Allow-Headers:
       - Content-Type, X-Requested-With, Cache-Control
@@ -31,14 +51,14 @@ interactions:
       - no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
-      Content-Length:
-      - '168'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 05 Dec 2025 08:05:58 GMT
+      - Mon, 09 Feb 2026 08:47:24 GMT
       ETag:
-      - W/"a8-poNF4FbWjk2I9a8bGopj161dtFs"
+      - W/"285e-lCOruz++VouFX1QlNws6s+azLrw"
       Expires:
       - '0'
       Pragma:
@@ -47,72 +67,10 @@ interactions:
       - nginx
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 401
-      message: Unauthorized
-- request:
-    body: '{"email": "demo_se@upsales.com", "samlBypass": null, "password": "REDACTED"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '70'
-      content-type:
-      - application/json
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: POST
-    uri: https://power.upsales.com/api/v2/session/
-  response:
-    body:
-      string: '{"data":{"token":"93cb01b1b2a1380ef2f69723cb29d4901d06741aefdd1ca71fba5f752e2c88ffae81f30ec510ba3916d9486fbbcfdda2","isTwoFactorAuth":false}}'
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '141'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:58 GMT
-      ETag:
-      - W/"8d-QWEgnc0Zc061CAY4G6T6FZck7v4"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=93cb01b1b2a1380ef2f69723cb29d4901d06741aefdd1ca71fba5f752e2c88ffae81f30ec510ba3916d9486fbbcfdda2;
-        Max-Age=1764925558; Path=/; Expires=Sat, 08 Nov 2081 17:11:57 GMT; HttpOnly;
-        Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-DNS-Prefetch-Control:
@@ -122,75 +80,11 @@ interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-RateLimit-Limit:
-      - '40'
+      - '200'
       X-RateLimit-Remaining:
-      - '37'
+      - '198'
       X-RateLimit-Reset:
       - '10'
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      cookie:
-      - REDACTED
-      host:
-      - power.upsales.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://power.upsales.com/api/v2/customFields/account
-  response:
-    body:
-      string: "{\"error\":null,\"metadata\":{\"total\":2,\"limit\":1000,\"offset\":0},\"data\":[{\"id\":11,\"name\":\"F\xF6retagsalias\",\"dropdownDefault\":[\"\"],\"datatype\":\"String\",\"default\":\"\",\"lookupField\":0,\"sortId\":7,\"visible\":1,\"editable\":1,\"locked\":0,\"query\":null,\"obligatoryField\":0,\"searchable\":1,\"maxLength\":1024,\"alias\":null,\"viewonly\":0,\"formGroup\":null,\"roles\":[],\"tooltip\":null,\"integrationDependency\":null},{\"id\":12,\"name\":\"Scrape
-        Contacts from webpage\",\"dropdownDefault\":null,\"datatype\":\"Boolean\",\"default\":\"\",\"lookupField\":0,\"sortId\":0,\"visible\":1,\"editable\":1,\"locked\":0,\"query\":null,\"obligatoryField\":0,\"searchable\":0,\"maxLength\":1024,\"alias\":\"SCRAPE_CONTACT_WORKFLOW_ACTIVATE\",\"viewonly\":0,\"formGroup\":null,\"roles\":[],\"tooltip\":null,\"integrationDependency\":null}]}"
-    headers:
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, Cache-Control
-      Access-Control-Allow-Methods:
-      - GET,PUT,POST,DELETE
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '747'
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 05 Dec 2025 08:05:59 GMT
-      ETag:
-      - W/"2eb-Z9ZyLWvzg9DWwCDcS/RCrUzVQig"
-      Expires:
-      - '0'
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Set-Cookie:
-      - token=93cb01b1b2a1380ef2f69723cb29d4901d06741aefdd1ca71fba5f752e2c88ffae81f30ec510ba3916d9486fbbcfdda2;
-        Max-Age=3600; Path=/; Expires=Fri, 05 Dec 2025 09:05:59 GMT; HttpOnly; Secure
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-DNS-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
       X-XSS-Protection:
       - 1; mode=block
     status:

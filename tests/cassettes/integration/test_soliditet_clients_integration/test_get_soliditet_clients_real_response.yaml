@@ -1,0 +1,136 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/soliditet/clients?limit=1&offset=0
+  response:
+    body:
+      string: "{\"error\":null,\"metadata\":{\"total\":9357896,\"limit\":1,\"offset\":0},\"data\":[{\"dunsNo\":111111001,\"name\":\"Dbr_test_enk_1\",\"employeesRange\":\"\",\"employeesStart\":0,\"employeesEnd\":0,\"sniText\":\"\",\"sniCode\":\"\",\"turnover\":null,\"city\":\"S\xF8borg\",\"state\":\"Hovedstaden\",\"country\":\"DK\",\"zipcode\":2860,\"orgNo\":111122,\"isHeadqueraters\":1,\"status\":\"Aktiv\",\"isDmBlockeded\":0,\"parentDuns\":null,\"rootParentDuns\":null,\"noOfEmployeesExact\":0,\"companyForm\":{\"name\":\"Enskild
+        firma\",\"id\":3,\"groupId\":9},\"groupSize\":1}]}"
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '490'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 09:02:47 GMT
+      ETag:
+      - W/"1ea-Jy6UAfa0gUllchUUHQMAmflMZ+k"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '193'
+      X-RateLimit-Reset:
+      - '8'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - power.upsales.com
+      User-Agent:
+      - python-httpx/0.28.1
+      cookie:
+      - REDACTED
+    method: GET
+    uri: https://power.upsales.com/api/v2/soliditet/clients/111111001
+  response:
+    body:
+      string: '{"error":{"key":"FailedValidation","code":400,"errorCode":26,"msg":"No
+        such attribute: id"},"metadata":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, Cache-Control
+      Access-Control-Allow-Methods:
+      - GET,PUT,POST,DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '108'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 09 Feb 2026 09:02:47 GMT
+      ETag:
+      - W/"6c-PaXRB9HE3LGYxAi5h1+GVy5mtBI"
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-DNS-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '200'
+      X-RateLimit-Remaining:
+      - '192'
+      X-RateLimit-Reset:
+      - '8'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 400
+      message: Bad Request
+version: 1
