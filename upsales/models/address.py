@@ -59,9 +59,9 @@ class Address(PydanticBase):
 
     # Core address fields (required but can be empty strings from API)
     type: str = Field(description="Address type (e.g., 'Visit', 'Mail')")
-    address: str = Field(description="Street address (can be empty)")
-    city: str = Field(description="City name (can be empty)")
-    country: str = Field(description="Country code (e.g., 'SE', 'US', can be empty)")
+    address: str | None = Field(None, description="Street address (can be empty or null)")
+    city: str | None = Field(None, description="City name (can be empty or null)")
+    country: str | None = Field(None, description="Country code (e.g., 'SE', 'US', can be empty or null)")
 
     # Optional address fields
     zipcode: str | None = Field(None, description="Postal/ZIP code")
@@ -198,9 +198,9 @@ class PartialAddress(PydanticBase):
 
     # Minimal required fields for partial address
     type: str = Field(description="Address type (e.g., 'Visit', 'Mail')")
-    address: str = Field(description="Street address")
-    city: str = Field(description="City name")
-    country: str = Field(description="Country code (e.g., 'SE', 'US')")
+    address: str | None = Field(None, description="Street address")
+    city: str | None = Field(None, description="City name")
+    country: str | None = Field(None, description="Country code (e.g., 'SE', 'US')")
 
     # Optional fields that may be present
     zipcode: str | None = Field(None, description="Postal/ZIP code")
