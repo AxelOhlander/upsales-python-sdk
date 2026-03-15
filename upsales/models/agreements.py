@@ -139,8 +139,8 @@ class Agreement(BaseModel):
         default=[], description="Order rows with product, price, quantity"
     )
     metadata: dict[str, Any] = Field(default={}, description="Agreement metadata")
-    priceListId: int = Field(description="Price list ID")
-    invoiceRelatedClient: bool = Field(description="Whether to invoice related client")
+    priceListId: int = Field(default=0, description="Price list ID")
+    invoiceRelatedClient: bool = Field(default=False, description="Whether to invoice related client")
     agreementGroupId: int | None = Field(None, description="Agreement group ID")
     indexIncreaseId: Any | None = Field(None, description="Index increase ID")
     latestIndexIncreaseId: Any | None = Field(None, description="Latest index increase ID")
