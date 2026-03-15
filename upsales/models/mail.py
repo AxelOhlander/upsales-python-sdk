@@ -64,27 +64,27 @@ class Mail(BaseModel):
 
     # Read-only fields (frozen) - from API spec
     id: int = Field(frozen=True, strict=True, description="Unique email ID")
-    modDate: str = Field(frozen=True, description="Last modification date")
-    userRemovable: bool = Field(frozen=True, description="Whether user can remove")
-    userEditable: bool = Field(frozen=True, description="Whether user can edit")
-    # Note: clientId and contactId are also read-only but not in response, only for create
+    modDate: str = Field(default="", frozen=True, description="Last modification date")
+    userRemovable: bool = Field(default=True, frozen=True, description="Whether user can remove")
+    userEditable: bool = Field(default=True, frozen=True, description="Whether user can edit")
 
-    # Required fields
-    date: str = Field(frozen=True, description="Email date (YYYY-MM-DD format)")
+    # Core fields (defaults for sparse responses)
+    date: str = Field(default="", frozen=True, description="Email date (YYYY-MM-DD format)")
     type: str = Field(
-        description="Email type: 'out' (sent), 'in' (received), 'pro' (processed), 'err' (error)"
+        default="",
+        description="Email type: 'out' (sent), 'in' (received), 'pro' (processed), 'err' (error)",
     )
-    subject: str = Field(description="Email subject line")
-    body: str = Field(description="Email body content (HTML)")
-    to: str = Field(description="Recipient email address(es)")
-    from_address: str = Field(alias="from", description="Sender email address")
-    fromName: str = Field(description="Sender display name")
+    subject: str = Field(default="", description="Email subject line")
+    body: str = Field(default="", description="Email body content (HTML)")
+    to: str = Field(default="", description="Recipient email address(es)")
+    from_address: str = Field(default="", alias="from", description="Sender email address")
+    fromName: str = Field(default="", description="Sender display name")
 
-    # System IDs
-    groupMailId: int = Field(description="Group mail campaign ID")
-    jobId: int = Field(description="Job ID for processing")
-    mailBodySnapshotId: int = Field(description="Snapshot ID for body content")
-    mailThreadId: int = Field(description="Thread ID for conversation grouping")
+    # System IDs (defaults for sparse responses)
+    groupMailId: int = Field(default=0, description="Group mail campaign ID")
+    jobId: int = Field(default=0, description="Job ID for processing")
+    mailBodySnapshotId: int = Field(default=0, description="Snapshot ID for body content")
+    mailThreadId: int = Field(default=0, description="Thread ID for conversation grouping")
     isMap: BinaryFlag = Field(default=0, description="Whether email is mapped (0 or 1)")
 
     # Related entities
