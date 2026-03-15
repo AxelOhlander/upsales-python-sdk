@@ -252,7 +252,7 @@ class Order(BaseModel):
         default=0, description="Order value in local currency (API may return float)"
     )
     currency: str | None = Field(default="SEK", description="Currency code (ISO 4217)")
-    currencyRate: int = Field(default=1, description="Exchange rate to master currency")
+    currencyRate: int | float = Field(default=1, description="Exchange rate to master currency")
 
     # Monetary values (API may return floats for currency conversions/calculations)
     oneOffValue: int | float = Field(

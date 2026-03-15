@@ -112,9 +112,9 @@ class PhoneCall(BaseModel):
     id: int = Field(frozen=True, strict=True, description="Unique phone call identifier")
 
     # Required relationships
-    user: PartialUser = Field(description="User who made/received the call")
-    contact: PartialContact = Field(description="Contact associated with call")
-    client: PartialCompany = Field(description="Company associated with call")
+    user: PartialUser | None = Field(default=None, description="User who made/received the call")
+    contact: PartialContact | None = Field(default=None, description="Contact associated with call")
+    client: PartialCompany | None = Field(default=None, description="Company associated with call")
 
     # Call details
     durationInS: int = Field(default=0, description="Duration of call in seconds")

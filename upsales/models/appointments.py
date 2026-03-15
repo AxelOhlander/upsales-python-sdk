@@ -118,13 +118,13 @@ class Appointment(BaseModel):
 
     # Read-only fields (frozen=True, strict=True)
     id: PositiveInt = Field(frozen=True, strict=True, description="Unique appointment ID")
-    regDate: str = Field(frozen=True, description="Registration date (ISO 8601)")
-    modDate: str = Field(frozen=True, description="Last modification date (ISO 8601)")
+    regDate: str = Field(default="", frozen=True, description="Registration date (ISO 8601)")
+    modDate: str = Field(default="", frozen=True, description="Last modification date (ISO 8601)")
 
     # Core appointment fields
-    description: str = Field(description="Appointment description/title")
-    date: str = Field(description="Appointment start date and time (ISO 8601)")
-    endDate: str = Field(description="Appointment end date and time (ISO 8601)")
+    description: str = Field(default="", description="Appointment description/title")
+    date: str = Field(default="", description="Appointment start date and time (ISO 8601)")
+    endDate: str = Field(default="", description="Appointment end date and time (ISO 8601)")
 
     # Optional descriptive fields
     notes: str | None = Field(None, description="Appointment notes/comments")

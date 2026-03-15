@@ -188,7 +188,7 @@ class Contact(BaseModel):
     # Read-only fields (frozen=True)
     id: int = Field(frozen=True, strict=True, description="Unique contact ID")
     regDate: str | None = Field(None, frozen=True, description="Registration date")
-    modDate: str = Field(frozen=True, description="Last modification date")
+    modDate: str = Field(default="", frozen=True, description="Last modification date")
 
     # Fields that API can return as empty strings (all have defaults)
     name: str = Field(default="", description="Contact's full name (can be empty)")
@@ -202,12 +202,12 @@ class Contact(BaseModel):
 
     # Binary flags (validated 0 or 1)
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")
-    hasForm: bool = Field(description="Has submitted a form")
-    hasMail: bool = Field(description="Has received email")
-    hasVisit: bool = Field(description="Has visited website")
-    isPriority: bool = Field(description="Priority contact flag")
-    userEditable: bool = Field(description="User can edit this contact")
-    userRemovable: bool = Field(description="User can remove this contact")
+    hasForm: bool = Field(default=False, description="Has submitted a form")
+    hasMail: bool = Field(default=False, description="Has received email")
+    hasVisit: bool = Field(default=False, description="Has visited website")
+    isPriority: bool = Field(default=False, description="Priority contact flag")
+    userEditable: bool = Field(default=True, description="User can edit this contact")
+    userRemovable: bool = Field(default=True, description="User can remove this contact")
 
     # Custom fields (validated structure)
     custom: CustomFieldsList = Field(
@@ -227,7 +227,7 @@ class Contact(BaseModel):
     socialEvent: list[Any] = Field(default=[], description="Social media events")
 
     # Dict fields
-    client: PartialCompany = Field(description="Associated company data")
+    client: PartialCompany | None = Field(default=None, description="Associated company data")
     firstTouch: dict[str, Any] | None = Field(default={}, description="First touch attribution")
     regBy: dict[str, Any] | None = Field(default={}, description="Registered by user")
     supportTickets: dict[str, Any] = Field(default={}, description="Support ticket data")
