@@ -114,7 +114,7 @@ class Mail(BaseModel):
     )
     tags: list[dict[str, Any]] = Field(default_factory=list, description="Email tags")
     template: dict[str, Any] | None = Field(None, description="Email template used")
-    thread: dict[str, Any] = Field(default_factory=dict, description="Thread information")
+    thread: dict[str, Any] | None = Field(default_factory=dict, description="Thread information")
 
     # Related entities (optional)
     activity: dict[str, Any] | None = Field(None, description="Related activity")
