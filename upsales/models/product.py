@@ -100,8 +100,8 @@ class Product(BaseModel):
     # Read-only fields (frozen=True, strict=True)
     id: int = Field(frozen=True, strict=True, description="Unique product ID")
 
-    # Required core fields with validators
-    name: NonEmptyStr = Field(description="Product name")
+    # Core fields (defaults for sparse responses)
+    name: NonEmptyStr = Field(default="", description="Product name")
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")
 
     # Required pricing fields

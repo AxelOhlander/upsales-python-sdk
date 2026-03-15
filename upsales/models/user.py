@@ -77,11 +77,11 @@ class User(BaseModel):
 
     # Read-only fields (frozen=True, strict=True)
     id: int = Field(frozen=True, strict=True, description="Unique user ID")
-    regDate: str = Field(frozen=True, description="Registration date")
+    regDate: str = Field(default="", frozen=True, description="Registration date")
 
-    # Required fields with validators
-    name: NonEmptyStr = Field(description="User's full name")
-    email: EmailStr = Field(description="User's email (normalized to lowercase)")
+    # Core fields (defaults for sparse responses)
+    name: NonEmptyStr = Field(default="", description="User's full name")
+    email: EmailStr = Field(default="", description="User's email (normalized to lowercase)")
 
     # Binary flags (validated 0 or 1)
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")

@@ -97,11 +97,11 @@ class Activity(BaseModel):
 
     # Read-only fields (frozen=True, strict=True)
     id: int = Field(frozen=True, strict=True, description="Unique activity ID")
-    regDate: str = Field(frozen=True, description="Registration date (ISO 8601)")
-    modDate: str = Field(frozen=True, description="Last modification date (ISO 8601)")
+    regDate: str = Field(default="", frozen=True, description="Registration date (ISO 8601)")
+    modDate: str = Field(default="", frozen=True, description="Last modification date (ISO 8601)")
 
-    # Required fields with validators
-    description: NonEmptyStr = Field(description="Activity description")
+    # Core fields (defaults for sparse responses)
+    description: NonEmptyStr = Field(default="", description="Activity description")
     notes: str | None = Field(default=None, description="Activity notes/content")
     date: str | None = Field(default=None, description="Activity date (ISO 8601 format)")
 

@@ -91,32 +91,32 @@ class Agreement(BaseModel):
 
     # Read-only fields
     id: int = Field(frozen=True, strict=True, description="Unique agreement ID")
-    regDate: str = Field(frozen=True, description="Registration date (ISO 8601)")
-    modDate: str = Field(frozen=True, description="Last modification date (ISO 8601)")
+    regDate: str = Field(default="", frozen=True, description="Registration date (ISO 8601)")
+    modDate: str = Field(default="", frozen=True, description="Last modification date (ISO 8601)")
     regBy: PartialUser | None = Field(None, frozen=True, description="User who created this")
-    userRemovable: bool = Field(frozen=True, description="Whether user can delete this")
-    userEditable: bool = Field(frozen=True, description="Whether user can edit this")
-    value: int | float = Field(frozen=True, description="Agreement value in agreement currency")
+    userRemovable: bool = Field(default=True, frozen=True, description="Whether user can delete this")
+    userEditable: bool = Field(default=True, frozen=True, description="Whether user can edit this")
+    value: int | float = Field(default=0, frozen=True, description="Agreement value in agreement currency")
     orderValue: int | float = Field(
         default=0, frozen=True, description="Deprecated: use value instead"
     )
-    contributionMargin: int | float = Field(frozen=True, description="Contribution margin")
+    contributionMargin: int | float = Field(default=0, frozen=True, description="Contribution margin")
     contributionMarginInAgreementCurrency: int | float = Field(
-        frozen=True, description="Contribution margin in agreement currency"
+        default=0, frozen=True, description="Contribution margin in agreement currency"
     )
-    valueInMasterCurrency: int | float = Field(frozen=True, description="Value in master currency")
-    yearlyValue: int | float = Field(frozen=True, description="Yearly value")
+    valueInMasterCurrency: int | float = Field(default=0, frozen=True, description="Value in master currency")
+    yearlyValue: int | float = Field(default=0, frozen=True, description="Yearly value")
     yearlyValueInMasterCurrency: int | float = Field(
-        frozen=True, description="Yearly value in master currency"
+        default=0, frozen=True, description="Yearly value in master currency"
     )
     yearlyContributionMargin: int | float = Field(
-        frozen=True, description="Yearly contribution margin"
+        default=0, frozen=True, description="Yearly contribution margin"
     )
     yearlyContributionMarginInAgreementCurrency: int | float = Field(
-        frozen=True, description="Yearly contribution margin in agreement currency"
+        default=0, frozen=True, description="Yearly contribution margin in agreement currency"
     )
-    purchaseCost: int | float = Field(frozen=True, description="Purchase cost")
-    isParent: bool = Field(frozen=True, description="Whether this is a parent agreement")
+    purchaseCost: int | float = Field(default=0, frozen=True, description="Purchase cost")
+    isParent: bool = Field(default=False, frozen=True, description="Whether this is a parent agreement")
     children: list[dict[str, Any]] = Field(
         default=[],
         description="Child agreements. WARNING: Must be included when updating parent agreements!",
@@ -124,16 +124,16 @@ class Agreement(BaseModel):
     parentId: Any | None = Field(None, frozen=True, description="Parent agreement ID")
 
     # Updatable fields
-    description: str = Field(description="Agreement description")
+    description: str = Field(default="", description="Agreement description")
     notes: str | None = Field(None, description="Additional notes")
-    user: PartialUser = Field(description="Responsible user")
-    client: PartialCompany = Field(alias="client", description="Company/account")
+    user: PartialUser | None = Field(default=None, description="Responsible user")
+    client: PartialCompany | None = Field(default=None, alias="client", description="Company/account")
     contact: PartialContact | None = Field(None, description="Contact person")
     project: Any | None = Field(None, description="Related project")
-    stage: dict[str, Any] = Field(description="Agreement stage with id and name")
+    stage: dict[str, Any] = Field(default_factory=dict, description="Agreement stage with id and name")
     clientConnection: Any | None = Field(None, description="Client connection")
-    currencyRate: int = Field(description="Currency exchange rate")
-    currency: str = Field(description="Currency code (3 chars)")
+    currencyRate: int | float = Field(default=1, description="Currency exchange rate")
+    currency: str = Field(default="", description="Currency code (3 chars)")
     custom: CustomFieldsList = Field(default=[], description="Custom fields")
     orderRow: list[dict[str, Any]] = Field(
         default=[], description="Order rows with product, price, quantity"
