@@ -161,7 +161,7 @@ class AddressList:
             ```
         """
         return next(
-            (a for a in self._addresses if a.type.lower() == address_type.lower()),
+            (a for a in self._addresses if a.type is not None and a.type.lower() == address_type.lower()),
             None,
         )
 

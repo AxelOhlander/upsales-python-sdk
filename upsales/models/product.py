@@ -46,8 +46,8 @@ class ProductUpdateFields(TypedDict, total=False):
     description: Any
 
     # Pricing fields
-    listPrice: int
-    purchaseCost: int
+    listPrice: float
+    purchaseCost: float
     sortId: int
 
     # Recurring fields
@@ -105,8 +105,8 @@ class Product(BaseModel):
     active: BinaryFlag = Field(default=1, description="Active status (0=inactive, 1=active)")
 
     # Required pricing fields
-    listPrice: int = Field(default=0, description="List price")
-    purchaseCost: int = Field(default=0, description="Purchase cost")
+    listPrice: float = Field(default=0, description="List price")
+    purchaseCost: float = Field(default=0, description="Purchase cost")
     sortId: int = Field(default=0, description="Sort order ID")
 
     # Binary flags

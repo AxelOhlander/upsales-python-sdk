@@ -57,11 +57,11 @@ class Address(PydanticBase):
         populate_by_name=True,  # Allow both field name and alias
     )
 
-    # Core address fields (required but can be empty strings from API)
-    type: str = Field(description="Address type (e.g., 'Visit', 'Mail')")
+    # Core address fields (can be null from API)
+    type: str | None = Field(None, description="Address type (e.g., 'Visit', 'Mail')")
     address: str | None = Field(None, description="Street address (can be empty or null)")
     city: str | None = Field(None, description="City name (can be empty or null)")
-    country: str | None = Field(None, description="Country code (e.g., 'SE', 'US', can be empty or null)")
+    country: str | None = Field(None, description="Country code (e.g., 'SE', 'US', can be null)")
 
     # Optional address fields
     zipcode: str | None = Field(None, description="Postal/ZIP code")
@@ -196,11 +196,11 @@ class PartialAddress(PydanticBase):
         populate_by_name=True,  # Allow both field name and alias
     )
 
-    # Minimal required fields for partial address
-    type: str = Field(description="Address type (e.g., 'Visit', 'Mail')")
-    address: str | None = Field(None, description="Street address")
-    city: str | None = Field(None, description="City name")
-    country: str | None = Field(None, description="Country code (e.g., 'SE', 'US')")
+    # Core address fields (can be null from API)
+    type: str | None = Field(None, description="Address type (e.g., 'Visit', 'Mail')")
+    address: str | None = Field(None, description="Street address (can be null)")
+    city: str | None = Field(None, description="City name (can be null)")
+    country: str | None = Field(None, description="Country code (e.g., 'SE', 'US', can be null)")
 
     # Optional fields that may be present
     zipcode: str | None = Field(None, description="Postal/ZIP code")

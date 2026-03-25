@@ -104,22 +104,19 @@ def test_address_minimal_creation(minimal_address_data):
 
 
 def test_address_validates_required_fields():
-    """Test that Address validates required fields (but allows empty strings)."""
-    # Missing type - should raise
-    with pytest.raises(ValidationError, match="type"):
-        Address(address="123 Main St", city="Stockholm", country="SE")
+    """Test that Address fields default to None when omitted (nullable from API)."""
+    # All core fields are nullable with None defaults - omitting them is valid
+    addr = Address(address="123 Main St", city="Stockholm", country="SE")
+    assert addr.type is None
 
-    # Missing address - should raise
-    with pytest.raises(ValidationError, match="address"):
-        Address(type="Visit", city="Stockholm", country="SE")
+    addr2 = Address(type="Visit", city="Stockholm", country="SE")
+    assert addr2.address is None
 
-    # Missing city - should raise
-    with pytest.raises(ValidationError, match="city"):
-        Address(type="Visit", address="123 Main St", country="SE")
+    addr3 = Address(type="Visit", address="123 Main St", country="SE")
+    assert addr3.city is None
 
-    # Missing country - should raise
-    with pytest.raises(ValidationError, match="country"):
-        Address(type="Visit", address="123 Main St", city="Stockholm")
+    addr4 = Address(type="Visit", address="123 Main St", city="Stockholm")
+    assert addr4.country is None
 
 
 def test_address_validates_non_empty_strings():
@@ -265,14 +262,13 @@ def test_partial_address_minimal_creation(minimal_address_data):
 
 
 def test_partial_address_validates_required_fields():
-    """Test that PartialAddress validates required fields."""
-    # Missing type
-    with pytest.raises(ValidationError, match="type"):
-        PartialAddress(address="123 Main St", city="Stockholm", country="SE")
+    """Test that PartialAddress fields default to None when omitted (nullable from API)."""
+    # All core fields are nullable with None defaults
+    addr = PartialAddress(address="123 Main St", city="Stockholm", country="SE")
+    assert addr.type is None
 
-    # Missing address
-    with pytest.raises(ValidationError, match="address"):
-        PartialAddress(type="Visit", city="Stockholm", country="SE")
+    addr2 = PartialAddress(type="Visit", city="Stockholm", country="SE")
+    assert addr2.address is None
 
 
 def test_partial_address_allows_empty_strings():
